@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkbox — DigiLawyer DS</title>
+<script>
+  window.DS_PAGE = { key: 'checkbox', root: '../' };
+</script>
+<script src="../shared/ds.js"></script>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/layout.css">
+<link rel="stylesheet" href="../shared/components.css">
+<style>
+  .cbx-matrix {
+    display: grid;
+    grid-template-columns: 120px repeat(3, 1fr);
+    gap: var(--spacing-md);
+    align-items: center;
+    padding: var(--spacing-xl);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    max-width: 480px;
+  }
+  .cbx-matrix-h {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .cbx-matrix-row-label {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+  }
+  .cbx-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: flex-start;
+  }
+</style>
+</head>
+<body>
+<nav id="sidebar-mount"></nav>
+
+<main class="main">
+
+  <h1 class="page-title">Checkbox</h1>
+  <p class="page-intro">A binary selection control with three visual states (unchecked / checked / indeterminate) and three interaction states (default / hover / disabled). Built on a native <code>&lt;input type="checkbox"&gt;</code> — fully keyboard-accessible with no JS required for state.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">Wrap a native input + a styled box in a <code>&lt;label class="checkbox"&gt;</code>. The input is visually hidden but stays in the focus path; the <code>.checkbox-box</code> renders the visible square and shows the right glyph based on <code>:checked</code> / <code>:indeterminate</code>.</p>
+  <div class="demo-box">
+    <div class="demo-panel active cbx-row">
+      <label class="checkbox">
+        <input type="checkbox" class="checkbox-input">
+        <span class="checkbox-box">
+          <svg class="checkbox-check"><use href="#ico-check"/></svg>
+          <svg class="checkbox-dash"><use href="#ico-dash"/></svg>
+        </span>
+        <span class="checkbox-label">I agree to the terms</span>
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" class="checkbox-input" checked>
+        <span class="checkbox-box">
+          <svg class="checkbox-check"><use href="#ico-check"/></svg>
+          <svg class="checkbox-dash"><use href="#ico-dash"/></svg>
+        </span>
+        <span class="checkbox-label">Subscribe to updates</span>
+      </label>
+    </div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-default">Copy</button></div>
+    <pre id="c-default"><span class="kw">&lt;label</span> <span class="attr">class</span>=<span class="str">"checkbox"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;input</span> <span class="attr">type</span>=<span class="str">"checkbox"</span> <span class="attr">class</span>=<span class="str">"checkbox-input"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"checkbox-box"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;svg</span> <span class="attr">class</span>=<span class="str">"checkbox-check"</span><span class="kw">&gt;&lt;use</span> <span class="attr">href</span>=<span class="str">"#ico-check"</span><span class="kw">/&gt;&lt;/svg&gt;</span>
+    <span class="kw">&lt;svg</span> <span class="attr">class</span>=<span class="str">"checkbox-dash"</span><span class="kw">&gt;&lt;use</span> <span class="attr">href</span>=<span class="str">"#ico-dash"</span><span class="kw">/&gt;&lt;/svg&gt;</span>
+  <span class="kw">&lt;/span&gt;</span>
+  <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"checkbox-label"</span><span class="kw">&gt;</span>I agree to the terms<span class="kw">&lt;/span&gt;</span>
+<span class="kw">&lt;/label&gt;</span></pre>
+  </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Three visual states. <strong>Unchecked</strong> and <strong>Checked</strong> map to the input's native boolean. <strong>Indeterminate</strong> is a third visual state used for parent rows in tree / list selection — it can't be set via an HTML attribute, only via <code>input.indeterminate = true</code> in JS.</p>
+  <div class="demo-box">
+    <div class="demo-panel active cbx-row">
+      <label class="checkbox">
+        <input type="checkbox" class="checkbox-input">
+        <span class="checkbox-box">
+          <svg class="checkbox-check"><use href="#ico-check"/></svg>
+          <svg class="checkbox-dash"><use href="#ico-dash"/></svg>
+        </span>
+        <span class="checkbox-label">Unchecked</span>
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" class="checkbox-input" checked>
+        <span class="checkbox-box">
+          <svg class="checkbox-check"><use href="#ico-check"/></svg>
+          <svg class="checkbox-dash"><use href="#ico-dash"/></svg>
+        </span>
+        <span class="checkbox-label">Checked</span>
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" class="checkbox-input" data-indeterminate>
+        <span class="checkbox-box">
+          <svg class="checkbox-check"><use href="#ico-check"/></svg>
+          <svg class="checkbox-dash"><use href="#ico-dash"/></svg>
+        </span>
+        <span class="checkbox-label">Indeterminate</span>
+      </label>
+    </div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">JavaScript</span><button class="copy-btn" data-target="c-indeterminate">Copy</button></div>
+    <pre id="c-indeterminate"><span class="cm">// Indeterminate is a JS-only property — set it after the input mounts.</span>
+<span class="kw">document</span>.<span class="attr">querySelectorAll</span>(<span class="str">'[data-indeterminate]'</span>).<span class="attr">forEach</span>(<span class="kw">el</span> <span class="kw">=&gt;</span> {
+  <span class="kw">el</span>.<span class="attr">indeterminate</span> = <span class="kw">true</span>;
+});</pre>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Three interaction states. Hover and focus are CSS-driven (real interaction required to see them — or use the <code>.is-hover</code> doc helper to force the visual). Disabled uses the HTML <code>disabled</code> attribute on the input.</p>
+  <div class="demo-box">
+    <div class="demo-panel active cbx-row">
+      <label class="checkbox">
+        <input type="checkbox" class="checkbox-input" checked>
+        <span class="checkbox-box">
+          <svg class="checkbox-check"><use href="#ico-check"/></svg>
+          <svg class="checkbox-dash"><use href="#ico-dash"/></svg>
+        </span>
+        <span class="checkbox-label">Default — hover and focus me to preview</span>
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" class="checkbox-input" checked disabled>
+        <span class="checkbox-box">
+          <svg class="checkbox-check"><use href="#ico-check"/></svg>
+          <svg class="checkbox-dash"><use href="#ico-dash"/></svg>
+        </span>
+        <span class="checkbox-label">Disabled (checked)</span>
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" class="checkbox-input" disabled>
+        <span class="checkbox-box">
+          <svg class="checkbox-check"><use href="#ico-check"/></svg>
+          <svg class="checkbox-dash"><use href="#ico-dash"/></svg>
+        </span>
+        <span class="checkbox-label">Disabled (unchecked)</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">3 variants × 3 states, mirroring the Figma source. Default row is interactive; Hover row uses the <code>.is-hover</code> documentation helper to force the hover visual at rest; Disabled row uses the native <code>disabled</code> attribute.</p>
+  <div class="cbx-matrix">
+    <div></div>
+    <div class="cbx-matrix-h">Default</div>
+    <div class="cbx-matrix-h">Hover</div>
+    <div class="cbx-matrix-h">Disabled</div>
+
+    <div class="cbx-matrix-row-label">Unchecked</div>
+    <label class="checkbox"><input type="checkbox" class="checkbox-input"><span class="checkbox-box"><svg class="checkbox-check"><use href="#ico-check"/></svg><svg class="checkbox-dash"><use href="#ico-dash"/></svg></span></label>
+    <label class="checkbox is-hover"><input type="checkbox" class="checkbox-input"><span class="checkbox-box"><svg class="checkbox-check"><use href="#ico-check"/></svg><svg class="checkbox-dash"><use href="#ico-dash"/></svg></span></label>
+    <label class="checkbox"><input type="checkbox" class="checkbox-input" disabled><span class="checkbox-box"><svg class="checkbox-check"><use href="#ico-check"/></svg><svg class="checkbox-dash"><use href="#ico-dash"/></svg></span></label>
+
+    <div class="cbx-matrix-row-label">Checked</div>
+    <label class="checkbox"><input type="checkbox" class="checkbox-input" checked><span class="checkbox-box"><svg class="checkbox-check"><use href="#ico-check"/></svg><svg class="checkbox-dash"><use href="#ico-dash"/></svg></span></label>
+    <label class="checkbox is-hover"><input type="checkbox" class="checkbox-input" checked><span class="checkbox-box"><svg class="checkbox-check"><use href="#ico-check"/></svg><svg class="checkbox-dash"><use href="#ico-dash"/></svg></span></label>
+    <label class="checkbox"><input type="checkbox" class="checkbox-input" checked disabled><span class="checkbox-box"><svg class="checkbox-check"><use href="#ico-check"/></svg><svg class="checkbox-dash"><use href="#ico-dash"/></svg></span></label>
+
+    <div class="cbx-matrix-row-label">Indeterminate</div>
+    <label class="checkbox"><input type="checkbox" class="checkbox-input" data-indeterminate><span class="checkbox-box"><svg class="checkbox-check"><use href="#ico-check"/></svg><svg class="checkbox-dash"><use href="#ico-dash"/></svg></span></label>
+    <label class="checkbox is-hover"><input type="checkbox" class="checkbox-input" data-indeterminate><span class="checkbox-box"><svg class="checkbox-check"><use href="#ico-check"/></svg><svg class="checkbox-dash"><use href="#ico-dash"/></svg></span></label>
+    <label class="checkbox"><input type="checkbox" class="checkbox-input" data-indeterminate disabled><span class="checkbox-box"><svg class="checkbox-check"><use href="#ico-check"/></svg><svg class="checkbox-dash"><use href="#ico-dash"/></svg></span></label>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.checkbox</td><td>&lt;label&gt;</td><td>Wrapper. Makes the whole row a click/tap target for the input inside.</td></tr>
+      <tr><td>.checkbox-input</td><td>&lt;input type="checkbox"&gt;</td><td>The native input, visually hidden but accessible and focusable. Drives the visual via <code>:checked</code> / <code>:indeterminate</code> / <code>:disabled</code>.</td></tr>
+      <tr><td>.checkbox-box</td><td>&lt;span&gt;</td><td>The visible 16×16 square with border and fill. Contains the two glyph SVGs.</td></tr>
+      <tr><td>.checkbox-check</td><td>&lt;svg&gt;</td><td>Glyph shown when the input is <code>:checked</code>. Uses sprite symbol <code>#ico-check</code>.</td></tr>
+      <tr><td>.checkbox-dash</td><td>&lt;svg&gt;</td><td>Glyph shown when the input is <code>:indeterminate</code>. Uses sprite symbol <code>#ico-dash</code>.</td></tr>
+      <tr><td>.checkbox-label</td><td>&lt;span&gt;</td><td>The text label. Inherits muted color + reduced opacity when the input is disabled.</td></tr>
+      <tr><td>checked</td><td>&lt;input&gt;</td><td>HTML attribute — checkbox starts checked.</td></tr>
+      <tr><td>disabled</td><td>&lt;input&gt;</td><td>HTML attribute — disables interaction; styling swaps to <code>--checkbox-bg-disabled</code> / <code>--checkbox-checked-bg-disabled</code>.</td></tr>
+      <tr><td>input.indeterminate</td><td>JS property</td><td>Sets the indeterminate visual. Not expressible as an HTML attribute — assign via JS after mount.</td></tr>
+      <tr><td>.is-hover</td><td>.checkbox</td><td>Documentation helper — forces the hover visual at rest. Used in the Full matrix; not needed in production.</td></tr>
+    </tbody>
+  </table>
+
+</main>
+<aside id="toc-mount"></aside>
+
+<script>
+(function () {
+  // Indeterminate can only be set via JS — there's no HTML attribute for it.
+  // We use the data-indeterminate attribute as a declarative marker.
+  document.querySelectorAll('input[data-indeterminate]').forEach(function (el) {
+    el.indeterminate = true;
+  });
+})();
+</script>
+</body>
+</html>

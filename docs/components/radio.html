@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radio Button — DigiLawyer DS</title>
+<script>
+  window.DS_PAGE = { key: 'radio', root: '../' };
+</script>
+<script src="../shared/ds.js"></script>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/layout.css">
+<link rel="stylesheet" href="../shared/components.css">
+<style>
+  .radio-matrix {
+    display: grid;
+    grid-template-columns: 120px repeat(3, 1fr);
+    gap: var(--spacing-md);
+    align-items: center;
+    padding: var(--spacing-xl);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    max-width: 480px;
+  }
+  .radio-matrix-h {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .radio-matrix-row-label {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+  }
+  .radio-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: flex-start;
+  }
+</style>
+</head>
+<body>
+<nav id="sidebar-mount"></nav>
+
+<main class="main">
+
+  <h1 class="page-title">Radio Button</h1>
+  <p class="page-intro">A single-selection control from a mutually exclusive set. Built on a native <code>&lt;input type="radio"&gt;</code> — browser handles the "one of N" semantics via the shared <code>name="…"</code> attribute, so no JS is needed for state.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">Wrap a native radio input + a styled circle in a <code>&lt;label class="radio"&gt;</code>. The input is visually hidden but stays in the focus path; the <code>.radio-box</code> renders the visible circle and the inner <code>.radio-dot</code> shows when <code>:checked</code>. Group radios with a shared <code>name</code> attribute.</p>
+  <div class="demo-box">
+    <div class="demo-panel active radio-row">
+      <label class="radio">
+        <input type="radio" class="radio-input" name="plan" value="free" checked>
+        <span class="radio-box"><span class="radio-dot"></span></span>
+        <span class="radio-label">Free — 1 user, basic features</span>
+      </label>
+      <label class="radio">
+        <input type="radio" class="radio-input" name="plan" value="team">
+        <span class="radio-box"><span class="radio-dot"></span></span>
+        <span class="radio-label">Team — 10 users, advanced features</span>
+      </label>
+      <label class="radio">
+        <input type="radio" class="radio-input" name="plan" value="enterprise">
+        <span class="radio-box"><span class="radio-dot"></span></span>
+        <span class="radio-label">Enterprise — unlimited, SSO, audit log</span>
+      </label>
+    </div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-default">Copy</button></div>
+    <pre id="c-default"><span class="kw">&lt;label</span> <span class="attr">class</span>=<span class="str">"radio"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;input</span> <span class="attr">type</span>=<span class="str">"radio"</span> <span class="attr">class</span>=<span class="str">"radio-input"</span> <span class="attr">name</span>=<span class="str">"plan"</span> <span class="attr">value</span>=<span class="str">"free"</span> <span class="attr">checked</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"radio-box"</span><span class="kw">&gt;&lt;span</span> <span class="attr">class</span>=<span class="str">"radio-dot"</span><span class="kw">&gt;&lt;/span&gt;&lt;/span&gt;</span>
+  <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"radio-label"</span><span class="kw">&gt;</span>Free<span class="kw">&lt;/span&gt;</span>
+<span class="kw">&lt;/label&gt;</span></pre>
+  </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Two visual states. <strong>Unselected</strong> shows an empty circle; <strong>Selected</strong> fills the circle and reveals the inner dot. Selection is mutually exclusive within a shared <code>name</code> group — checking one automatically unchecks its siblings.</p>
+  <div class="demo-box">
+    <div class="demo-panel active radio-row">
+      <label class="radio">
+        <input type="radio" class="radio-input" name="variant-demo" value="off">
+        <span class="radio-box"><span class="radio-dot"></span></span>
+        <span class="radio-label">Unselected</span>
+      </label>
+      <label class="radio">
+        <input type="radio" class="radio-input" name="variant-demo" value="on" checked>
+        <span class="radio-box"><span class="radio-dot"></span></span>
+        <span class="radio-label">Selected</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Three interaction states. Hover and focus are CSS-driven (real interaction required, or use the <code>.is-hover</code> doc helper to force the visual). Disabled uses the HTML <code>disabled</code> attribute on the input.</p>
+  <div class="demo-box">
+    <div class="demo-panel active radio-row">
+      <label class="radio">
+        <input type="radio" class="radio-input" name="state-demo" value="default" checked>
+        <span class="radio-box"><span class="radio-dot"></span></span>
+        <span class="radio-label">Default — hover and focus me to preview</span>
+      </label>
+      <label class="radio">
+        <input type="radio" class="radio-input" name="state-demo-2" value="dis-checked" checked disabled>
+        <span class="radio-box"><span class="radio-dot"></span></span>
+        <span class="radio-label">Disabled (selected)</span>
+      </label>
+      <label class="radio">
+        <input type="radio" class="radio-input" name="state-demo-3" value="dis-unchecked" disabled>
+        <span class="radio-box"><span class="radio-dot"></span></span>
+        <span class="radio-label">Disabled (unselected)</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">2 variants × 3 states, mirroring the Figma source. Default row is interactive; Hover row uses the <code>.is-hover</code> documentation helper to force the hover visual at rest; Disabled row uses the native <code>disabled</code> attribute.</p>
+  <div class="radio-matrix">
+    <div></div>
+    <div class="radio-matrix-h">Default</div>
+    <div class="radio-matrix-h">Hover</div>
+    <div class="radio-matrix-h">Disabled</div>
+
+    <div class="radio-matrix-row-label">Unselected</div>
+    <label class="radio"><input type="radio" class="radio-input" name="mtx-u-d"><span class="radio-box"><span class="radio-dot"></span></span></label>
+    <label class="radio is-hover"><input type="radio" class="radio-input" name="mtx-u-h"><span class="radio-box"><span class="radio-dot"></span></span></label>
+    <label class="radio"><input type="radio" class="radio-input" name="mtx-u-x" disabled><span class="radio-box"><span class="radio-dot"></span></span></label>
+
+    <div class="radio-matrix-row-label">Selected</div>
+    <label class="radio"><input type="radio" class="radio-input" name="mtx-s-d" checked><span class="radio-box"><span class="radio-dot"></span></span></label>
+    <label class="radio is-hover"><input type="radio" class="radio-input" name="mtx-s-h" checked><span class="radio-box"><span class="radio-dot"></span></span></label>
+    <label class="radio"><input type="radio" class="radio-input" name="mtx-s-x" checked disabled><span class="radio-box"><span class="radio-dot"></span></span></label>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.radio</td><td>&lt;label&gt;</td><td>Wrapper. Makes the whole row a click/tap target for the input inside.</td></tr>
+      <tr><td>.radio-input</td><td>&lt;input type="radio"&gt;</td><td>The native input, visually hidden but accessible and focusable. Drives the visual via <code>:checked</code> / <code>:disabled</code>.</td></tr>
+      <tr><td>.radio-box</td><td>&lt;span&gt;</td><td>The visible 16×16 circle with border and fill.</td></tr>
+      <tr><td>.radio-dot</td><td>&lt;span&gt;</td><td>The inner 6×6 dot that appears when the input is <code>:checked</code>.</td></tr>
+      <tr><td>.radio-label</td><td>&lt;span&gt;</td><td>The text label. Inherits muted color + reduced opacity when the input is disabled.</td></tr>
+      <tr><td>name</td><td>&lt;input&gt;</td><td>HTML attribute — radios with the same name form a single-selection group. Required for mutual exclusivity.</td></tr>
+      <tr><td>checked</td><td>&lt;input&gt;</td><td>HTML attribute — radio starts selected. Only one per name group should carry this.</td></tr>
+      <tr><td>disabled</td><td>&lt;input&gt;</td><td>HTML attribute — disables interaction; styling swaps to <code>--radio-bg-disabled</code> / <code>--radio-checked-bg-disabled</code>.</td></tr>
+      <tr><td>.is-hover</td><td>.radio</td><td>Documentation helper — forces the hover visual at rest. Used in the Full matrix; not needed in production.</td></tr>
+    </tbody>
+  </table>
+
+</main>
+<aside id="toc-mount"></aside>
+</body>
+</html>

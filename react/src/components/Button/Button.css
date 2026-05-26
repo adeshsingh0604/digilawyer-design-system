@@ -1,0 +1,250 @@
+/* ── DigiLawyer DS — Button component styles ──────────────────────────────
+   All values sourced directly from shared/tokens.json.
+   Dark mode overrides via [data-theme="dark"] make this file self-contained.
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* ── Base ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  border-radius: 6px;               /* radius.sm */
+  cursor: pointer;
+  font-family: 'Inter', system-ui, sans-serif; /* typography.fontFamily.primary */
+  font-weight: 500;                 /* typography.fontWeight.medium */
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.btn:focus-visible {
+  outline: 2px solid #3156DF;       /* color.primitive.blue.500 */
+  outline-offset: 2px;
+}
+
+.btn__label {
+  display: inline-block;
+}
+
+/* ── Sizes ── */
+.btn--sm {
+  height: 32px;
+  padding: 0 12px;                  /* spacing.semantic.sm */
+  font-size: 12px;                  /* typography.fontSize.12 */
+}
+
+.btn--md {
+  height: 40px;
+  padding: 0 16px;                  /* spacing.semantic.md */
+  font-size: 14px;                  /* typography.fontSize.14 */
+}
+
+.btn--lg {
+  height: 48px;
+  padding: 0 20px;                  /* spacing.semantic.lg */
+  font-size: 16px;                  /* typography.fontSize.16 */
+}
+
+/* ── Icon slots ── */
+.btn__icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.btn--sm .btn__icon { width: 14px; height: 14px; }
+.btn--md .btn__icon { width: 16px; height: 16px; }
+.btn--lg .btn__icon { width: 18px; height: 18px; }
+
+.btn__icon svg { width: 100%; height: 100%; }
+
+/* ── Loading spinner ── */
+.btn--loading {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn__spinner {
+  display: inline-block;
+  border-radius: 9999px;            /* radius.full */
+  border-style: solid;
+  border-color: currentColor;
+  border-top-color: transparent;
+  animation: btn-spin 0.65s linear infinite;
+  flex-shrink: 0;
+}
+
+.btn--sm .btn__spinner { width: 12px; height: 12px; border-width: 1.5px; }
+.btn--md .btn__spinner { width: 14px; height: 14px; border-width: 2px; }
+.btn--lg .btn__spinner { width: 16px; height: 16px; border-width: 2px; }
+
+@keyframes btn-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Primary ── */
+.btn--primary {
+  background: #2D2D2D;              /* color.button.primary.bg */
+  color: #FFFFFF;                   /* color.button.primary.text */
+}
+.btn--primary:hover:not(:disabled) {
+  background: #3D3D3D;              /* color.button.primary.bgHover */
+}
+.btn--primary:active:not(:disabled) {
+  background: #454545;              /* color.button.primary.bgActive */
+}
+.btn--primary:disabled {
+  background: #E7E7E7;              /* color.button.primary.bgDisabled */
+  color: #5D5D5D;                   /* color.button.primary.textDisabled */
+  cursor: not-allowed;
+}
+
+/* ── Secondary ── */
+.btn--secondary {
+  background: rgba(0,0,0,0.05);    /* color.button.secondary.bg */
+  color: #2D2D2D;                   /* color.button.secondary.text */
+}
+.btn--secondary:hover:not(:disabled) {
+  background: #F6F6F6;              /* color.button.secondary.bgHover */
+}
+.btn--secondary:active:not(:disabled) {
+  background: #E7E7E7;              /* color.button.secondary.bgActive */
+}
+.btn--secondary:disabled {
+  background: #FAFAFA;              /* color.button.secondary.bgDisabled */
+  color: #5D5D5D;                   /* color.button.secondary.textDisabled */
+  cursor: not-allowed;
+}
+
+/* ── Tertiary ── */
+.btn--tertiary {
+  background: transparent;          /* color.button.tertiary.bg */
+  color: #2D2D2D;                   /* color.button.tertiary.text */
+  border-color: rgba(0,0,0,0.10);  /* color.button.tertiary.border */
+}
+.btn--tertiary:hover:not(:disabled) {
+  background: #F6F6F6;              /* color.button.tertiary.bgHover */
+}
+.btn--tertiary:active:not(:disabled) {
+  background: rgba(0,0,0,0.10);    /* color.button.tertiary.bgActive */
+}
+.btn--tertiary:disabled {
+  color: #5D5D5D;                   /* color.button.tertiary.textDisabled */
+  cursor: not-allowed;
+}
+
+/* ── Ghost ── */
+.btn--ghost {
+  background: transparent;          /* color.button.ghost.bg */
+  color: #2D2D2D;                   /* color.button.ghost.text */
+}
+.btn--ghost:hover:not(:disabled) {
+  background: #F6F6F6;              /* color.button.ghost.bgHover */
+}
+.btn--ghost:active:not(:disabled) {
+  background: #E7E7E7;              /* color.button.ghost.bgActive */
+}
+.btn--ghost:disabled {
+  color: #5D5D5D;                   /* color.button.ghost.textDisabled */
+  cursor: not-allowed;
+}
+
+/* ── Danger ── */
+.btn--danger {
+  background: #E15252;              /* color.button.danger.bg */
+  color: #FFFFFF;                   /* color.button.danger.text */
+}
+.btn--danger:hover:not(:disabled) {
+  background: #CD3232;              /* color.button.danger.bgHover */
+}
+.btn--danger:active:not(:disabled) {
+  background: #AD2828;              /* color.button.danger.bgActive */
+}
+.btn--danger:disabled {
+  background: #E7E7E7;              /* color.button.danger.bgDisabled */
+  color: #5D5D5D;                   /* color.button.danger.textDisabled */
+  cursor: not-allowed;
+}
+
+/* ── Dark mode ── */
+
+[data-theme="dark"] .btn--primary {
+  background: #FFFFFF;              /* dark.color.button.primary.bg */
+  color: #2D2D2D;                   /* dark.color.button.primary.text */
+}
+[data-theme="dark"] .btn--primary:hover:not(:disabled) {
+  background: #FAFAFA;              /* dark.color.button.primary.bgHover */
+}
+[data-theme="dark"] .btn--primary:active:not(:disabled) {
+  background: #F6F6F6;              /* dark.color.button.primary.bgActive */
+}
+[data-theme="dark"] .btn--primary:disabled {
+  background: #454545;              /* dark.color.button.primary.bgDisabled */
+  color: #E7E7E7;                   /* dark.color.button.primary.textDisabled */
+}
+
+[data-theme="dark"] .btn--secondary {
+  background: rgba(255,255,255,0.05); /* dark.color.button.secondary.bg */
+  color: #FFFFFF;                   /* dark.color.button.secondary.text */
+}
+[data-theme="dark"] .btn--secondary:hover:not(:disabled) {
+  background: #3D3D3D;              /* dark.color.button.secondary.bgHover */
+}
+[data-theme="dark"] .btn--secondary:active:not(:disabled) {
+  background: #454545;              /* dark.color.button.secondary.bgActive */
+}
+[data-theme="dark"] .btn--secondary:disabled {
+  background: #2D2D2D;              /* dark.color.button.secondary.bgDisabled */
+  color: #E7E7E7;                   /* dark.color.button.secondary.textDisabled */
+}
+
+[data-theme="dark"] .btn--tertiary {
+  color: #FFFFFF;                   /* dark.color.button.tertiary.text */
+  border-color: rgba(255,255,255,0.10); /* dark.color.button.tertiary.border */
+}
+[data-theme="dark"] .btn--tertiary:hover:not(:disabled) {
+  background: #2D2D2D;              /* dark.color.button.tertiary.bgHover */
+  border-color: rgba(255,255,255,0.10);
+}
+[data-theme="dark"] .btn--tertiary:active:not(:disabled) {
+  background: rgba(255,255,255,0.10); /* dark.color.button.tertiary.bgActive */
+}
+[data-theme="dark"] .btn--tertiary:disabled {
+  color: #E7E7E7;                   /* dark.color.button.tertiary.textDisabled */
+}
+
+[data-theme="dark"] .btn--ghost {
+  color: #FFFFFF;                   /* dark.color.button.ghost.text */
+}
+[data-theme="dark"] .btn--ghost:hover:not(:disabled) {
+  background: #2D2D2D;              /* dark.color.button.ghost.bgHover */
+}
+[data-theme="dark"] .btn--ghost:active:not(:disabled) {
+  background: #3D3D3D;              /* dark.color.button.ghost.bgActive */
+}
+[data-theme="dark"] .btn--ghost:disabled {
+  color: #E7E7E7;                   /* dark.color.button.ghost.textDisabled */
+}
+
+[data-theme="dark"] .btn--danger {
+  background: #E15252;              /* dark.color.button.danger.bg — same in dark */
+  color: #FFFFFF;                   /* dark.color.button.danger.text */
+}
+[data-theme="dark"] .btn--danger:hover:not(:disabled) {
+  background: #CD3232;              /* dark.color.button.danger.bgHover */
+}
+[data-theme="dark"] .btn--danger:active:not(:disabled) {
+  background: #AD2828;              /* dark.color.button.danger.bgActive */
+}
+[data-theme="dark"] .btn--danger:disabled {
+  background: #454545;              /* dark.color.button.danger.bgDisabled */
+  color: #E7E7E7;                   /* dark.color.button.danger.textDisabled */
+}

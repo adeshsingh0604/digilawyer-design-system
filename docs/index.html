@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overview — DigiLawyer DS</title>
+<script>
+  window.DS_PAGE = {
+    key:  'overview',
+    root: '',
+    toc:  [
+      { id: 'overview',       label: 'Overview' },
+      { id: 'quick-links',    label: 'Quick Links' },
+      { id: 'components',     label: 'Components' },
+      { id: 'latest-changes', label: 'Latest Changes' }
+    ]
+  };
+</script>
+<script src="shared/ds.js"></script>
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/layout.css">
+<link rel="stylesheet" href="shared/components.css">
+<style>
+h2#quick-links{margin-top:12px;}
+.page-intro{margin-bottom:6px !important;}
+.stats-line{font-size:var(--fs-12);color:var(--color-subheading);margin-bottom:var(--spacing-2xl);}
+.version-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.version-badge{display:inline-flex;align-items:center;height:24px;padding:0 10px;background:var(--color-heading);color:var(--color-bg);font-size:11px;font-weight:var(--fw-semibold);border-radius:var(--radius-xs);font-family:var(--font-mono);letter-spacing:0.04em;}
+.version-date{font-size:12px;color:var(--color-subheading);}
+.palette-preview{display:flex;gap:4px;margin-bottom:28px;}
+.p-stop{flex:1;height:32px;border-radius:var(--radius-xs);}
+.cl-card.stub{opacity:.4;border-style:dashed;}
+/* Quick Links */
+.qlink-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
+.qlink-card{display:flex;flex-direction:column;gap:10px;padding:18px;border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg-2);box-shadow:var(--shadow-1);text-decoration:none;color:var(--color-heading);transition:box-shadow .15s,background .15s;}
+.qlink-card:hover{box-shadow:var(--shadow-2);background:var(--color-bg);}
+.qlink-icon{color:var(--color-heading);opacity:.75;flex-shrink:0;}
+.qlink-title{font-size:var(--fs-14);font-weight:var(--fw-semibold);color:var(--color-heading);}
+.qlink-desc{font-size:var(--fs-12);color:var(--color-subheading);line-height:var(--lh-20);}
+/* Latest Changes */
+.cl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;}
+.cl-card{background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:20px;box-shadow:var(--shadow-1);display:flex;flex-direction:column;gap:6px;}
+.cl-card.stub{opacity:.45;}
+.cl-version{font-size:var(--fs-20);font-weight:var(--fw-bold);color:var(--color-heading);line-height:1;}
+.cl-badge{display:inline-flex;align-items:center;height:18px;padding:0 7px;border-radius:var(--radius-xs);font-size:10px;font-weight:var(--fw-bold);letter-spacing:.07em;width:fit-content;}
+.cl-badge.major{background:var(--color-danger-bg);color:var(--color-danger-text);}
+.cl-badge.minor{background:var(--color-info-bg);color:var(--color-info-text);}
+.cl-badge.patch{background:var(--color-success-bg);color:var(--color-success-text);}
+.cl-title{font-size:var(--fs-14);font-weight:var(--fw-semibold);color:var(--color-heading);}
+.cl-date{font-size:var(--fs-12);color:var(--color-subheading);}
+.cl-desc{font-size:var(--fs-12);color:var(--color-subheading);line-height:var(--lh-20);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.cl-more{display:inline-flex;align-items:center;gap:4px;font-size:var(--fs-14);font-weight:var(--fw-medium);color:var(--color-heading);text-decoration:none;}
+.cl-more:hover{text-decoration:underline;}
+.comp-coming{display:inline-flex;align-items:center;height:16px;padding:0 6px;background:var(--color-bg-trans);border:1px solid var(--color-border);border-radius:var(--radius-xs);font-size:10px;color:var(--color-subheading);font-weight:var(--fw-medium);width:fit-content;}
+</style>
+</head>
+<body>
+<nav id="sidebar-mount"></nav>
+<main class="main">
+
+  <h1 id="overview" class="page-title">DigiLawyer Design System</h1>
+  <div class="version-row">
+    <span class="version-badge">v2.8.0</span>
+    <span class="version-date">Last updated: 25 May 2026</span>
+  </div>
+  <p class="page-intro">A token-driven design system built for DigiLawyer.</p>
+  <p class="stats-line">8 Color Scales &nbsp;&middot;&nbsp; 160+ Design Tokens &nbsp;&middot;&nbsp; 20+ Components</p>
+
+  <h2 id="quick-links" style="scroll-margin-top:24px;">Quick Links</h2>
+  <p class="desc">Jump to the most used parts of the system.</p>
+  <div class="qlink-grid">
+    <a href="foundation/colors.html" class="qlink-card">
+      <svg class="qlink-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.5"/></svg>
+      <div class="qlink-title">Colors</div>
+      <div class="qlink-desc">Primitives, semantic tokens, light and dark mode</div>
+    </a>
+    <a href="foundation/typography.html" class="qlink-card">
+      <svg class="qlink-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M12 7v13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div class="qlink-title">Typography</div>
+      <div class="qlink-desc">Font families, type scale, weights, line heights</div>
+    </a>
+    <a href="foundation/spacing.html" class="qlink-card">
+      <svg class="qlink-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M7 8.5L3 12l4 3.5M17 8.5l4 3.5-4 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="qlink-title">Spacing</div>
+      <div class="qlink-desc">4pt grid, spacing primitives and semantic tokens</div>
+    </a>
+    <a href="other/changelog.html" class="qlink-card">
+      <svg class="qlink-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 3v6h6M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div class="qlink-title">Changelog</div>
+      <div class="qlink-desc">Version history and system updates</div>
+    </a>
+  </div>
+
+  <h2 id="components" style="scroll-margin-top:24px;">Components</h2>
+  <p class="desc">All components in the DigiLawyer Design System.</p>
+  <div class="qlink-grid">
+    <a href="components/button.html" class="qlink-card">
+      <div class="qlink-title">Button</div>
+    </a>
+    <a href="components/button-group.html" class="qlink-card">
+      <div class="qlink-title">Button Group</div>
+    </a>
+    <a href="components/checkbox.html" class="qlink-card">
+      <div class="qlink-title">Checkbox</div>
+    </a>
+    <a href="components/radio.html" class="qlink-card">
+      <div class="qlink-title">Radio Button</div>
+    </a>
+    <a href="components/toggle.html" class="qlink-card">
+      <div class="qlink-title">Toggle Switch</div>
+    </a>
+    <a href="components/dropdown.html" class="qlink-card">
+      <div class="qlink-title">Dropdown</div>
+    </a>
+    <a href="components/input.html" class="qlink-card">
+      <div class="qlink-title">Text Input</div>
+    </a>
+    <a href="components/textarea.html" class="qlink-card">
+      <div class="qlink-title">Text Area</div>
+    </a>
+    <a href="components/upload-media.html" class="qlink-card">
+      <div class="qlink-title">Upload Media</div>
+      <span class="comp-coming">Coming soon</span>
+    </a>
+    <a href="components/slider.html" class="qlink-card">
+      <div class="qlink-title">Slider</div>
+      <span class="comp-coming">Coming soon</span>
+    </a>
+    <a href="components/rating.html" class="qlink-card">
+      <div class="qlink-title">Rating</div>
+      <span class="comp-coming">Coming soon</span>
+    </a>
+    <a href="components/date-picker.html" class="qlink-card">
+      <div class="qlink-title">Date Picker</div>
+      <span class="comp-coming">Coming soon</span>
+    </a>
+    <a href="components/options.html" class="qlink-card">
+      <div class="qlink-title">Options</div>
+      <span class="comp-coming">Coming soon</span>
+    </a>
+    <a href="components/avatar.html" class="qlink-card">
+      <div class="qlink-title">Avatar</div>
+    </a>
+    <a href="components/badge.html" class="qlink-card">
+      <div class="qlink-title">Badge</div>
+    </a>
+    <a href="components/tag.html" class="qlink-card">
+      <div class="qlink-title">Tag</div>
+    </a>
+    <a href="components/table.html" class="qlink-card">
+      <div class="qlink-title">Table</div>
+    </a>
+    <a href="components/accordion.html" class="qlink-card">
+      <div class="qlink-title">Accordion</div>
+    </a>
+    <a href="components/list-group.html" class="qlink-card">
+      <div class="qlink-title">List Group</div>
+      <span class="comp-coming">Coming soon</span>
+    </a>
+    <a href="components/images.html" class="qlink-card">
+      <div class="qlink-title">Images</div>
+      <span class="comp-coming">Coming soon</span>
+    </a>
+    <a href="components/notification.html" class="qlink-card">
+      <div class="qlink-title">Notification</div>
+    </a>
+    <a href="components/snackbar.html" class="qlink-card">
+      <div class="qlink-title">Snackbar</div>
+    </a>
+    <a href="components/tooltip.html" class="qlink-card">
+      <div class="qlink-title">Tooltip</div>
+    </a>
+    <a href="components/progress-bar.html" class="qlink-card">
+      <div class="qlink-title">Progress Bar</div>
+    </a>
+    <a href="components/tabs.html" class="qlink-card">
+      <div class="qlink-title">Tabs</div>
+    </a>
+    <a href="components/link.html" class="qlink-card">
+      <div class="qlink-title">Link</div>
+    </a>
+    <a href="components/pagination.html" class="qlink-card">
+      <div class="qlink-title">Pagination</div>
+    </a>
+    <a href="components/breadcrumb.html" class="qlink-card">
+      <div class="qlink-title">Breadcrumb</div>
+    </a>
+  </div>
+
+  <h2 id="latest-changes" style="scroll-margin-top:24px;">Latest Changes</h2>
+  <p class="desc">Recent updates to the DigiLawyer Design System.</p>
+  <div class="cl-grid">
+
+    <div class="cl-card">
+      <div class="cl-version">v2.8.0</div>
+      <span class="cl-badge minor">MINOR</span>
+      <div class="cl-title">Scaffold tooling — tokens.json export + component generator</div>
+      <div class="cl-date">25 May 2026</div>
+      <div class="cl-desc">Two new scripts in docs/scripts/. build-tokens.js exports tokens.json (323 light + 323 dark, var() refs resolved) so React, AI tools, and Figma plugins can consume tokens. new-component.js scaffolds a component page and prints paste-blocks for the manual edits.</div>
+    </div>
+
+    <div class="cl-card">
+      <div class="cl-version">v2.7.0</div>
+      <span class="cl-badge minor">MINOR</span>
+      <div class="cl-title">Radio Button component — full documentation</div>
+      <div class="cl-date">22 May 2026</div>
+      <div class="cl-desc">New .radio component implemented 1:1 from Base-AI Figma. Same a11y pattern as Checkbox; browser handles single-select via shared name. 13 new --radio-* tokens, matrix is 2×3 matching Figma. Search index extended.</div>
+    </div>
+
+    <div class="cl-card">
+      <div class="cl-version">v2.6.0</div>
+      <span class="cl-badge minor">MINOR</span>
+      <div class="cl-title">Persistent global header — logo, version chip, search, theme toggle</div>
+      <div class="cl-date">22 May 2026</div>
+      <div class="cl-desc">New sticky top bar auto-injected by ds.js on every page. Global search across pages, sections, and ~120 semantic CSS tokens with keyboard nav. Sidebar lost its own logo/theme button — moved to the header.</div>
+    </div>
+
+    <div class="cl-card">
+      <div class="cl-version">v2.5.0</div>
+      <span class="cl-badge minor">MINOR</span>
+      <div class="cl-title">Checkbox component — full documentation</div>
+      <div class="cl-date">22 May 2026</div>
+      <div class="cl-desc">New .checkbox built on native input — 3 variants × 3 states, implemented 1:1 from Figma. 13 new --checkbox-* tokens (light + dark), two new sprite symbols (#ico-check, #ico-dash). 5-section docs with 3×3 matrix mirroring Figma.</div>
+    </div>
+
+    <div class="cl-card">
+      <div class="cl-version">v2.4.0</div>
+      <span class="cl-badge minor">MINOR</span>
+      <div class="cl-title">Button Group component — full documentation</div>
+      <div class="cl-date">22 May 2026</div>
+      <div class="cl-desc">.btn-group composes existing button variants. Attached (segmented control) and separated styles, vertical orientation, toggle/selection via aria-pressed. Documented at components/button-group.html with 9 sections, interactive demos, and an API table.</div>
+    </div>
+
+    <div class="cl-card">
+      <div class="cl-version">v2.3.0</div>
+      <span class="cl-badge minor">MINOR</span>
+      <div class="cl-title">Audit pass — auto-TOC, bulk migration, diagnostics</div>
+      <div class="cl-date">22 May 2026</div>
+      <div class="cl-desc">ds.js auto-extracts the TOC from h2[id] anchors. Bulk-migrated all 26 component stubs to the lean v2.3 shell (~25 lines each). Added DS_PAGE diagnostics and a ?ds-debug toggle. Starter templates for new pages.</div>
+    </div>
+
+    <div class="cl-card">
+      <div class="cl-version">v2.2.0</div>
+      <span class="cl-badge minor">MINOR</span>
+      <div class="cl-title">Shared TOC component, head-loaded ds.js</div>
+      <div class="cl-date">22 May 2026</div>
+      <div class="cl-desc">ds.js now renders the on-page TOC from a window.DS_PAGE.toc array, eliminating duplicated scroll-spy code. Moved ds.js to &lt;head&gt; so theme restore fires before first paint (no flash). Migrated all 10 built pages.</div>
+    </div>
+
+  </div>
+  <a href="other/changelog.html" class="cl-more">View full changelog →</a>
+
+</main>
+<aside id="toc-mount"></aside>
+</body>
+</html>

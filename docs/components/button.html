@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Button — DigiLawyer DS</title>
+<script>
+  window.DS_PAGE = { key: 'button', root: '../' };
+</script>
+<script src="../shared/ds.js"></script>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/layout.css">
+<link rel="stylesheet" href="../shared/components.css">
+</head>
+<body>
+<nav id="sidebar-mount"></nav>
+
+<main class="main">
+
+  <h1 class="page-title">Button</h1>
+  <p class="page-intro">Five variants, four sizes, five states. All styles reference design tokens from <code>shared/tokens.css</code>. Toggle the theme to see dark mode instantly.</p>
+
+  <!-- Basic -->
+  <h2 id="basic-button">Basic button</h2>
+  <p class="desc">Apply <code>.btn</code> plus a variant class. Medium size is the default.</p>
+  <div class="demo-box">
+    <div class="demo-tabs">
+      <button class="demo-tab active" data-group="basic" data-panel="b-all">ALL</button>
+      <button class="demo-tab" data-group="basic" data-panel="b-primary">PRIMARY</button>
+      <button class="demo-tab" data-group="basic" data-panel="b-secondary">SECONDARY</button>
+      <button class="demo-tab" data-group="basic" data-panel="b-tertiary">TERTIARY</button>
+      <button class="demo-tab" data-group="basic" data-panel="b-ghost">GHOST</button>
+      <button class="demo-tab" data-group="basic" data-panel="b-danger">DANGER</button>
+    </div>
+    <div id="b-all" class="demo-panel active">
+      <button class="btn btn-primary btn-md"><span class="btn-label">Label</span></button>
+      <button class="btn btn-secondary btn-md"><span class="btn-label">Label</span></button>
+      <button class="btn btn-tertiary btn-md"><span class="btn-label">Label</span></button>
+      <button class="btn btn-ghost btn-md"><span class="btn-label">Label</span></button>
+      <button class="btn btn-danger btn-md"><span class="btn-label">Label</span></button>
+    </div>
+    <div id="b-primary"   class="demo-panel"><button class="btn btn-primary btn-md"><span class="btn-label">Label</span></button></div>
+    <div id="b-secondary" class="demo-panel"><button class="btn btn-secondary btn-md"><span class="btn-label">Label</span></button></div>
+    <div id="b-tertiary"  class="demo-panel"><button class="btn btn-tertiary btn-md"><span class="btn-label">Label</span></button></div>
+    <div id="b-ghost"     class="demo-panel"><button class="btn btn-ghost btn-md"><span class="btn-label">Label</span></button></div>
+    <div id="b-danger"    class="demo-panel"><button class="btn btn-danger btn-md"><span class="btn-label">Label</span></button></div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-basic">Copy</button></div>
+    <pre id="c-basic"><span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-primary btn-md"</span><span class="kw">&gt;&lt;span</span> <span class="attr">class</span>=<span class="str">"btn-label"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/span&gt;&lt;/button&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-secondary btn-md"</span><span class="kw">&gt;&lt;span</span> <span class="attr">class</span>=<span class="str">"btn-label"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/span&gt;&lt;/button&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-tertiary btn-md"</span><span class="kw">&gt;&lt;span</span> <span class="attr">class</span>=<span class="str">"btn-label"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/span&gt;&lt;/button&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-ghost btn-md"</span><span class="kw">&gt;&lt;span</span> <span class="attr">class</span>=<span class="str">"btn-label"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/span&gt;&lt;/button&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-danger btn-md"</span><span class="kw">&gt;&lt;span</span> <span class="attr">class</span>=<span class="str">"btn-label"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/span&gt;&lt;/button&gt;</span></pre>
+  </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Choose the variant that matches the action's emphasis level.</p>
+  <div class="demo-box">
+    <div class="demo-panel active" style="flex-direction:column;align-items:flex-start;gap:16px;padding:28px 32px;">
+      <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:var(--color-subheading);width:90px;">primary</span><button class="btn btn-primary btn-md"><span class="btn-label">Label</span></button><span style="font-size:12px;color:var(--color-subheading);">High emphasis — main call to action</span></div>
+      <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:var(--color-subheading);width:90px;">secondary</span><button class="btn btn-secondary btn-md"><span class="btn-label">Label</span></button><span style="font-size:12px;color:var(--color-subheading);">Medium emphasis — alternative action</span></div>
+      <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:var(--color-subheading);width:90px;">tertiary</span><button class="btn btn-tertiary btn-md"><span class="btn-label">Label</span></button><span style="font-size:12px;color:var(--color-subheading);">Low emphasis — outline style</span></div>
+      <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:var(--color-subheading);width:90px;">ghost</span><button class="btn btn-ghost btn-md"><span class="btn-label">Label</span></button><span style="font-size:12px;color:var(--color-subheading);">Minimal — toolbars and inline actions</span></div>
+      <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:var(--color-subheading);width:90px;">danger</span><button class="btn btn-danger btn-md"><span class="btn-label">Label</span></button><span style="font-size:12px;color:var(--color-subheading);">Destructive — delete, remove, reset</span></div>
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc"><code>btn-lg</code> (48px) · <code>btn-md</code> (40px) · <code>btn-sm</code> (32px) · <code>btn-xs</code> (24px).</p>
+  <div class="demo-box">
+    <div class="demo-tabs">
+      <button class="demo-tab active" data-group="sizes" data-panel="sz-primary">PRIMARY</button>
+      <button class="demo-tab" data-group="sizes" data-panel="sz-secondary">SECONDARY</button>
+      <button class="demo-tab" data-group="sizes" data-panel="sz-tertiary">TERTIARY</button>
+      <button class="demo-tab" data-group="sizes" data-panel="sz-danger">DANGER</button>
+    </div>
+    <div id="sz-primary" class="demo-panel active" style="gap:12px;align-items:center;">
+      <button class="btn btn-primary btn-lg"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-primary btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-primary btn-sm"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-primary btn-xs"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+    </div>
+    <div id="sz-secondary" class="demo-panel" style="gap:12px;align-items:center;">
+      <button class="btn btn-secondary btn-lg"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-secondary btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-secondary btn-sm"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-secondary btn-xs"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+    </div>
+    <div id="sz-tertiary" class="demo-panel" style="gap:12px;align-items:center;">
+      <button class="btn btn-tertiary btn-lg"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-tertiary btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-tertiary btn-sm"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-tertiary btn-xs"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+    </div>
+    <div id="sz-danger" class="demo-panel" style="gap:12px;align-items:center;">
+      <button class="btn btn-danger btn-lg"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-danger btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-danger btn-sm"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-danger btn-xs"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+    </div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-sizes">Copy</button></div>
+    <pre id="c-sizes"><span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-primary btn-lg"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/button&gt;</span>  <span class="cm">&lt;!-- 48px --&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-primary btn-md"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/button&gt;</span>  <span class="cm">&lt;!-- 40px --&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-primary btn-sm"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/button&gt;</span>  <span class="cm">&lt;!-- 32px --&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-primary btn-xs"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/button&gt;</span>  <span class="cm">&lt;!-- 24px --&gt;</span></pre>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Hover and active handled by CSS. Disabled uses token-specific colors (not opacity). Active (Solid Border) is Tertiary-only.</p>
+  <div class="demo-box">
+    <div class="demo-tabs">
+      <button class="demo-tab active" data-group="states" data-panel="st-default">DEFAULT</button>
+      <button class="demo-tab" data-group="states" data-panel="st-disabled">DISABLED</button>
+      <button class="demo-tab" data-group="states" data-panel="st-border">ACTIVE BORDER</button>
+    </div>
+    <div id="st-default" class="demo-panel active" style="gap:12px;">
+      <button class="btn btn-primary btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-secondary btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-tertiary btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-ghost btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-danger btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+    </div>
+    <div id="st-disabled" class="demo-panel" style="gap:12px;">
+      <button class="btn btn-primary btn-md" disabled><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-secondary btn-md" disabled><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-tertiary btn-md" disabled><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-ghost btn-md" disabled><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-danger btn-md" disabled><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+    </div>
+    <div id="st-border" class="demo-panel" style="gap:12px;align-items:center;">
+      <button class="btn btn-active-border btn-lg"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-active-border btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-active-border btn-sm"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      <button class="btn btn-active-border btn-xs"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+    </div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-states">Copy</button></div>
+    <pre id="c-states"><span class="cm">&lt;!-- Disabled — token-specific colors, not opacity --&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-primary btn-md"</span> <span class="attr">disabled</span><span class="kw">&gt;</span>...<span class="kw">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!-- Active solid border (Tertiary only) --&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-active-border btn-md"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/button&gt;</span></pre>
+  </div>
+
+  <!-- With icons -->
+  <h2 id="with-icons">With icons</h2>
+  <p class="desc">Wrap SVGs in <code>&lt;span class="icon"&gt;</code>. Icon size is set automatically by the size modifier. Label padding is handled by <code>.btn-label</code>.</p>
+  <div class="demo-box">
+    <div class="demo-panel active" style="flex-direction:column;align-items:flex-start;gap:14px;padding:28px 32px;">
+      <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:12px;color:var(--color-subheading);width:90px;">Left icon</span>
+        <button class="btn btn-primary btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span></button>
+        <button class="btn btn-secondary btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span></button>
+        <button class="btn btn-tertiary btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span></button>
+        <button class="btn btn-danger btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:12px;color:var(--color-subheading);width:90px;">Right icon</span>
+        <button class="btn btn-primary btn-md"><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+        <button class="btn btn-secondary btn-md"><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+        <button class="btn btn-tertiary btn-md"><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+        <button class="btn btn-danger btn-md"><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:12px;color:var(--color-subheading);width:90px;">Both</span>
+        <button class="btn btn-primary btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+        <button class="btn btn-secondary btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+        <button class="btn btn-tertiary btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+        <button class="btn btn-danger btn-md"><span class="icon"><svg><use href="#ico-plus"/></svg></span><span class="btn-label">Label</span><span class="icon"><svg><use href="#ico-plus"/></svg></span></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:12px;color:var(--color-subheading);width:90px;">Label only</span>
+        <button class="btn btn-primary btn-md"><span class="btn-label">Label</span></button>
+        <button class="btn btn-secondary btn-md"><span class="btn-label">Label</span></button>
+        <button class="btn btn-tertiary btn-md"><span class="btn-label">Label</span></button>
+        <button class="btn btn-ghost btn-md"><span class="btn-label">Label</span></button>
+        <button class="btn btn-danger btn-md"><span class="btn-label">Label</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <h2 id="loading">Loading</h2>
+  <p class="desc">Add <code>.btn-loading</code> with <code>disabled</code>. Spinner color inherits from the variant token.</p>
+  <div class="demo-box">
+    <div class="demo-panel active" style="gap:12px;">
+      <button class="btn btn-primary btn-md btn-loading" disabled><span class="btn-label">Label</span></button>
+      <button class="btn btn-secondary btn-md btn-loading" disabled><span class="btn-label">Label</span></button>
+      <button class="btn btn-tertiary btn-md btn-loading" disabled><span class="btn-label">Label</span></button>
+      <button class="btn btn-ghost btn-md btn-loading" disabled><span class="btn-label">Label</span></button>
+      <button class="btn btn-danger btn-md btn-loading" disabled><span class="btn-label">Label</span></button>
+    </div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-loading">Copy</button></div>
+    <pre id="c-loading"><span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-primary btn-md btn-loading"</span> <span class="attr">disabled</span><span class="kw">&gt;</span>...<span class="kw">&lt;/button&gt;</span></pre>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">Every combination of state × size × variant.</p>
+  <div class="matrix-wrap"><table class="matrix">
+    <thead><tr>
+      <th style="text-align:left;">State / Size</th>
+      <th>Primary</th><th>Secondary</th><th>Tertiary</th><th>Ghost</th><th>Danger</th>
+    </tr></thead>
+    <tbody id="matrix-body"></tbody>
+  </table></div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class</th><th>Values</th><th>Default</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>variant</td><td>btn-primary|secondary|tertiary|ghost|danger</td><td>btn-primary</td><td>Visual style and emphasis</td></tr>
+      <tr><td>size</td><td>btn-lg|md|sm|xs</td><td>btn-md</td><td>Height: 48/40/32/24px</td></tr>
+      <tr><td>disabled</td><td>HTML attr</td><td>—</td><td>Token-based disabled colors per variant</td></tr>
+      <tr><td>btn-active-border</td><td>—</td><td>—</td><td>Solid border active state (Tertiary only)</td></tr>
+      <tr><td>btn-loading</td><td>—</td><td>—</td><td>Spinner, combine with disabled</td></tr>
+      <tr><td>.btn-label</td><td>wrap text content</td><td>—</td><td>8px L/R padding (4px for xs)</td></tr>
+      <tr><td>.icon</td><td>wrap SVG</td><td>—</td><td>Auto-sized icon slot</td></tr>
+    </tbody>
+  </table>
+
+</main>
+<aside id="toc-mount"></aside>
+
+<script>
+(function(){
+  // Page-specific behaviour only — theme, TOC, copy buttons all live in ds.js.
+
+  // Demo tabs
+  document.querySelectorAll('.demo-tab').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      var g=tab.dataset.group;
+      document.querySelectorAll('.demo-tab[data-group="'+g+'"]').forEach(function(t){t.classList.remove('active');});
+      document.querySelectorAll('.demo-tab[data-group="'+g+'"]').forEach(function(t){
+        var p=document.getElementById(t.dataset.panel);
+        if(p) p.classList.remove('active');
+      });
+      tab.classList.add('active');
+      var panel=document.getElementById(tab.dataset.panel);
+      if(panel) panel.classList.add('active');
+    });
+  });
+
+  // Fix SVG sizes
+  function fixSvg(root){
+    (root||document).querySelectorAll('.btn .icon svg').forEach(function(svg){
+      var b=svg.closest('.btn');
+      var s=b.classList.contains('btn-lg')?18:b.classList.contains('btn-sm')?14:b.classList.contains('btn-xs')?12:16;
+      svg.setAttribute('width',s);svg.setAttribute('height',s);
+    });
+  }
+  fixSvg();
+
+  // Matrix
+  var variants=['primary','secondary','tertiary','ghost','danger'];
+  var sizes=[['lg','Large (48px)'],['md','Medium (40px)'],['sm','Small (32px)'],['xs','X-Small (24px)']];
+  var states=[
+    {label:'Default',disabled:false,border:false},
+    {label:'Hover',disabled:false,border:false,note:'hover to preview'},
+    {label:'Disabled',disabled:true,border:false},
+    {label:'Active (Solid Border)',disabled:false,border:true},
+  ];
+  var tbody=document.getElementById('matrix-body');
+  var ico='<span class="icon"><svg><use href="#ico-plus"/></svg></span>';
+
+  states.forEach(function(state,si){
+    sizes.forEach(function(szArr,idx){
+      var sz=szArr[0],szLabel=szArr[1];
+      var tr=document.createElement('tr');
+      if(si>0&&idx===0) tr.style.borderTop='2px solid var(--color-border)';
+      var hd=document.createElement('td'); hd.className='row-hd';
+      if(idx===0) hd.innerHTML='<strong style="display:block;margin-bottom:2px;">'+state.label+'</strong>';
+      hd.innerHTML+='<span style="font-size:11px;color:var(--color-subheading);">'+szLabel+'</span>';
+      if(state.note&&idx===0) hd.innerHTML+='<span style="display:block;font-size:10px;color:var(--color-subheading);margin-top:1px;">'+state.note+'</span>';
+      tr.appendChild(hd);
+      variants.forEach(function(v){
+        var td=document.createElement('td');
+        if(state.border&&v!=='tertiary'){td.innerHTML='<span style="color:var(--color-subheading)">—</span>';tr.appendChild(td);return;}
+        var cls=state.border?'btn btn-active-border btn-'+sz:'btn btn-'+v+' btn-'+sz;
+        var dis=state.disabled?' disabled':'';
+        td.innerHTML='<button class="'+cls+'"'+dis+'>'+ico+'<span class="btn-label">Label</span>'+ico+'</button>';
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  });
+  fixSvg(tbody);
+})();
+</script>
+</body>
+</html>

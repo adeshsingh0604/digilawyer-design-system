@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import './tokens.css';
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-primary);
+  background: var(--color-bg);
+  color: var(--color-heading);
+  font-size: var(--fs-14);
+  line-height: var(--lh-24);
+  transition: background 0.2s, color 0.2s;
+}
+
+/* Applied by ds.js for one frame around a theme toggle so the colour
+   swap is synchronous across every element (no per-element 200ms
+   cascade flicker on the sidebar / nav links / demo boxes). */
+html.ds-no-transitions,
+html.ds-no-transitions *,
+html.ds-no-transitions *::before,
+html.ds-no-transitions *::after {
+  transition: none !important;
+}
+
+/* ── LAYOUT ──
+   Global header sits above the three-column body. Sidebar and TOC are
+   fixed but start below the header; main is in normal flow with margin
+   to clear the side rails and top padding to clear the header.       */
+.ds-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--ds-header-height);
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  gap: 16px;
+  z-index: 40;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.sidebar {
+  position: fixed;
+  top: var(--ds-header-height); left: 0;
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--ds-header-height));
+  overflow-y: auto;
+  background: var(--color-bg);
+  border-right: 1px solid var(--color-border);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.2s;
+}
+
+.main {
+  margin-left: var(--sidebar-width);
+  margin-right: var(--toc-width);
+  padding: calc(var(--ds-header-height) + 28px) 52px 120px;
+  min-height: 100vh;
+}
+
+.toc {
+  position: fixed;
+  top: var(--ds-header-height); right: 0;
+  width: var(--toc-width);
+  height: calc(100vh - var(--ds-header-height));
+  overflow-y: auto;
+  background: var(--color-bg);
+  border-left: 1px solid var(--color-border);
+  padding: 24px 18px;
+  z-index: 30;
+  transition: background 0.2s;
+}
+
+/* ── SIDEBAR ── */
+.sb-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.sb-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-14);
+  color: var(--color-heading);
+  text-decoration: none;
+}
+
+.sb-tag {
+  background: var(--color-heading);
+  color: var(--color-bg);
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+}
+
+.theme-btn {
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  color: var(--color-heading);
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.theme-btn:hover { background: var(--color-bg-trans); }
+
+.sb-section {
+  padding: 14px 16px 4px;
+  font-size: 10.5px;
+  font-weight: var(--fw-bold);
+  color: var(--color-subheading);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
+}
+
+.sb-link {
+  display: block;
+  padding: 5px 16px 5px 14px;
+  font-size: var(--fs-14);
+  color: var(--color-subheading);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.12s;
+}
+.sb-link:hover { color: var(--color-heading); background: var(--color-bg-trans); }
+.sb-link.active {
+  color: var(--color-heading);
+  border-left-color: var(--color-heading);
+  background: var(--color-bg-trans);
+  font-weight: var(--fw-medium);
+}
+
+.sb-link-stub {
+  display: block;
+  padding: 5px 16px 5px 14px;
+  font-size: var(--fs-14);
+  color: var(--color-subheading);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  opacity: 0.45;
+  cursor: default;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── TOC ── */
+.toc-title {
+  font-size: 10.5px;
+  font-weight: var(--fw-bold);
+  color: var(--color-subheading);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+
+.toc-link {
+  display: block;
+  font-size: var(--fs-12);
+  color: var(--color-subheading);
+  text-decoration: none;
+  padding: 3px 0 3px 10px;
+  border-left: 2px solid transparent;
+  transition: all 0.12s;
+}
+.toc-link:hover { color: var(--color-heading); }
+.toc-link.active { color: var(--color-heading); border-left-color: var(--color-heading); font-weight: var(--fw-medium); }
+
+/* ── PAGE TYPOGRAPHY ── */
+.page-title { font-size: var(--fs-32); font-weight: var(--fw-bold); margin-bottom: 8px; line-height: var(--lh-40); }
+.page-intro  { font-size: var(--fs-14); color: var(--color-subheading); margin-bottom: var(--spacing-2xl); line-height: var(--lh-24); max-width: 600px; }
+
+h2 { font-size: var(--fs-20); font-weight: var(--fw-semibold); margin: 44px 0 10px; scroll-margin-top: 24px; color: var(--color-heading); }
+h3 { font-size: var(--fs-16); font-weight: var(--fw-semibold); margin: 24px 0 10px; color: var(--color-heading); }
+
+.desc { font-size: var(--fs-14); color: var(--color-subheading); margin-bottom: var(--spacing-md); line-height: var(--lh-24); }
+
+.callout {
+  background: var(--color-bg-2);
+  border-left: 3px solid var(--color-heading);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 10px 14px;
+  font-size: var(--fs-12);
+  color: var(--color-subheading);
+  margin-bottom: 18px;
+  line-height: var(--lh-20);
+}
+.callout strong { color: var(--color-heading); }
+
+code {
+  font-family: var(--font-mono);
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  padding: 1px 5px;
+  border-radius: var(--radius-xs);
+  font-size: 0.875em;
+  color: var(--color-info-text);
+}
+
+/* ── COMING SOON ── */
+.coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-subheading);
+  font-size: var(--fs-14);
+  gap: 8px;
+  text-align: center;
+}
+
+.coming-soon .cs-icon { font-size: 32px; opacity: 0.3; }
+.coming-soon p { color: var(--color-subheading); }
+.coming-soon small { font-size: var(--fs-12); opacity: 0.7; }

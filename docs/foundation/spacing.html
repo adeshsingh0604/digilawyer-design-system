@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spacing — DigiLawyer DS</title>
+<script>
+  window.DS_PAGE = { key: 'spacing', root: '../' };
+</script>
+<script src="../shared/ds.js"></script>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/layout.css">
+<link rel="stylesheet" href="../shared/components.css">
+</head>
+<body>
+<nav id="sidebar-mount"></nav>
+<main class="main">
+  <h1 class="page-title">Spacing</h1>
+  <p class="page-intro">4pt base grid. Never use spacing primitives directly in components — always reference semantic spacing tokens.</p>
+  <div class="callout"><strong>Rule:</strong> --space-N × 4 = px value. Use --spacing-* tokens in all components.</div>
+
+  <h2 id="primitives">Spacing Primitives</h2>
+  <div style="border:1px solid var(--color-border);border-radius:var(--radius-md);padding:20px 24px;">
+    <div class="sp-row"><span class="sp-tok">--space-0</span><span class="sp-val">0px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(0px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-1</span><span class="sp-val">4px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(4px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-2</span><span class="sp-val">8px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(8px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-3</span><span class="sp-val">12px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(12px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-4</span><span class="sp-val">16px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(16px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-5</span><span class="sp-val">20px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(20px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-6</span><span class="sp-val">24px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(24px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-8</span><span class="sp-val">32px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(32px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-10</span><span class="sp-val">40px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(40px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-12</span><span class="sp-val">48px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(48px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-16</span><span class="sp-val">64px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(64px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-20</span><span class="sp-val">80px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(80px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-24</span><span class="sp-val">96px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(96px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-32</span><span class="sp-val">128px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(128px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-40</span><span class="sp-val">160px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(160px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-48</span><span class="sp-val">192px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(192px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-64</span><span class="sp-val">256px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(256px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-80</span><span class="sp-val">320px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(320px,80%);"></div></div></div><div class="sp-row"><span class="sp-tok">--space-96</span><span class="sp-val">384px</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:min(384px,80%);"></div></div></div>
+  </div>
+
+  <h2 id="tokens">Spacing Tokens</h2>
+  <table class="tok-table">
+    <thead><tr><th>Token</th><th>Value</th><th>Use case (optional)</th><th>Visual</th></tr></thead>
+    <tbody>
+      <tr><td>--spacing-xs</td><td>8px</td><td>Icon gaps, tight padding</td><td><div style="height:8px;width:8px;background:var(--color-heading);border-radius:2px;opacity:.25;"></div></td></tr>
+      <tr><td>--spacing-sm</td><td>12px</td><td>Icon gap in buttons, small padding</td><td><div style="height:8px;width:12px;background:var(--color-heading);border-radius:2px;opacity:.25;"></div></td></tr>
+      <tr><td>--spacing-md</td><td>16px</td><td>Default inner padding</td><td><div style="height:8px;width:16px;background:var(--color-heading);border-radius:2px;opacity:.25;"></div></td></tr>
+      <tr><td>--spacing-lg</td><td>20px</td><td>Medium button horizontal padding</td><td><div style="height:8px;width:20px;background:var(--color-heading);border-radius:2px;opacity:.25;"></div></td></tr>
+      <tr><td>--spacing-xl</td><td>24px</td><td>Large button horizontal padding</td><td><div style="height:8px;width:24px;background:var(--color-heading);border-radius:2px;opacity:.25;"></div></td></tr>
+      <tr><td>--spacing-2xl</td><td>32px</td><td>Card padding, section gaps</td><td><div style="height:8px;width:32px;background:var(--color-heading);border-radius:2px;opacity:.25;"></div></td></tr>
+      <tr><td>--spacing-3xl</td><td>40px</td><td>Section vertical padding</td><td><div style="height:8px;width:40px;background:var(--color-heading);border-radius:2px;opacity:.25;"></div></td></tr>
+      <tr><td>--spacing-4xl</td><td>48px</td><td>Large section gaps</td><td><div style="height:8px;width:48px;background:var(--color-heading);border-radius:2px;opacity:.25;"></div></td></tr>
+      <tr><td>--spacing-section</td><td>40px</td><td>Section padding</td><td><div style="height:8px;width:40px;background:var(--color-heading);border-radius:2px;opacity:.25;"></div></td></tr>
+      <tr><td>--spacing-page</td><td>96px</td><td>Page horizontal padding (desktop)</td><td><div style="height:8px;width:80px;background:var(--color-heading);border-radius:2px;opacity:.25;"></div></td></tr>
+    </tbody>
+  </table>
+</main>
+<aside id="toc-mount"></aside>
+</body>
+</html>

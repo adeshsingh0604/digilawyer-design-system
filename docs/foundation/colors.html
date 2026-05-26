@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colors — DigiLawyer DS</title>
+<script>
+  window.DS_PAGE = {
+    key:  'colors',
+    root: '../',
+    toc:  [
+      { id: 'primitives',    label: 'Primitives' },
+      { id: 'neutral',       label: 'Neutral' },
+      { id: 'blue',          label: 'Blue' },
+      { id: 'gold',          label: 'Gold' },
+      { id: 'red',           label: 'Red' },
+      { id: 'green',         label: 'Green' },
+      { id: 'yellow',        label: 'Yellow' },
+      { id: 'purple',        label: 'Purple' },
+      { id: 'orange',        label: 'Orange' },
+      { id: 'semantic',      label: 'Semantic Tokens' },
+      { id: 'surface',       label: 'Surface' },
+      { id: 'status',        label: 'Status' },
+      { id: 'button-tokens', label: 'Button' }
+    ]
+  };
+</script>
+<script src="../shared/ds.js"></script>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/layout.css">
+<link rel="stylesheet" href="../shared/components.css">
+</head>
+<body>
+<nav id="sidebar-mount"></nav>
+<main class="main">
+  <h1 class="page-title">Colors</h1>
+  <p class="page-intro">Eight primitive palettes feed all semantic tokens. Always use Color Tokens in components — never reference primitives directly.</p>
+  <div class="callout"><strong>Rule:</strong> Primitives → Color Tokens → Components. Never skip a layer. Never hardcode hex values.</div>
+
+  <h2 id="primitives">Color Primitives</h2>
+  <p class="desc">Raw scales — for reference only.</p>
+
+  <h3 id="neutral">Neutral</h3>
+  <div class="swatch-row"><div class="sw"><div class="sw-color" style="background:#FFFFFF;"></div><div class="sw-name">white</div><div class="sw-val">#FFFFFF</div></div><div class="sw"><div class="sw-color" style="background:#FAFAFA;"></div><div class="sw-name">25</div><div class="sw-val">#FAFAFA</div></div><div class="sw"><div class="sw-color" style="background:#F6F6F6;"></div><div class="sw-name">50</div><div class="sw-val">#F6F6F6</div></div><div class="sw"><div class="sw-color" style="background:#E7E7E7;"></div><div class="sw-name">100</div><div class="sw-val">#E7E7E7</div></div><div class="sw"><div class="sw-color" style="background:#D1D1D1;"></div><div class="sw-name">200</div><div class="sw-val">#D1D1D1</div></div><div class="sw"><div class="sw-color" style="background:#B0B0B0;"></div><div class="sw-name">300</div><div class="sw-val">#B0B0B0</div></div><div class="sw"><div class="sw-color" style="background:#888888;"></div><div class="sw-name">400</div><div class="sw-val">#888888</div></div><div class="sw"><div class="sw-color" style="background:#6D6D6D;"></div><div class="sw-name">500</div><div class="sw-val">#6D6D6D</div></div><div class="sw"><div class="sw-color" style="background:#5D5D5D;"></div><div class="sw-name">600</div><div class="sw-val">#5D5D5D</div></div><div class="sw"><div class="sw-color" style="background:#4F4F4F;"></div><div class="sw-name">700</div><div class="sw-val">#4F4F4F</div></div><div class="sw"><div class="sw-color" style="background:#454545;"></div><div class="sw-name">800</div><div class="sw-val">#454545</div></div><div class="sw"><div class="sw-color" style="background:#3D3D3D;"></div><div class="sw-name">900</div><div class="sw-val">#3D3D3D</div></div><div class="sw"><div class="sw-color" style="background:#2D2D2D;"></div><div class="sw-name">950</div><div class="sw-val">#2D2D2D</div></div><div class="sw"><div class="sw-color" style="background:#1C1C1C;"></div><div class="sw-name">1000</div><div class="sw-val">#1C1C1C</div></div><div class="sw"><div class="sw-color" style="background:#000000;"></div><div class="sw-name">black</div><div class="sw-val">#000000</div></div></div>
+
+  <h3 id="blue">Blue</h3>
+  <div class="swatch-row"><div class="sw"><div class="sw-color" style="background:#F0F5FE;"></div><div class="sw-name">25</div><div class="sw-val">#F0F5FE</div></div><div class="sw"><div class="sw-color" style="background:#DDE7FC;"></div><div class="sw-name">50</div><div class="sw-val">#DDE7FC</div></div><div class="sw"><div class="sw-color" style="background:#C3D6FA;"></div><div class="sw-name">100</div><div class="sw-val">#C3D6FA</div></div><div class="sw"><div class="sw-color" style="background:#99BCF7;"></div><div class="sw-name">200</div><div class="sw-val">#99BCF7</div></div><div class="sw"><div class="sw-color" style="background:#6999F1;"></div><div class="sw-name">300</div><div class="sw-val">#6999F1</div></div><div class="sw"><div class="sw-color" style="background:#4675EB;"></div><div class="sw-name">400</div><div class="sw-val">#4675EB</div></div><div class="sw"><div class="sw-color" style="background:#3156DF;"></div><div class="sw-name">500</div><div class="sw-val">#3156DF</div></div><div class="sw"><div class="sw-color" style="background:#2843CD;"></div><div class="sw-name">600</div><div class="sw-val">#2843CD</div></div><div class="sw"><div class="sw-color" style="background:#2739A6;"></div><div class="sw-name">700</div><div class="sw-val">#2739A6</div></div><div class="sw"><div class="sw-color" style="background:#243484;"></div><div class="sw-name">800</div><div class="sw-val">#243484</div></div><div class="sw"><div class="sw-color" style="background:#1B2250;"></div><div class="sw-name">900</div><div class="sw-val">#1B2250</div></div><div class="sw"><div class="sw-color" style="background:#191F4A;"></div><div class="sw-name">950</div><div class="sw-val">#191F4A</div></div></div>
+
+  <h3 id="gold">Gold (Brand Accent)</h3>
+  <div class="swatch-row"><div class="sw"><div class="sw-color" style="background:#FAF9F4;"></div><div class="sw-name">25</div><div class="sw-val">#FAF9F4</div></div><div class="sw"><div class="sw-color" style="background:#F6F5F0;"></div><div class="sw-name">50</div><div class="sw-val">#F6F5F0</div></div><div class="sw"><div class="sw-color" style="background:#E8E7D9;"></div><div class="sw-name">100</div><div class="sw-val">#E8E7D9</div></div><div class="sw"><div class="sw-color" style="background:#D4D0B4;"></div><div class="sw-name">200</div><div class="sw-val">#D4D0B4</div></div><div class="sw"><div class="sw-color" style="background:#BAB28A;"></div><div class="sw-name">300</div><div class="sw-val">#BAB28A</div></div><div class="sw"><div class="sw-color" style="background:#A69969;"></div><div class="sw-name">400</div><div class="sw-val">#A69969</div></div><div class="sw"><div class="sw-color" style="background:#9B8B5D;"></div><div class="sw-name">500</div><div class="sw-val">#9B8B5D</div></div><div class="sw"><div class="sw-color" style="background:#826F4C;"></div><div class="sw-name">600</div><div class="sw-val">#826F4C</div></div><div class="sw"><div class="sw-color" style="background:#69573F;"></div><div class="sw-name">700</div><div class="sw-val">#69573F</div></div><div class="sw"><div class="sw-color" style="background:#594A3A;"></div><div class="sw-name">800</div><div class="sw-val">#594A3A</div></div><div class="sw"><div class="sw-color" style="background:#4E4135;"></div><div class="sw-name">900</div><div class="sw-val">#4E4135</div></div><div class="sw"><div class="sw-color" style="background:#2C231C;"></div><div class="sw-name">950</div><div class="sw-val">#2C231C</div></div></div>
+
+  <h3 id="red">Red</h3>
+  <div class="swatch-row"><div class="sw"><div class="sw-color" style="background:#FFFBFA;"></div><div class="sw-name">25</div><div class="sw-val">#FFFBFA</div></div><div class="sw"><div class="sw-color" style="background:#FDF3F3;"></div><div class="sw-name">50</div><div class="sw-val">#FDF3F3</div></div><div class="sw"><div class="sw-color" style="background:#FCE4E4;"></div><div class="sw-name">100</div><div class="sw-val">#FCE4E4</div></div><div class="sw"><div class="sw-color" style="background:#FACECE;"></div><div class="sw-name">200</div><div class="sw-val">#FACECE</div></div><div class="sw"><div class="sw-color" style="background:#F5ACAC;"></div><div class="sw-name">300</div><div class="sw-val">#F5ACAC</div></div><div class="sw"><div class="sw-color" style="background:#ED7C7C;"></div><div class="sw-name">400</div><div class="sw-val">#ED7C7C</div></div><div class="sw"><div class="sw-color" style="background:#E15252;"></div><div class="sw-name">500</div><div class="sw-val">#E15252</div></div><div class="sw"><div class="sw-color" style="background:#CD3232;"></div><div class="sw-name">600</div><div class="sw-val">#CD3232</div></div><div class="sw"><div class="sw-color" style="background:#AD2828;"></div><div class="sw-name">700</div><div class="sw-val">#AD2828</div></div><div class="sw"><div class="sw-color" style="background:#8F2525;"></div><div class="sw-name">800</div><div class="sw-val">#8F2525</div></div><div class="sw"><div class="sw-color" style="background:#772525;"></div><div class="sw-name">900</div><div class="sw-val">#772525</div></div><div class="sw"><div class="sw-color" style="background:#400F0F;"></div><div class="sw-name">950</div><div class="sw-val">#400F0F</div></div></div>
+
+  <h3 id="green">Green</h3>
+  <div class="swatch-row"><div class="sw"><div class="sw-color" style="background:#F6FEF9;"></div><div class="sw-name">25</div><div class="sw-val">#F6FEF9</div></div><div class="sw"><div class="sw-color" style="background:#F1FCF4;"></div><div class="sw-name">50</div><div class="sw-val">#F1FCF4</div></div><div class="sw"><div class="sw-color" style="background:#DEFAE8;"></div><div class="sw-name">100</div><div class="sw-val">#DEFAE8</div></div><div class="sw"><div class="sw-color" style="background:#BFF3D2;"></div><div class="sw-name">200</div><div class="sw-val">#BFF3D2</div></div><div class="sw"><div class="sw-color" style="background:#8DE8AF;"></div><div class="sw-name">300</div><div class="sw-val">#8DE8AF</div></div><div class="sw"><div class="sw-color" style="background:#54D485;"></div><div class="sw-name">400</div><div class="sw-val">#54D485</div></div><div class="sw"><div class="sw-color" style="background:#32CD6D;"></div><div class="sw-name">500</div><div class="sw-val">#32CD6D</div></div><div class="sw"><div class="sw-color" style="background:#20994F;"></div><div class="sw-name">600</div><div class="sw-val">#20994F</div></div><div class="sw"><div class="sw-color" style="background:#1C7940;"></div><div class="sw-name">700</div><div class="sw-val">#1C7940</div></div><div class="sw"><div class="sw-color" style="background:#1B6036;"></div><div class="sw-name">800</div><div class="sw-val">#1B6036</div></div><div class="sw"><div class="sw-color" style="background:#184F2F;"></div><div class="sw-name">900</div><div class="sw-val">#184F2F</div></div><div class="sw"><div class="sw-color" style="background:#082B16;"></div><div class="sw-name">950</div><div class="sw-val">#082B16</div></div></div>
+
+  <h3 id="yellow">Yellow</h3>
+  <div class="swatch-row"><div class="sw"><div class="sw-color" style="background:#FFF8D7;"></div><div class="sw-name">25</div><div class="sw-val">#FFF8D7</div></div><div class="sw"><div class="sw-color" style="background:#FFF3B8;"></div><div class="sw-name">50</div><div class="sw-val">#FFF3B8</div></div><div class="sw"><div class="sw-color" style="background:#FFED97;"></div><div class="sw-name">100</div><div class="sw-val">#FFED97</div></div><div class="sw"><div class="sw-color" style="background:#FFE35A;"></div><div class="sw-name">200</div><div class="sw-val">#FFE35A</div></div><div class="sw"><div class="sw-color" style="background:#FFDE39;"></div><div class="sw-name">300</div><div class="sw-val">#FFDE39</div></div><div class="sw"><div class="sw-color" style="background:#FFD91B;"></div><div class="sw-name">400</div><div class="sw-val">#FFD91B</div></div><div class="sw"><div class="sw-color" style="background:#FFD400;"></div><div class="sw-name">500</div><div class="sw-val">#FFD400</div></div><div class="sw"><div class="sw-color" style="background:#E9C200;"></div><div class="sw-name">600</div><div class="sw-val">#E9C200</div></div><div class="sw"><div class="sw-color" style="background:#D5B101;"></div><div class="sw-name">700</div><div class="sw-val">#D5B101</div></div><div class="sw"><div class="sw-color" style="background:#C9A700;"></div><div class="sw-name">800</div><div class="sw-val">#C9A700</div></div><div class="sw"><div class="sw-color" style="background:#BD9D00;"></div><div class="sw-name">900</div><div class="sw-val">#BD9D00</div></div><div class="sw"><div class="sw-color" style="background:#AB8E00;"></div><div class="sw-name">950</div><div class="sw-val">#AB8E00</div></div></div>
+
+  <h3 id="purple">Purple</h3>
+  <div class="swatch-row"><div class="sw"><div class="sw-color" style="background:#FCFAFF;"></div><div class="sw-name">25</div><div class="sw-val">#FCFAFF</div></div><div class="sw"><div class="sw-color" style="background:#F9F5FF;"></div><div class="sw-name">50</div><div class="sw-val">#F9F5FF</div></div><div class="sw"><div class="sw-color" style="background:#F4EBFF;"></div><div class="sw-name">100</div><div class="sw-val">#F4EBFF</div></div><div class="sw"><div class="sw-color" style="background:#E9D7FE;"></div><div class="sw-name">200</div><div class="sw-val">#E9D7FE</div></div><div class="sw"><div class="sw-color" style="background:#D6BBFB;"></div><div class="sw-name">300</div><div class="sw-val">#D6BBFB</div></div><div class="sw"><div class="sw-color" style="background:#B692F6;"></div><div class="sw-name">400</div><div class="sw-val">#B692F6</div></div><div class="sw"><div class="sw-color" style="background:#9E77ED;"></div><div class="sw-name">500</div><div class="sw-val">#9E77ED</div></div><div class="sw"><div class="sw-color" style="background:#7F56D9;"></div><div class="sw-name">600</div><div class="sw-val">#7F56D9</div></div><div class="sw"><div class="sw-color" style="background:#6941C6;"></div><div class="sw-name">700</div><div class="sw-val">#6941C6</div></div><div class="sw"><div class="sw-color" style="background:#53389E;"></div><div class="sw-name">800</div><div class="sw-val">#53389E</div></div><div class="sw"><div class="sw-color" style="background:#42307D;"></div><div class="sw-name">900</div><div class="sw-val">#42307D</div></div><div class="sw"><div class="sw-color" style="background:#2C1C5F;"></div><div class="sw-name">950</div><div class="sw-val">#2C1C5F</div></div></div>
+
+  <h3 id="orange">Orange</h3>
+  <div class="swatch-row"><div class="sw"><div class="sw-color" style="background:#FFFBF3;"></div><div class="sw-name">25</div><div class="sw-val">#FFFBF3</div></div><div class="sw"><div class="sw-color" style="background:#FEF9EE;"></div><div class="sw-name">50</div><div class="sw-val">#FEF9EE</div></div><div class="sw"><div class="sw-color" style="background:#FDF2D7;"></div><div class="sw-name">100</div><div class="sw-val">#FDF2D7</div></div><div class="sw"><div class="sw-color" style="background:#FAE0AE;"></div><div class="sw-name">200</div><div class="sw-val">#FAE0AE</div></div><div class="sw"><div class="sw-color" style="background:#F6C97B;"></div><div class="sw-name">300</div><div class="sw-val">#F6C97B</div></div><div class="sw"><div class="sw-color" style="background:#F1A846;"></div><div class="sw-name">400</div><div class="sw-val">#F1A846</div></div><div class="sw"><div class="sw-color" style="background:#ED8A19;"></div><div class="sw-name">500</div><div class="sw-val">#ED8A19</div></div><div class="sw"><div class="sw-color" style="background:#DF7417;"></div><div class="sw-name">600</div><div class="sw-val">#DF7417</div></div><div class="sw"><div class="sw-color" style="background:#B95915;"></div><div class="sw-name">700</div><div class="sw-val">#B95915</div></div><div class="sw"><div class="sw-color" style="background:#934619;"></div><div class="sw-name">800</div><div class="sw-val">#934619</div></div><div class="sw"><div class="sw-color" style="background:#773C17;"></div><div class="sw-name">900</div><div class="sw-val">#773C17</div></div><div class="sw"><div class="sw-color" style="background:#401D0A;"></div><div class="sw-name">950</div><div class="sw-val">#401D0A</div></div></div>
+
+  <h2 id="semantic">Semantic Tokens</h2>
+  <p class="desc">Use these in all components. Light and dark values shown.</p>
+
+  <h3 id="surface">Surface</h3>
+  <table class="tok-table">
+    <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+    <tbody>
+      <tr><td>--color-bg</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#FFFFFF;"></div>#FFFFFF</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#1C1C1C;"></div>#1C1C1C</div></td></tr>
+      <tr><td>--color-bg-2</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#F6F6F6;"></div>#F6F6F6</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#2D2D2D;"></div>#2D2D2D</div></td></tr>
+      <tr><td>--color-heading</td><td>#2D2D2D</td><td>#FFFFFF</td></tr>
+      <tr><td>--color-subheading</td><td>#5D5D5D</td><td>#E7E7E7</td></tr>
+      <tr><td>--color-border</td><td>rgba(0,0,0,0.10)</td><td>rgba(255,255,255,0.10)</td></tr>
+      <tr><td>--color-border-2</td><td>rgba(0,0,0,0.05)</td><td>rgba(255,255,255,0.05)</td></tr>
+      <tr><td>--color-brand-accent</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#9B8B5D;"></div>#9B8B5D</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#9B8B5D;"></div>#9B8B5D</div></td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="status">Status</h3>
+  <table class="tok-table">
+    <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+    <tbody>
+      <tr><td>--color-info-bg</td><td><div class="swatch-cell"><div class="mini-sw" style="background:rgba(49,86,223,0.10);"></div>rgba(49,86,223,0.10)</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:rgba(49,86,223,0.20);"></div>rgba(49,86,223,0.20)</div></td></tr>
+      <tr><td>--color-info-text</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#2843CD;"></div><span style="color:#2843CD;">#2843CD</span></div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#3156DF;"></div><span style="color:#3156DF;">#3156DF</span></div></td></tr>
+      <tr><td>--color-success-bg</td><td><div class="swatch-cell"><div class="mini-sw" style="background:rgba(50,205,109,0.10);"></div>rgba(50,205,109,0.10)</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:rgba(50,205,109,0.20);"></div>rgba(50,205,109,0.20)</div></td></tr>
+      <tr><td>--color-success-text</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#20994F;"></div><span style="color:#20994F;">#20994F</span></div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#32CD6D;"></div><span style="color:#32CD6D;">#32CD6D</span></div></td></tr>
+      <tr><td>--color-warning-bg</td><td><div class="swatch-cell"><div class="mini-sw" style="background:rgba(223,207,19,0.10);"></div>rgba(223,207,19,0.10)</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:rgba(223,207,19,0.20);"></div>rgba(223,207,19,0.20)</div></td></tr>
+      <tr><td>--color-warning-text</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#E9C200;"></div><span style="color:#E9C200;">#E9C200</span></div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#FFD400;"></div><span style="color:#FFD400;">#FFD400</span></div></td></tr>
+      <tr><td>--color-danger-bg</td><td><div class="swatch-cell"><div class="mini-sw" style="background:rgba(225,82,82,0.10);"></div>rgba(225,82,82,0.10)</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:rgba(225,82,82,0.20);"></div>rgba(225,82,82,0.20)</div></td></tr>
+      <tr><td>--color-danger-text</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#CD3232;"></div><span style="color:#CD3232;">#CD3232</span></div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#E15252;"></div><span style="color:#E15252;">#E15252</span></div></td></tr>
+      <tr><td>--color-alert-bg</td><td><div class="swatch-cell"><div class="mini-sw" style="background:rgba(237,138,25,0.10);"></div>rgba(237,138,25,0.10)</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:rgba(237,138,25,0.20);"></div>rgba(237,138,25,0.20)</div></td></tr>
+      <tr><td>--color-alert-text</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#DF7417;"></div><span style="color:#DF7417;">#DF7417</span></div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#ED8A19;"></div><span style="color:#ED8A19;">#ED8A19</span></div></td></tr>
+      <tr><td>--color-notice-bg</td><td><div class="swatch-cell"><div class="mini-sw" style="background:rgba(158,119,237,0.10);"></div>rgba(158,119,237,0.10)</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:rgba(158,119,237,0.20);"></div>rgba(158,119,237,0.20)</div></td></tr>
+      <tr><td>--color-notice-text</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#7F56D9;"></div><span style="color:#7F56D9;">#7F56D9</span></div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#9E77ED;"></div><span style="color:#9E77ED;">#9E77ED</span></div></td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="button-tokens">Button Tokens</h3>
+  <table class="tok-table">
+    <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="background:var(--color-bg-2);font-weight:600;color:var(--color-heading);">Primary</td></tr>
+      <tr><td>--btn-primary-bg</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#2D2D2D;"></div>#2D2D2D</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#FFFFFF;border:1px solid #ccc;"></div>#FFFFFF</div></td></tr>
+      <tr><td>--btn-primary-text</td><td>#FFFFFF</td><td>#2D2D2D</td></tr>
+      <tr><td>--btn-primary-bg-hover</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#3D3D3D;"></div>#3D3D3D</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#FAFAFA;border:1px solid #ccc;"></div>#FAFAFA</div></td></tr>
+      <tr><td>--btn-primary-bg-active</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#454545;"></div>#454545</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#F6F6F6;border:1px solid #ccc;"></div>#F6F6F6</div></td></tr>
+      <tr><td>--btn-primary-bg-disabled</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#E7E7E7;"></div>#E7E7E7</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#454545;"></div>#454545</div></td></tr>
+      <tr><td>--btn-primary-text-disabled</td><td>#5D5D5D</td><td>#E7E7E7</td></tr>
+      <tr><td colspan="3" style="background:var(--color-bg-2);font-weight:600;color:var(--color-heading);">Secondary</td></tr>
+      <tr><td>--btn-secondary-bg</td><td>rgba(0,0,0,0.05)</td><td>rgba(255,255,255,0.05)</td></tr>
+      <tr><td>--btn-secondary-text</td><td>#2D2D2D</td><td>#FFFFFF</td></tr>
+      <tr><td>--btn-secondary-bg-hover</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#F6F6F6;"></div>#F6F6F6</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#3D3D3D;"></div>#3D3D3D</div></td></tr>
+      <tr><td>--btn-secondary-bg-active</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#E7E7E7;"></div>#E7E7E7</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#454545;"></div>#454545</div></td></tr>
+      <tr><td>--btn-secondary-bg-disabled</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#FAFAFA;"></div>#FAFAFA</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#2D2D2D;"></div>#2D2D2D</div></td></tr>
+      <tr><td>--btn-secondary-text-disabled</td><td>#5D5D5D</td><td>#E7E7E7</td></tr>
+      <tr><td colspan="3" style="background:var(--color-bg-2);font-weight:600;color:var(--color-heading);">Tertiary</td></tr>
+      <tr><td>--btn-tertiary-bg</td><td>transparent</td><td>transparent</td></tr>
+      <tr><td>--btn-tertiary-text</td><td>#2D2D2D</td><td>#FFFFFF</td></tr>
+      <tr><td>--btn-tertiary-border</td><td>rgba(0,0,0,0.10)</td><td>rgba(255,255,255,0.10)</td></tr>
+      <tr><td>--btn-tertiary-bg-hover</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#F6F6F6;"></div>#F6F6F6</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#2D2D2D;"></div>#2D2D2D</div></td></tr>
+      <tr><td>--btn-tertiary-bg-active</td><td>rgba(0,0,0,0.10)</td><td>rgba(255,255,255,0.10)</td></tr>
+      <tr><td>--btn-tertiary-solid-bg</td><td>rgba(0,0,0,0.05)</td><td>rgba(255,255,255,0.05)</td></tr>
+      <tr><td>--btn-tertiary-solid-border</td><td>#000000</td><td>#FFFFFF</td></tr>
+      <tr><td>--btn-tertiary-text-disabled</td><td>#5D5D5D</td><td>#E7E7E7</td></tr>
+      <tr><td colspan="3" style="background:var(--color-bg-2);font-weight:600;color:var(--color-heading);">Ghost</td></tr>
+      <tr><td>--btn-ghost-bg</td><td>transparent</td><td>transparent</td></tr>
+      <tr><td>--btn-ghost-text</td><td>#2D2D2D</td><td>#FFFFFF</td></tr>
+      <tr><td>--btn-ghost-bg-hover</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#F6F6F6;"></div>#F6F6F6</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#2D2D2D;"></div>#2D2D2D</div></td></tr>
+      <tr><td>--btn-ghost-bg-active</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#E7E7E7;"></div>#E7E7E7</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#3D3D3D;"></div>#3D3D3D</div></td></tr>
+      <tr><td>--btn-ghost-text-disabled</td><td>#5D5D5D</td><td>#E7E7E7</td></tr>
+      <tr><td colspan="3" style="background:var(--color-bg-2);font-weight:600;color:var(--color-heading);">Danger</td></tr>
+      <tr><td>--btn-danger-bg</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#E15252;"></div>#E15252</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#E15252;"></div>#E15252</div></td></tr>
+      <tr><td>--btn-danger-text</td><td>#FFFFFF</td><td>#FFFFFF</td></tr>
+      <tr><td>--btn-danger-bg-hover</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#CD3232;"></div>#CD3232</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#CD3232;"></div>#CD3232</div></td></tr>
+      <tr><td>--btn-danger-bg-active</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#AD2828;"></div>#AD2828</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#AD2828;"></div>#AD2828</div></td></tr>
+      <tr><td>--btn-danger-bg-disabled</td><td><div class="swatch-cell"><div class="mini-sw" style="background:#E7E7E7;"></div>#E7E7E7</div></td><td><div class="swatch-cell"><div class="mini-sw" style="background:#454545;"></div>#454545</div></td></tr>
+      <tr><td>--btn-danger-text-disabled</td><td>#5D5D5D</td><td>#E7E7E7</td></tr>
+    </tbody>
+  </table>
+</main>
+<aside id="toc-mount"></aside>
+</body>
+</html>

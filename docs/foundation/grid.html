@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grid — DigiLawyer DS</title>
+<script>
+  window.DS_PAGE = { key: 'grid', root: '../' };
+</script>
+<script src="../shared/ds.js"></script>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/layout.css">
+<link rel="stylesheet" href="../shared/components.css">
+<style>
+.bp-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;}
+.bp-card{border:1px solid var(--color-border);border-radius:var(--radius-md);padding:16px 20px;}
+.bp-name{font-size:var(--fs-12);font-weight:var(--fw-semibold);color:var(--color-subheading);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.bp-val{font-size:var(--fs-24);font-weight:var(--fw-bold);color:var(--color-heading);margin-bottom:8px;}
+.bp-detail{font-size:var(--fs-12);color:var(--color-subheading);display:flex;flex-direction:column;gap:2px;}
+.col-vis{display:flex;gap:4px;margin:12px 0;height:28px;}
+.col{flex:1;border-radius:var(--radius-xs);background:var(--color-brand-accent);opacity:0.25;}
+.col-gutter{width:var(--grid-desktop-gutter);flex-shrink:0;}
+</style>
+</head>
+<body>
+<nav id="sidebar-mount"></nav>
+<main class="main">
+  <h1 class="page-title">Grid System</h1>
+  <p class="page-intro">Three breakpoints — Desktop (1440px), Tablet (744px), Mobile (390px). All grid values are tokenised under <code>--grid-*</code>.</p>
+
+  <h2 id="breakpoints">Breakpoints</h2>
+  <div class="bp-cards">
+    <div class="bp-card"><div class="bp-name">Desktop</div><div class="bp-val">1440px</div><div class="bp-detail"><span>12 columns</span><span>96px padding</span><span>40px gutter</span></div></div>
+    <div class="bp-card"><div class="bp-name">Tablet</div><div class="bp-val">744px</div><div class="bp-detail"><span>8 columns</span><span>40px padding</span><span>24px gutter</span></div></div>
+    <div class="bp-card"><div class="bp-name">Mobile</div><div class="bp-val">390px</div><div class="bp-detail"><span>4 columns</span><span>16px padding</span><span>16px gutter</span></div></div>
+  </div>
+
+  <h2 id="desktop">Desktop Grid — 12 columns</h2>
+  <div class="col-vis"><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div></div>
+  <table class="tok-table">
+    <thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>Columns</td><td>--grid-desktop-columns</td><td>12</td></tr>
+      <tr><td>H-Padding</td><td>--grid-desktop-padding</td><td>96px</td></tr>
+      <tr><td>Gutter</td><td>--grid-desktop-gutter</td><td>40px</td></tr>
+      <tr><td>Space between</td><td>--grid-desktop-space-between</td><td>48px</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="tablet">Tablet Grid — 8 columns</h2>
+  <div class="col-vis"><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div></div>
+  <table class="tok-table">
+    <thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>Columns</td><td>--grid-tablet-columns</td><td>8</td></tr>
+      <tr><td>H-Padding</td><td>--grid-tablet-padding</td><td>40px</td></tr>
+      <tr><td>Gutter</td><td>--grid-tablet-gutter</td><td>24px</td></tr>
+      <tr><td>Space between</td><td>--grid-tablet-space-between</td><td>32px</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="mobile">Mobile Grid — 4 columns</h2>
+  <div class="col-vis"><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div></div>
+  <table class="tok-table">
+    <thead><tr><th>Property</th><th>Token</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>Columns</td><td>--grid-mobile-columns</td><td>4</td></tr>
+      <tr><td>H-Padding</td><td>--grid-mobile-padding</td><td>16px</td></tr>
+      <tr><td>Gutter</td><td>--grid-mobile-gutter</td><td>16px</td></tr>
+      <tr><td>Space between</td><td>--grid-mobile-space-between</td><td>12px</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="tokens-ref">Token Reference</h2>
+  <table class="tok-table">
+    <thead><tr><th>Token</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>--breakpoint-desktop</td><td>1440px</td></tr>
+      <tr><td>--breakpoint-tablet</td><td>744px</td></tr>
+      <tr><td>--breakpoint-mobile</td><td>390px</td></tr>
+    </tbody>
+  </table>
+</main>
+<aside id="toc-mount"></aside>
+</body>
+</html>

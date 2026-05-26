@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shadows — DigiLawyer DS</title>
+<script>
+  window.DS_PAGE = { key: 'shadows', root: '../' };
+</script>
+<script src="../shared/ds.js"></script>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/layout.css">
+<link rel="stylesheet" href="../shared/components.css">
+<style>
+.sh-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin:16px 0 32px;padding:32px;background:var(--color-bg-2);border-radius:var(--radius-md);border:1px solid var(--color-border);}
+.sh-card{display:flex;flex-direction:column;align-items:center;gap:12px;}
+.sh-box{width:100px;height:80px;background:var(--color-bg);border-radius:var(--radius-md);}
+.sh-label{font-family:var(--font-mono);font-size:10.5px;color:var(--color-notice-text);}
+.sh-val{font-size:10px;color:var(--color-subheading);text-align:center;max-width:110px;line-height:1.5;}
+.dark-preview{background:#1C1C1C;padding:32px;border-radius:var(--radius-md);margin:16px 0 28px;display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
+.dark-preview .sh-box{background:var(--primitive-neutral-950);}
+.dark-preview .sh-label{color:var(--primitive-purple-500);}
+.dark-preview .sh-val{color:var(--primitive-neutral-100);}
+</style>
+</head>
+<body>
+<nav id="sidebar-mount"></nav>
+<main class="main">
+  <h1 class="page-title">Shadows</h1>
+  <p class="page-intro">Five elevation levels — subtle (1) to strong (5). Light mode uses black alpha, dark mode uses white alpha. Always use <code>--shadow-*</code> tokens, never hardcode box-shadow values.</p>
+
+  <h2 id="sh-levels">Levels</h2>
+  <p class="desc">Each level increases both spread and alpha, creating a stronger sense of elevation.</p>
+
+  <table class="tok-table" style="margin-bottom:28px;">
+    <thead><tr><th>Level</th><th>Token</th><th>Elevation</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>--shadow-1</td><td>Subtle — cards at rest, inline panels</td></tr>
+      <tr><td>2</td><td>--shadow-2</td><td>Resting cards with slight lift</td></tr>
+      <tr><td>3</td><td>--shadow-3</td><td>Dropdowns, floating toolbars</td></tr>
+      <tr><td>4</td><td>--shadow-4</td><td>Modals, drawers</td></tr>
+      <tr><td>5</td><td>--shadow-5</td><td>Strongest — overlays, command palette</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="sh-light">Light mode</h2>
+  <p class="desc">Black alpha shadows on white/light surfaces.</p>
+  <div class="sh-grid">
+    <div class="sh-card">
+      <div class="sh-box" style="box-shadow:0 4px 12px 4px rgba(0,0,0,0.02);"></div>
+      <div class="sh-label">--shadow-1</div>
+      <div class="sh-val">0 4px 12px 4px rgba(0,0,0,0.02)</div>
+    </div>
+    <div class="sh-card">
+      <div class="sh-box" style="box-shadow:0 4px 12px 2px rgba(0,0,0,0.04);"></div>
+      <div class="sh-label">--shadow-2</div>
+      <div class="sh-val">0 4px 12px 2px rgba(0,0,0,0.04)</div>
+    </div>
+    <div class="sh-card">
+      <div class="sh-box" style="box-shadow:0 4px 16px 4px rgba(0,0,0,0.06);"></div>
+      <div class="sh-label">--shadow-3</div>
+      <div class="sh-val">0 4px 16px 4px rgba(0,0,0,0.06)</div>
+    </div>
+    <div class="sh-card">
+      <div class="sh-box" style="box-shadow:0 4px 16px 4px rgba(0,0,0,0.08);"></div>
+      <div class="sh-label">--shadow-4</div>
+      <div class="sh-val">0 4px 16px 4px rgba(0,0,0,0.08)</div>
+    </div>
+    <div class="sh-card">
+      <div class="sh-box" style="box-shadow:0 4px 16px 4px rgba(0,0,0,0.10);"></div>
+      <div class="sh-label">--shadow-5</div>
+      <div class="sh-val">0 4px 16px 4px rgba(0,0,0,0.10)</div>
+    </div>
+  </div>
+
+  <h2 id="sh-dark">Dark mode</h2>
+  <p class="desc">White alpha shadows on dark surfaces.</p>
+  <div class="dark-preview">
+    <div class="sh-card">
+      <div class="sh-box" style="box-shadow:0 4px 12px 4px rgba(255,255,255,0.02);"></div>
+      <div class="sh-label">--shadow-1</div>
+      <div class="sh-val">rgba(255,255,255,0.02)</div>
+    </div>
+    <div class="sh-card">
+      <div class="sh-box" style="box-shadow:0 4px 12px 2px rgba(255,255,255,0.04);"></div>
+      <div class="sh-label">--shadow-2</div>
+      <div class="sh-val">rgba(255,255,255,0.04)</div>
+    </div>
+    <div class="sh-card">
+      <div class="sh-box" style="box-shadow:0 4px 16px 4px rgba(255,255,255,0.06);"></div>
+      <div class="sh-label">--shadow-3</div>
+      <div class="sh-val">rgba(255,255,255,0.06)</div>
+    </div>
+    <div class="sh-card">
+      <div class="sh-box" style="box-shadow:0 4px 16px 4px rgba(255,255,255,0.08);"></div>
+      <div class="sh-label">--shadow-4</div>
+      <div class="sh-val">rgba(255,255,255,0.08)</div>
+    </div>
+    <div class="sh-card">
+      <div class="sh-box" style="box-shadow:0 4px 16px 4px rgba(255,255,255,0.10);"></div>
+      <div class="sh-label">--shadow-5</div>
+      <div class="sh-val">rgba(255,255,255,0.10)</div>
+    </div>
+  </div>
+
+  <h2 id="sh-reference">Token Reference</h2>
+  <table class="tok-table">
+    <thead><tr><th>Token</th><th>Light value</th><th>Dark value</th></tr></thead>
+    <tbody>
+      <tr><td>--shadow-1</td><td>0 4px 12px 4px rgba(0,0,0,0.02)</td><td>0 4px 12px 4px rgba(255,255,255,0.02)</td></tr>
+      <tr><td>--shadow-2</td><td>0 4px 12px 2px rgba(0,0,0,0.04)</td><td>0 4px 12px 2px rgba(255,255,255,0.04)</td></tr>
+      <tr><td>--shadow-3</td><td>0 4px 16px 4px rgba(0,0,0,0.06)</td><td>0 4px 16px 4px rgba(255,255,255,0.06)</td></tr>
+      <tr><td>--shadow-4</td><td>0 4px 16px 4px rgba(0,0,0,0.08)</td><td>0 4px 16px 4px rgba(255,255,255,0.08)</td></tr>
+      <tr><td>--shadow-5</td><td>0 4px 16px 4px rgba(0,0,0,0.10)</td><td>0 4px 16px 4px rgba(255,255,255,0.10)</td></tr>
+    </tbody>
+  </table>
+</main>
+<aside id="toc-mount"></aside>
+</body>
+</html>

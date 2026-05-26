@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!--
+  STARTER: foundation or fully-documented component page.
+  Copy to foundation/<name>.html (or components/<name>.html), then:
+    1. Replace KEY with the NAV key (filename without .html).
+    2. Replace LABEL with the page title.
+    3. Replace INTRO with a one-sentence summary.
+    4. Add h2[id="section-id"] anchors for each section — ds.js auto-extracts
+       them into the right-rail TOC. If you need curated labels or h3 anchors
+       in the TOC, set DS_PAGE.toc to an explicit [{id,label},…] array.
+    5. Replace the placeholder sections with real content. The "Full matrix"
+       section is REQUIRED for every documented component — it's the
+       canonical state × size × variant reference. See components/button.html
+       and components/button-group.html for the generator pattern.
+    6. Add page-specific styles in the <style> block if needed.
+-->
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LABEL — DigiLawyer DS</title>
+<script>
+  window.DS_PAGE = { key: 'KEY', root: '../' };
+</script>
+<script src="../shared/ds.js"></script>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/layout.css">
+<link rel="stylesheet" href="../shared/components.css">
+<style>
+  /* page-specific overrides only */
+</style>
+</head>
+<body>
+<nav id="sidebar-mount"></nav>
+<main class="main">
+  <h1 class="page-title">LABEL</h1>
+  <p class="page-intro">INTRO</p>
+
+  <h2 id="overview-section">First section</h2>
+  <p>Replace this with real content. Use <code>.demo-box</code> + <code>.demo-panel</code> for interactive examples and <code>.code-wrap</code> for code samples — see components/button.html for the pattern.</p>
+
+  <h2 id="another-section">Another section</h2>
+  <p>Each h2[id] becomes a TOC entry automatically.</p>
+
+  <!--
+    Full matrix — REQUIRED on every documented component page.
+    Replace the variants/sizes/states arrays below to match this component.
+    Skip rules (em-dash cells) live inside the generator — adjust as needed.
+  -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">Every combination of state × size × variant.</p>
+  <div class="matrix-wrap"><table class="matrix">
+    <thead><tr>
+      <th style="text-align:left;">State / Size</th>
+      <th>Primary</th><th>Secondary</th><th>Tertiary</th><th>Ghost</th><th>Danger</th>
+    </tr></thead>
+    <tbody id="matrix-body"></tbody>
+  </table></div>
+
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class</th><th>Values</th><th>Default</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>—</td><td>—</td><td>—</td><td>Document each public class/attribute here.</td></tr>
+    </tbody>
+  </table>
+</main>
+<aside id="toc-mount"></aside>
+
+<script>
+(function () {
+  // Page-specific behaviour only. Theme, TOC, copy buttons all live in ds.js.
+
+  // ── Full matrix generator (template) ───────────────────────────
+  (function buildMatrix() {
+    var tbody = document.getElementById('matrix-body');
+    if (!tbody) return;
+    var variants = ['primary','secondary','tertiary','ghost','danger'];
+    var sizes = [['lg','Large'],['md','Medium'],['sm','Small'],['xs','X-Small']];
+    var states = [
+      { label: 'Default',  mode: 'default'  },
+      { label: 'Hover',    mode: 'hover'    },
+      { label: 'Disabled', mode: 'disabled' }
+    ];
+    states.forEach(function (state, si) {
+      sizes.forEach(function (szArr, idx) {
+        var sz = szArr[0], szLabel = szArr[1];
+        var tr = document.createElement('tr');
+        if (si > 0 && idx === 0) tr.style.borderTop = '2px solid var(--color-border)';
+        var hd = document.createElement('td');
+        hd.className = 'row-hd';
+        if (idx === 0) hd.innerHTML = '<strong style="display:block;margin-bottom:2px;">' + state.label + '</strong>';
+        hd.innerHTML += '<span style="font-size:11px;color:var(--color-subheading);">' + szLabel + '</span>';
+        tr.appendChild(hd);
+        variants.forEach(function (v) {
+          var td = document.createElement('td');
+          // TODO: replace with this component's markup. Use em-dash for
+          // intentionally-skipped combinations.
+          td.innerHTML = '<span style="color:var(--color-subheading)">—</span>';
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    });
+  })();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typography — DigiLawyer DS</title>
+<script>
+  window.DS_PAGE = { key: 'typography', root: '../' };
+</script>
+<script src="../shared/ds.js"></script>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/layout.css">
+<link rel="stylesheet" href="../shared/components.css">
+</head>
+<body>
+<nav id="sidebar-mount"></nav>
+<main class="main">
+  <h1 class="page-title">Typography</h1>
+  <p class="page-intro">Inter for all UI and body copy. Sora for display and marketing. JetBrains Mono for code blocks. All sizes, weights, and line heights are tokenised.</p>
+
+  <h2 id="fonts">Font Families</h2>
+  <table class="tok-table">
+    <thead><tr><th>Token</th><th>Stack</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td>--font-primary</td><td>'Inter', system-ui, sans-serif</td><td>All UI, body, labels, buttons</td></tr>
+      <tr><td>--font-display</td><td>'Sora', 'Inter', system-ui, sans-serif</td><td>Marketing, hero headings</td></tr>
+      <tr><td>--font-mono</td><td>'JetBrains Mono', 'Courier New', monospace</td><td>Code blocks, token display</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="font-sizes">Font Sizes</h2>
+  <p class="desc">All size tokens map directly to a pixel value. Use <code>--fs-*</code> in component CSS — never hardcode pixel values.</p>
+  <table class="tok-table">
+    <thead><tr><th>Token</th><th>Value</th><th>Preview</th></tr></thead>
+    <tbody>
+      <tr><td>--fs-10</td><td>10px</td><td style="font-size:10px;color:var(--color-heading);">The quick brown fox</td></tr>
+      <tr><td>--fs-12</td><td>12px</td><td style="font-size:12px;color:var(--color-heading);">The quick brown fox</td></tr>
+      <tr><td>--fs-14</td><td>14px</td><td style="font-size:14px;color:var(--color-heading);">The quick brown fox</td></tr>
+      <tr><td>--fs-16</td><td>16px</td><td style="font-size:16px;color:var(--color-heading);">The quick brown fox</td></tr>
+      <tr><td>--fs-20</td><td>20px</td><td style="font-size:20px;color:var(--color-heading);">The quick brown fox</td></tr>
+      <tr><td>--fs-24</td><td>24px</td><td style="font-size:24px;color:var(--color-heading);">The quick brown fox</td></tr>
+      <tr><td>--fs-32</td><td>32px</td><td style="font-size:32px;color:var(--color-heading);line-height:1.2;">The quick brown fox</td></tr>
+      <tr><td>--fs-40</td><td>40px</td><td style="font-size:40px;color:var(--color-heading);line-height:1.2;">The quick brown fox</td></tr>
+      <tr><td>--fs-48</td><td>48px</td><td style="font-size:48px;color:var(--color-heading);line-height:1.1;">The quick brown fox</td></tr>
+      <tr><td>--fs-56</td><td>56px</td><td style="font-size:56px;color:var(--color-heading);line-height:1.1;">The quick brown fox</td></tr>
+      <tr><td>--fs-64</td><td>64px</td><td style="font-size:64px;color:var(--color-heading);line-height:1.1;">The quick brown fox</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="type-scale">Type Scale — Desktop (1440px)</h2>
+  <div class="type-scale-wrap">
+    <div class="type-row"><span class="type-label">Heading 1</span><span class="type-sample" style="font-size:var(--fs-64);font-weight:700;line-height:var(--lh-72);">The quick brown fox</span><span class="type-meta">64px / 72px</span></div>
+    <div class="type-row"><span class="type-label">Heading 2</span><span class="type-sample" style="font-size:var(--fs-56);font-weight:700;line-height:var(--lh-64);">The quick brown fox</span><span class="type-meta">56px / 64px</span></div>
+    <div class="type-row"><span class="type-label">Heading 3</span><span class="type-sample" style="font-size:var(--fs-48);font-weight:600;line-height:var(--lh-56);">The quick brown fox jumps</span><span class="type-meta">48px / 56px</span></div>
+    <div class="type-row"><span class="type-label">Heading 4</span><span class="type-sample" style="font-size:var(--fs-40);font-weight:600;line-height:var(--lh-48);">The quick brown fox jumps over</span><span class="type-meta">40px / 48px</span></div>
+    <div class="type-row"><span class="type-label">Heading 5</span><span class="type-sample" style="font-size:var(--fs-32);font-weight:600;line-height:var(--lh-40);">The quick brown fox jumps over the lazy dog</span><span class="type-meta">32px / 40px</span></div>
+    <div class="type-row"><span class="type-label">Heading 6</span><span class="type-sample" style="font-size:var(--fs-24);font-weight:600;line-height:var(--lh-32);">The quick brown fox jumps over the lazy dog</span><span class="type-meta">24px / 32px</span></div>
+    <div class="type-row"><span class="type-label">Body 1</span><span class="type-sample" style="font-size:var(--fs-16);font-weight:400;line-height:var(--lh-24);">The quick brown fox jumps over the lazy dog</span><span class="type-meta">16px / 24px</span></div>
+    <div class="type-row"><span class="type-label">Body 2</span><span class="type-sample" style="font-size:var(--fs-14);font-weight:400;line-height:var(--lh-24);">The quick brown fox jumps over the lazy dog</span><span class="type-meta">14px / 24px</span></div>
+    <div class="type-row"><span class="type-label">Body 3</span><span class="type-sample" style="font-size:var(--fs-14);font-weight:400;line-height:var(--lh-20);">The quick brown fox jumps over the lazy dog</span><span class="type-meta">14px / 20px</span></div>
+    <div class="type-row"><span class="type-label">Caption 1</span><span class="type-sample" style="font-size:var(--fs-12);font-weight:400;line-height:var(--lh-16);">The quick brown fox jumps over the lazy dog</span><span class="type-meta">12px / 16px</span></div>
+    <div class="type-row"><span class="type-label">Caption 2</span><span class="type-sample" style="font-size:var(--fs-10);font-weight:400;line-height:var(--lh-12);">The quick brown fox jumps over the lazy dog</span><span class="type-meta">10px / 12px</span></div>
+  </div>
+
+  <h2 id="weights">Font Weights</h2>
+  <table class="tok-table">
+    <thead><tr><th>Token</th><th>Value</th><th>Sample</th></tr></thead>
+    <tbody>
+      <tr><td>--fw-extralight</td><td>200</td><td style="font-weight:200;font-size:var(--fs-14);">DigiLawyer Design System</td></tr>
+      <tr><td>--fw-light</td><td>300</td><td style="font-weight:300;font-size:var(--fs-14);">DigiLawyer Design System</td></tr>
+      <tr><td>--fw-regular</td><td>400</td><td style="font-weight:400;font-size:var(--fs-14);">DigiLawyer Design System</td></tr>
+      <tr><td>--fw-medium</td><td>500</td><td style="font-weight:500;font-size:var(--fs-14);">DigiLawyer Design System</td></tr>
+      <tr><td>--fw-semibold</td><td>600</td><td style="font-weight:600;font-size:var(--fs-14);">DigiLawyer Design System</td></tr>
+      <tr><td>--fw-bold</td><td>700</td><td style="font-weight:700;font-size:var(--fs-14);">DigiLawyer Design System</td></tr>
+      <tr><td>--fw-extrabold</td><td>800</td><td style="font-weight:800;font-size:var(--fs-14);">DigiLawyer Design System</td></tr>
+      <tr><td>--fw-black</td><td>900</td><td style="font-weight:900;font-size:var(--fs-14);">DigiLawyer Design System</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="line-heights">Line Heights</h2>
+  <table class="tok-table">
+    <thead><tr><th>Token</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>--lh-12</td><td>12px</td></tr><tr><td>--lh-16</td><td>16px</td></tr>
+      <tr><td>--lh-20</td><td>20px</td></tr><tr><td>--lh-24</td><td>24px</td></tr>
+      <tr><td>--lh-32</td><td>32px</td></tr><tr><td>--lh-40</td><td>40px</td></tr>
+      <tr><td>--lh-48</td><td>48px</td></tr><tr><td>--lh-56</td><td>56px</td></tr>
+      <tr><td>--lh-64</td><td>64px</td></tr><tr><td>--lh-72</td><td>72px</td></tr>
+    </tbody>
+  </table>
+</main>
+<aside id="toc-mount"></aside>
+</body>
+</html>

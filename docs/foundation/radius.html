@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radius — DigiLawyer DS</title>
+<script>
+  window.DS_PAGE = { key: 'radius', root: '../' };
+</script>
+<script src="../shared/ds.js"></script>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/layout.css">
+<link rel="stylesheet" href="../shared/components.css">
+<style>
+.rad-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:16px 0 32px;}
+.rad-card{border:1px solid var(--color-border);border-radius:var(--radius-md);padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:12px;}
+.rad-box{width:72px;height:72px;background:var(--color-bg-2);border:1.5px solid var(--color-border);}
+.rad-token{font-family:var(--font-mono);font-size:11px;color:var(--color-notice-text);text-align:center;}
+.rad-val{font-size:12px;color:var(--color-subheading);text-align:center;}
+.rad-desc{font-size:11px;color:var(--color-subheading);text-align:center;line-height:1.4;}
+.rad-pill{width:72px;height:36px;background:var(--color-bg-2);border:1.5px solid var(--color-border);}
+.component-demo{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:28px;}
+.demo-chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;background:var(--color-bg-2);border:1px solid var(--color-border);font-size:12px;color:var(--color-heading);}
+.demo-btn{display:inline-flex;align-items:center;height:36px;padding:0 14px;background:var(--color-heading);color:var(--color-bg);font-size:13px;border:none;cursor:default;}
+.demo-card{display:inline-flex;align-items:center;justify-content:center;width:80px;height:60px;background:var(--color-bg-2);border:1px solid var(--color-border);font-size:11px;color:var(--color-subheading);}
+.demo-modal{display:inline-flex;align-items:center;justify-content:center;width:100px;height:70px;background:var(--color-bg-2);border:1px solid var(--color-border);font-size:11px;color:var(--color-subheading);}
+.demo-pill{display:inline-flex;align-items:center;height:28px;padding:0 14px;background:var(--color-heading);color:var(--color-bg);font-size:12px;border:none;}
+.demo-toggle{width:44px;height:24px;background:var(--color-heading);display:inline-block;}
+</style>
+</head>
+<body>
+<nav id="sidebar-mount"></nav>
+<main class="main">
+  <h1 class="page-title">Radius</h1>
+  <p class="page-intro">Seven border-radius tokens from sharp chips (4px) to full pills (9999px). Always use these tokens — never hardcode pixel values for border-radius.</p>
+
+  <h2 id="rad-scale">Scale</h2>
+  <p class="desc">Visual comparison of all seven radius stops.</p>
+  <div class="rad-grid">
+    <div class="rad-card">
+      <div class="rad-box" style="border-radius:4px;"></div>
+      <div class="rad-token">--radius-xs</div>
+      <div class="rad-val">4px</div>
+      <div class="rad-desc">Tags, badges, chips</div>
+    </div>
+    <div class="rad-card">
+      <div class="rad-box" style="border-radius:6px;"></div>
+      <div class="rad-token">--radius-sm</div>
+      <div class="rad-val">6px</div>
+      <div class="rad-desc">X-small buttons</div>
+    </div>
+    <div class="rad-card">
+      <div class="rad-box" style="border-radius:8px;"></div>
+      <div class="rad-token">--radius-md</div>
+      <div class="rad-val">8px</div>
+      <div class="rad-desc">Buttons, inputs, cards</div>
+    </div>
+    <div class="rad-card">
+      <div class="rad-box" style="border-radius:12px;"></div>
+      <div class="rad-token">--radius-lg</div>
+      <div class="rad-val">12px</div>
+      <div class="rad-desc">Modals, large cards</div>
+    </div>
+    <div class="rad-card">
+      <div class="rad-box" style="border-radius:16px;"></div>
+      <div class="rad-token">--radius-xl</div>
+      <div class="rad-val">16px</div>
+      <div class="rad-desc">Sheets, drawers</div>
+    </div>
+    <div class="rad-card">
+      <div class="rad-box" style="border-radius:24px;"></div>
+      <div class="rad-token">--radius-2xl</div>
+      <div class="rad-val">24px</div>
+      <div class="rad-desc">Large containers</div>
+    </div>
+    <div class="rad-card">
+      <div class="rad-pill" style="border-radius:9999px;"></div>
+      <div class="rad-token">--radius-full</div>
+      <div class="rad-val">9999px</div>
+      <div class="rad-desc">Pills, toggles, avatars</div>
+    </div>
+  </div>
+
+  <h2 id="rad-usage">Usage by component</h2>
+  <p class="desc">Each component tier maps to a specific radius token.</p>
+
+  <h3>radius-xs — 4px</h3>
+  <p class="desc">Tags, badges, code chips, copy button.</p>
+  <div class="component-demo">
+    <div class="demo-chip" style="border-radius:4px;">Tag</div>
+    <div class="demo-chip" style="border-radius:4px;">Badge</div>
+    <div class="demo-chip" style="border-radius:4px;font-family:monospace;">--token</div>
+  </div>
+
+  <h3>radius-sm — 6px</h3>
+  <p class="desc">X-small (24px) buttons only.</p>
+  <div class="component-demo">
+    <div class="demo-btn" style="border-radius:6px;height:24px;font-size:11px;padding:0 8px;">Label</div>
+  </div>
+
+  <h3>radius-md — 8px</h3>
+  <p class="desc">Buttons (all sizes except xs), inputs, cards. The system default.</p>
+  <div class="component-demo">
+    <div class="demo-btn" style="border-radius:8px;">Button</div>
+    <div class="demo-card" style="border-radius:8px;">Input</div>
+    <div class="demo-modal" style="border-radius:8px;">Card</div>
+  </div>
+
+  <h3>radius-lg — 12px</h3>
+  <p class="desc">Modals, dialogs, large card surfaces.</p>
+  <div class="component-demo">
+    <div class="demo-modal" style="border-radius:12px;width:140px;height:90px;">Modal</div>
+    <div class="demo-modal" style="border-radius:12px;width:120px;height:80px;">Dialog</div>
+  </div>
+
+  <h3>radius-xl — 16px</h3>
+  <p class="desc">Bottom sheets, drawers, side panels.</p>
+  <div class="component-demo">
+    <div class="demo-modal" style="border-radius:16px;width:160px;height:100px;">Bottom sheet</div>
+    <div class="demo-modal" style="border-radius:16px;width:120px;height:100px;">Drawer</div>
+  </div>
+
+  <h3>radius-2xl — 24px</h3>
+  <p class="desc">Large surface containers, featured content blocks.</p>
+  <div class="component-demo">
+    <div class="demo-modal" style="border-radius:24px;width:180px;height:110px;">Container</div>
+  </div>
+
+  <h3>radius-full — 9999px</h3>
+  <p class="desc">Pills, toggles, avatar circles.</p>
+  <div class="component-demo">
+    <div class="demo-pill" style="border-radius:9999px;">Pill button</div>
+    <div class="demo-toggle" style="border-radius:9999px;"></div>
+    <div style="width:40px;height:40px;border-radius:9999px;background:var(--color-heading);display:inline-block;"></div>
+  </div>
+
+  <h2 id="rad-reference">Token Reference</h2>
+  <table class="tok-table">
+    <thead><tr><th>Token</th><th>Value</th><th>Use case</th></tr></thead>
+    <tbody>
+      <tr><td>--radius-xs</td><td>4px</td><td>Tags, badges, code chips</td></tr>
+      <tr><td>--radius-sm</td><td>6px</td><td>X-small buttons only</td></tr>
+      <tr><td>--radius-md</td><td>8px</td><td>Buttons, inputs, cards — system default</td></tr>
+      <tr><td>--radius-lg</td><td>12px</td><td>Modals, large cards</td></tr>
+      <tr><td>--radius-xl</td><td>16px</td><td>Sheets, drawers, side panels</td></tr>
+      <tr><td>--radius-2xl</td><td>24px</td><td>Large surface containers</td></tr>
+      <tr><td>--radius-full</td><td>9999px</td><td>Pills, toggles, avatars</td></tr>
+    </tbody>
+  </table>
+</main>
+<aside id="toc-mount"></aside>
+</body>
+</html>
