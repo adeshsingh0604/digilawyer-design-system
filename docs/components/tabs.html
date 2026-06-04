@@ -5,24 +5,272 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tabs — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'tabs', root: '../', toc: false };
+  window.DS_PAGE = { key: 'tabs', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  /* Sprite symbols local to this page */
+  .tb-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  /* Demo containers */
+  .tb-row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-end; padding: 28px 32px; }
+
+  /* Full matrix — 3 sizes × 4 states. */
+  .tb-matrix {
+    display: grid;
+    grid-template-columns: 110px repeat(4, minmax(160px, 1fr));
+    gap: var(--spacing-md) var(--spacing-lg);
+    align-items: end;
+    padding: var(--spacing-xl);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-2);
+  }
+  .tb-matrix-h {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: left;
+  }
+  .tb-matrix-row-label {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    align-self: center;
+  }
+
+  /* Live demo: a row of tabs whose panel below swaps on click. */
+  .tb-demo-panel {
+    border: 1px solid var(--color-border);
+    border-top: 0;
+    padding: 24px;
+    color: var(--color-heading);
+    background: var(--color-bg);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  .tb-demo-panel[hidden] { display: none; }
+</style>
 </head>
 <body>
+
+<svg class="tb-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ico-add-square" viewBox="0 0 16 16"><rect x="2.5" y="2.5" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.25" fill="none"/><path d="M5.5 8h5M8 5.5v5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" fill="none"/></symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Tabs</h1>
-  <p class="page-intro">Horizontal navigation between related panels.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">Horizontal navigation between related panels. Each <code>.tab</code> carries a bottom-border that hairlines along with its siblings; the active tab swaps the hairline for a solid dark rule. Composes with an optional leading icon + an optional small inline badge. Values from Figma node 3817-106 (light) + 5934-1968 (dark). Two alignment axes: <strong>Horizontal</strong> (default — icon · label · badge in a row) and <strong>Vertical</strong> (<code>.tab-vertical</code> — icon stacks above, label-row below). Tabs compose with the canonical <a href="badge.html">Badge</a> component — drop a <code>.badge.badge-label.badge-info</code> inside any tab and the badge inherits the matching height per tab size automatically (sm → 12 px, md → 16 px, lg → 20 px) via cascade. Three sizes (lg 48 / md 40 default / sm 32) × four states (Default · Hover · Active · Disabled).</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">A <code>.tabs</code> row contains a flat list of <code>.tab</code> buttons. Mark the active tab with <code>aria-selected="true"</code> (preferred) or <code>.is-active</code>. Each tab can carry an optional leading <code>.tab-icon</code> and an optional inline <code>.badge.badge-label.badge-info</code> count pill (composes with the Badge component). Click a tab to switch panels — the demo below wires it up with a 6-line script.</p>
+  <div class="demo-box">
+    <div class="demo-panel active" style="padding:28px 32px;">
+      <div class="tabs" role="tablist" id="tb-live">
+        <button class="tab" role="tab" aria-selected="true"  aria-controls="tb-p1" id="tb-t1">
+          <span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>
+          Label
+          <span class="badge badge-label badge-info">text</span>
+        </button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tb-p2" id="tb-t2">
+          <span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>
+          Label
+          <span class="badge badge-label badge-info">text</span>
+        </button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tb-p3" id="tb-t3">
+          <span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>
+          Label
+          <span class="badge badge-label badge-info">text</span>
+        </button>
+      </div>
+      <div class="tb-demo-panel" role="tabpanel" id="tb-p1" aria-labelledby="tb-t1">Panel 1 content. Switch tabs above to see other panels.</div>
+      <div class="tb-demo-panel" role="tabpanel" id="tb-p2" aria-labelledby="tb-t2" hidden>Panel 2 content.</div>
+      <div class="tb-demo-panel" role="tabpanel" id="tb-p3" aria-labelledby="tb-t3" hidden>Panel 3 content.</div>
+    </div>
   </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-default">Copy</button></div>
+    <pre id="c-default"><span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"tabs"</span> <span class="attr">role</span>=<span class="str">"tablist"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"tab"</span> <span class="attr">role</span>=<span class="str">"tab"</span> <span class="attr">aria-selected</span>=<span class="str">"true"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"tab-icon"</span><span class="kw">&gt;&lt;svg&gt;</span>&hellip;<span class="kw">&lt;/svg&gt;&lt;/span&gt;</span>
+    Label
+    <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"badge badge-label badge-info"</span><span class="kw">&gt;</span>text<span class="kw">&lt;/span&gt;</span>
+  <span class="kw">&lt;/button&gt;</span>
+  <span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"tab"</span> <span class="attr">role</span>=<span class="str">"tab"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/button&gt;</span>
+<span class="kw">&lt;/div&gt;</span></pre>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Three sizes per Figma symbols. <code>.tab-lg</code> uses Body 1 (16/24) Medium; default <code>md</code> uses Body 2 (14/24) Medium; <code>.tab-sm</code> drops to Caption 1 (12/16) Medium. The leading icon stays 16×16 across all sizes (it's an affordance, not a content scaler). Horizontal padding is <code>--spacing-sm</code> (12px) at every size.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tb-row">
+      <div class="tabs">
+        <button class="tab tab-lg" aria-selected="true"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button>
+        <button class="tab tab-lg"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button>
+      </div>
+      <div class="tabs">
+        <button class="tab" aria-selected="true"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button>
+        <button class="tab"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button>
+      </div>
+      <div class="tabs">
+        <button class="tab tab-sm" aria-selected="true"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button>
+        <button class="tab tab-sm"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Four states. Default and Disabled share a thin 10%-black hairline border; Hover lifts the bg subtly to <code>#F6F6F6</code> (light) / <code>#2D2D2D</code> (dark) and darkens the text; Active swaps the hairline for a solid <code>#2D2D2D</code> (light) / <code>#FFFFFF</code> (dark) rule. Hover is browser-native via <code>:hover</code>; <code>.is-hover</code> forces it at rest for the matrix. Use <code>aria-selected="true"</code> for Active (recommended) — falls back to <code>.is-active</code> for non-interactive demos.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tb-row">
+      <div class="tabs">
+        <button class="tab"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Default<span class="badge badge-label badge-info">text</span></button>
+        <button class="tab is-hover"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Hover<span class="badge badge-label badge-info">text</span></button>
+        <button class="tab" aria-selected="true"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Active<span class="badge badge-label badge-info">text</span></button>
+        <button class="tab" disabled><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Disabled<span class="badge badge-label badge-info">text</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alignment -->
+  <h2 id="alignment">Alignment</h2>
+  <p class="desc">Two axes per Figma node 5934-1968. <strong>Horizontal</strong> (default — no modifier) lays the icon · label · badge in a single row at tab heights 48 / 40 / 32 px. <strong>Vertical</strong> (<code>.tab-vertical</code>) stacks the icon above a label-row at heights 64 / 52 / 48 px. Each size must live in its own <code>.tabs</code> row — the container uses <code>align-items: stretch</code>, so mixing sizes in one row would stretch the small tabs to the height of the large ones. Icons scale per size: horizontal 20 / 16 / 14 · vertical 24 / 20 / 16 (lg / md / sm).</p>
+  <div class="demo-box">
+    <div class="demo-panel active tb-row" style="flex-direction:column; align-items:flex-start; gap:8px; padding:28px 32px;">
+
+      <!-- 3 sizes × 2 alignments — one cell per tab, labelled. -->
+      <div style="display:grid; grid-template-columns: 60px auto auto; gap:20px 32px; align-items:center;">
+
+        <!-- Column headers -->
+        <div></div>
+        <div style="font-size:11px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em;">Horizontal</div>
+        <div style="font-size:11px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em;">Vertical (.tab-vertical)</div>
+
+        <!-- Large row -->
+        <div style="font-size:12px; color:var(--color-subheading); font-weight:600;">lg<br><span style="font-weight:500;">48 / 64</span></div>
+        <div class="tabs">
+          <button class="tab tab-lg"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">9</span></button>
+        </div>
+        <div class="tabs">
+          <button class="tab tab-vertical tab-lg">
+            <span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>
+            <span class="tab-label-row">Label<span class="badge badge-label badge-info">9</span></span>
+          </button>
+        </div>
+
+        <!-- Medium row -->
+        <div style="font-size:12px; color:var(--color-subheading); font-weight:600;">md<br><span style="font-weight:500;">40 / 52</span></div>
+        <div class="tabs">
+          <button class="tab"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">9</span></button>
+        </div>
+        <div class="tabs">
+          <button class="tab tab-vertical">
+            <span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>
+            <span class="tab-label-row">Label<span class="badge badge-label badge-info">9</span></span>
+          </button>
+        </div>
+
+        <!-- Small row -->
+        <div style="font-size:12px; color:var(--color-subheading); font-weight:600;">sm<br><span style="font-weight:500;">32 / 48</span></div>
+        <div class="tabs">
+          <button class="tab tab-sm"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">9</span></button>
+        </div>
+        <div class="tabs">
+          <button class="tab tab-vertical tab-sm">
+            <span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>
+            <span class="tab-label-row">Label<span class="badge badge-label badge-info">9</span></span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">3 sizes × 4 states = 12 cells, mirroring Figma 1:1.</p>
+  <div class="tb-matrix">
+    <div></div>
+    <div class="tb-matrix-h">Default</div>
+    <div class="tb-matrix-h">Hover</div>
+    <div class="tb-matrix-h">Active</div>
+    <div class="tb-matrix-h">Disabled</div>
+
+    <!-- Large -->
+    <div class="tb-matrix-row-label">Large · 48</div>
+    <div><div class="tabs"><button class="tab tab-lg"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button></div></div>
+    <div><div class="tabs"><button class="tab tab-lg is-hover"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button></div></div>
+    <div><div class="tabs"><button class="tab tab-lg" aria-selected="true"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button></div></div>
+    <div><div class="tabs"><button class="tab tab-lg" disabled><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button></div></div>
+
+    <!-- Medium -->
+    <div class="tb-matrix-row-label">Medium · 40</div>
+    <div><div class="tabs"><button class="tab"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button></div></div>
+    <div><div class="tabs"><button class="tab is-hover"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button></div></div>
+    <div><div class="tabs"><button class="tab" aria-selected="true"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button></div></div>
+    <div><div class="tabs"><button class="tab" disabled><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button></div></div>
+
+    <!-- Small -->
+    <div class="tb-matrix-row-label">Small · 32</div>
+    <div><div class="tabs"><button class="tab tab-sm"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button></div></div>
+    <div><div class="tabs"><button class="tab tab-sm is-hover"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button></div></div>
+    <div><div class="tabs"><button class="tab tab-sm" aria-selected="true"><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button></div></div>
+    <div><div class="tabs"><button class="tab tab-sm" disabled><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button></div></div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.tabs</td><td>&lt;div role="tablist"&gt;</td><td>The row container — flex with shared bottom alignment. Set <code>role="tablist"</code> and <code>aria-label</code> to describe the group.</td></tr>
+      <tr><td>.tab</td><td>&lt;button role="tab"&gt;</td><td>Single tab. Flex container with three slots (icon · label · badge). Default size 40px (md), Body 2 (14/24) Medium typography. Pair <code>aria-controls</code> with the corresponding <code>tabpanel</code>.</td></tr>
+      <tr><td>.tab-lg</td><td>.tab</td><td>Large — 48px tall, Body 1 (16/24) Medium typography. Use as a top-level page nav.</td></tr>
+      <tr><td>(no size class)</td><td>.tab</td><td>Medium (default) — 40px tall, Body 2 (14/24) Medium typography. The canonical density.</td></tr>
+      <tr><td>.tab-sm</td><td>.tab</td><td>Small — 32px tall, Caption 1 (12/16) Medium typography. Use in tight surfaces (e.g. inside a card or modal).</td></tr>
+      <tr><td>.tab-icon</td><td>&lt;span&gt;</td><td>Optional leading slot. Wrap an inline SVG; sized 16×16 in all tab sizes.</td></tr>
+      <tr><td>.badge.badge-label.badge-info</td><td>&lt;span&gt; inside .tab</td><td>The canonical count pill — composes with the standalone <a href="badge.html">Badge</a> component. Auto-scales per parent tab size via cascade: 12 px tall in a <code>.tab-sm</code>, 16 px (default) in a <code>.tab</code>, 20 px in a <code>.tab-lg</code>. Halo border flips from white (light) to <code>#1C1C1C</code> (dark) like every Badge variant. The legacy <code>.tab-badge</code> alias has been retired in v2.22.10.</td></tr>
+      <tr><td>.tab-vertical</td><td>.tab</td><td>Alignment modifier — stacks the icon above the label-row instead of beside it. Tab heights become 64 / 52 / 48 px (lg / md / sm). Wrap label + badge in a <code>.tab-label-row</code> child so they ride together under the icon. Active-state bottom-border still sits at the bottom of the tab.</td></tr>
+      <tr><td>.tab-label-row</td><td>&lt;span&gt;</td><td>Inner row used inside a <code>.tab-vertical</code> to keep the label text + optional <code>.badge</code> side-by-side under the icon. Has no effect on horizontal tabs.</td></tr>
+      <tr><td>aria-selected="true"</td><td>.tab</td><td>Marks the currently active tab. Drives the bottom-border swap from hairline to solid <code>--tab-active-border</code>.</td></tr>
+      <tr><td>.is-active</td><td>.tab</td><td>Fallback when <code>aria-selected</code> can't be used (rare). Renders identically.</td></tr>
+      <tr><td>disabled / .is-disabled</td><td>.tab / &lt;button&gt;</td><td>Disables the tab and dims the label. Prefer the native HTML <code>disabled</code> on the <code>&lt;button&gt;</code>.</td></tr>
+      <tr><td>.is-hover</td><td>.tab</td><td>Documentation helper — forces the hover visual at rest for the Full matrix. Not needed in production.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
+
+<script>
+/* Wire the Default-section live demo. Wraps each .tab in [data-tabs-live] to
+   bind click → switch panel + flip aria-selected. The matrix below stays
+   static (each .tab there is a visual reference, not interactive). */
+(function () {
+  var root = document.getElementById('tb-live');
+  if (!root) return;
+  var tabs = Array.prototype.slice.call(root.querySelectorAll('.tab'));
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      tabs.forEach(function (other) {
+        var on = other === t;
+        other.setAttribute('aria-selected', on ? 'true' : 'false');
+        var panel = document.getElementById(other.getAttribute('aria-controls'));
+        if (panel) panel.hidden = !on;
+      });
+    });
+  });
+})();
+</script>
 </body>
 </html>

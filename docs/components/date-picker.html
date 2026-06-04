@@ -5,24 +5,416 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Date Picker — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'date-picker', root: '../', toc: false };
+  window.DS_PAGE = { key: 'date-picker', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  .dp-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+  .dp-row { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; padding: 28px 32px; }
+  .dp-row .input-field { width: 320px; }
+
+  /* The Interactive demo opens an absolutely-positioned calendar below the
+     input. .demo-box has overflow:hidden which would clip it, and the
+     default .demo-panel centers its content vertically, which buries the
+     calendar below the panel's bottom edge. The .dp-interactive-* helpers
+     override both so the input sits at the TOP of the panel and the open
+     calendar has room to drop below it without clipping. */
+  .dp-interactive-box   { overflow: visible !important; }
+  .dp-interactive-panel {
+    min-height: 620px;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+  }
+</style>
 </head>
 <body>
+
+<svg class="dp-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ico-chev-left"  viewBox="0 0 16 16"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="ico-chev-right" viewBox="0 0 16 16"><path d="M6 4l4 4-4 4"  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="ico-chev-down"  viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="ico-calendar"   viewBox="0 0 24 24">
+    <rect x="3.5" y="5.5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+    <path d="M8 3v4M16 3v4M3.5 10h17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  </symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Date Picker</h1>
-  <p class="page-intro">Calendar-based input for selecting single dates or date ranges.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">Calendar surface for selecting a single date, a range, a month, or a year. Floats as a panel under a <a href="input.html">Text Input</a> trigger (the input shows the chosen date; click it to open the picker). Mirrors Figma node 105-1786 / 105-2329 / 105-2431 (light) + 5913-1594 / 5913-1609 / 5913-1616 (dark) 1:1. Panel chrome matches Dropdown — same `--shadow-3`, 8px radius, 1px border. Cells invert on Active state (dark fill + white text in light, white fill + dark text in dark).</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">A <code>.datepicker</code> panel sized 320px wide. Header has previous / next nav buttons + a centered title. Below it sits the 7-column weekday row and a 7-column day grid. Days from the previous / next month dim via <code>.is-other</code>; the currently selected day uses <code>.is-active</code>.</p>
+  <div class="demo-box">
+    <div class="demo-panel active dp-row">
+      <div class="datepicker" role="dialog" aria-label="July 2024">
+        <div class="datepicker-header">
+          <button type="button" class="datepicker-nav" aria-label="Previous month"><svg><use href="#ico-chev-left"/></svg></button>
+          <button type="button" class="datepicker-title">July 2024 <svg><use href="#ico-chev-down"/></svg></button>
+          <button type="button" class="datepicker-nav" aria-label="Next month"><svg><use href="#ico-chev-right"/></svg></button>
+        </div>
+        <div class="datepicker-weekdays"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div>
+        <div class="datepicker-days">
+          <button class="datepicker-cell is-other">30</button>
+          <button class="datepicker-cell">1</button><button class="datepicker-cell">2</button><button class="datepicker-cell">3</button><button class="datepicker-cell">4</button><button class="datepicker-cell">5</button><button class="datepicker-cell">6</button>
+          <button class="datepicker-cell">7</button><button class="datepicker-cell">8</button><button class="datepicker-cell is-active">9</button><button class="datepicker-cell">10</button><button class="datepicker-cell">11</button><button class="datepicker-cell">12</button><button class="datepicker-cell">13</button>
+          <button class="datepicker-cell">14</button><button class="datepicker-cell">15</button><button class="datepicker-cell">16</button><button class="datepicker-cell">17</button><button class="datepicker-cell">18</button><button class="datepicker-cell">19</button><button class="datepicker-cell">20</button>
+          <button class="datepicker-cell">21</button><button class="datepicker-cell">22</button><button class="datepicker-cell">23</button><button class="datepicker-cell">24</button><button class="datepicker-cell">25</button><button class="datepicker-cell">26</button><button class="datepicker-cell">27</button>
+          <button class="datepicker-cell">28</button><button class="datepicker-cell">29</button><button class="datepicker-cell">30</button><button class="datepicker-cell">31</button>
+          <button class="datepicker-cell is-other">1</button><button class="datepicker-cell is-other">2</button><button class="datepicker-cell is-other">3</button>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Four picker variants. <strong>Single</strong> is the day grid above. <strong>Range</strong> shows two months side-by-side; range endpoints use <code>.is-active</code>, the days between use <code>.is-in-range</code>. <strong>Month picker</strong> swaps the day grid for a 4×3 month-name grid. <strong>Year picker</strong> swaps for a 4×3 year grid (12 years at a time, navigated with the same prev/next arrows).</p>
+  <div class="demo-box">
+    <div class="demo-panel active dp-row">
+
+      <!-- Range -->
+      <div class="datepicker datepicker-range" role="dialog" aria-label="July 25 to August 6, 2024">
+        <div class="datepicker-month" style="width:240px;">
+          <div class="datepicker-header">
+            <button type="button" class="datepicker-nav" aria-label="Previous month"><svg><use href="#ico-chev-left"/></svg></button>
+            <button type="button" class="datepicker-title">July 2024</button>
+            <button type="button" class="datepicker-nav" aria-label="Next month"><svg><use href="#ico-chev-right"/></svg></button>
+          </div>
+          <div class="datepicker-weekdays"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div>
+          <div class="datepicker-days">
+            <button class="datepicker-cell is-other"></button><button class="datepicker-cell">1</button><button class="datepicker-cell">2</button><button class="datepicker-cell">3</button><button class="datepicker-cell">4</button><button class="datepicker-cell">5</button><button class="datepicker-cell">6</button>
+            <button class="datepicker-cell">7</button><button class="datepicker-cell">8</button><button class="datepicker-cell">9</button><button class="datepicker-cell">10</button><button class="datepicker-cell">11</button><button class="datepicker-cell">12</button><button class="datepicker-cell">13</button>
+            <button class="datepicker-cell">14</button><button class="datepicker-cell">15</button><button class="datepicker-cell">16</button><button class="datepicker-cell">17</button><button class="datepicker-cell">18</button><button class="datepicker-cell">19</button><button class="datepicker-cell">20</button>
+            <button class="datepicker-cell">21</button><button class="datepicker-cell">22</button><button class="datepicker-cell">23</button><button class="datepicker-cell">24</button><button class="datepicker-cell is-active is-range-start">25</button><button class="datepicker-cell is-in-range">26</button><button class="datepicker-cell is-in-range">27</button>
+            <button class="datepicker-cell is-in-range">28</button><button class="datepicker-cell is-in-range">29</button><button class="datepicker-cell is-in-range">30</button><button class="datepicker-cell is-in-range">31</button>
+          </div>
+        </div>
+        <div class="datepicker-month" style="width:240px;">
+          <div class="datepicker-header">
+            <button type="button" class="datepicker-nav" aria-label="Previous month"><svg><use href="#ico-chev-left"/></svg></button>
+            <button type="button" class="datepicker-title">August 2024</button>
+            <button type="button" class="datepicker-nav" aria-label="Next month"><svg><use href="#ico-chev-right"/></svg></button>
+          </div>
+          <div class="datepicker-weekdays"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div>
+          <div class="datepicker-days">
+            <button class="datepicker-cell is-other"></button><button class="datepicker-cell is-other"></button><button class="datepicker-cell is-other"></button><button class="datepicker-cell is-other"></button><button class="datepicker-cell is-in-range">1</button><button class="datepicker-cell is-in-range">2</button><button class="datepicker-cell is-in-range">3</button>
+            <button class="datepicker-cell is-in-range">4</button><button class="datepicker-cell is-in-range">5</button><button class="datepicker-cell is-active is-range-end">6</button><button class="datepicker-cell">7</button><button class="datepicker-cell">8</button><button class="datepicker-cell">9</button><button class="datepicker-cell">10</button>
+            <button class="datepicker-cell">11</button><button class="datepicker-cell">12</button><button class="datepicker-cell">13</button><button class="datepicker-cell">14</button><button class="datepicker-cell">15</button><button class="datepicker-cell">16</button><button class="datepicker-cell">17</button>
+            <button class="datepicker-cell">18</button><button class="datepicker-cell">19</button><button class="datepicker-cell">20</button><button class="datepicker-cell">21</button><button class="datepicker-cell">22</button><button class="datepicker-cell">23</button><button class="datepicker-cell">24</button>
+            <button class="datepicker-cell">25</button><button class="datepicker-cell">26</button><button class="datepicker-cell">27</button><button class="datepicker-cell">28</button><button class="datepicker-cell is-other">29</button><button class="datepicker-cell is-other">30</button><button class="datepicker-cell is-other">31</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Month picker -->
+      <div class="datepicker" role="dialog" aria-label="Pick a month">
+        <div class="datepicker-header">
+          <button type="button" class="datepicker-nav" aria-label="Previous year"><svg><use href="#ico-chev-left"/></svg></button>
+          <button type="button" class="datepicker-title">2024 <svg><use href="#ico-chev-down"/></svg></button>
+          <button type="button" class="datepicker-nav" aria-label="Next year"><svg><use href="#ico-chev-right"/></svg></button>
+        </div>
+        <div class="datepicker-months">
+          <button class="datepicker-cell">Jan</button><button class="datepicker-cell">Feb</button><button class="datepicker-cell">Mar</button><button class="datepicker-cell">Apr</button>
+          <button class="datepicker-cell">May</button><button class="datepicker-cell">Jun</button><button class="datepicker-cell is-active">Jul</button><button class="datepicker-cell">Aug</button>
+          <button class="datepicker-cell">Sep</button><button class="datepicker-cell">Oct</button><button class="datepicker-cell">Nov</button><button class="datepicker-cell">Dec</button>
+        </div>
+      </div>
+
+      <!-- Year picker -->
+      <div class="datepicker" role="dialog" aria-label="Pick a year">
+        <div class="datepicker-header">
+          <button type="button" class="datepicker-nav" aria-label="Previous range"><svg><use href="#ico-chev-left"/></svg></button>
+          <button type="button" class="datepicker-title">Select year</button>
+          <button type="button" class="datepicker-nav" aria-label="Next range"><svg><use href="#ico-chev-right"/></svg></button>
+        </div>
+        <div class="datepicker-years">
+          <button class="datepicker-cell">2020</button><button class="datepicker-cell">2021</button><button class="datepicker-cell">2022</button><button class="datepicker-cell">2023</button>
+          <button class="datepicker-cell is-active">2024</button><button class="datepicker-cell">2025</button><button class="datepicker-cell">2026</button><button class="datepicker-cell">2027</button>
+          <button class="datepicker-cell">2028</button><button class="datepicker-cell">2029</button><button class="datepicker-cell">2030</button><button class="datepicker-cell">2031</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Five cell states. <strong>Default</strong> (no class). <strong>Hover</strong> — pointer-driven, also forced via <code>.is-hover</code> for static demos. <strong>Active</strong> (<code>.is-active</code> or <code>aria-pressed="true"</code>) — the selected date / month / year. <strong>In-range</strong> (<code>.is-in-range</code>) — the days between two range endpoints. <strong>Disabled</strong> / <strong>Other-month</strong> (<code>.is-disabled</code> / <code>.is-other</code>) — non-selectable cells dimmed via <code>--datepicker-cell-text-disabled</code>.</p>
+  <div class="demo-box">
+    <div class="demo-panel active dp-row" style="align-items:center; gap:8px;">
+      <button class="datepicker-cell" style="width:40px;">00</button>
+      <button class="datepicker-cell" style="width:40px; background:var(--datepicker-cell-bg-hover); color:var(--datepicker-cell-text-hover);">00</button>
+      <button class="datepicker-cell is-active" style="width:40px;">00</button>
+      <button class="datepicker-cell is-other" style="width:40px;">00</button>
+      <button class="datepicker-cell is-active" style="width:40px;">00</button>
+      <button class="datepicker-cell is-in-range" style="width:40px;">00</button>
+      <button class="datepicker-cell is-active" style="width:40px;">00</button>
+    </div>
+  </div>
+
+  <!-- Interactive -->
+  <h2 id="interactive">Interactive</h2>
+  <p class="desc">A real Text Input wired to a Date Picker — click the input to open the calendar, click a date to fill the input and close the picker, click outside to dismiss. The calendar navigates months with ‹/›; the title is itself a button that flips the view to Month picker → Year picker → back to Day. All state lives in the page script; lifting it into <code>ds.js</code> would make this a reusable widget.</p>
+  <div class="demo-box dp-interactive-box">
+    <div class="demo-panel active dp-row dp-interactive-panel">
+      <div class="input-field" id="dp-live-field">
+        <label class="input-field-label" for="dp-input">Date</label>
+        <div class="input">
+          <span class="input-leading"><svg><use href="#ico-calendar"/></svg></span>
+          <input id="dp-input" type="text" placeholder="Select date" readonly>
+        </div>
+        <p class="input-field-caption">Click the field to open the calendar.</p>
+        <div class="datepicker" id="dp-live" role="dialog" hidden></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">Cell states across the three picker views — Day / Month / Year. Each row shows the same five states applied to the same cell-type so you can compare visual treatment at a glance.</p>
+  <div style="display:flex; flex-direction:column; gap:16px; padding:24px; border:1px dashed var(--color-border); border-radius:var(--radius-md); background:var(--color-bg-2);">
+    <div style="display:grid; grid-template-columns:100px repeat(5, 1fr); gap:12px; align-items:center;">
+      <div style="font-size:12px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em;"></div>
+      <div style="font-size:12px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; text-align:center;">Default</div>
+      <div style="font-size:12px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; text-align:center;">Hover</div>
+      <div style="font-size:12px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; text-align:center;">Active</div>
+      <div style="font-size:12px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; text-align:center;">In&nbsp;range</div>
+      <div style="font-size:12px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; text-align:center;">Disabled</div>
+
+      <div style="font-size:12px; color:var(--color-subheading); font-weight:600;">Day</div>
+      <div style="display:flex; justify-content:center;"><button class="datepicker-cell" style="width:40px;">15</button></div>
+      <div style="display:flex; justify-content:center;"><button class="datepicker-cell" style="width:40px; background:var(--datepicker-cell-bg-hover); color:var(--datepicker-cell-text-hover);">15</button></div>
+      <div style="display:flex; justify-content:center;"><button class="datepicker-cell is-active" style="width:40px;">15</button></div>
+      <div style="display:flex; justify-content:center;"><button class="datepicker-cell is-in-range" style="width:40px;">15</button></div>
+      <div style="display:flex; justify-content:center;"><button class="datepicker-cell is-other" style="width:40px;">15</button></div>
+
+      <div style="font-size:12px; color:var(--color-subheading); font-weight:600;">Month</div>
+      <div style="display:flex; justify-content:center;"><button class="datepicker-cell" style="width:56px;">Jul</button></div>
+      <div style="display:flex; justify-content:center;"><button class="datepicker-cell" style="width:56px; background:var(--datepicker-cell-bg-hover); color:var(--datepicker-cell-text-hover);">Jul</button></div>
+      <div style="display:flex; justify-content:center;"><button class="datepicker-cell is-active" style="width:56px;">Jul</button></div>
+      <div style="display:flex; justify-content:center;"><span style="color:var(--color-subheading);">—</span></div>
+      <div style="display:flex; justify-content:center;"><button class="datepicker-cell is-disabled" style="width:56px;" disabled>Jul</button></div>
+
+      <div style="font-size:12px; color:var(--color-subheading); font-weight:600;">Year</div>
+      <div style="display:flex; justify-content:center;"><button class="datepicker-cell" style="width:64px;">2024</button></div>
+      <div style="display:flex; justify-content:center;"><button class="datepicker-cell" style="width:64px; background:var(--datepicker-cell-bg-hover); color:var(--datepicker-cell-text-hover);">2024</button></div>
+      <div style="display:flex; justify-content:center;"><button class="datepicker-cell is-active" style="width:64px;">2024</button></div>
+      <div style="display:flex; justify-content:center;"><span style="color:var(--color-subheading);">—</span></div>
+      <div style="display:flex; justify-content:center;"><button class="datepicker-cell is-disabled" style="width:64px;" disabled>2024</button></div>
+    </div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.datepicker</td><td>&lt;div role="dialog"&gt;</td><td>Panel wrapper. 320px wide, 16px padding, white surface, 8px radius, <code>--shadow-3</code> drop, 1px border. Holds the header + a content grid (day / month / year).</td></tr>
+      <tr><td>.datepicker-range</td><td>.datepicker</td><td>Two-month side-by-side variant. Width is auto (sum of the two <code>.datepicker-month</code> children + gap).</td></tr>
+      <tr><td>.datepicker-month</td><td>&lt;div&gt;</td><td>Inner month container, used only inside <code>.datepicker-range</code> to host one of the two months.</td></tr>
+      <tr><td>.datepicker-header</td><td>&lt;div&gt;</td><td>Top row — flex with previous nav arrow + title + next nav arrow.</td></tr>
+      <tr><td>.datepicker-nav</td><td>&lt;button&gt;</td><td>The ‹ / › arrow buttons. 24×24, transparent, 16×16 icon. Hover uses <code>--datepicker-cell-bg-hover</code>.</td></tr>
+      <tr><td>.datepicker-title</td><td>&lt;button&gt;</td><td>The "July 2024" centered title. Click cycles the view to the Month picker when a dropdown chevron is shown.</td></tr>
+      <tr><td>.datepicker-weekdays</td><td>&lt;div&gt;</td><td>7-column grid of weekday abbreviations (Mo Tu We Th Fr Sa Su). Body 2 Medium typography.</td></tr>
+      <tr><td>.datepicker-days</td><td>&lt;div&gt;</td><td>7-column grid of <code>.datepicker-cell</code> buttons. Padded leading / trailing days from the prev / next month carry <code>.is-other</code>.</td></tr>
+      <tr><td>.datepicker-months</td><td>&lt;div&gt;</td><td>4-column grid of 12 month names. 16px row gap.</td></tr>
+      <tr><td>.datepicker-years</td><td>&lt;div&gt;</td><td>4-column grid of 12 years. Same row gap as months.</td></tr>
+      <tr><td>.datepicker-cell</td><td>&lt;button&gt;</td><td>The day / month / year cell. 32px tall (36px in month/year grids), centered content, 8px radius, Body 2 Medium typography.</td></tr>
+      <tr><td>.is-active / aria-pressed="true"</td><td>.datepicker-cell</td><td>Marks the selected cell. Inverts via tokens — dark fill + white text in light, white fill + dark text in dark.</td></tr>
+      <tr><td>.is-in-range</td><td>.datepicker-cell</td><td>Range middle — uses <code>--datepicker-cell-bg-in-range</code> and drops the cell's border-radius so neighbours flow together visually.</td></tr>
+      <tr><td>.is-range-start / .is-range-end</td><td>.datepicker-cell</td><td>The endpoint cells in a range. They keep their <code>.is-active</code> fill but drop the matching corner radius so they butt up against the in-range neighbour.</td></tr>
+      <tr><td>.is-disabled / disabled</td><td>.datepicker-cell</td><td>Non-selectable cell — dims via <code>--datepicker-cell-text-disabled</code>, cursor not-allowed.</td></tr>
+      <tr><td>.is-other</td><td>.datepicker-cell</td><td>Padded day from prev / next month. Same dimmed colour as Disabled but the cursor stays default.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
+
+<script>
+/* Interactive Date Picker demo. Wires the Text Input to a calendar
+   panel that opens on field click, fills the input on selection, and
+   closes on outside click. Page-script only — lift into ds.js to make
+   this a reusable widget. */
+(function () {
+  var field = document.getElementById('dp-live-field');
+  var input = document.getElementById('dp-input');
+  var panel = document.getElementById('dp-live');
+  if (!field || !input || !panel) return;
+
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var WEEKDAYS = ['Mo','Tu','We','Th','Fr','Sa','Su'];
+
+  var view = 'day';                          // 'day' | 'month' | 'year'
+  var viewDate = new Date();                 // currently navigated month/year
+  var selected = null;                       // Date or null
+  var yearRangeStart = null;
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function fmt(d)  {
+    return d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+  }
+  function sameDay(a, b) {
+    return a && b && a.getFullYear() === b.getFullYear() &&
+           a.getMonth() === b.getMonth() &&
+           a.getDate() === b.getDate();
+  }
+  function svgUse(id) { return '<svg><use href="#' + id + '"/></svg>'; }
+
+  function renderDay() {
+    var y = viewDate.getFullYear(), m = viewDate.getMonth();
+    var first = new Date(y, m, 1);
+    var firstWeekday = (first.getDay() + 6) % 7;   // 0=Mo … 6=Su
+    var daysInMonth = new Date(y, m + 1, 0).getDate();
+    var prevMonthDays = new Date(y, m, 0).getDate();
+
+    var html = '<div class="datepicker-header">' +
+                 '<button type="button" class="datepicker-nav" data-dp-nav="-1" aria-label="Previous month">' + svgUse('ico-chev-left') + '</button>' +
+                 '<button type="button" class="datepicker-title" data-dp-view="month">' + MONTHS[m] + ' ' + y + ' ' + svgUse('ico-chev-down') + '</button>' +
+                 '<button type="button" class="datepicker-nav" data-dp-nav="1"  aria-label="Next month">' + svgUse('ico-chev-right') + '</button>' +
+               '</div>' +
+               '<div class="datepicker-weekdays">' + WEEKDAYS.map(function (w) { return '<span>' + w + '</span>'; }).join('') + '</div>' +
+               '<div class="datepicker-days">';
+
+    // Leading days from previous month
+    for (var i = firstWeekday - 1; i >= 0; i--) {
+      html += '<button type="button" class="datepicker-cell is-other" disabled>' + (prevMonthDays - i) + '</button>';
+    }
+    // Days of current month
+    for (var d = 1; d <= daysInMonth; d++) {
+      var isActive = selected && y === selected.getFullYear() && m === selected.getMonth() && d === selected.getDate();
+      html += '<button type="button" class="datepicker-cell' + (isActive ? ' is-active' : '') + '" data-dp-day="' + d + '">' + d + '</button>';
+    }
+    // Trailing days
+    var totalCells = firstWeekday + daysInMonth;
+    var trailing = (7 - (totalCells % 7)) % 7;
+    for (var t = 1; t <= trailing; t++) {
+      html += '<button type="button" class="datepicker-cell is-other" disabled>' + t + '</button>';
+    }
+    html += '</div>';
+    panel.innerHTML = html;
+  }
+
+  function renderMonth() {
+    var y = viewDate.getFullYear();
+    var html = '<div class="datepicker-header">' +
+                 '<button type="button" class="datepicker-nav" data-dp-nav="-1" aria-label="Previous year">' + svgUse('ico-chev-left') + '</button>' +
+                 '<button type="button" class="datepicker-title" data-dp-view="year">' + y + ' ' + svgUse('ico-chev-down') + '</button>' +
+                 '<button type="button" class="datepicker-nav" data-dp-nav="1"  aria-label="Next year">' + svgUse('ico-chev-right') + '</button>' +
+               '</div>' +
+               '<div class="datepicker-months">';
+    for (var i = 0; i < 12; i++) {
+      var isActive = selected && y === selected.getFullYear() && i === selected.getMonth();
+      html += '<button type="button" class="datepicker-cell' + (isActive ? ' is-active' : '') + '" data-dp-month="' + i + '">' + MONTHS_SHORT[i] + '</button>';
+    }
+    html += '</div>';
+    panel.innerHTML = html;
+  }
+
+  function renderYear() {
+    if (yearRangeStart === null) yearRangeStart = Math.floor(viewDate.getFullYear() / 12) * 12;
+    var html = '<div class="datepicker-header">' +
+                 '<button type="button" class="datepicker-nav" data-dp-nav="-1" aria-label="Previous range">' + svgUse('ico-chev-left') + '</button>' +
+                 '<button type="button" class="datepicker-title">Select year</button>' +
+                 '<button type="button" class="datepicker-nav" data-dp-nav="1"  aria-label="Next range">' + svgUse('ico-chev-right') + '</button>' +
+               '</div>' +
+               '<div class="datepicker-years">';
+    for (var i = 0; i < 12; i++) {
+      var yr = yearRangeStart + i;
+      var isActive = selected && yr === selected.getFullYear();
+      html += '<button type="button" class="datepicker-cell' + (isActive ? ' is-active' : '') + '" data-dp-year="' + yr + '">' + yr + '</button>';
+    }
+    html += '</div>';
+    panel.innerHTML = html;
+  }
+
+  function render() {
+    if (view === 'day')   renderDay();
+    if (view === 'month') renderMonth();
+    if (view === 'year')  renderYear();
+  }
+
+  function open() {
+    panel.hidden = false;
+    if (!viewDate) viewDate = selected || new Date();
+    view = 'day';
+    render();
+  }
+  function close() { panel.hidden = true; }
+
+  // Trigger from the input shell.
+  field.querySelector('.input').addEventListener('click', function () {
+    if (panel.hidden) open();
+  });
+
+  // Delegate clicks inside the panel. We MUST stopPropagation here — render()
+  // replaces panel.innerHTML, which detaches e.target. When the click then
+  // bubbles to the document outside-click handler below, field.contains(detached)
+  // returns false and the panel gets closed in the same tick. Without this
+  // line, the title-button view-switch and the prev/next nav arrows look broken.
+  panel.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var t = e.target.closest('button');
+    if (!t) return;
+    if (t.hasAttribute('data-dp-nav')) {
+      var delta = parseInt(t.getAttribute('data-dp-nav'), 10);
+      if (view === 'day') {
+        viewDate.setMonth(viewDate.getMonth() + delta);
+      } else if (view === 'month') {
+        viewDate.setFullYear(viewDate.getFullYear() + delta);
+      } else if (view === 'year') {
+        yearRangeStart += delta * 12;
+      }
+      render();
+      return;
+    }
+    if (t.hasAttribute('data-dp-view')) {
+      view = t.getAttribute('data-dp-view');
+      if (view === 'year') {
+        // Always re-anchor the 12-year range on the year we're currently
+        // showing — otherwise prior prev/next navigation in the year view
+        // leaves yearRangeStart stale and the hop lands on the wrong page.
+        yearRangeStart = Math.floor(viewDate.getFullYear() / 12) * 12;
+      }
+      render();
+      return;
+    }
+    if (t.hasAttribute('data-dp-day')) {
+      var d = parseInt(t.getAttribute('data-dp-day'), 10);
+      selected = new Date(viewDate.getFullYear(), viewDate.getMonth(), d);
+      input.value = fmt(selected);
+      close();
+      return;
+    }
+    if (t.hasAttribute('data-dp-month')) {
+      viewDate.setMonth(parseInt(t.getAttribute('data-dp-month'), 10));
+      view = 'day';
+      render();
+      return;
+    }
+    if (t.hasAttribute('data-dp-year')) {
+      viewDate.setFullYear(parseInt(t.getAttribute('data-dp-year'), 10));
+      view = 'month';
+      render();
+      return;
+    }
+  });
+
+  // Outside-click closes.
+  document.addEventListener('click', function (e) {
+    if (panel.hidden) return;
+    if (!field.contains(e.target)) close();
+  });
+})();
+</script>
 </body>
 </html>

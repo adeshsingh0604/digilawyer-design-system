@@ -5,23 +5,349 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Badge — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'badge', root: '../', toc: false };
+  window.DS_PAGE = { key: 'badge', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  .bg-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  .bg-row { display: flex; flex-wrap: wrap; gap: 32px; align-items: center; padding: 32px; }
+
+  .bg-host {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-2);
+    color: var(--color-subheading);
+    font-size: 11px;
+    font-weight: var(--fw-semibold);
+  }
+  .bg-host.bg-host-circle { border-radius: 999px; }
+
+  .bg-matrix {
+    display: grid;
+    grid-template-columns: 90px repeat(7, 1fr);
+    gap: var(--spacing-md) var(--spacing-lg);
+    align-items: center;
+    padding: var(--spacing-xl);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-2);
+  }
+  .bg-matrix-h, .bg-matrix-row-label {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: center;
+  }
+  .bg-matrix-row-label { text-align: left; }
+  .bg-matrix-cell { display: flex; justify-content: center; align-items: center; }
+</style>
 </head>
 <body>
+
+<svg class="bg-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <!-- Scalloped verified-badge glyph. 12 small bumps around a central
+       disc give the serrated outline; a white check rides on top.
+       The .badge.badge-verify rules below make the container transparent,
+       so this SVG paints the whole visual. Colours come from CSS custom
+       properties set per variant: --vs (shape fill) + --vc (check stroke). -->
+  <symbol id="ico-badge-check" viewBox="0 0 12 12">
+    <g style="fill: var(--vs, currentColor);">
+      <circle cx="6"     cy="6"     r="5"/>
+      <circle cx="11"    cy="6"     r="1"/>
+      <circle cx="10.33" cy="8.5"   r="1"/>
+      <circle cx="8.5"   cy="10.33" r="1"/>
+      <circle cx="6"     cy="11"    r="1"/>
+      <circle cx="3.5"   cy="10.33" r="1"/>
+      <circle cx="1.67"  cy="8.5"   r="1"/>
+      <circle cx="1"     cy="6"     r="1"/>
+      <circle cx="1.67"  cy="3.5"   r="1"/>
+      <circle cx="3.5"   cy="1.67"  r="1"/>
+      <circle cx="6"     cy="1"     r="1"/>
+      <circle cx="8.5"   cy="1.67"  r="1"/>
+      <circle cx="10.33" cy="3.5"   r="1"/>
+    </g>
+    <path d="M3.6 6.2l1.7 1.7 3.4-3.4"
+          style="stroke: var(--vc, #FFFFFF); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round;"/>
+  </symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Badge</h1>
-  <p class="page-intro">Numerical indicator overlaid on icons or avatars.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">Tiny status / count indicator — 4–12 px in size. Three variants: <strong>Dot</strong> (solid colored disc, no content), <strong>Label</strong> (count text 1–4 digits), and <strong>Verify</strong> (check-mark icon for verified status). Seven semantic colours (Brand · Info · Danger · Success · Warning · Notice · Alert) matching the rest of the system. Mirrors Figma node 123-2217 / 123-2267 (light) + 5926-1828 / 5926-1773 (dark) 1:1.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">The minimal badge is a single <code>.badge</code> with a colour modifier. Default variant is Dot at the default 8px size in Brand colour. A 1px halo border separates the badge from whatever surface it sits on — white halo in light, page-bg halo in dark.</p>
+  <div class="demo-box">
+    <div class="demo-panel active bg-row">
+      <span class="badge badge-dot badge-brand" aria-label="Active"></span>
+    </div>
   </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-default">Copy</button></div>
+    <pre id="c-default"><span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"badge badge-dot badge-brand"</span> <span class="attr">aria-label</span>=<span class="str">"Active"</span><span class="kw">&gt;&lt;/span&gt;</span></pre>
+  </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Three structural variants. <strong>Dot</strong> is a content-less solid disc used as an inline status marker. <strong>Label</strong> auto-sizes around 1–4 digits of count text — height stays fixed at 12px, width grows. <strong>Verify</strong> is a check-mark icon — typically Info-blue and used for "verified account" or "trusted" status.</p>
+  <div class="demo-box">
+    <div class="demo-panel active bg-row">
+      <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+        <span class="badge badge-dot badge-danger" aria-label="Unread"></span>
+        <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">Dot</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+        <span class="badge badge-label badge-danger">9</span>
+        <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">Label · 1 digit</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+        <span class="badge badge-label badge-danger">99</span>
+        <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">Label · 2 digits</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+        <span class="badge badge-label badge-danger">999</span>
+        <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">Label · 3 digits</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+        <span class="badge badge-label badge-danger">9999</span>
+        <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">Label · 4 digits</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+        <span class="badge badge-verify badge-info" aria-label="Verified"><svg><use href="#ico-badge-check"/></svg></span>
+        <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">Verify</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Three sizes per variant, mapped 1:1 to Figma's symbol names. <strong>Dot / Verify</strong> are square: <code>.badge-sm</code> 4×4, default <code>md</code> 8×8, <code>.badge-lg</code> 12×12. <strong>Label</strong> is a pill that auto-fits content: <code>.badge-sm</code> 12 px tall, default <code>md</code> 16 px tall, <code>.badge-lg</code> 20 px tall. Min-width equals the pill height so a 1-digit label renders as a circle; 2 / 3 / 4-digit content grows the pill width. Text scales with height — 8 / 10 / 12 px Semi Bold.</p>
+  <div class="demo-box">
+    <div class="demo-panel active bg-row" style="flex-direction:column; align-items:flex-start; gap:24px;">
+
+      <!-- Dot / Verify sizes -->
+      <div style="display:flex; flex-direction:column; gap:8px; width:100%;">
+        <span style="font-size:11px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em;">Dot &amp; Verify</span>
+        <div style="display:flex; gap:32px; align-items:flex-end;">
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <span class="badge badge-dot badge-sm badge-success" aria-label="Online"></span>
+            <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">sm · 4px</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <span class="badge badge-dot badge-success" aria-label="Online"></span>
+            <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">md · 8px</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <span class="badge badge-dot badge-lg badge-success" aria-label="Online"></span>
+            <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">lg · 12px</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <span class="badge badge-verify badge-sm badge-info" aria-label="Verified"><svg><use href="#ico-badge-check"/></svg></span>
+            <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">verify · 4</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <span class="badge badge-verify badge-info" aria-label="Verified"><svg><use href="#ico-badge-check"/></svg></span>
+            <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">verify · 8</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <span class="badge badge-verify badge-lg badge-info" aria-label="Verified"><svg><use href="#ico-badge-check"/></svg></span>
+            <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">verify · 12</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Label sizes -->
+      <div style="display:flex; flex-direction:column; gap:8px; width:100%;">
+        <span style="font-size:11px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em;">Label — 3 heights × 4 digit-count widths</span>
+        <div style="display:grid; grid-template-columns:64px repeat(4, 1fr); gap:12px 16px; align-items:center;">
+          <div></div>
+          <div style="font-size:11px; color:var(--color-subheading); font-weight:600; text-align:center;">1 digit</div>
+          <div style="font-size:11px; color:var(--color-subheading); font-weight:600; text-align:center;">2 digits</div>
+          <div style="font-size:11px; color:var(--color-subheading); font-weight:600; text-align:center;">3 digits</div>
+          <div style="font-size:11px; color:var(--color-subheading); font-weight:600; text-align:center;">4 digits</div>
+
+          <div style="font-size:11px; color:var(--color-subheading); font-weight:600;">sm · 12</div>
+          <div style="display:flex; justify-content:center;"><span class="badge badge-label badge-sm badge-danger">9</span></div>
+          <div style="display:flex; justify-content:center;"><span class="badge badge-label badge-sm badge-danger">9+</span></div>
+          <div style="display:flex; justify-content:center;"><span class="badge badge-label badge-sm badge-danger">99+</span></div>
+          <div style="display:flex; justify-content:center;"><span class="badge badge-label badge-sm badge-danger">999+</span></div>
+
+          <div style="font-size:11px; color:var(--color-subheading); font-weight:600;">md · 16</div>
+          <div style="display:flex; justify-content:center;"><span class="badge badge-label badge-danger">9</span></div>
+          <div style="display:flex; justify-content:center;"><span class="badge badge-label badge-danger">9+</span></div>
+          <div style="display:flex; justify-content:center;"><span class="badge badge-label badge-danger">99+</span></div>
+          <div style="display:flex; justify-content:center;"><span class="badge badge-label badge-danger">999+</span></div>
+
+          <div style="font-size:11px; color:var(--color-subheading); font-weight:600;">lg · 20</div>
+          <div style="display:flex; justify-content:center;"><span class="badge badge-label badge-lg badge-danger">9</span></div>
+          <div style="display:flex; justify-content:center;"><span class="badge badge-label badge-lg badge-danger">9+</span></div>
+          <div style="display:flex; justify-content:center;"><span class="badge badge-label badge-lg badge-danger">99+</span></div>
+          <div style="display:flex; justify-content:center;"><span class="badge badge-label badge-lg badge-danger">999+</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <h2 id="colors">Colors</h2>
+  <p class="desc">Seven semantic colours mirroring Snackbar's intent palette. <strong>Brand</strong> for the default neutral chip, <strong>Info</strong> (blue), <strong>Success</strong> (green), <strong>Warning</strong> (yellow), <strong>Danger</strong> (red), <strong>Notice</strong> (purple), <strong>Alert</strong> (orange). Brand inverts in dark mode (white tile + dark text) so it stays readable on the dark page surface.</p>
+  <div class="demo-box">
+    <div class="demo-panel active bg-row">
+      <span class="badge badge-dot badge-lg badge-brand"   aria-label="Brand"></span>
+      <span class="badge badge-dot badge-lg badge-info"    aria-label="Info"></span>
+      <span class="badge badge-dot badge-lg badge-success" aria-label="Success"></span>
+      <span class="badge badge-dot badge-lg badge-warning" aria-label="Warning"></span>
+      <span class="badge badge-dot badge-lg badge-danger"  aria-label="Danger"></span>
+      <span class="badge badge-dot badge-lg badge-notice"  aria-label="Notice"></span>
+      <span class="badge badge-dot badge-lg badge-alert"   aria-label="Alert"></span>
+    </div>
+  </div>
+
+  <!-- Composition -->
+  <h2 id="composition">Composition</h2>
+  <p class="desc">Pin a badge to the top-right of any inline-block parent — button, avatar, tab, nav icon — using the <code>.badge-pin</code> helper. The badge anchors at <code>top: -4px; right: -4px</code> (one badge unit outside the host) and the halo border separates it from the host surface in both themes.</p>
+  <div class="demo-box">
+    <div class="demo-panel active bg-row">
+      <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+        <span class="badge-pin">
+          <button class="btn btn-primary btn-md"><span class="btn-label">Inbox</span></button>
+          <span class="badge badge-label badge-danger">3</span>
+        </span>
+        <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">on Button</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+        <span class="badge-pin">
+          <span class="bg-host bg-host-circle">AS</span>
+          <span class="badge badge-dot badge-success" aria-label="Online"></span>
+        </span>
+        <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">on Avatar</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+        <span class="badge-pin">
+          <span class="bg-host bg-host-circle">JD</span>
+          <span class="badge badge-verify badge-info" aria-label="Verified"><svg><use href="#ico-badge-check"/></svg></span>
+        </span>
+        <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">Verified avatar</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+        <span class="badge-pin">
+          <span class="bg-host">Nav</span>
+          <span class="badge badge-dot badge-danger" aria-label="Unread"></span>
+        </span>
+        <span style="font-size:11px; color:var(--color-subheading); font-weight:600;">on Nav icon</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">7 colours × 3 sizes (Dot) + 7 colours × 4 max-num widths shown at the default md (16 px) label height — mirroring Figma's two badge frames combined. Brand inverts in dark mode (the only colour with a state-flip between modes). Refer to the <a href="#sizes">Sizes</a> section above for the 3 × 4 label size matrix.</p>
+  <div class="bg-matrix">
+    <div></div>
+    <div class="bg-matrix-h">Brand</div>
+    <div class="bg-matrix-h">Info</div>
+    <div class="bg-matrix-h">Success</div>
+    <div class="bg-matrix-h">Warning</div>
+    <div class="bg-matrix-h">Danger</div>
+    <div class="bg-matrix-h">Notice</div>
+    <div class="bg-matrix-h">Alert</div>
+
+    <div class="bg-matrix-row-label">Dot · 4px</div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-sm badge-brand"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-sm badge-info"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-sm badge-success"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-sm badge-warning"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-sm badge-danger"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-sm badge-notice"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-sm badge-alert"></span></div>
+
+    <div class="bg-matrix-row-label">Dot · 8px</div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-brand"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-info"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-success"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-warning"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-danger"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-notice"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-alert"></span></div>
+
+    <div class="bg-matrix-row-label">Dot · 12px</div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-lg badge-brand"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-lg badge-info"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-lg badge-success"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-lg badge-warning"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-lg badge-danger"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-lg badge-notice"></span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-dot badge-lg badge-alert"></span></div>
+
+    <div class="bg-matrix-row-label">Label · 1d</div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-brand">9</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-info">9</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-success">9</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-warning">9</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-danger">9</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-notice">9</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-alert">9</span></div>
+
+    <div class="bg-matrix-row-label">Label · 2d</div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-brand">99</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-info">99</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-success">99</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-warning">99</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-danger">99</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-notice">99</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-alert">99</span></div>
+
+    <div class="bg-matrix-row-label">Label · 3d</div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-brand">999</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-info">999</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-success">999</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-warning">999</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-danger">999</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-notice">999</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-alert">999</span></div>
+
+    <div class="bg-matrix-row-label">Label · 4d</div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-brand">9999</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-info">9999</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-success">9999</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-warning">9999</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-danger">9999</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-notice">9999</span></div>
+    <div class="bg-matrix-cell"><span class="badge badge-label badge-alert">9999</span></div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.badge</td><td>&lt;span&gt;</td><td>Base. Inline-flex disc with a 1px halo border, full radius. Default variant is Dot (8×8 square at md). Default colour is Brand. Add <code>.badge-label</code> to switch to the auto-width count pill (16 px tall at md).</td></tr>
+      <tr><td>.badge-dot</td><td>.badge</td><td>Dot variant — no text content, solid colored disc. Use as an inline status marker. Pair with <code>aria-label</code> describing the state.</td></tr>
+      <tr><td>.badge-label</td><td>.badge</td><td>Label variant — auto-width pill containing 1–4 digits of count text. Default height is 16 px (Figma "Small(16px)"); pair with <code>.badge-sm</code> or <code>.badge-lg</code> to swap to the 12 px or 20 px pill. Width auto-grows with digit count; min-width = height so the 1-digit form is circular. Inter Semi Bold; font scales 8 / 10 / 12 px with height.</td></tr>
+      <tr><td>.badge-verify</td><td>.badge</td><td>Verify variant — fills with an SVG check icon (typically <code>#ico-badge-check</code>). Typically pairs with <code>.badge-info</code> (blue) for "Verified" / "Trusted" status.</td></tr>
+      <tr><td>.badge-sm</td><td>.badge</td><td>Small. <strong>Dot / Verify</strong>: 4×4 square. <strong>Label</strong>: 12 px tall pill, 8 px font. Use for ambient status indicators where the badge shouldn't compete with content.</td></tr>
+      <tr><td>(no size class)</td><td>.badge</td><td>Medium (default). <strong>Dot / Verify</strong>: 8×8 square. <strong>Label</strong>: 16 px tall pill, 10 px font (Caption 2 Semi Bold).</td></tr>
+      <tr><td>.badge-lg</td><td>.badge</td><td>Large. <strong>Dot / Verify</strong>: 12×12 square. <strong>Label</strong>: 20 px tall pill, 12 px font. Use when the badge needs to read clearly at a glance (e.g. on a larger avatar or nav icon).</td></tr>
+      <tr><td>.badge-brand / -info / -danger / -success / -warning / -notice / -alert</td><td>.badge</td><td>Colour modifier. Required — pick exactly one. Brand inverts in dark mode (white tile + dark text); the other six keep the same vivid bg + white text in both modes.</td></tr>
+      <tr><td>.badge-pin</td><td>&lt;span&gt;/&lt;div&gt;</td><td>Helper wrapper. Drop the host element + a child <code>.badge</code> inside; the badge anchors at <code>top: -4px; right: -4px</code> of the host. Works on any inline-block element.</td></tr>
+      <tr><td>aria-label</td><td>.badge</td><td>For dot + verify variants (which have no visible text), describe what the badge indicates so screen-reader users get the context.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
 </body>

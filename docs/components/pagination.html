@@ -5,23 +5,256 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pagination — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'pagination', root: '../', toc: false };
+  window.DS_PAGE = { key: 'pagination', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  .pg-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+  /* Scope under .demo-panel so these tie .demo-panel.active's (0,2,0)
+     specificity (which sets display:flex + center) and win on source order
+     — otherwise display:grid / flex-direction:column get overridden and
+     every cell flows inline. Same pattern as Progress Bar's .pb-grid. */
+  .demo-panel.pg-row { display: flex; flex-direction: column; gap: 20px; padding: 28px 32px; align-items: flex-start; justify-content: flex-start; }
+  .demo-panel.pg-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 20px 24px;
+    padding: 28px 32px;
+    align-items: center;
+    justify-items: start;
+  }
+  .pg-grid .label {
+    font-size: 12px; color: var(--color-subheading);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+</style>
 </head>
 <body>
+
+<svg class="pg-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ico-chev-left"  viewBox="0 0 16 16"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="ico-chev-right" viewBox="0 0 16 16"><path d="M6 4l4 4-4 4"  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Pagination</h1>
-  <p class="page-intro">Page navigation control for long lists and tables.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">Numbered page-navigation control for long lists and tables. Mirrors Figma node 141-8644 (light) + 5941-919 (dark) 1:1. Pure composition over <a href="button.html">Button</a> — the active page reuses <code>.btn.btn-primary</code>, inactive pages + Previous / Next reuse <code>.btn.btn-ghost</code>. The pagination's size class (lg / md default / sm) overrides the button defaults so all cells track a uniform 40 / 36 / 32 px row height with Body 1 / Body 2 / Caption 1 Semi Bold typography. Page-number cells are square (width = height) via the <code>.btn-square</code> modifier; the <code>.pagination-ellipsis</code> separator occupies the same cell but is non-interactive. No new tokens — every colour value flows through the existing Button system.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">A bare <code>.pagination</code> at the default md density. The current page is marked with <code>aria-current="page"</code> (drives the <code>.btn-primary</code> visual). Use <code>&lt;nav role="navigation"&gt;</code> + <code>aria-label="Pagination"</code> so assistive tech announces the control.</p>
+  <div class="demo-box">
+    <div class="demo-panel active pg-row">
+      <nav class="pagination" aria-label="Pagination">
+        <button type="button" class="btn btn-ghost"><span class="icon"><svg><use href="#ico-chev-left"/></svg></span>Previous</button>
+        <button type="button" class="btn btn-primary btn-square" aria-current="page">1</button>
+        <button type="button" class="btn btn-ghost btn-square">2</button>
+        <button type="button" class="btn btn-ghost btn-square">3</button>
+        <span class="pagination-ellipsis" aria-hidden="true">…</span>
+        <button type="button" class="btn btn-ghost btn-square">98</button>
+        <button type="button" class="btn btn-ghost btn-square">99</button>
+        <button type="button" class="btn btn-ghost btn-square">100</button>
+        <button type="button" class="btn btn-ghost">Next<span class="icon"><svg><use href="#ico-chev-right"/></svg></span></button>
+      </nav>
+    </div>
   </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Three densities map 1:1 to Figma's symbol sizes. <code>.pagination-lg</code> is 40 px tall with Body 1 (16/24) Semi Bold; default <code>.pagination</code> (md) is 36 px tall with Body 2 (14/24); <code>.pagination-sm</code> is 32 px tall with Caption 1 (12/16). Chevron icons step 16 / 14 / 12 px to match. The cascade is owned by the <code>.pagination[-size]</code> class, not the inner buttons — drop the <code>.btn-{size}</code> suffix on each button and let Pagination drive the row.</p>
+  <div class="demo-box">
+    <div class="demo-panel active pg-grid">
+      <div class="label">Large</div>
+      <nav class="pagination pagination-lg" aria-label="Pagination — large">
+        <button type="button" class="btn btn-ghost"><span class="icon"><svg><use href="#ico-chev-left"/></svg></span>Previous</button>
+        <button type="button" class="btn btn-primary btn-square" aria-current="page">1</button>
+        <button type="button" class="btn btn-ghost btn-square">2</button>
+        <button type="button" class="btn btn-ghost btn-square">3</button>
+        <span class="pagination-ellipsis" aria-hidden="true">…</span>
+        <button type="button" class="btn btn-ghost btn-square">98</button>
+        <button type="button" class="btn btn-ghost btn-square">99</button>
+        <button type="button" class="btn btn-ghost btn-square">100</button>
+        <button type="button" class="btn btn-ghost">Next<span class="icon"><svg><use href="#ico-chev-right"/></svg></span></button>
+      </nav>
+
+      <div class="label">Medium</div>
+      <nav class="pagination" aria-label="Pagination — medium (default)">
+        <button type="button" class="btn btn-ghost"><span class="icon"><svg><use href="#ico-chev-left"/></svg></span>Previous</button>
+        <button type="button" class="btn btn-primary btn-square" aria-current="page">1</button>
+        <button type="button" class="btn btn-ghost btn-square">2</button>
+        <button type="button" class="btn btn-ghost btn-square">3</button>
+        <span class="pagination-ellipsis" aria-hidden="true">…</span>
+        <button type="button" class="btn btn-ghost btn-square">98</button>
+        <button type="button" class="btn btn-ghost btn-square">99</button>
+        <button type="button" class="btn btn-ghost btn-square">100</button>
+        <button type="button" class="btn btn-ghost">Next<span class="icon"><svg><use href="#ico-chev-right"/></svg></span></button>
+      </nav>
+
+      <div class="label">Small</div>
+      <nav class="pagination pagination-sm" aria-label="Pagination — small">
+        <button type="button" class="btn btn-ghost"><span class="icon"><svg><use href="#ico-chev-left"/></svg></span>Previous</button>
+        <button type="button" class="btn btn-primary btn-square" aria-current="page">1</button>
+        <button type="button" class="btn btn-ghost btn-square">2</button>
+        <button type="button" class="btn btn-ghost btn-square">3</button>
+        <span class="pagination-ellipsis" aria-hidden="true">…</span>
+        <button type="button" class="btn btn-ghost btn-square">98</button>
+        <button type="button" class="btn btn-ghost btn-square">99</button>
+        <button type="button" class="btn btn-ghost btn-square">100</button>
+        <button type="button" class="btn btn-ghost">Next<span class="icon"><svg><use href="#ico-chev-right"/></svg></span></button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Per-button states cascade from Button. <strong>Default</strong> renders the ghost / primary tone. <strong>Hover</strong> fades the ghost cell's background (<code>--btn-ghost-bg-hover</code>) and deepens the primary cell. <strong>Active page</strong> uses the primary fill and carries <code>aria-current="page"</code>. <strong>Disabled</strong> — the natural state of Previous on page 1 and Next on the last page — uses the native <code>disabled</code> attribute and inherits <code>--btn-ghost-text-disabled</code>. The ellipsis is non-interactive and has no states.</p>
+  <div class="demo-box">
+    <div class="demo-panel active pg-row">
+      <nav class="pagination" aria-label="Pagination at page 1">
+        <button type="button" class="btn btn-ghost" disabled><span class="icon"><svg><use href="#ico-chev-left"/></svg></span>Previous</button>
+        <button type="button" class="btn btn-primary btn-square" aria-current="page">1</button>
+        <button type="button" class="btn btn-ghost btn-square">2</button>
+        <button type="button" class="btn btn-ghost btn-square">3</button>
+        <span class="pagination-ellipsis" aria-hidden="true">…</span>
+        <button type="button" class="btn btn-ghost btn-square">99</button>
+        <button type="button" class="btn btn-ghost btn-square">100</button>
+        <button type="button" class="btn btn-ghost">Next<span class="icon"><svg><use href="#ico-chev-right"/></svg></span></button>
+      </nav>
+
+      <nav class="pagination" aria-label="Pagination at last page">
+        <button type="button" class="btn btn-ghost"><span class="icon"><svg><use href="#ico-chev-left"/></svg></span>Previous</button>
+        <button type="button" class="btn btn-ghost btn-square">1</button>
+        <button type="button" class="btn btn-ghost btn-square">2</button>
+        <button type="button" class="btn btn-ghost btn-square">3</button>
+        <span class="pagination-ellipsis" aria-hidden="true">…</span>
+        <button type="button" class="btn btn-ghost btn-square">98</button>
+        <button type="button" class="btn btn-ghost btn-square">99</button>
+        <button type="button" class="btn btn-primary btn-square" aria-current="page">100</button>
+        <button type="button" class="btn btn-ghost" disabled>Next<span class="icon"><svg><use href="#ico-chev-right"/></svg></span></button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Composition -->
+  <h2 id="composition">Composition</h2>
+  <p class="desc">Pagination usually lives at the foot of a <a href="table.html">Table</a> or a paged list. Two common framings: <strong>icon-only Prev / Next</strong> for tight surfaces (drop the "Previous" / "Next" labels and let the chevron carry the affordance), and a <strong>truncated middle</strong> for very long ranges (show first 2 pages + ellipsis + current ± 1 + ellipsis + last 2 pages). Pagination doesn't ship a built-in renderer for the ellipsis logic — wire it on the caller side so the consumer controls the page-window strategy.</p>
+  <div class="demo-box">
+    <div class="demo-panel active pg-row">
+
+      <div style="font-size:12px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em;">Icon-only Prev / Next</div>
+      <nav class="pagination" aria-label="Pagination — icon-only nav">
+        <button type="button" class="btn btn-ghost btn-square" aria-label="Previous"><span class="icon"><svg><use href="#ico-chev-left"/></svg></span></button>
+        <button type="button" class="btn btn-ghost btn-square">1</button>
+        <button type="button" class="btn btn-primary btn-square" aria-current="page">2</button>
+        <button type="button" class="btn btn-ghost btn-square">3</button>
+        <button type="button" class="btn btn-ghost btn-square">4</button>
+        <button type="button" class="btn btn-ghost btn-square">5</button>
+        <button type="button" class="btn btn-ghost btn-square" aria-label="Next"><span class="icon"><svg><use href="#ico-chev-right"/></svg></span></button>
+      </nav>
+
+      <div style="font-size:12px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; margin-top:8px;">Inside a Table footer</div>
+      <div class="table-wrap" style="width:100%; max-width:640px;">
+        <table class="table">
+          <thead><tr><th>Name</th><th>Email</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td>Adesh Singh</td><td>adesh@example.com</td><td>Owner</td></tr>
+            <tr><td>Jane Doe</td><td>jane@example.com</td><td>Editor</td></tr>
+            <tr><td>Mark Patel</td><td>mark@example.com</td><td>Viewer</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <nav class="pagination pagination-sm" aria-label="Table pagination" style="align-self:flex-end;">
+        <button type="button" class="btn btn-ghost"><span class="icon"><svg><use href="#ico-chev-left"/></svg></span>Previous</button>
+        <button type="button" class="btn btn-primary btn-square" aria-current="page">1</button>
+        <button type="button" class="btn btn-ghost btn-square">2</button>
+        <button type="button" class="btn btn-ghost btn-square">3</button>
+        <button type="button" class="btn btn-ghost">Next<span class="icon"><svg><use href="#ico-chev-right"/></svg></span></button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">3 sizes × 4 page-position states (page 1, mid-range, second-to-last, last). Toggle the theme switch in the global header to see every cell under dark tokens — Button-primary flips white-on-dark → dark-on-white; Button-ghost inverts text colour; disabled <code>--btn-ghost-text-disabled</code> flips light grey → dark grey.</p>
+  <div style="display:flex; flex-direction:column; gap:20px; padding:24px; border:1px dashed var(--color-border); border-radius:var(--radius-md); background:var(--color-bg-2);">
+
+    <script>
+      (function () {
+        var sizes = [
+          ['pagination-lg', 'Large · 40 px · Body 1'],
+          ['',              'Medium · 36 px · Body 2 (default)'],
+          ['pagination-sm', 'Small · 32 px · Caption 1']
+        ];
+        var positions = [
+          { current: 1,   prevDisabled: true,  nextDisabled: false, label: 'Page 1 (Previous disabled)'   },
+          { current: 5,   prevDisabled: false, nextDisabled: false, label: 'Mid-range page 5'             },
+          { current: 99,  prevDisabled: false, nextDisabled: false, label: 'Second-to-last page'         },
+          { current: 100, prevDisabled: false, nextDisabled: true,  label: 'Last page (Next disabled)'    }
+        ];
+        function cell(n, active) {
+          var cls = 'btn ' + (active ? 'btn-primary' : 'btn-ghost') + ' btn-square';
+          var cur = active ? ' aria-current="page"' : '';
+          return '<button type="button" class="' + cls + '"' + cur + '>' + n + '</button>';
+        }
+        function row(size, pos) {
+          var html = '<nav class="pagination ' + size + '" aria-label="' + pos.label + '">';
+          html += '<button type="button" class="btn btn-ghost"' + (pos.prevDisabled ? ' disabled' : '') + '><span class="icon"><svg><use href="#ico-chev-left"/></svg></span>Previous</button>';
+          if (pos.current <= 3) {
+            html += cell(1, pos.current === 1) + cell(2, pos.current === 2) + cell(3, pos.current === 3);
+            html += '<span class="pagination-ellipsis" aria-hidden="true">…</span>';
+            html += cell(98, false) + cell(99, false) + cell(100, false);
+          } else if (pos.current >= 98) {
+            html += cell(1, false) + cell(2, false) + cell(3, false);
+            html += '<span class="pagination-ellipsis" aria-hidden="true">…</span>';
+            html += cell(98, pos.current === 98) + cell(99, pos.current === 99) + cell(100, pos.current === 100);
+          } else {
+            html += cell(1, false);
+            html += '<span class="pagination-ellipsis" aria-hidden="true">…</span>';
+            html += cell(pos.current - 1, false) + cell(pos.current, true) + cell(pos.current + 1, false);
+            html += '<span class="pagination-ellipsis" aria-hidden="true">…</span>';
+            html += cell(100, false);
+          }
+          html += '<button type="button" class="btn btn-ghost"' + (pos.nextDisabled ? ' disabled' : '') + '>Next<span class="icon"><svg><use href="#ico-chev-right"/></svg></span></button>';
+          html += '</nav>';
+          return html;
+        }
+        var out = '';
+        sizes.forEach(function (s) {
+          out += '<div>';
+          out += '<div style="font-size:11px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;">' + s[1] + '</div>';
+          out += '<div style="display:flex; flex-direction:column; gap:12px;">';
+          positions.forEach(function (p) { out += row(s[0], p); });
+          out += '</div></div>';
+        });
+        document.write(out);
+      })();
+    </script>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.pagination</td><td>&lt;nav role="navigation" aria-label&gt;</td><td>Wrapper. Inline-flex with <code>--spacing-xs</code> gap between cells. Default density (md) — 36 px tall, Body 2 (14/24) Semi Bold. Cascades size + icon scaling to all inner <code>.btn</code>s.</td></tr>
+      <tr><td>.pagination-lg</td><td>.pagination</td><td>Large — 40 px tall, Body 1 (16/24) Semi Bold, 16 × 16 chevron icons.</td></tr>
+      <tr><td>.pagination-sm</td><td>.pagination</td><td>Small — 32 px tall, Caption 1 (12/16) Semi Bold, 12 × 12 chevron icons.</td></tr>
+      <tr><td>.btn.btn-ghost</td><td>&lt;button&gt; inside .pagination</td><td>Inactive page numbers + Previous / Next. Composes with the canonical <a href="button.html">Button</a> ghost variant.</td></tr>
+      <tr><td>.btn.btn-primary</td><td>&lt;button&gt; inside .pagination</td><td>The active page cell. Pair with <code>aria-current="page"</code> for screen readers.</td></tr>
+      <tr><td>.btn-square</td><td>.btn</td><td>Square hit area — drops horizontal padding and clamps <code>min-width</code> to the row height (40 / 36 / 32 px per pagination size). Use on every page-number cell.</td></tr>
+      <tr><td>.pagination-ellipsis</td><td>&lt;span aria-hidden="true"&gt;</td><td>Non-interactive separator that occupies the same cell as a page button. Use to skip a long mid-range without leaving a gap. No hover / focus surface.</td></tr>
+      <tr><td>disabled</td><td>.btn</td><td>Native disabled — apply to Previous on page 1 and Next on the last page. Inherits <code>--btn-ghost-text-disabled</code>.</td></tr>
+      <tr><td>aria-current="page"</td><td>.btn</td><td>Marks the active page cell. Required for assistive tech; the visual swap is driven by <code>.btn-primary</code>.</td></tr>
+      <tr><td>aria-label="Pagination"</td><td>&lt;nav&gt;</td><td>Recommended on the wrapper so assistive tech announces the landmark.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
 </body>

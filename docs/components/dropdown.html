@@ -5,23 +5,235 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dropdown — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'dropdown', root: '../', toc: false };
+  window.DS_PAGE = { key: 'dropdown', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  /* Sprite symbols local to this page */
+  .dd-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  /* Side-by-side dropdown samples in the demos. */
+  .dd-row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; padding: 28px 32px; }
+
+  /* Sizes grid — show 1..N options panels in a wrapping row. */
+  .dd-sizes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+    padding: var(--spacing-xl);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-2);
+  }
+  .dd-size-cell { display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
+  .dd-size-cell-label {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: center;
+  }
+  .dd-size-cell .dropdown { width: 200px; }
+</style>
 </head>
 <body>
+
+<svg class="dd-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ico-add-square" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8.5 12h7M12 8.5v7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></symbol>
+  <symbol id="ico-arrow-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="ico-check-thin" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Dropdown</h1>
-  <p class="page-intro">Select control with custom styling, search, and multi-select support.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">The floating panel that holds one or more <a href="options.html">Options</a> rows. Use it as the open state of a select, combobox, or menu trigger. Panel chrome is Figma-exact (node 144-1623): 8px rounded corners, 1px border, Shadow-3 drop, 4px inner padding, 8px gap between rows. Composes with <a href="tag.html">Tag</a> chips in the trailing slot.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">A <code>.dropdown</code> wraps any number of <code>.options</code> rows. Each row is the canonical Options pattern: leading icon · label · trailing chevron + <code>.tag.tag-grey.tag-outline</code> chip. Set <code>role="listbox"</code> on the panel and <code>role="option"</code> on each row.</p>
+  <div class="demo-box">
+    <div class="demo-panel active dd-row">
+      <div class="dropdown" role="listbox" aria-label="Default dropdown" style="width:320px;">
+        <button type="button" class="options" role="option">
+          <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <span class="options-label">Options</span>
+          <span class="options-trailing">
+            <svg><use href="#ico-arrow-down"/></svg>
+            <span class="tag tag-grey tag-outline tag-sm">Label</span>
+          </span>
+        </button>
+        <button type="button" class="options" role="option">
+          <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <span class="options-label">Options</span>
+          <span class="options-trailing">
+            <svg><use href="#ico-arrow-down"/></svg>
+            <span class="tag tag-grey tag-outline tag-sm">Label</span>
+          </span>
+        </button>
+        <button type="button" class="options" role="option">
+          <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <span class="options-label">Options</span>
+          <span class="options-trailing">
+            <svg><use href="#ico-arrow-down"/></svg>
+            <span class="tag tag-grey tag-outline tag-sm">Label</span>
+          </span>
+        </button>
+      </div>
+    </div>
   </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-default">Copy</button></div>
+    <pre id="c-default"><span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"dropdown"</span> <span class="attr">role</span>=<span class="str">"listbox"</span> <span class="attr">aria-label</span>=<span class="str">"&hellip;"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;button</span> <span class="attr">type</span>=<span class="str">"button"</span> <span class="attr">class</span>=<span class="str">"options"</span> <span class="attr">role</span>=<span class="str">"option"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"options-leading"</span><span class="kw">&gt;&lt;svg&gt;</span>&hellip;<span class="kw">&lt;/svg&gt;&lt;/span&gt;</span>
+    <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"options-label"</span><span class="kw">&gt;</span>Options<span class="kw">&lt;/span&gt;</span>
+    <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"options-trailing"</span><span class="kw">&gt;</span>
+      <span class="kw">&lt;svg&gt;</span>&hellip;<span class="kw">&lt;/svg&gt;</span>
+      <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"tag tag-grey tag-outline tag-sm"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/span&gt;</span>
+    <span class="kw">&lt;/span&gt;</span>
+  <span class="kw">&lt;/button&gt;</span>
+  &hellip;
+<span class="kw">&lt;/div&gt;</span></pre>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Per Figma, the Dropdown has 10 size variants — 1 row through 10 rows. There's nothing structural to do for each: just stack more <code>.options</code> children. The panel grows linearly (~52px per row at default md size: 40px row + 8px gap + 4px outer padding split). When the option count would push the panel past the viewport, scroll the panel — never collapse the rows.</p>
+  <div class="dd-sizes-grid">
+    <!-- 1 option -->
+    <div class="dd-size-cell">
+      <div class="dd-size-cell-label">1 option</div>
+      <div class="dropdown" role="listbox" aria-label="1 option">
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+      </div>
+    </div>
+    <!-- 2 options -->
+    <div class="dd-size-cell">
+      <div class="dd-size-cell-label">2 options</div>
+      <div class="dropdown" role="listbox" aria-label="2 options">
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+      </div>
+    </div>
+    <!-- 3 options -->
+    <div class="dd-size-cell">
+      <div class="dd-size-cell-label">3 options</div>
+      <div class="dropdown" role="listbox" aria-label="3 options">
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+      </div>
+    </div>
+    <!-- 5 options -->
+    <div class="dd-size-cell">
+      <div class="dd-size-cell-label">5 options</div>
+      <div class="dropdown" role="listbox" aria-label="5 options">
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+      </div>
+    </div>
+    <!-- 10 options -->
+    <div class="dd-size-cell">
+      <div class="dd-size-cell-label">10 options</div>
+      <div class="dropdown" role="listbox" aria-label="10 options">
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+        <button type="button" class="options" role="option"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Composition -->
+  <h2 id="composition">Composition</h2>
+  <p class="desc">The panel doesn't care what's inside the rows — the <a href="options.html">Options</a> component drives the per-row appearance. Common compositions: mix Tag colors to convey status, use a leading checkmark for a single-select list, or drop down to <code>.options-sm</code> rows for a compact toolbar menu.</p>
+  <div class="demo-box">
+    <div class="demo-panel active dd-row">
+
+      <!-- Mixed Tag colors for status -->
+      <div class="dropdown" role="listbox" aria-label="Status menu" style="width:240px;">
+        <button type="button" class="options" role="option">
+          <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <span class="options-label">Active</span>
+          <span class="options-trailing"><span class="tag tag-green tag-semi tag-sm">Live</span></span>
+        </button>
+        <button type="button" class="options" role="option">
+          <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <span class="options-label">Draft</span>
+          <span class="options-trailing"><span class="tag tag-yellow tag-semi tag-sm">WIP</span></span>
+        </button>
+        <button type="button" class="options" role="option">
+          <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <span class="options-label">Archived</span>
+          <span class="options-trailing"><span class="tag tag-grey tag-semi tag-sm">Old</span></span>
+        </button>
+      </div>
+
+      <!-- Selectable list with checkmark -->
+      <div class="dropdown" role="listbox" aria-label="Sort by" style="width:200px;">
+        <button type="button" class="options" role="option" aria-selected="true">
+          <span class="options-leading"><svg><use href="#ico-check-thin"/></svg></span>
+          <span class="options-label">Newest first</span>
+        </button>
+        <button type="button" class="options" role="option">
+          <span class="options-leading" style="opacity:0;"><svg><use href="#ico-check-thin"/></svg></span>
+          <span class="options-label">Oldest first</span>
+        </button>
+        <button type="button" class="options" role="option">
+          <span class="options-leading" style="opacity:0;"><svg><use href="#ico-check-thin"/></svg></span>
+          <span class="options-label">A → Z</span>
+        </button>
+      </div>
+
+      <!-- Small-size dropdown -->
+      <div class="dropdown" role="listbox" aria-label="Compact menu" style="width:200px;">
+        <button type="button" class="options options-sm" role="option">
+          <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <span class="options-label">Compact</span>
+        </button>
+        <button type="button" class="options options-sm" role="option">
+          <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <span class="options-label">Item two</span>
+        </button>
+        <button type="button" class="options options-sm" role="option" disabled>
+          <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <span class="options-label">Disabled</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.dropdown</td><td>&lt;div role="listbox"&gt;</td><td>Panel wrapper. White surface, 1px border, <code>--shadow-3</code> drop shadow, <code>--radius-md</code> (8px) corners, 4px inner padding, 8px gap between rows. Width is consumer-driven (set <code>width</code> or <code>min-width</code> on the element).</td></tr>
+      <tr><td>.options-menu</td><td>&lt;div&gt;</td><td>Alias for <code>.dropdown</code>. Kept for backward compatibility — the two render identically. New code should prefer <code>.dropdown</code>.</td></tr>
+      <tr><td>(child) .options</td><td>&lt;button role="option"&gt;</td><td>Each row inside the dropdown. See <a href="options.html">Options</a> for the full API (sizes, slots, states).</td></tr>
+      <tr><td>role="listbox"</td><td>wrapper</td><td>Recommended ARIA role for the panel. Pair with <code>aria-label</code> describing what the menu controls.</td></tr>
+      <tr><td>role="option"</td><td>row</td><td>Recommended ARIA role for each item. Pair with <code>aria-selected="true"</code> on the active row.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
 </body>

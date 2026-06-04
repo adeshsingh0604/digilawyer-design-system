@@ -5,24 +5,404 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Snackbar — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'snackbar', root: '../', toc: false };
+  window.DS_PAGE = { key: 'snackbar', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  /* Sprite symbols local to this page */
+  .sb-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  /* Demos */
+  .sb-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; padding: 28px 32px; }
+  .sb-stack { display: flex; flex-direction: column; gap: 12px; padding: 28px 32px; align-items: flex-start; }
+
+  /* Trigger button grids (MUI-style) */
+  .sb-triggers {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+    padding: 24px;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-2);
+    margin-bottom: 16px;
+  }
+  .sb-triggers .btn { width: 100%; }
+  .sb-region-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    padding: 24px;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-2);
+  }
+  .sb-region-grid .btn { width: 100%; }
+
+  /* Full matrix — 7 variants × 3 states */
+  .sb-matrix {
+    display: grid;
+    grid-template-columns: 100px repeat(3, minmax(320px, 1fr));
+    gap: var(--spacing-md) var(--spacing-lg);
+    align-items: center;
+    padding: var(--spacing-xl);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-2);
+    overflow-x: auto;
+  }
+  .sb-matrix-h, .sb-matrix-row-label {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: left;
+  }
+</style>
 </head>
 <body>
+
+<svg class="sb-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ico-info-circle" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" fill="none"/>
+    <circle cx="12" cy="8" r="1" fill="currentColor"/>
+    <path d="M12 11v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="ico-x" viewBox="0 0 24 24">
+    <path d="M6 6l12 12M18 6l-12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Snackbar</h1>
-  <p class="page-intro">Transient toast message for brief feedback.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">Inline notification — 320px wide, 48px tall, with a leading icon, label, optional action button, and dismiss × button. Seven colour variants (brand · info · danger · success · warning · notice · alert) × three states (semi-filled · filled · border). Use the interactive triggers below to see how each variant renders in real time, then position the toast around the viewport with the Positions demo. Values from Figma node 161-5424.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">The minimal snackbar is a <code>.snackbar</code> container with three slots: a leading <code>.snackbar-icon</code>, a <code>.snackbar-label</code>, and a trailing <code>.snackbar-actions</code> group holding an optional action button (composes with <a href="button.html">.btn.btn-primary.btn-sm</a>) and a <code>.snackbar-close</code> × button. Default variant is Brand, default state is Semi-filled.</p>
+  <div class="demo-box">
+    <div class="demo-panel active sb-row">
+      <div class="snackbar" role="status">
+        <span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span>
+        <span class="snackbar-label">Label</span>
+        <div class="snackbar-actions">
+          <button type="button" class="btn btn-primary btn-sm">Label</button>
+          <button type="button" class="snackbar-close" aria-label="Close"><svg><use href="#ico-x"/></svg></button>
+        </div>
+      </div>
+    </div>
   </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-default">Copy</button></div>
+    <pre id="c-default"><span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"snackbar"</span> <span class="attr">role</span>=<span class="str">"status"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"snackbar-icon"</span><span class="kw">&gt;&lt;svg&gt;</span>&hellip;<span class="kw">&lt;/svg&gt;&lt;/span&gt;</span>
+  <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"snackbar-label"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/span&gt;</span>
+  <span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"snackbar-actions"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-primary btn-sm"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/button&gt;</span>
+    <span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"snackbar-close"</span> <span class="attr">aria-label</span>=<span class="str">"Close"</span><span class="kw">&gt;&lt;svg&gt;</span>&hellip;<span class="kw">&lt;/svg&gt;&lt;/button&gt;</span>
+  <span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;/div&gt;</span></pre>
+  </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Seven colour intents. <strong>Brand</strong> is the neutral default. <strong>Info</strong> (blue), <strong>Success</strong> (green), <strong>Warning</strong> (yellow), <strong>Danger</strong> (red), <strong>Notice</strong> (purple), and <strong>Alert</strong> (orange) all map to the system's semantic palette. The seven shown below are in the Semi-filled state.</p>
+  <div class="demo-box">
+    <div class="demo-panel active sb-stack">
+      <div class="snackbar snackbar-brand"   role="status"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Brand</span><div class="snackbar-actions"><button type="button" class="btn btn-primary btn-sm">Label</button><button type="button" class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div>
+      <div class="snackbar snackbar-info"    role="status"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Info</span><div class="snackbar-actions"><button type="button" class="btn btn-primary btn-sm">Label</button><button type="button" class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div>
+      <div class="snackbar snackbar-danger"  role="alert"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Danger</span><div class="snackbar-actions"><button type="button" class="btn btn-primary btn-sm">Label</button><button type="button" class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div>
+      <div class="snackbar snackbar-success" role="status"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Success</span><div class="snackbar-actions"><button type="button" class="btn btn-primary btn-sm">Label</button><button type="button" class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div>
+      <div class="snackbar snackbar-warning" role="status"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Warning</span><div class="snackbar-actions"><button type="button" class="btn btn-primary btn-sm">Label</button><button type="button" class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div>
+      <div class="snackbar snackbar-notice"  role="status"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Notice</span><div class="snackbar-actions"><button type="button" class="btn btn-primary btn-sm">Label</button><button type="button" class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div>
+      <div class="snackbar snackbar-alert"   role="status"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Alert</span><div class="snackbar-actions"><button type="button" class="btn btn-primary btn-sm">Label</button><button type="button" class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div>
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Three visual treatments per variant. <strong>Semi-filled</strong> (default) — pale tinted background with the variant's deep colour for icon + text. <strong>Filled</strong> (<code>.snackbar-filled</code>) — solid deep-colour background with white text; the action button inverts to white-on-deep. <strong>Border</strong> (<code>.snackbar-border</code>) — page-coloured background with a 1px colored hairline + deep text.</p>
+  <div class="demo-box">
+    <div class="demo-panel active sb-stack">
+      <div class="snackbar snackbar-info" role="status"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Semi-filled (default)</span><div class="snackbar-actions"><button type="button" class="btn btn-primary btn-sm">Label</button><button type="button" class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div>
+      <div class="snackbar snackbar-info snackbar-filled" role="status"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Filled</span><div class="snackbar-actions"><button type="button" class="btn btn-primary btn-sm">Label</button><button type="button" class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div>
+      <div class="snackbar snackbar-info snackbar-border" role="status"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Border</span><div class="snackbar-actions"><button type="button" class="btn btn-primary btn-sm">Label</button><button type="button" class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div>
+    </div>
+  </div>
+
+  <!-- Interactive -->
+  <h2 id="interactive">Interactive</h2>
+  <p class="desc">Mirrors the MUI Snackbar demo pattern — each button below fires a real snackbar at the top-right of the viewport with the chosen variant + state. The State toggle is a segmented control (<code>.btn-group.btn-group-active-border</code>) — the selected state shows the canonical active treatment. The 7 variant triggers <strong>preview the colour and state they'll fire</strong> — flip the State toggle and watch the trigger buttons re-style live. Toasts stack downward, auto-dismiss after 4 seconds; dismiss early with the × button.</p>
+  <div class="demo-box">
+    <div class="demo-panel active" style="padding:24px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+        <span style="font-size:12px;color:var(--color-subheading);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">State:</span>
+        <div class="btn-group btn-group-active-border" role="group" aria-label="State">
+          <button type="button" class="btn btn-tertiary btn-sm btn-pos-left   active" aria-pressed="true"  data-sb-state="">Semi-filled</button>
+          <button type="button" class="btn btn-tertiary btn-sm btn-pos-middle"        aria-pressed="false" data-sb-state="snackbar-filled">Filled</button>
+          <button type="button" class="btn btn-tertiary btn-sm btn-pos-right"         aria-pressed="false" data-sb-state="snackbar-border">Border</button>
+        </div>
+      </div>
+      <div class="sb-triggers" id="sb-variant-triggers">
+        <button type="button" class="btn btn-sm" data-sb-fire="snackbar-brand">Brand</button>
+        <button type="button" class="btn btn-sm" data-sb-fire="snackbar-info">Info</button>
+        <button type="button" class="btn btn-sm" data-sb-fire="snackbar-success">Success</button>
+        <button type="button" class="btn btn-sm" data-sb-fire="snackbar-warning">Warning</button>
+        <button type="button" class="btn btn-sm" data-sb-fire="snackbar-danger">Danger</button>
+        <button type="button" class="btn btn-sm" data-sb-fire="snackbar-notice">Notice</button>
+        <button type="button" class="btn btn-sm" data-sb-fire="snackbar-alert">Alert</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Positions -->
+  <h2 id="positions">Positions</h2>
+  <p class="desc">Anchor toasts to any of six viewport corners — top-left / top-center / top-right / bottom-left / bottom-center / bottom-right. Each position has its own stacking region; firing into a region with existing toasts adds the new one to the column. The buttons below all fire an <strong>Info Filled</strong> snackbar at the chosen anchor (the triggers themselves preview that style) — click multiple to see them stack.</p>
+  <div class="demo-box">
+    <div class="demo-panel active" style="padding:24px;">
+      <div class="sb-region-grid">
+        <button type="button" class="btn btn-secondary btn-sm" data-sb-pos="is-top-left">Top-left</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-sb-pos="is-top-center">Top-center</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-sb-pos="is-top-right">Top-right</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-sb-pos="is-bottom-left">Bottom-left</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-sb-pos="is-bottom-center">Bottom-center</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-sb-pos="is-bottom-right">Bottom-right</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">7 variants × 3 states = 21 cells, mirroring Figma 1:1.</p>
+  <div class="sb-matrix">
+    <div></div>
+    <div class="sb-matrix-h">Semi-filled</div>
+    <div class="sb-matrix-h">Filled</div>
+    <div class="sb-matrix-h">Border</div>
+
+    <!-- Brand -->
+    <div class="sb-matrix-row-label">Brand</div>
+    <div><div class="snackbar snackbar-brand"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+    <div><div class="snackbar snackbar-brand snackbar-filled"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+    <div><div class="snackbar snackbar-brand snackbar-border"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+
+    <!-- Info -->
+    <div class="sb-matrix-row-label">Info</div>
+    <div><div class="snackbar snackbar-info"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+    <div><div class="snackbar snackbar-info snackbar-filled"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+    <div><div class="snackbar snackbar-info snackbar-border"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+
+    <!-- Danger -->
+    <div class="sb-matrix-row-label">Danger</div>
+    <div><div class="snackbar snackbar-danger"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+    <div><div class="snackbar snackbar-danger snackbar-filled"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+    <div><div class="snackbar snackbar-danger snackbar-border"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+
+    <!-- Success -->
+    <div class="sb-matrix-row-label">Success</div>
+    <div><div class="snackbar snackbar-success"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+    <div><div class="snackbar snackbar-success snackbar-filled"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+    <div><div class="snackbar snackbar-success snackbar-border"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+
+    <!-- Warning -->
+    <div class="sb-matrix-row-label">Warning</div>
+    <div><div class="snackbar snackbar-warning"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+    <div><div class="snackbar snackbar-warning snackbar-filled"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+    <div><div class="snackbar snackbar-warning snackbar-border"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+
+    <!-- Notice -->
+    <div class="sb-matrix-row-label">Notice</div>
+    <div><div class="snackbar snackbar-notice"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+    <div><div class="snackbar snackbar-notice snackbar-filled"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+    <div><div class="snackbar snackbar-notice snackbar-border"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+
+    <!-- Alert -->
+    <div class="sb-matrix-row-label">Alert</div>
+    <div><div class="snackbar snackbar-alert"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+    <div><div class="snackbar snackbar-alert snackbar-filled"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+    <div><div class="snackbar snackbar-alert snackbar-border"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.snackbar</td><td>&lt;div role="status"&gt; (or role="alert" for Danger)</td><td>The toast container — 320×48, radius 8, padding 12/8, flex with the icon · label · actions slots. Default variant is Brand, default state is Semi-filled.</td></tr>
+      <tr><td>.snackbar-icon</td><td>&lt;span&gt;</td><td>Leading slot. Wrap an inline SVG; sized 24×24. Inherits <code>currentColor</code> so it picks up the variant text colour.</td></tr>
+      <tr><td>.snackbar-label</td><td>&lt;span&gt;</td><td>The message body. Caption 1 Medium (12/16). Truncates with ellipsis on overflow.</td></tr>
+      <tr><td>.snackbar-actions</td><td>&lt;div&gt;</td><td>Trailing slot holding the optional action button + the close button.</td></tr>
+      <tr><td>.snackbar-close</td><td>&lt;button aria-label="Close"&gt;</td><td>The dismiss × button. Native <code>&lt;button&gt;</code>, transparent bg, 24×24 hit area.</td></tr>
+      <tr><td>.snackbar-brand / -info / -danger / -success / -warning / -notice / -alert</td><td>.snackbar</td><td>Variant modifier. Required — pick exactly one. Drives the deep colour used by icon, text, action button, and (in Border state) the hairline.</td></tr>
+      <tr><td>(no state class)</td><td>.snackbar</td><td>Semi-filled (default) — pale tinted bg, deep text, normal primary action button.</td></tr>
+      <tr><td>.snackbar-filled</td><td>.snackbar</td><td>Solid deep-colour bg + white text. Action button inverts to white-on-deep via a descendant rule.</td></tr>
+      <tr><td>.snackbar-border</td><td>.snackbar</td><td>Page bg + 1px colored hairline + deep text.</td></tr>
+      <tr><td>.snackbar-region</td><td>&lt;div&gt;</td><td>Fixed-position stacking region. Compose with one of the position helpers below. Pointer-events pass through the region container (so only the toasts catch clicks).</td></tr>
+      <tr><td>.is-top-left / .is-top-center / .is-top-right<br>.is-bottom-left / .is-bottom-center / .is-bottom-right</td><td>.snackbar-region</td><td>Six viewport anchors. Top regions stack downward; bottom regions stack upward via reverse insertion (handled in the page script's stacking logic).</td></tr>
+      <tr><td>.snackbar-toast / .is-leaving</td><td>.snackbar</td><td>Animation hooks for slide-in (<code>snackbar-in</code>) and slide-out (<code>snackbar-out</code>). The page script adds <code>.snackbar-toast</code> on creation and <code>.is-leaving</code> on dismiss.</td></tr>
+      <tr><td>role="status" / "alert"</td><td>.snackbar</td><td>Use <code>role="status"</code> for informational / success / warning toasts (polite); use <code>role="alert"</code> for danger / error toasts (assertive). The screen reader reads matter-of-factly vs interrupts accordingly.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
+
+<script>
+/* ── Page-script: interactive triggers (MUI-style). Two demos —
+   (1) the Variants/State button grid fires toasts at top-right;
+   (2) the Positions grid fires brand-semi toasts at the chosen anchor.
+   Toasts auto-dismiss after 4s with a slide-out animation; the × button
+   dismisses immediately. To extract this into a reusable component, lift
+   the body of fireSnackbar()/dismissSnackbar() into ds.js. */
+(function () {
+  var AUTO_DISMISS_MS = 4000;
+  var EXIT_MS = 200;
+  var regions = {};
+
+  function getRegion(positionClass) {
+    if (regions[positionClass]) return regions[positionClass];
+    var r = document.createElement('div');
+    r.className = 'snackbar-region ' + positionClass;
+    document.body.appendChild(r);
+    regions[positionClass] = r;
+    return r;
+  }
+
+  function iconHTML() { return '<span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span>'; }
+  function closeBtnHTML() { return '<button type="button" class="snackbar-close" aria-label="Close"><svg><use href="#ico-x"/></svg></button>'; }
+  function actionBtnHTML() { return '<button type="button" class="btn btn-primary btn-sm">Label</button>'; }
+
+  function fireSnackbar(opts) {
+    var region = getRegion(opts.position || 'is-top-right');
+    var el = document.createElement('div');
+    el.className = 'snackbar snackbar-toast ' + (opts.variant || 'snackbar-brand') + (opts.state ? ' ' + opts.state : '');
+    el.setAttribute('role', opts.variant === 'snackbar-danger' ? 'alert' : 'status');
+    el.innerHTML =
+      iconHTML() +
+      '<span class="snackbar-label">' + (opts.label || 'Label') + '</span>' +
+      '<div class="snackbar-actions">' + actionBtnHTML() + closeBtnHTML() + '</div>';
+
+    // Bottom regions stack upward — newest toast appears closest to the edge.
+    if (region.classList.contains('is-bottom-left') ||
+        region.classList.contains('is-bottom-center') ||
+        region.classList.contains('is-bottom-right')) {
+      region.insertBefore(el, region.firstChild);
+    } else {
+      region.appendChild(el);
+    }
+
+    var dismissTimer = setTimeout(function () { dismissSnackbar(el); }, AUTO_DISMISS_MS);
+    el.querySelector('.snackbar-close').addEventListener('click', function () {
+      clearTimeout(dismissTimer);
+      dismissSnackbar(el);
+    });
+  }
+
+  function dismissSnackbar(el) {
+    if (!el || el.classList.contains('is-leaving')) return;
+    el.classList.add('is-leaving');
+    setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, EXIT_MS);
+  }
+
+  /* Variants demo — track State toggle + bind 7 variant buttons + restyle the
+     trigger buttons live so they preview the snackbar style they'll fire. */
+  var currentState = '';
+  var triggerBtns = Array.prototype.slice.call(document.querySelectorAll('[data-sb-fire]'));
+  var stateBtns   = Array.prototype.slice.call(document.querySelectorAll('[data-sb-state]'));
+
+  /* Restyle every trigger button by writing inline styles derived from the
+     snackbar tokens — same colour rules the .snackbar variant + state CSS
+     uses, applied directly to the .btn so the trigger previews what it'll
+     fire. Reads tokens via getComputedStyle so the values stay theme-aware. */
+  function restyleTriggers() {
+    var rootStyle = getComputedStyle(document.documentElement);
+    triggerBtns.forEach(function (b) {
+      var v = b.getAttribute('data-sb-fire').replace('snackbar-', '');   // "info" etc.
+      var deep       = rootStyle.getPropertyValue('--snackbar-' + v + '-deep').trim();
+      var semiBg     = rootStyle.getPropertyValue('--snackbar-' + v + '-semi-bg').trim();
+      var border     = rootStyle.getPropertyValue('--snackbar-' + v + '-border-border').trim();
+      var filledText = rootStyle.getPropertyValue('--snackbar-' + v + '-filled-text').trim();
+      var bg, color, brd;
+      if (currentState === 'snackbar-filled') {
+        bg = deep; color = filledText; brd = deep;
+      } else if (currentState === 'snackbar-border') {
+        bg = rootStyle.getPropertyValue('--color-bg').trim(); color = deep; brd = border;
+      } else {
+        bg = semiBg; color = deep; brd = semiBg;
+      }
+      b.style.background   = bg;
+      b.style.color        = color;
+      b.style.borderColor  = brd;
+    });
+  }
+
+  stateBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      stateBtns.forEach(function (o) {
+        o.classList.remove('active');
+        o.setAttribute('aria-pressed', 'false');
+      });
+      b.classList.add('active');
+      b.setAttribute('aria-pressed', 'true');
+      currentState = b.getAttribute('data-sb-state') || '';
+      restyleTriggers();
+    });
+  });
+  triggerBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      fireSnackbar({
+        variant: b.getAttribute('data-sb-fire'),
+        state: currentState,
+        label: b.textContent + ' toast',
+        position: 'is-top-right'
+      });
+    });
+  });
+  /* Run once on load + once again after the theme-toggle (in case dark mode
+     swaps tokens). We listen to the data-theme attr changing on <html>. */
+  restyleTriggers();
+  var themeObserver = new MutationObserver(restyleTriggers);
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  /* Positions demo — 6 anchor buttons. Each fires an Info Filled toast and
+     styles itself to preview that variant + state combination so the trigger
+     button reads as the toast it'll fire (same convention as the Variants
+     demo). Re-skinned via the same token lookup as restyleTriggers(). */
+  var posBtns = Array.prototype.slice.call(document.querySelectorAll('[data-sb-pos]'));
+  function restylePositionTriggers() {
+    var rootStyle = getComputedStyle(document.documentElement);
+    var infoDeep       = rootStyle.getPropertyValue('--snackbar-info-deep').trim();
+    var infoFilledText = rootStyle.getPropertyValue('--snackbar-info-filled-text').trim();
+    posBtns.forEach(function (b) {
+      b.style.background  = infoDeep;
+      b.style.color       = infoFilledText;
+      b.style.borderColor = infoDeep;
+    });
+  }
+  restylePositionTriggers();
+  /* Re-run on theme flip so Info Filled tracks light/dark. */
+  new MutationObserver(restylePositionTriggers).observe(
+    document.documentElement, { attributes: true, attributeFilter: ['data-theme'] }
+  );
+
+  posBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      fireSnackbar({
+        variant: 'snackbar-info',
+        state: 'snackbar-filled',
+        label: b.textContent + ' toast',
+        position: b.getAttribute('data-sb-pos')
+      });
+    });
+  });
+})();
+</script>
 </body>
 </html>

@@ -5,24 +5,342 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Slider — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'slider', root: '../', toc: false };
+  window.DS_PAGE = { key: 'slider', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  /* Scope helpers under .demo-panel to beat .demo-panel.active (0,2,0). */
+  .demo-panel.sl-col {
+    display: flex; flex-direction: column; gap: 32px;
+    padding: 28px 48px; align-items: stretch; justify-content: flex-start;
+  }
+  .sl-row { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-end; }
+  .sl-item { display: flex; flex-direction: column; gap: 8px; min-width: 260px; flex: 1; }
+  .sl-cap {
+    font-size: 12px; color: var(--color-subheading);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+</style>
 </head>
 <body>
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Slider</h1>
-  <p class="page-intro">Range input for selecting a value or range within a defined min/max.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">Range input for selecting a numeric value along a continuous track. Mirrors Figma nodes 5877-41490 + 147-5057 (light) + 5967-1515 + 5967-1479 (dark). Three track heights (4 / 8 / 12&nbsp;px). Thumb stays 16&nbsp;px at all sizes, centred on the track via <code>margin-top: calc((--track-h - 16px) / 2)</code>. Hover/drag show a translucent ring (<code>--slider-ring-hover/active</code>). <strong>Two count display modes</strong> — use exactly one: <code>.has-tip</code> shows a tooltip pill only on hover or drag; <code>.has-val</code> shows a permanent label below the track. Range variant uses two overlapping inputs. 6 tokens drive all colours including dark-mode inversion.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">A bare <code>.slider-field</code> with no count display — just the track and thumb. Hover the thumb to see the translucent ring; drag to see it expand. The size is the default (4&nbsp;px track). Add <code>.has-tip</code> or <code>.has-val</code> to display the value.</p>
+  <div class="demo-box">
+    <div class="demo-panel active sl-col">
+      <div class="sl-row">
+        <div class="sl-item">
+          <div class="sl-cap">0%</div>
+          <div class="slider-field" data-slider><input class="slider" type="range" min="0" max="100" value="0" aria-label="0"></div>
+        </div>
+        <div class="sl-item">
+          <div class="sl-cap">50%</div>
+          <div class="slider-field" data-slider><input class="slider" type="range" min="0" max="100" value="50" aria-label="50"></div>
+        </div>
+        <div class="sl-item">
+          <div class="sl-cap">100%</div>
+          <div class="slider-field" data-slider><input class="slider" type="range" min="0" max="100" value="100" aria-label="100"></div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- Tooltip count -->
+  <h2 id="tooltip-count">Tooltip count</h2>
+  <p class="desc">Add <code>.has-tip</code> to the field and include a <code>.slider-tip</code> span. The pill is hidden at rest and fades in on hover or drag — ephemeral, space-efficient. Hover or drag the demos below to see it appear. Use this variant when you want minimal UI at rest.</p>
+  <div class="demo-box">
+    <div class="demo-panel active sl-col">
+      <div class="sl-row">
+        <div class="sl-item">
+          <div class="sl-cap">Hover / drag me</div>
+          <div class="slider-field has-tip" data-slider>
+            <span class="slider-tip">0</span>
+            <input class="slider" type="range" min="0" max="100" value="0" aria-label="Tooltip demo">
+          </div>
+        </div>
+        <div class="sl-item">
+          <div class="sl-cap">Mid-value</div>
+          <div class="slider-field has-tip tip-visible" data-slider>
+            <span class="slider-tip">50</span>
+            <input class="slider" type="range" min="0" max="100" value="50" aria-label="Tooltip forced">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom count -->
+  <h2 id="bottom-count">Bottom count</h2>
+  <p class="desc">Add <code>.has-val</code> to the field and include a <code>.slider-val</code> span. The label below the track is always visible and updates as you drag — permanent, always legible. Use this variant when the current value should be constantly visible.</p>
+  <div class="demo-box">
+    <div class="demo-panel active sl-col">
+      <div class="sl-row">
+        <div class="sl-item">
+          <div class="sl-cap">0</div>
+          <div class="slider-field has-val" data-slider>
+            <input class="slider" type="range" min="0" max="100" value="0" aria-label="Bottom count 0">
+            <span class="slider-val">0</span>
+          </div>
+        </div>
+        <div class="sl-item">
+          <div class="sl-cap">50</div>
+          <div class="slider-field has-val" data-slider>
+            <input class="slider" type="range" min="0" max="100" value="50" aria-label="Bottom count 50">
+            <span class="slider-val">50</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Range -->
+  <h2 id="range">Range</h2>
+  <p class="desc">Two-thumb variant. Add <code>.slider-range</code> to the field and nest two inputs inside <code>.slider-range-track</code>. The fill between thumbs is driven by <code>--pct-a</code> / <code>--pct-b</code>. The JS constraint prevents min from crossing max. Combine with <code>.has-tip</code> or <code>.has-val</code> for dual count display.</p>
+  <div class="demo-box">
+    <div class="demo-panel active sl-col">
+      <!-- Range + tooltip -->
+      <div>
+        <div class="sl-cap" style="margin-bottom:8px;">Range with tooltip (hover/drag to reveal)</div>
+        <div class="slider-field slider-range has-tip" data-slider-range>
+          <span class="slider-tip slider-tip-a">30</span>
+          <span class="slider-tip slider-tip-b">70</span>
+          <div class="slider-range-track">
+            <input class="slider slider-a" type="range" min="0" max="100" value="30" aria-label="Range min">
+            <input class="slider slider-b" type="range" min="0" max="100" value="70" aria-label="Range max">
+          </div>
+        </div>
+      </div>
+      <!-- Range + bottom count -->
+      <div>
+        <div class="sl-cap" style="margin-bottom:8px;">Range with bottom count (permanent)</div>
+        <div class="slider-field slider-range has-val" data-slider-range>
+          <div class="slider-range-track">
+            <input class="slider slider-a" type="range" min="0" max="100" value="0" aria-label="Range min">
+            <input class="slider slider-b" type="range" min="0" max="100" value="100" aria-label="Range max">
+          </div>
+          <span class="slider-val slider-val-a">0</span>
+          <span class="slider-val slider-val-b">100</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Three track heights. Default (no modifier) = 4&nbsp;px — thin, minimal. <code>.slider-md</code> = 8&nbsp;px — standard density. <code>.slider-lg</code> = 12&nbsp;px — accessible, high-contrast. Thumb stays 16&nbsp;px at all sizes; <code>margin-top</code> auto-centres it on each track via <code>calc((--track-h − 16px) / 2)</code>.</p>
+  <div class="demo-box">
+    <div class="demo-panel active sl-col">
+      <div class="sl-item">
+        <div class="sl-cap">Small · 4px (default)</div>
+        <div class="slider-field has-val" data-slider>
+          <input class="slider" type="range" min="0" max="100" value="60" aria-label="4px track">
+          <span class="slider-val">60</span>
+        </div>
+      </div>
+      <div class="sl-item">
+        <div class="sl-cap">Medium · 8px</div>
+        <div class="slider-field slider-md has-val" data-slider>
+          <input class="slider" type="range" min="0" max="100" value="60" aria-label="8px track">
+          <span class="slider-val">60</span>
+        </div>
+      </div>
+      <div class="sl-item">
+        <div class="sl-cap">Large · 12px</div>
+        <div class="slider-field slider-lg has-val" data-slider>
+          <input class="slider" type="range" min="0" max="100" value="60" aria-label="12px track">
+          <span class="slider-val">60</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Default (interactive) and Disabled. Hover the Default thumb to see the translucent ring; drag for the larger ring. Disabled renders at 38% opacity with <code>cursor: not-allowed</code>. Toggle dark mode to confirm the ring tokens flip to white-alpha.</p>
+  <div class="demo-box">
+    <div class="demo-panel active sl-col">
+      <div class="sl-row">
+        <div class="sl-item">
+          <div class="sl-cap">Default — hover / drag thumb</div>
+          <div class="slider-field has-val" data-slider>
+            <input class="slider" type="range" min="0" max="100" value="50" aria-label="Default state">
+            <span class="slider-val">50</span>
+          </div>
+        </div>
+        <div class="sl-item">
+          <div class="sl-cap">Disabled</div>
+          <div class="slider-field has-val" data-slider>
+            <input class="slider" type="range" min="0" max="100" value="50" disabled aria-label="Disabled state">
+            <span class="slider-val">50</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive -->
+  <h2 id="interactive">Interactive</h2>
+  <p class="desc">Live demos — drag any thumb. Toggle the theme switch to confirm dark mode: track goes 10%-white, fill + thumb turn white, tooltip inverts to white pill + dark text. The ring halos also flip to white-alpha.</p>
+  <div class="demo-box">
+    <div class="demo-panel active sl-col">
+      <div>
+        <div class="sl-cap" style="margin-bottom:8px;">Single — tooltip (hover or drag)</div>
+        <div class="slider-field has-tip" data-slider>
+          <span class="slider-tip">40</span>
+          <input class="slider" type="range" min="0" max="100" value="40" aria-label="Interactive tooltip">
+        </div>
+      </div>
+      <div>
+        <div class="sl-cap" style="margin-bottom:8px;">Single — bottom count (permanent)</div>
+        <div class="slider-field has-val" data-slider>
+          <input class="slider" type="range" min="0" max="100" value="40" aria-label="Interactive bottom count">
+          <span class="slider-val">40</span>
+        </div>
+      </div>
+      <div>
+        <div class="sl-cap" style="margin-bottom:8px;">Range — tooltip (hover or drag either thumb)</div>
+        <div class="slider-field slider-range has-tip" data-slider-range>
+          <span class="slider-tip slider-tip-a">25</span>
+          <span class="slider-tip slider-tip-b">75</span>
+          <div class="slider-range-track">
+            <input class="slider slider-a" type="range" min="0" max="100" value="25" aria-label="Range min interactive">
+            <input class="slider slider-b" type="range" min="0" max="100" value="75" aria-label="Range max interactive">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.slider-field</td><td>&lt;div data-slider&gt;</td><td>Wrapper. Sets <code>--track-h: 4px</code> by default. Add modifiers for display and size. <code>data-slider</code> auto-inits the JS helper.</td></tr>
+      <tr><td>.has-tip</td><td>.slider-field</td><td>Tooltip display mode. Adds <code>padding-top: 36px</code>. The <code>.slider-tip</code> is hidden at rest; visible on <code>:hover</code> or <code>.is-dragging</code>.</td></tr>
+      <tr><td>.has-val</td><td>.slider-field</td><td>Bottom label display mode. Adds <code>padding-bottom: 24px</code>. The <code>.slider-val</code> is always visible; JS updates its position and text on every input event.</td></tr>
+      <tr><td>.slider-md</td><td>.slider-field</td><td>Medium track — 8&nbsp;px. Sets <code>--track-h: 8px</code>; margin-top auto-adjusts thumb centering.</td></tr>
+      <tr><td>.slider-lg</td><td>.slider-field</td><td>Large track — 12&nbsp;px. Sets <code>--track-h: 12px</code>.</td></tr>
+      <tr><td>.slider</td><td>&lt;input type="range"&gt;</td><td>Styled native range input. <code>height: 16px</code> (= thumb diameter) ensures the UA vertically centres the track within the element so margin-top math works. <code>--pct</code> drives the fill gradient.</td></tr>
+      <tr><td>.slider-tip</td><td>&lt;span&gt; inside .has-tip field</td><td>Tooltip pill above the thumb. Hidden (<code>opacity: 0</code>) at rest; shown on hover / <code>.is-dragging</code> on the parent field.</td></tr>
+      <tr><td>.slider-val</td><td>&lt;span&gt; inside .has-val field</td><td>Permanent bottom label. JS sets <code>style.left</code> and <code>textContent</code> on every input event.</td></tr>
+      <tr><td>.slider-range</td><td>.slider-field</td><td>Range variant. Requires <code>.slider-range-track</code> + <code>.slider-a</code> + <code>.slider-b</code> inputs. Add <code>data-slider-range</code> for auto-init. <code>--pct-a / --pct-b</code> drive the between-thumbs fill on <code>.slider-a</code>.</td></tr>
+      <tr><td>disabled</td><td>.slider</td><td>38% opacity + <code>cursor: not-allowed</code>. JS skips disabled inputs.</td></tr>
+      <tr><td>--slider-track-bg / --slider-fill</td><td>Token</td><td>Unfilled / filled track + thumb. <code>#2D2D2D</code> light → <code>#FFFFFF</code> dark (full inversion).</td></tr>
+      <tr><td>--slider-tip-bg / --slider-tip-text</td><td>Token</td><td>Tooltip pill bg + text. Inverts: dark pill in light mode, white pill + dark text in dark mode.</td></tr>
+      <tr><td>--slider-ring-hover / --slider-ring-active</td><td>Token</td><td>Translucent thumb halo: 8&nbsp;px radius on hover; 14&nbsp;px on drag. Alpha-black in light, alpha-white in dark.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
+
+<script>
+(function () {
+  /* Compute the pixel offset of the thumb centre from the left edge of the input. */
+  function thumbPx(input) {
+    var val = parseFloat(input.value);
+    var min = parseFloat(input.min) || 0;
+    var max = parseFloat(input.max) || 100;
+    return (val - min) / (max - min) * (input.offsetWidth - 16) + 8;
+  }
+
+  /* Single-thumb field */
+  function updateSingle(field) {
+    var input = field.querySelector('input.slider');
+    if (!input) return;
+    var val = parseFloat(input.value);
+    var min = parseFloat(input.min) || 0;
+    var max = parseFloat(input.max) || 100;
+    var pct = (val - min) / (max - min) * 100;
+    input.style.setProperty('--pct', pct + '%');
+    var px = thumbPx(input) + 'px';
+    var tip = field.querySelector('.slider-tip');
+    var lbl = field.querySelector('.slider-val');
+    if (tip) { tip.textContent = Math.round(val); tip.style.left = px; }
+    if (lbl) { lbl.textContent = Math.round(val); lbl.style.left = px; }
+  }
+
+  /* Range field */
+  function updateRange(field) {
+    var inA  = field.querySelector('.slider-a');
+    var inB  = field.querySelector('.slider-b');
+    if (!inA || !inB) return;
+    var valA = parseFloat(inA.value);
+    var valB = parseFloat(inB.value);
+    var min  = parseFloat(inA.min) || 0;
+    var max  = parseFloat(inA.max) || 100;
+    var pctA = (valA - min) / (max - min) * 100;
+    var pctB = (valB - min) / (max - min) * 100;
+    inA.style.setProperty('--pct-a', pctA + '%');
+    inA.style.setProperty('--pct-b', pctB + '%');
+    var pxA = thumbPx(inA) + 'px';
+    var pxB = thumbPx(inB) + 'px';
+    var tipA = field.querySelector('.slider-tip-a');
+    var tipB = field.querySelector('.slider-tip-b');
+    var lblA = field.querySelector('.slider-val-a');
+    var lblB = field.querySelector('.slider-val-b');
+    if (tipA) { tipA.textContent = Math.round(valA); tipA.style.left = pxA; }
+    if (tipB) { tipB.textContent = Math.round(valB); tipB.style.left = pxB; }
+    if (lblA) { lblA.textContent = Math.round(valA); lblA.style.left = pxA; }
+    if (lblB) { lblB.textContent = Math.round(valB); lblB.style.left = pxB; }
+  }
+
+  /* Mark a field as dragging so tooltip stays visible while dragging */
+  function bindDrag(field, input) {
+    function startDrag() { field.classList.add('is-dragging'); }
+    function endDrag()   { field.classList.remove('is-dragging'); }
+    input.addEventListener('mousedown',  startDrag);
+    input.addEventListener('touchstart', startDrag, { passive: true });
+    document.addEventListener('mouseup',  endDrag);
+    document.addEventListener('touchend', endDrag);
+  }
+
+  function initAll() {
+    document.querySelectorAll('[data-slider]').forEach(function (field) {
+      updateSingle(field);
+      var inp = field.querySelector('input.slider');
+      if (!inp || inp.disabled) return;
+      inp.addEventListener('input', function () { updateSingle(field); });
+      bindDrag(field, inp);
+    });
+
+    document.querySelectorAll('[data-slider-range]').forEach(function (field) {
+      updateRange(field);
+      ['slider-a', 'slider-b'].forEach(function (cls) {
+        var inp = field.querySelector('.' + cls);
+        if (!inp) return;
+        inp.addEventListener('input', function () {
+          /* Clamp: min cannot cross max */
+          var a = parseFloat(field.querySelector('.slider-a').value);
+          var b = parseFloat(field.querySelector('.slider-b').value);
+          if (a > b) {
+            if (inp.classList.contains('slider-a')) inp.value = b;
+            else inp.value = a;
+          }
+          updateRange(field);
+        });
+        bindDrag(field, inp);
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(initAll); });
+  } else {
+    requestAnimationFrame(initAll);
+  }
+})();
+</script>
 </body>
 </html>

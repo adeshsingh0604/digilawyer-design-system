@@ -5,23 +5,253 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Text Area — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'textarea', root: '../', toc: false };
+  window.DS_PAGE = { key: 'textarea', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  /* Sprite symbols local to this page */
+  .ta-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  /* Side-by-side textarea samples. */
+  .ta-row   { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; padding: 28px 32px; }
+  .ta-stack { display: flex; flex-direction: column; gap: 16px; padding: 28px 32px; align-items: stretch; }
+  .ta-row   .input-field,
+  .ta-stack .input-field { width: 320px; }
+
+  /* Full matrix — 3 sizes × 8 states. */
+  .ta-matrix {
+    display: grid;
+    grid-template-columns: 110px repeat(3, minmax(320px, 1fr));
+    gap: var(--spacing-md) var(--spacing-lg);
+    align-items: start;
+    padding: var(--spacing-xl);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-2);
+    overflow-x: auto;
+  }
+  .ta-matrix-h {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: left;
+  }
+  .ta-matrix-row-label {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    align-self: center;
+  }
+</style>
 </head>
 <body>
+
+<svg class="ta-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ico-add-square" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8.5 12h7M12 8.5v7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Text Area</h1>
-  <p class="page-intro">Multi-line text input. Supports resize and character count.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">Multi-line input. Shares the <code>.input-field</code> wrapper, label, caption, and token set with <a href="input.html">Text Input</a> — only the shell differs (top-aligned trailing icon, native vertical resize). Three sizes (lg Body 1 / md Body 2 / sm Caption 1) sharing a 120px starting shell — Figma's "size" axis is typography density, not container height. Eight states (Default · Hover · Focus · Filled · Success · Warning · Error · Disabled). Values from Figma node 101-18519.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">The minimal textarea is a <code>.input-field</code> wrapper with three children: <code>.input-field-label</code>, the <code>.textarea</code> shell (containing a native <code>&lt;textarea&gt;</code> plus an optional top-aligned trailing icon), and <code>.input-field-caption</code>. Hover, Focus, and Filled states are driven by native CSS — no JS, no extra classes in production.</p>
+  <div class="demo-box">
+    <div class="demo-panel active ta-row">
+      <div class="input-field">
+        <label class="input-field-label" for="t-default">Label</label>
+        <div class="textarea">
+          <textarea id="t-default" placeholder="Placeholder"></textarea>
+          <span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span>
+        </div>
+        <p class="input-field-caption">Caption</p>
+      </div>
+    </div>
   </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-default">Copy</button></div>
+    <pre id="c-default"><span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"input-field"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;label</span> <span class="attr">class</span>=<span class="str">"input-field-label"</span> <span class="attr">for</span>=<span class="str">"t1"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/label&gt;</span>
+  <span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"textarea"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;textarea</span> <span class="attr">id</span>=<span class="str">"t1"</span> <span class="attr">placeholder</span>=<span class="str">"Placeholder"</span><span class="kw">&gt;&lt;/textarea&gt;</span>
+    <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"textarea-trailing"</span><span class="kw">&gt;&lt;svg&gt;</span>&hellip;<span class="kw">&lt;/svg&gt;&lt;/span&gt;</span>
+  <span class="kw">&lt;/div&gt;</span>
+  <span class="kw">&lt;p</span> <span class="attr">class</span>=<span class="str">"input-field-caption"</span><span class="kw">&gt;</span>Caption<span class="kw">&lt;/p&gt;</span>
+<span class="kw">&lt;/div&gt;</span></pre>
+  </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Two structural variants. <strong>With trailing icon</strong> is the canonical Figma pattern (helper affordance like "expand", "format", or "attach"). <strong>Without trailing icon</strong> drops the slot entirely — useful for a clean comment box. The shell handles either case automatically — just omit the <code>.textarea-trailing</code> element. The native <code>resize: vertical</code> handle is always available at the bottom-right; pass <code>style="resize:none"</code> on the <code>&lt;textarea&gt;</code> to lock the height.</p>
+  <div class="demo-box">
+    <div class="demo-panel active ta-row">
+
+      <!-- With trailing icon -->
+      <div class="input-field">
+        <label class="input-field-label">With trailing icon</label>
+        <div class="textarea">
+          <textarea placeholder="Placeholder"></textarea>
+          <span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span>
+        </div>
+        <p class="input-field-caption">Caption</p>
+      </div>
+
+      <!-- Without trailing icon -->
+      <div class="input-field">
+        <label class="input-field-label">Without trailing icon</label>
+        <div class="textarea">
+          <textarea placeholder="Placeholder"></textarea>
+        </div>
+        <p class="input-field-caption">Caption</p>
+      </div>
+
+      <!-- Fixed (no resize handle) -->
+      <div class="input-field">
+        <label class="input-field-label">Fixed height (no resize)</label>
+        <div class="textarea">
+          <textarea placeholder="Placeholder" style="resize:none"></textarea>
+          <span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span>
+        </div>
+        <p class="input-field-caption">Caption</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Three sizes per Figma — all share the 120px starting shell, but typography and the trailing icon scale with the size. <code>.textarea-lg</code> uses Body 1 (16/24) text and a 24×24 trailing icon with 12px symmetric padding. Default <code>md</code> uses Body 2 (14/24) and a 16×16 icon with 8/12 padding. <code>.textarea-sm</code> uses Caption 1 (12/16) and the same 16×16 icon. The native vertical resize lets the shell grow past 120px on user drag.</p>
+  <div class="demo-box">
+    <div class="demo-panel active ta-stack">
+      <div class="input-field">
+        <label class="input-field-label">Large</label>
+        <div class="textarea textarea-lg">
+          <textarea placeholder="Placeholder"></textarea>
+          <span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span>
+        </div>
+      </div>
+      <div class="input-field">
+        <label class="input-field-label">Medium (default)</label>
+        <div class="textarea">
+          <textarea placeholder="Placeholder"></textarea>
+          <span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span>
+        </div>
+      </div>
+      <div class="input-field">
+        <label class="input-field-label">Small</label>
+        <div class="textarea textarea-sm">
+          <textarea placeholder="Placeholder"></textarea>
+          <span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Eight states, same set as Text Input. Hover / Focus / Filled are native CSS (<code>:hover</code>, <code>:focus-within</code>, <code>:has(textarea:not(:placeholder-shown))</code>). Success / Warning / Error change only the caption colour — the textarea chrome stays neutral. Disabled propagates from the native <code>disabled</code> attribute via <code>:has()</code> and also locks resize. <code>.is-hover</code> / <code>.is-focus</code> / <code>.is-filled</code> force visual states at rest for documentation.</p>
+  <div class="demo-box">
+    <div class="demo-panel active ta-stack">
+      <div class="input-field"><label class="input-field-label">Default</label><div class="textarea"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+      <div class="input-field"><label class="input-field-label">Hover (forced)</label><div class="textarea is-hover"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+      <div class="input-field"><label class="input-field-label">Focus (forced)</label><div class="textarea is-focus"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+      <div class="input-field"><label class="input-field-label">Filled</label><div class="textarea is-filled"><textarea placeholder="Placeholder">User typed content here.</textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+      <div class="input-field input-field-success"><label class="input-field-label">Success</label><div class="textarea"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+      <div class="input-field input-field-warning"><label class="input-field-label">Warning</label><div class="textarea"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+      <div class="input-field input-field-error"><label class="input-field-label">Error</label><div class="textarea"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+      <div class="input-field"><label class="input-field-label">Disabled</label><div class="textarea"><textarea placeholder="Placeholder" disabled></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">3 sizes × 8 states = 24 cells, mirroring Figma 1:1.</p>
+  <div class="ta-matrix">
+    <div></div>
+    <div class="ta-matrix-h">Large · Body 1</div>
+    <div class="ta-matrix-h">Medium · Body 2</div>
+    <div class="ta-matrix-h">Small · Caption 1</div>
+
+    <!-- Default -->
+    <div class="ta-matrix-row-label">Default</div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea textarea-lg"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea textarea-sm"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- Hover -->
+    <div class="ta-matrix-row-label">Hover</div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea textarea-lg is-hover"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea is-hover"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea textarea-sm is-hover"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- Focus -->
+    <div class="ta-matrix-row-label">Focus</div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea textarea-lg is-focus"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea is-focus"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea textarea-sm is-focus"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- Filled -->
+    <div class="ta-matrix-row-label">Filled</div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea textarea-lg is-filled"><textarea placeholder="Placeholder">User typed content here.</textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea is-filled"><textarea placeholder="Placeholder">User typed content here.</textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea textarea-sm is-filled"><textarea placeholder="Placeholder">User typed content here.</textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- Success -->
+    <div class="ta-matrix-row-label">Success</div>
+    <div><div class="input-field input-field-success"><label class="input-field-label">Label</label><div class="textarea textarea-lg"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field input-field-success"><label class="input-field-label">Label</label><div class="textarea"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field input-field-success"><label class="input-field-label">Label</label><div class="textarea textarea-sm"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- Warning -->
+    <div class="ta-matrix-row-label">Warning</div>
+    <div><div class="input-field input-field-warning"><label class="input-field-label">Label</label><div class="textarea textarea-lg"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field input-field-warning"><label class="input-field-label">Label</label><div class="textarea"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field input-field-warning"><label class="input-field-label">Label</label><div class="textarea textarea-sm"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- Error -->
+    <div class="ta-matrix-row-label">Error</div>
+    <div><div class="input-field input-field-error"><label class="input-field-label">Label</label><div class="textarea textarea-lg"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field input-field-error"><label class="input-field-label">Label</label><div class="textarea"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field input-field-error"><label class="input-field-label">Label</label><div class="textarea textarea-sm"><textarea placeholder="Placeholder"></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- Disabled -->
+    <div class="ta-matrix-row-label">Disabled</div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea textarea-lg"><textarea placeholder="Placeholder" disabled></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea"><textarea placeholder="Placeholder" disabled></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea textarea-sm"><textarea placeholder="Placeholder" disabled></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.input-field</td><td>&lt;div&gt;</td><td>Shared wrapper with <a href="input.html">Text Input</a>. Column flex with 4px gap between label / shell / caption.</td></tr>
+      <tr><td>.input-field-label</td><td>&lt;label&gt;</td><td>Above the shell. Pair its <code>for</code> attribute with the textarea's <code>id</code>.</td></tr>
+      <tr><td>.input-field-caption</td><td>&lt;p&gt;</td><td>Below the shell. Carries success/warning/error colour via the wrapper state modifier.</td></tr>
+      <tr><td>.textarea</td><td>&lt;div&gt;</td><td>The shell — <code>position: relative</code> block, <code>min-height: 120px</code>, 8px radius. Holds the native <code>&lt;textarea&gt;</code> (full-width, native vertical resize) and an absolutely-positioned <code>.textarea-trailing</code> icon at top-right. Handles Hover / Focus / Filled via native pseudo-classes.</td></tr>
+      <tr><td>.textarea-lg</td><td>.textarea</td><td>Large — placeholder/typed text uses Body 1 (16/24), padding is 12px on all sides, trailing icon scales to 24×24.</td></tr>
+      <tr><td>(no size class)</td><td>.textarea</td><td>Medium (default) — Body 2 (14/24) text, 8/12 padding, 16×16 trailing icon.</td></tr>
+      <tr><td>.textarea-sm</td><td>.textarea</td><td>Small — Caption 1 (12/16) text, same 8/12 padding and 16×16 icon as Medium.</td></tr>
+      <tr><td>.textarea-trailing</td><td>&lt;span&gt;</td><td>Absolutely-positioned top-right icon slot. Auto-scales (16×16 default, 24×24 inside <code>.textarea-lg</code>).</td></tr>
+      <tr><td>resize="vertical" / "none"</td><td>&lt;textarea&gt;</td><td>Native attribute. The shell defaults to <code>resize: vertical</code> on its child textarea — drop in <code>style="resize:none"</code> to lock the height. Disabled textareas force <code>resize: none</code>.</td></tr>
+      <tr><td>.input-field-success</td><td>.input-field</td><td>Caption colour shifts to <code>--input-success-caption</code> (green).</td></tr>
+      <tr><td>.input-field-warning</td><td>.input-field</td><td>Caption colour shifts to <code>--input-warning-caption</code> (yellow).</td></tr>
+      <tr><td>.input-field-error</td><td>.input-field</td><td>Caption colour shifts to <code>--input-error-caption</code> (red).</td></tr>
+      <tr><td>.input-field-disabled / disabled</td><td>.input-field / &lt;textarea&gt;</td><td>Sets the disabled visual. Prefer the native HTML <code>disabled</code> attribute — the shell adapts via <code>:has()</code> and resize is locked.</td></tr>
+      <tr><td>.is-hover / .is-focus / .is-filled</td><td>.textarea</td><td>Documentation helpers — force the corresponding state at rest for the Full matrix. Not needed in production code.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
 </body>

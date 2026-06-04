@@ -90,6 +90,630 @@ entry to CHANGELOG.md in the root folder using this format:
     </thead>
     <tbody id="changelog-body">
       <!-- Most recent entry first -->
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.31.7</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Overview: empty 4th changelog card → "View full changelog" card-link. Sidebar: .qlink-card clicks now set pending-active flag so destination page nudges sidebar to show the active link.</td>
+        <td>Removed empty <code>&lt;div class="cl-card"&gt;</code> (4th grid slot). Replaced with <code>.cl-card.cl-card-more</code> styled as a card-link. In ds.js: added <code>SIDEBAR_PENDING_ACTIVE_KEY</code>; <code>.qlink-card</code> clicks set the flag; on load, if flag is set → clear it and call <code>nudgeSidebarToActive()</code> (deferred to window.load); otherwise fall back to sessionStorage restore.</td>
+        <td style="white-space:nowrap;">3 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.31.6</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Sidebar scroll persistence — 2 bugs fixed: RAF race condition lost the saved position on fast clicks; restore ran before CSS applied so scrollTop was silently ignored.</td>
+        <td><strong>Bug 1 (RAF race):</strong> scroll listener debounced via RAF — if user clicked a link before next frame, RAF cancelled and latest scrollTop never saved. Fix: save synchronously. <strong>Bug 2 (restore too early):</strong> <code>restoreSidebarScroll</code> at DOMContentLoaded set scrollTop before <code>height: calc(100vh - 56px)</code> applied — sidebar not yet scrollable, value ignored. Fix: restore immediately (works from cache) AND at <code>window.load</code> (after CSS). Also added click handler on <code>.sb-link</code> to force-save before navigation.</td>
+        <td style="white-space:nowrap;">3 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.31.5</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Sidebar — sessionStorage scroll persistence. No auto-scroll ever. User owns the sidebar scroll position across all page navigations.</td>
+        <td>Removed all auto-scroll logic (<code>scrollSidebarToActive</code>, window.load deferral, visibility-check nudge). Added <code>restoreSidebarScroll</code> (reads <code>ds-sidebar-scroll</code> from sessionStorage after build) and <code>initSidebarScrollPersistence</code> (passive scroll listener, RAF-debounced, saves scrollTop on every user scroll). First visit: position 0. Private browsing / storage errors: silently ignored. Active link still highlighted by <code>buildSidebar()</code> — never moved.</td>
+        <td style="white-space:nowrap;">3 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.31.4</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Sidebar — eliminated scroll-to-center jump on navigation. Active link visibility check replaces centering formula. No scroll if link is already in view.</td>
+        <td>Old: <code>scrollTop = offsetTop − clientHeight/2 + itemH/2</code> — always repositioned, causing a jarring snap. New: check if <code>aTop &lt; sTop</code> (above view → nudge up) or <code>aTop + aH &gt; sTop + sH</code> (below view → nudge down). If neither, link is already visible → no scroll. Works with the <code>window.load</code> deferral from v2.31.3.</td>
+        <td style="white-space:nowrap;">3 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.31.3</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Sidebar — fixed intermittent active-link scroll position. Deferred scrollSidebarToActive() to window.load so it measures layout only after CSS is applied.</td>
+        <td>Root cause: DOMContentLoaded fires before stylesheets paint. <code>sidebar.clientHeight</code> read as 0 (CSS not applied) → <code>scrollTop = max(0, offsetTop - 0/2) → 0</code> → sidebar showed top of list → active link for pages low in the nav (Rating, Slider, Date Picker) was off-screen. Pages near the top (Colors, Button) appeared to work because they were visible at position 0. Fix: in <code>init()</code> check <code>document.readyState === 'complete'</code>; if not, register <code>window.addEventListener('load', scrollSidebarToActive, { once: true })</code>. Only <code>ds.js</code> changed.</td>
+        <td style="white-space:nowrap;">3 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.31.2</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Rating Interactive — Full Rating and Half Rating shown side by side. data-half="true" controls the mode.</td>
+        <td>Interactive section restructured into two labelled groups: <strong>Full Rating</strong> (integer-only, no <code>data-half</code>) and <strong>Half Rating</strong> (<code>data-half="true"</code>, left 50% = .5). Each group has Stars·Yellow / Stars·Brand / Hearts·Red. JS refactored to use DOM traversal (<code>closest('.rt-demo-pair')</code>) instead of fragile idx mapping; <code>useHalf</code> flag controls <code>hoverVal</code> logic. New <code>data-half</code> API row added.</td>
+        <td style="white-space:nowrap;">2 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.31.1</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Rating Interactive — half-rating on hover. Left 50% = half preview, right 50% = full. Works on star-yellow, star-brand, heart-red.</td>
+        <td>Rewrote interactive JS. <code>mousemove</code> + <code>mouseenter</code> detect cursor position via <code>getBoundingClientRect</code> (safe vs child SVG offsetX skew). <code>hoverVal</code> returns <code>i + 0.5</code> when cursor is left of midpoint, <code>i + 1</code> when right. <code>renderVal(val, preview)</code> handles fractional values: items before index get fill, the half-index item gets half icon, rest get stroke. Value label shows <code>"2.5 / 5 stars"</code> format.</td>
+        <td style="white-space:nowrap;">2 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.31.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Rating — fully documented (Star + Heart, 3 colours, 3 sizes, 3 fill states, interactive). Last planned component — system complete. 4 new tokens.</td>
+        <td>Two shapes (Star + Heart) × 3 fill states (Filled / Half / Stroke) × 3 sizes (24/20/16px) × 3 colours (<code>.rating-brand</code> inverts dark / <code>.rating-yellow</code> #FFC107 / <code>.rating-red</code> #CD3232). SVG sprite pool (6 symbols). Half-icon via explicit polygon + full stroke overlay — no <code>clipPath</code>. <code>data-interactive</code> enables hover-preview + click-to-rate. <code>--_rt</code> private cascade drives colour; empty icons always use <code>--rating-empty</code>. 7 sections. 0 stubs remain — DigiLawyer DS is complete.</td>
+        <td style="white-space:nowrap;">2 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.30.1</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Slider — 5 bug fixes: thumb centering, hover/drag rings, 3 sizes, tooltip hidden by default, two count modes.</td>
+        <td>(1) Thumb: <code>input height: 16px</code> + <code>margin-top: calc((--track-h - 16px) / 2)</code>. (2) Rings: 8px hover + 14px active box-shadow using 2 new tokens. (3) Sizes: <code>--track-h</code> var; <code>.slider-md</code>=8px, <code>.slider-lg</code>=12px. (4) Tooltip: <code>opacity: 0</code> by default; shown on <code>.has-tip:hover</code> or <code>.is-dragging</code> (JS mousedown/up). (5) Two count modes: <code>.has-tip</code> = ephemeral pill; <code>.has-val</code> = permanent bottom label.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.30.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Slider — full documentation (single + range, live JS demo). 4 new tokens. Last Inputs stub completed.</td>
+        <td>New <code>.slider-field</code> + <code>.slider</code> + <code>.slider-tip</code> + <code>.slider-val</code> 1:1 from Figma light + dark nodes. 4px track, 16px thumb with page-bg halo. Tooltip inverts like Tooltip component. Range variant: two overlapping inputs, fill between thumbs via <code>--pct-a / --pct-b</code>. JS auto-init via <code>data-slider</code> / <code>data-slider-range</code> attributes. 4 new tokens: <code>--slider-track-bg / --slider-fill / --slider-tip-bg / --slider-tip-text</code>. Only Rating stub remains.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.29.2</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Alert — 3 dark-mode root-cause fixes: body text invisible in coloured semi-filled, brand semi/filled primary buttons invisible (white-on-white).</td>
+        <td>(1) <code>--_body</code> changed from <code>var(--color-heading)</code> to <code>var(--_fg)</code> — dark semi-filled bgs are LIGHT tints so `#FFFFFF` body text was invisible. Border variant overrides back to <code>var(--color-heading)</code>. (2) Brand semi dark: <code>--_b1fg</code> now uses <code>var(--alert-brand-filled-text)</code> which flips `#FFF`→light / `#2D2D2D`→dark. (3) Brand filled dark: new <code>.alert-brand.alert-filled</code> rule swaps btn1 bg/fg using <code>--alert-brand-filled-text</code> and <code>--alert-brand-filled-bg</code> so contrast inverts correctly.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.29.1</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Alert header alignment fixed (centre-aligned, both icon slots 24px). Deleted notification + accordion + list-group + images files. Updated overview + NAV.</td>
+        <td><code>.alert-header</code> changed to <code>align-items: center</code>; both icon slots fixed to <code>flex: 0 0 24px; width/height: 24px</code>. Deleted <code>notification.html</code>, <code>accordion.html</code>, <code>list-group.html</code>, <code>images.html</code>. Removed those 4 entries from NAV + SEARCH_DOCS. Overview component grid now shows Alert instead of Notification and drops the 3 deleted components. STATUS.md updated: 2 pending stubs remain (Slider, Rating); Removed Components section added.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.29.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Alert — fully documented (7 colours × 3 variants). Replaces "Notification" system-wide. 70 new <code>--alert-*</code> tokens.</td>
+        <td>"Notification" renamed to "Alert" in NAV, SEARCH_DOCS, SEARCH_TOKENS, STATUS throughout. New <code>.alert</code> component 1:1 from Figma 140-6541 (light) + 5958-2561 (dark). Semi-filled (tinted bg) / Filled (solid bg, inverted buttons) / Border (page bg + hairline) × Brand / Info / Danger / Success / Warning / Notice / Alert(orange). CSS custom property cascade with <code>--_accent</code> holding the vivid colour for Filled primary button text. Brand inverts in dark filled (white bg + dark text). Full matrix 7 × 3 = 21 surfaces from JS.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.28.1</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Tooltip — fixed layout of Sizes + Positions sections; added interactive hover demo; added <code>.tooltip-host</code> CSS.</td>
+        <td>Sizes: was a 4-col grid causing labels to share rows with different-size tooltips; now a 2-col grid (label | tooltip), one row per size. Positions: was a 4-col grid whose narrow columns clipped left-edge labels; now <code>flex-column</code> with one labelled block per position + a flex-row of 3 sizes. Added <code>.tooltip-host</code> to components.css — a <code>position: relative</code> wrapper that hides child tooltips at rest (<code>opacity: 0</code>) and fades them in on <code>:hover/:focus-within</code> without JS. New Interactive section demonstrates all 4 positions live.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.28.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Tooltip — full documentation (3 sizes × 4 positions). Inverts in dark mode. 1 new token: <code>--tooltip-border</code>.</td>
+        <td>New <code>.tooltip</code> 1:1 from Figma 140-7707 (light) + 2289-4036 (dark). Dark pill in light mode, light pill in dark — always contrasts with the page. Sizes: Large 40px (Body 2) / Medium 32px (Caption 1) / Small 24px (Caption 2). Positions: <code>top/bottom/right/left</code> — class name indicates where tooltip appears; arrow points back toward trigger via <code>::before</code> (border) + <code>::after</code> (fill) triangle pair. <code>.tooltip-icon</code> slot scales 16/14/12 px. 1 new <code>--tooltip-border</code> token (rgba white-10% light / black-10% dark); other 2 tokens already existed.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.27.2</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Avatar — badge pinning rewritten with CSS custom properties: truly auto-adjusts at every avatar and badge size. Added <code>overflow: visible</code> to the stack.</td>
+        <td>Defines <code>--_av-r</code> (avatar radius) on <code>.avatar-stack</code> and derives <code>--_av-pin: calc(50% - var(--_av-r) * 0.7071)</code> — mathematically exact 45° circle-edge offset. Override <code>--_av-r</code> per size class (<code>-lg/-sm/-xs</code>) and CSS cascades the pin automatically. <code>transform: translate(50%, ±50%)</code> centres the badge on that edge so any badge size auto-extends outward. <code>overflow: visible</code> prevents stacks inside <code>overflow: hidden</code> parents from clipping badges.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.27.1</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Avatar — Sizes grid transposed (rows = sizes, columns = variants per Figma); <code>.avatar-pin-br</code> status dot now centred on the circle's bottom-right edge at every size.</td>
+        <td>(1) Sizes grid had variants as rows + an awkward 4th "X-small" row. Rewrote to a header row of variants (Icon / Initials / Image) × four size rows (Large 48 → X-small 24), matching Figma's axis. (2) <code>.avatar-pin-br</code> pinned the dot's corner (<code>bottom/right: 7%</code>), drifting inward and shifting per dot size. Switched to a size-independent centre-anchor — <code>left: 83%; top: 83%; transform: translate(-50%,-50%)</code> — placing the dot's centre on the circle's 45° bottom-right edge. Count pin (top-right) unchanged.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.27.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Avatar — full documentation: Icon / Initials / Image × 4 sizes + Badge composition (count top-right, status dot bottom-right). 2 new tokens.</td>
+        <td>New <code>.avatar</code> + <code>.avatar-stack</code> + <code>.avatar-status</code> 1:1 from Figma 125-2432 (light) + 5914-6626 (dark). Blue #3156DF disc, white content, 1px black-10% hairline — identical both modes per Figma. xs 24 / sm 32 / md 40 / lg 48; initials font 10/12/16/20 px. Hover keeps bg + adds a 10% black scrim. <code>.avatar-pin-tr</code> pins a Badge count, <code>.avatar-pin-br</code> pins a status dot (online/busy/away/offline) with a page-bg ring. Added <code>--avatar-border</code> + <code>--avatar-overlay-hover</code>; corrected legacy <code>--avatar-bg-hover</code> to match Figma's hover==default.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.26.2</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Doc-page demo layouts collapsed inline on Link / Pagination / Breadcrumb / Table — page-local grid/column helpers lost a specificity tie to <code>.demo-panel.active</code>.</td>
+        <td>The Variants / Sizes / Separators / States demo sections use <code>&lt;div class="demo-panel active {prefix}-grid"&gt;</code>. <code>.demo-panel.active</code> (0,2,0) sets <code>display: flex</code> + center; the single-class helpers <code>.ln-grid</code> / <code>.pg-grid</code> / <code>.bc-grid</code> / <code>.tbl-row</code> (0,1,0) lost, so <code>display: grid</code> / <code>flex-direction: column</code> were overridden and every label + example flowed inline. Same bug fixed for Progress Bar in v2.22.1. Rescoped each under <code>.demo-panel.{prefix}-grid</code> / <code>-row</code> to tie specificity + win on source order; added <code>justify-items / justify-content: start</code> for left-alignment. Older horizontal flex-wrap helpers (badge, dropdown, etc.) unaffected.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.26.1</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Alignment fixes — Link / Breadcrumb / Pagination. Three independent inline-flex × icon-vs-text issues.</td>
+        <td>(1) Pagination — restored <code>gap</code> in <code>.pagination .btn</code> cascade; <code>.btn</code> base sets <code>gap: 0</code> so the chevron stuck flush against Previous / Next label. (2) Link — added <code>vertical-align: middle</code> so the inline-flex link baseline-aligns with surrounding running text; <code>display: block</code> on <code>.link-icon svg</code> kills the inline-image baseline gap. (3) Breadcrumb separator — explicit <code>height: 1em + line-height: 1</code>, with <code>width / height: 1em + display: block</code> on inner SVG. The slash and chevron separator variants now occupy the same em-box and center identically; <code>.breadcrumb-sm</code> no longer needs a separator-size override since SVG auto-scales with font-size.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.26.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Breadcrumb — full documentation. <strong>Zero new tokens</strong> — composes with foundation tokens (<code>--color-subheading</code> + <code>--color-heading</code>).</td>
+        <td>New <code>.breadcrumb</code> + <code>.breadcrumb-item</code> + <code>.breadcrumb-separator</code> + <code>.breadcrumb-current</code> 1:1 from Figma 141-9432 (light) + 5942-1172 (dark). Trail items = Body 1 Medium in <code>--color-subheading</code>; current page = Body 1 Semi Bold in <code>--color-heading</code>. Separator slot is consumer-supplied (thin chev / slash / thick chev all demoed) — inherits <code>currentColor</code>. <code>.breadcrumb-sm</code> drops to Body 2 (14/20). No own tokens; foundation refreshes propagate automatically. Composition pairs breadcrumb-above-H1 + folder-paths inside Table cells.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.25.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Pagination — full documentation. <strong>Zero new tokens</strong> — composes entirely with Button (active = .btn-primary, inactive + Prev/Next = .btn-ghost).</td>
+        <td>New <code>.pagination</code> wrapper + <code>.pagination-ellipsis</code> + <code>.btn-square</code> 1:1 from Figma 141-8644 (light) + 5941-919 (dark). Three densities lg 40 / md 36 / sm 32 px drive Body 1 / Body 2 / Caption 1 Semi Bold via cascade — the size lives on the wrapper, not per-button. Chevron icons step 16 / 14 / 12 px. <code>.btn-square</code> clamps min-width = row-height for uniform page cells. Full matrix renders 3 sizes × 4 page-position states (page 1 / mid-range / second-to-last / last) via inline JS.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.24.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Link — full documentation: 3 variants × 4 sizes × 3 states + <code>.link-icon</code> slot. Added missing <code>--link-brand-hover</code> token.</td>
+        <td>New <code>.link</code> component 1:1 from Figma 140-7864 (light) + 5940-2868 (dark). Default / Brand / Blue variants × Body 1 / 3 / Caption 1 / 2 sizes × Default / Hover / Disabled. Underline on hover; <code>.link-underline</code> pins at rest. <code>.link-icon</code> auto-scales 16 / 14 / 12 / 10 px. 6 existing <code>--link-*</code> tokens were already in parity; added <code>--link-brand-hover</code> (same tan in light, <code>#BAB28A</code> in dark). Full matrix renders 36 cells from inline JS.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.23.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Table — full documentation: <code>.table</code> + <code>.table-wrap</code> + <code>.table-cell</code> + <code>.table-cell-action</code>. 6 new tokens. Utility classes <code>.table-cell-end</code> + <code>.td-num</code>. Page passed through /simplify cleanup.</td>
+        <td>New <code>.table</code> 1:1 from Figma 140-5139 (light) + 5892-39544 (dark). Real HTML <code>&lt;table&gt;</code>, border-collapse: collapse, 5%-alpha hairline borders. <code>.table-wrap</code> clips outer corners to 8 px. Header strip <code>#F6F6F6</code> / <code>#2D2D2D</code>; body transparent. <code>.table-cell</code> flex wrapper inside <code>&lt;td&gt;</code> for label + kebab action; <code>.table-cell-action</code> = 24×24 ghost icon button. Two utility classes shipped from the /simplify pass. 6 <code>--table-*</code> tokens × 2 modes. Cleanup pass landed 8 fixes: restored broken comment opener, trimmed verbose comments, dropped dead rules + no-op overrides, swept inline styles to utility classes, replaced IIFE table generator with literal HTML.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.22.10</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Tabs now compose with the canonical Badge component — legacy <code>.tab-badge</code> alias retired</td>
+        <td>v2.22.3–v2.22.6 rewrote Badge (3 Label sizes, scalloped Verify, Caption 2 typography, Brand-dark inversion) but Tabs still used the local <code>.tab-badge</code> alias. Bulk-replaced 31 markup instances with <code>&lt;span class="badge badge-label badge-info"&gt;…&lt;/span&gt;</code>. Dropped the 26-line <code>.tab-badge</code> CSS block. Added a cascade rule: <code>.tab.tab-sm &gt; .badge.badge-label:not(.badge-sm):not(.badge-lg)</code> auto-applies sm sizing, same for <code>.tab-lg</code> → lg. Explicit badge-size mods still win. Tabs are now a true consumer of Badge.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.22.9</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Tabs — icons now scale per size (horizontal 20 / 16 / 14 · vertical 24 / 20 / 16). Alignment demo restructured: one size per <code>.tabs</code> row so small tabs aren't stretched by <code>align-items: stretch</code></td>
+        <td>Icons were hardcoded 16×16 regardless of tab size. Added size-specific <code>.tab-lg/.tab-sm/.tab-vertical</code> rules. Alignment demo had three sizes in one <code>.tabs</code> row → small tab stretched to large vertical's height (64 px) → looked broken. Rewrote as a 3 × 2 grid (sizes × alignments), each cell its own <code>.tabs</code> row, with pixel-size labels in the left column.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.22.8</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Tabs — added Vertical alignment variant (<code>.tab-vertical</code>) per refreshed Figma node 5934-1968. New <code>.tab-label-row</code> child + Alignment section.</td>
+        <td>Figma's refreshed dark frame exposes Alignment = Horizontal | Vertical on every tab. Pulled <code>get_metadata</code>: vertical heights are 64 / 52 / 48 px (vs horizontal 48 / 40 / 32). Added <code>.tab-vertical</code> modifier — column flex direction, new heights, 4 px gap. <code>.tab-label-row</code> wraps label + badge so they stay together under the icon. Active-state underline still anchors at the bottom of either layout. New Alignment section on tabs.html + API rows + search anchor. Source-node citation refreshed (dark <code>5914-6861</code> → <code>5934-1968</code>).</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.22.7</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Tabs — re-audited against refreshed Figma nodes (3817-106 light, 5914-6861 dark). All 24 state/colour tokens match 1:1. Fixed <code>.tab-badge</code> to use Info (blue) tokens + Caption 2 typography + size-scale per tab.</td>
+        <td>Tab tokens (4 states × 3 fields × 2 modes = 24 values) confirmed already in parity — no token changes. Real mismatch was on <code>.tab-badge</code>: was using Brand (dark grey) but Figma shows Badge_Label Blue (Info, <code>#2843CD</code>). Typography was 6 px font on 12 px pill vs Figma's Caption 2 Semi Bold (10 / 12). Refactored to compose with <code>--badge-info-*</code> tokens. Added size-scaling: <code>.tab-sm .tab-badge</code> → 12 / 8 px, default md → 16 / 10 px, <code>.tab-lg .tab-badge</code> → 20 / 12 px. Source-node citations refreshed (dark <code>5887-4266</code> → <code>5914-6861</code>).</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.22.6</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Badge Verify — rebuilt as the scalloped verified-account glyph (12 bumps + central disc + white check) per Figma. Was rendering as a plain circle with a check.</td>
+        <td>Pulled the 12 px render from Figma node 123-2263 — Verify is the Twitter-style scalloped badge, not a plain circle. SVG symbol rewritten: 13 circles (1 central r=5 + 12 r=1 bumps at every 30°) form the serrated outline; check path on top. <code>.badge.badge-verify</code> container is now transparent — SVG owns the visual. Two CSS custom properties drive colours: <code>--vs</code> (shape fill) + <code>--vc</code> (check stroke) per variant. Brand-dark inverts correctly.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.22.5</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Badge — sidebar regression: unterminated HTML comment in badge.html was swallowing the <code>&lt;nav id="sidebar-mount"&gt;</code> mount point</td>
+        <td>v2.22.4's verify-fix added a note above the <code>#ico-badge-check</code> symbol opened with <code>&lt;!--</code> but mistakenly closed with C-style <code>*/</code>. Parser kept consuming the document looking for <code>--&gt;</code>, ate the sidebar mount, so ds.js couldn't inject the sidebar nav. Replaced <code>*/</code> with <code>--&gt;</code>; comment balance now 10 / 10.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.22.4</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Badge Verify variant — check was white-on-white invisible. Removed redundant inner disc from the SVG symbol.</td>
+        <td><code>#ico-badge-check</code> drew <code>&lt;circle fill="currentColor"/&gt;</code> (= white = badge text token) on top of the badge's coloured background, then a hard-coded <code>stroke="#FFFFFF"</code> check on top of THAT white disc. Net effect: invisible white-on-white check inside the coloured halo border — the verify badge looked blank. Symbol now ships as a single <code>currentColor</code>-stroked check path. Stroke width 1.2 → 1.6 for legibility at small sizes.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.22.3</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Badge Label sizes — added missing 12 / 16 / 20 px pill heights per Figma. Previous implementation only had Label at 12 px (one height); Figma spec is three.</td>
+        <td>Audited Figma metadata: Badge has 2 size axes. Dot/Verify (square: 4 / 8 / 12) was correct. Label (pill height: 12 / 16 / 20) was not. Added <code>.badge.badge-label.badge-sm</code> (12 tall, 8 px font) + <code>.badge.badge-label.badge-lg</code> (20 tall, 12 px font); default md is now 16 tall + 10 px Caption 2 Semi Bold. Specificity (0,3,0) lets Label size mods beat the Dot/Verify <code>.badge-sm</code> / <code>.badge-lg</code> (0,1,0). Sizes section now shows 3 × 4 label grid. API table updated.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.22.2</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Badge — re-audited against refreshed Figma nodes (123-2217/123-2267 light, 5926-1828/5926-1773 dark). All 42 token values already match 1:1; source-node citations updated</td>
+        <td>Design team renamed/refreshed the dark Badge frames (old 5897-1277/5897-1222 → new 5926-1828/5926-1773). Pulled fresh variable defs and diffed all 7 colours × 3 fields × 2 modes — zero drift. Brand inversion, chromatic palette, and halo border (#FFFFFF light / #1C1C1C dark) all confirmed unchanged. Updated source-node comments in <code>tokens.css</code> and the "Mirrors Figma node…" line in <code>badge.html</code>. No CSS / visual change.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.22.1</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Progress Bar — fix Variants/States/Sizes grid (was flowing inline) + rebuild Interactive with radio-style active states + inline % readout</td>
+        <td><code>.pb-grid</code> / <code>.pb-row</code> were specificity 0,1,0 and lost to <code>.demo-panel.active</code> (0,2,0) which set <code>display: flex</code> — label/bar pairs flowed inline. Rescoped under <code>.demo-panel</code> for spec tie. Interactive: bar + % moved to one flex row (% is now inline-right of the bar). Three control rows form a 2-col grid (label left, options right). Colour + Size are radio groups (single active = <code>.btn-primary</code>); Ramp + Indeterminate are mutually-exclusive toggles.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.22.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Progress Bar — full documentation: 7 colours × 2 sizes (8 / 12 px) + indeterminate, live interactive demo, 42 new tokens</td>
+        <td>New <code>.progress</code> component 1:1 from Figma 3007-14257 (light) + 5917-1593 (dark). Replaces legacy 4-token block with 21 tokens × 2 modes — track at ~20% alpha of progress colour (Brand is neutral). Sizes <code>.progress-sm</code> 8 px / <code>.progress-md</code> 12 px. <code>.progress-indeterminate</code> runs a 1.4 s sweep. Live demo: ramp button drives a real %; colour + size buttons swap modifier classes. Full matrix 7 × 5 grid at both sizes.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.21.4</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Date Picker Interactive demo — title-button view-switch + prev/next nav arrows now work (were closing the panel mid-render)</td>
+        <td>Panel click delegate calls <code>render()</code> which replaces <code>panel.innerHTML</code>, detaching <code>e.target</code>. The document-level outside-click handler then sees <code>!field.contains(detachedNode)</code> as true and immediately closes the panel. Fix: <code>e.stopPropagation()</code> at the top of the panel handler so in-panel clicks never reach the outside-click guard.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.21.3</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Date Picker Interactive demo — input pinned to top of canvas + Month→Year title click re-anchors range</td>
+        <td><code>.dp-interactive-panel</code> now forces <code>align-items / justify-content: flex-start</code> so the Text Input sits at the top of the 620px canvas (was centered, calendar overflowed). View-switch handler recomputes <code>yearRangeStart</code> on Month→Year hop so it always lands on the range containing the current view year.</td>
+        <td style="white-space:nowrap;">1 June 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.21.2</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Date Picker Interactive demo — min-height 500 → 620 so open calendar fits inside canvas</td>
+        <td>v2.21.1's 500px was tight. Input-field ~100px + calendar ~360px + demo padding ~56px ≈ 530px so the calendar overflowed the bottom border. Bumped to 620px with breathing room.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.21.1</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Date Picker Interactive demo — unclip + extend canvas so calendar is visible</td>
+        <td>Calendar was clipped by .demo-box's overflow:hidden and the 100px .demo-panel min-height. Added 2 page-local helpers (.dp-interactive-box → overflow:visible; .dp-interactive-panel → min-height 500px) so the open calendar has room.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.21.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Date Picker — full documentation (4 variants + 5 states), live demo composes Text Input</td>
+        <td>New .datepicker component 1:1 from Figma 105-1786 / 105-2329 / 105-2431 (light) + 5913-1594 / 5913-1609 / 5913-1616 (dark). Single / Range / Month / Year variants. 5 cell states (Default / Hover / Active / In-range / Disabled), Active inverts. 10 --datepicker-* tokens × 2 modes. Live demo wires Text Input → calendar panel with month nav, view-switching, outside-click dismiss.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.20.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Badge — full documentation (3 variants × 3 sizes × 7 colours), Tabs `.tab-badge` refactored to use Badge tokens</td>
+        <td>New .badge component 1:1 from Figma 123-2217 / 123-2267 / 5897-1277 / 5897-1222. 3 variants (Dot / Label / Verify) × 3 sizes (sm 4 / md 8 / lg 12) × 7 colours. Brand inverts in dark. 1px halo border (white light / page-bg dark) separates badge from any host surface. .badge-pin helper anchors at top:-4/right:-4. 21 new --badge-* tokens × 2 modes = 42 total. Tabs refactored: .tab-badge is now an alias that reads --badge-brand-* tokens.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.19.5</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Snackbar Positions section — triggers fire Info Filled (was Brand Semi), buttons preview the style</td>
+        <td>Position triggers switched from Brand Semi to Info Filled. Buttons themselves restyle inline via --snackbar-info-deep / -filled-text lookup — same pattern as Variants triggers. MutationObserver on data-theme keeps previews accurate across the theme toggle.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.19.4</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Snackbar — adds box-shadow var(--shadow-3) to base rule</td>
+        <td>Single-line addition on .snackbar. Picks up per-theme shadow automatically — light: 4/16/4 rgba(0,0,0,0.06); dark: 4/16/4 rgba(0,0,0,0.30) (from v2.17.0). Every snackbar across all 7 page sections now reads as a floating notification.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.19.3</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Snackbar dark Semi bgs — rgba transparent tints → solid dark colours (matches light-mode pattern)</td>
+        <td>6 dark Semi bgs (Info / Danger / Success / Warning / Notice / Alert) were rgba(X, 0.20) — composited differently depending on what surface they sat over. Light mode has always used solid pale colours; dark mode now matches with solid dark equivalents (Info #212B4D, Danger #4A2929, Success #224429, Warning #4A4119, Notice #382E4F, Alert #4D341A). Surface-independent. Border tokens unchanged (borders benefit from transparency). Filled unchanged.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.19.2</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Snackbar dark mode — Brand Filled readable, Brand Semi no longer merges, other Semi alphas 15% → 20%</td>
+        <td>Hardcoded filled text was #FFFFFF — broke Brand in dark (deep=white). Added --snackbar-{v}-filled-text token (Brand dark = #2D2D2D, others white). Snackbar text + inverted action button bg/border now read the token. Brand dark semi-bg #2D2D2D → #3D3D3D (was colliding with --color-bg-2). Other semi rgba alphas 0.15 → 0.20 for visibility on dark page.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.19.1</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Snackbar Interactive — segmented State toggle + variant triggers preview snackbar style</td>
+        <td>State toggle markup used non-existent .btn-pos-l/m/r → switched to canonical .btn-pos-left/middle/right + .btn-group-active-border wrapper + .active/aria-pressed (matches Button Group). Variant triggers now restyle live to preview the snackbar's deep/semi-bg/border-border tokens for the currently-selected state — flip Semi → Filled → Border and all 7 buttons re-skin. MutationObserver on data-theme keeps previews accurate across the theme toggle.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.19.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Snackbar — full documentation (7 variants × 3 states) + MUI-style interactive demo</td>
+        <td>New .snackbar component 1:1 from Figma 161-5424. 7 colour variants × 3 states (Semi-filled / Filled / Border) = 21 surfaces. 21 --snackbar-* tokens per mode (42 total). Filled action button inverts via descendant rule. Interactive section: 7 variant triggers + 3-state toggle fire real toasts at top-right with auto-dismiss + close. Positions section: 6 viewport anchors with stacking regions. 21-cell matrix. Dark mode flagged for Figma verification.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.18.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Tabs — full documentation (3 sizes × 4 states), light + dark Figma-verified</td>
+        <td>New .tab component 1:1 from Figma 3817-106 (light) + 5887-4266 (dark). 3 sizes (lg 48 / md 40 / sm 32) × 4 states (Default / Hover / Active / Disabled). Active swaps bottom border to solid. Optional leading .tab-icon + trailing .tab-badge inline pill. 7 new --tab-* tokens added (5 existed). Default-section demo is live-interactive (aria-selected + tabpanel swap). 12-cell matrix mirrors Figma.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.17.2</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Yellow primitives refreshed (12 stops) — amber/tan/brown ramp replaces butter/gold</td>
+        <td>From Color Primitives ZIP. 12 primitive --primitive-yellow-* updated + 8 cascaded component refs (--color-warning-text, --input-warning-caption, --tag-yellow-filled-bg, --tag-yellow-outline-text across light + dark) + 12 inline swatches on colors.html. Opacity base #DFCF13 unchanged, so --color-warning-bg, --tag-yellow-outline-bg, --tag-yellow-outline-border untouched. tokens.json regenerated.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.17.1</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Tag dark-mode tokens match Figma 5856:4255 — closes v2.17.0 Known Issue</td>
+        <td>Full rewrite of dark Tag block. Outline (24 surfaces): 6 colours had wrong bg shade + wrong alpha 20%→10%; Blue + Yellow had wrong border + text ramps; Grey border #E7E7E7→#6D6D6D; Black border white-alpha→black-alpha. Two new Filled overrides: Yellow #FFD400→#FFD91B, Orange #DF7417→#ED8A19 (more saturated/lighter for visibility on dark). Light unchanged. Dark-mode audit complete.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.17.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Dark-mode parity audit (9 components) + black drop shadows + new --upload-* tokens</td>
+        <td>Batched audit against 9 Figma dark nodes. Most components already correct. 3 deltas: (1) Checkbox + Radio dark hover/disabled steps corrected per Figma — bg-hover #3D3D3D→#2D2D2D, checked-hover #E7E7E7→#D1D1D1, checked-disabled #6D6D6D→#454545. (2) New --upload-bg + --upload-bg-hover (Upload diverges from Input in dark: #2D2D2D / #3D3D3D vs Input #3D3D3D / #3D3D3D). (3) Dark shadows: rgba(255,255,255,X) white glow → rgba(0,0,0,X) deep black with elevated alpha — industry-standard dark drop shadow. Toggle thumb shadow flips too.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.16.5</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Options dark-mode tokens match Figma (5837:3332). Dropdown inherits.</td>
+        <td>Dark --options-bg #2D2D2D → #1C1C1C (matches dropdown panel — rows blend until hover). Dark --options-bg-hover rgba overlay → solid #2D2D2D (lifts on hover, opposite of light's dim-on-hover). Dark --options-text-disabled #B0B0B0 → #888888 (Neutral/400). Light unchanged.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.16.4</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Options Medium: icon 24 → 16, font Body 1 → Body 2 (Figma 98:17811). Propagates to Dropdown.</td>
+        <td>Re-verified all 3 sizes against the canonical Options + Dropdown Figma node. Medium had wrong icon size and wrong typography; Large + Small already correct. Restructured CSS so base = Medium and .options-lg bumps icons + font back up. Default bg already #FFFFFF. Docs Sizes desc + API rows updated.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.16.3</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Options Small — padding + typography now match Figma 1:1</td>
+        <td>.options-sm had 3 bugs vs Figma node 3420:2915: padding-x 8 → 12px, font-size 14 → 12px, line-height 20 → 16px. Now Caption 1 (12/16) with shared 12px horizontal padding across all sizes. Docs Sizes desc and API row updated.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.16.2</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Upload Media — hero glyph swapped from gallery-add to a classic upload arrow-into-tray</td>
+        <td>Sprite symbol id renamed ico-gallery-add → ico-upload. New 2-stroke design: up arrow stem + chevron head landing into an open tray, matching the Lucide / Feather / Heroicons upload convention. All 8 references updated (7 inline + 1 in page script). Prose mention shifted to "upload-arrow icon".</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.16.1</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Upload Media — Default demo opens real file picker, renders pills with thumbnail previews, × removes</td>
+        <td>Opt-in via data-upload-interactive on .upload. Inline page script wires Choose-file to native &lt;input type=file&gt;, reads images with FileReader for live thumbnails, × deletes per file. 5MB / 3-file limit enforced — Choose button hides at limit. Two new attrs documented: data-upload-max, data-upload-accept.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.16.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Upload Media — full documentation (4 variants × 2 states)</td>
+        <td>New .upload component 1:1 from Base-AI Figma (node 3348-6794). Empty / 1 / 2 / 3 (limit) file states × Default + Hover. Empty state stacks hero icon + heading + subheading + Choose-file button. File-list state shows .upload-file pills. Zero new tokens — reuses --input-* from Text Input. Choose-file button composes with existing .btn.btn-primary.btn-sm.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.15.3</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Text Area — per-size typography, icon, and padding now match Figma 1:1</td>
+        <td>v2.15.0 had all 3 sizes sharing Body 2 / 16px icon. Figma differs them on those exact axes: Large = Body 1 + 24px icon + 12px padding; Medium = Body 2 + 16px icon + 8/12 padding; Small = Caption 1 + 16px icon + 8/12 padding. Container height stays 120px across all three — size axis is typography density, not height. Docs page (intro, Sizes desc, matrix headers, API rows) updated to match.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.15.2</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Text Area — fix broken resize + anchor handle to shell bottom-right (Figma parity)</td>
+        <td>Shell switched from fixed height + flex layout to min-height + position:relative. Textarea now spans full width with padding-right for the trailing icon, which moved to absolute top-right. Native browser resize handle now lands at the shell's actual bottom-right corner.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.15.1</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Text Input — typed text weight medium → regular</td>
+        <td>.input > input font-weight: --fw-medium (500) → --fw-regular (400) per design revision. Label, caption, OTP, and Text Area weights unchanged.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.15.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Text Area — full documentation, shares wrapper + tokens with Text Input</td>
+        <td>New .textarea component 1:1 from Base-AI Figma (node 101-18519). 3 sizes × 8 states = 24 cells. Reuses .input-field wrapper, label, caption, state modifiers, and the entire --input-* token group from Text Input. Only the shell is new — top-aligned, native &lt;textarea&gt; with resize: vertical, 16×16 trailing icon. Hover / Focus / Filled native CSS. Zero new tokens.</td>
+        <td style="white-space:nowrap;">31 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.14.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Text Input — full documentation (3 sizes × 8 states × 3 variants)</td>
+        <td>New .input component 1:1 from Base-AI Figma (node 2260-4637). 72 combinations. Shell handles Hover / Focus / Filled via native :hover, :focus-within, :has(). State modifiers only colour the caption. Tags variant composes our .tag chip. OTP variant is N single-character cells. 6-section docs with 3×8 = 24-cell matrix.</td>
+        <td style="white-space:nowrap;">29 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.13.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Dropdown — full documentation, Figma-exact panel chrome</td>
+        <td>New .dropdown component 1:1 from Base-AI Figma (node 144-1623). Panel wraps .options rows. 3 Figma-exact fixes to chrome: radius 4 → 8px, shadow -5 → -3 (subtler), 8px gap between rows. CSS aliases .options-menu so existing Options demos inherit the fix. 4-section docs (Default / Sizes / Composition / API).</td>
+        <td style="white-space:nowrap;">29 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.12.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Options — sizes (lg/md/sm), Tag composition, Figma-exact tokens</td>
+        <td>3 sizes via .options-lg / default / .options-sm (48/40/32 px) with explicit heights and box-sizing border-box. Trailing slot now composes our real .tag (replaced the ad-hoc .opt-tag helper). Hover bg corrected to rgba(0,0,0,0.05) overlay; disabled text #5D5D5D → #6D6D6D. Fixed --radius-xxs typo (sharp corners). Full matrix is now 3 sizes × 3 states per Figma node 3420-2878.</td>
+        <td style="white-space:nowrap;">29 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.11.5</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Tag — Black Filled chip visible in dark mode</td>
+        <td>Dark theme inherited light's #2D2D2D filled-bg, identical to --color-bg-2 → invisible chip. Inverted to white bg + dark text in dark mode. "Black" remains the max-contrast neutral in both themes.</td>
+        <td style="white-space:nowrap;">29 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.11.4</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Tag — fixed 5 broken token names (padding, font, weight, radius)</td>
+        <td>Root cause of every "size still wrong" report. CSS used --space-xs/--space-xxs/--font-family/--font-weight-semibold/--radius-xxs — none exist. Fixed to --spacing-xs/--spacing-xxs/--font-primary/--fw-semibold/--radius-xs. Tag now renders with the correct padding, Inter Semi Bold, and 4px rounded corners.</td>
+        <td style="white-space:nowrap;">29 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.11.3</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Tag — matrix + demos now show canonical [icon] Label [icon] pattern</td>
+        <td>Figma reference always shows leading + trailing icon slots — my matrix rendered bare "Label". Added ico-tag-ph placeholder square and wrapped every Full matrix cell + Variants/Sizes demos with icon slots. CSS unchanged — pure docs fidelity fix.</td>
+        <td style="white-space:nowrap;">29 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.11.2</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Tag — pixel-exact heights + Filled border transparent (Figma 1:1)</td>
+        <td>Sizes now use box-sizing:border-box + explicit height (lg=32 / md=28 / sm=24 / xs=20) to match Figma symbol names 1:1. Filled border drops to transparent per Figma spec.</td>
+        <td style="white-space:nowrap;">29 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.11.1</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Tag — Figma fidelity fixes (Outline text, 4th size, color corrections)</td>
+        <td>Outline + Semi text now uses the darker filled-bg shade (matches Figma 1:1, better contrast). Yellow/grey/black outline values corrected. Added missing .tag-lg — Figma has 4 sizes (lg/md/sm/xs), not 3. sm now Caption 1 (12/16), xs now Caption 2 (10/12). Icon sizes 16/14/12/10 px. Dark mode mirrors corrected light relationship.</td>
+        <td style="white-space:nowrap;">29 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.11.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Tag component — full documentation</td>
+        <td>New .tag component 1:1 from Base-AI Figma. 8 colors × 3 variants (Filled/Outline/Semi) × 3 sizes (md/sm/xs). Optional leading/trailing icon slots. 40 --tag-* tokens light + 24 dark overrides for outline/semi treatments. 7-section docs with 8×3 = 24-cell matrix.</td>
+        <td style="white-space:nowrap;">29 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.10.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Options component — full documentation</td>
+        <td>New .options component 1:1 from Base-AI Figma. Single selectable row (button role=option) with leading/label/trailing slots. Lives inside .options-menu panel with shadow + radius. 14 new --options-* tokens (light + dark). 5-section docs with 3×3 matrix.</td>
+        <td style="white-space:nowrap;">27 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.9.6</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Sidebar auto-scrolls to active link on page load</td>
+        <td>Before, every page opened with the sidebar at scrollTop:0 — active links on pages below the fold (Tabs, Breadcrumb, etc.) were invisible until users manually scrolled the sidebar. Added scrollSidebarToActive() in ds.js, runs once in init(), centres the active link in the sidebar's scroll viewport, never touches window/document.</td>
+        <td style="white-space:nowrap;">26 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.9.5</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Homepage Latest Changes trimmed to 3 most recent + rule codified</td>
+        <td>Removed 5 oldest cards (v2.6.0 → v2.2.0) from the index.html Latest Changes grid. Only the 3 most recent stay on the homepage; full history lives in CHANGELOG.md and changelog.html. CLAUDE.md versioning rule now explicitly says "exactly 3 cards always".</td>
+        <td style="white-space:nowrap;">26 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.9.4</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Remove orphan legacy Checkbox tokens</td>
+        <td>Deleted the legacy /* Checkbox */ block (--checkbox-unchecked-border, --checkbox-checked-icon, --checkbox-disabled-bg + duplicate --checkbox-checked-bg) from both :root and [data-theme="dark"]. Zero CSS/JS/HTML references — verified by repo-wide grep. Canonical --checkbox-* tokens unchanged. Forward-looking --link-*/--avatar-*/--tooltip-* etc. placeholders kept.</td>
+        <td style="white-space:nowrap;">26 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.9.3</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Toggle dark-mode tokens corrected to match Figma source</td>
+        <td>5 wrong values + 1 structural gap. Thumb colour is state-dependent in dark mode (white when off/disabled, dark when on) — added --toggle-thumb-on token + CSS rule. Fixed --toggle-bg-disabled (#454545→#6D6D6D), --toggle-checked-bg-hover (#E7E7E7→#FAFAFA), and --toggle-thumb-shadow to use white alpha per Figma.</td>
+        <td style="white-space:nowrap;">26 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.9.2</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Toggle thumb visually centred — shadow was creating perceived low offset</td>
+        <td>v2.9.1 fixed the geometric centring but the thumb still read as low because --toggle-thumb-shadow used --shadow-5 (card-level — 4px Y-offset, 16px blur on a 16-20px circle). Replaced with a tight component-appropriate shadow (0 1px 3px rgba). Thumb now reads centred at every size.</td>
+        <td style="white-space:nowrap;">26 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.9.1</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Fix Toggle thumb vertical misalignment</td>
+        <td>v2.9.0 toggle track had a 1px border that offset the thumb's absolute-positioned top by 1px (asymmetric centering — 3px above, 1px below). Since every Figma state had the border either transparent or same-as-bg, removing the border was both correct and simpler. Thumb now perfectly centered at every size.</td>
+        <td style="white-space:nowrap;">26 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.9.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Toggle Switch component — full documentation, three sizes</td>
+        <td>New .toggle component 1:1 from Base-AI Figma. Hidden native checkbox + .toggle-track pill + .toggle-thumb knob that slides via CSS. Three sizes (sm/md/lg) via custom properties. First real use of new-component.js scaffold. 14 new --toggle-* tokens reusing --shadow-5 for thumb drop-shadow. 6 sections, matrix is 3×3×2 = 18 cells matching Figma.</td>
+        <td style="white-space:nowrap;">26 May 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
       <tr data-type="minor" data-by="Adesh Singh">
         <td class="ver">v2.8.0</td>
         <td><span class="type-badge minor">MINOR</span></td>

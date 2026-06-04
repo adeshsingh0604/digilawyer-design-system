@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alert — DigiLawyer DS</title>
+<script>
+  window.DS_PAGE = { key: 'alert', root: '../' };
+</script>
+<script src="../shared/ds.js"></script>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/layout.css">
+<link rel="stylesheet" href="../shared/components.css">
+<style>
+  .al-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+  /* Scope helpers under .demo-panel to beat .demo-panel.active (0,2,0) */
+  .demo-panel.al-col {
+    display: flex; flex-direction: column; gap: 20px;
+    padding: 28px 32px; align-items: stretch; justify-content: flex-start;
+  }
+  .demo-panel.al-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; padding: 28px 32px; align-items: start;
+  }
+  .al-cap {
+    font-size: 12px; color: var(--color-subheading);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+</style>
+</head>
+<body>
+
+<svg class="al-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ico-al-icon" viewBox="0 0 20 20">
+    <rect x="2" y="2" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+    <path d="M6.5 10h7M10 6.5v7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  </symbol>
+  <symbol id="ico-al-close" viewBox="0 0 16 16">
+    <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  </symbol>
+</svg>
+
+<nav id="sidebar-mount"></nav>
+
+<main class="main">
+
+  <h1 class="page-title">Alert</h1>
+  <p class="page-intro">Inline feedback panel for contextual status messages. Replaces "Notification" — previously named <em>Notification</em>, now referred to as <strong>Alert</strong> throughout the system. Mirrors Figma node 140-6541 (light) + 5958-2561 (dark) 1:1. Three visual variants — <strong>Semi-filled</strong> (tinted bg + colour title), <strong>Filled</strong> (solid colour bg + white text), <strong>Border</strong> (white bg + colour border + title). Seven semantic colours: Brand · Info · Danger · Success · Warning · Notice · Alert&nbsp;(orange). Each alert carries a header row (icon + title + dismiss), a description body, and up to two action buttons. 70 new <code>--alert-*</code> tokens (35 light + 35 dark) power the cascade; a small set of CSS custom properties on the wrapper propagates colour + variant to every child.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">A bare <code>.alert</code> — Brand colour, Semi-filled variant (the defaults). Add a colour class (<code>.alert-info</code> etc.) and an optional variant class (<code>.alert-filled</code> / <code>.alert-border</code>) to override.</p>
+  <div class="demo-box">
+    <div class="demo-panel active al-col">
+      <div class="alert alert-brand" role="alert">
+        <div class="alert-header">
+          <span class="alert-icon"><svg><use href="#ico-al-icon"/></svg></span>
+          <span class="alert-title">Title</span>
+          <button class="alert-close" aria-label="Dismiss"><svg><use href="#ico-al-close"/></svg></button>
+        </div>
+        <p class="alert-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <div class="alert-actions">
+          <button class="alert-btn-primary">Button</button>
+          <button class="alert-btn-secondary">Button</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Three variants shown on the Info colour. <strong>Semi-filled</strong> (default — no variant class) uses a tinted background with a coloured title/icon. <strong>Filled</strong> (<code>.alert-filled</code>) uses the solid accent as background with white text throughout; the primary action button inverts to white + accent text. <strong>Border</strong> (<code>.alert-border</code>) sits on the page bg with a coloured hairline. Combine with any colour class: <code>class="alert alert-info alert-filled"</code>.</p>
+  <div class="demo-box">
+    <div class="demo-panel active al-grid">
+      <div>
+        <div class="al-cap">Semi-filled (default)</div>
+        <div class="alert alert-info" role="alert">
+          <div class="alert-header">
+            <span class="alert-icon"><svg><use href="#ico-al-icon"/></svg></span>
+            <span class="alert-title">Title</span>
+            <button class="alert-close" aria-label="Dismiss"><svg><use href="#ico-al-close"/></svg></button>
+          </div>
+          <p class="alert-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <div class="alert-actions">
+            <button class="alert-btn-primary">Button</button>
+            <button class="alert-btn-secondary">Button</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="al-cap">Filled</div>
+        <div class="alert alert-info alert-filled" role="alert">
+          <div class="alert-header">
+            <span class="alert-icon"><svg><use href="#ico-al-icon"/></svg></span>
+            <span class="alert-title">Title</span>
+            <button class="alert-close" aria-label="Dismiss"><svg><use href="#ico-al-close"/></svg></button>
+          </div>
+          <p class="alert-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <div class="alert-actions">
+            <button class="alert-btn-primary">Button</button>
+            <button class="alert-btn-secondary">Button</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="al-cap">Border</div>
+        <div class="alert alert-info alert-border" role="alert">
+          <div class="alert-header">
+            <span class="alert-icon"><svg><use href="#ico-al-icon"/></svg></span>
+            <span class="alert-title">Title</span>
+            <button class="alert-close" aria-label="Dismiss"><svg><use href="#ico-al-close"/></svg></button>
+          </div>
+          <p class="alert-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <div class="alert-actions">
+            <button class="alert-btn-primary">Button</button>
+            <button class="alert-btn-secondary">Button</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <h2 id="colors">Colors</h2>
+  <p class="desc">Seven semantic colours — all shown in Semi-filled. Toggle the theme switch in the global header to see every colour under dark tokens; backgrounds lighten, accents brighten slightly. The "Alert" colour class (<code>.alert-alert</code>) is the orange semantic — same naming convention used across the system (<code>--color-alert-*</code>).</p>
+  <div class="demo-box">
+    <div class="demo-panel active al-col">
+
+      <script>
+        (function () {
+          var colors = ['brand','info','danger','success','warning','notice','alert'];
+          var labels = ['Brand','Info','Danger','Success','Warning','Notice','Alert (orange)'];
+          var out = '';
+          for (var i = 0; i < colors.length; i++) {
+            out += '<div class="alert alert-' + colors[i] + '" role="alert">';
+            out += '<div class="alert-header"><span class="alert-icon"><svg><use href="#ico-al-icon"/></svg></span><span class="alert-title">' + labels[i] + '</span><button class="alert-close" aria-label="Dismiss"><svg><use href="#ico-al-close"/></svg></button></div>';
+            out += '<p class="alert-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>';
+            out += '<div class="alert-actions"><button class="alert-btn-primary">Button</button><button class="alert-btn-secondary">Button</button></div>';
+            out += '</div>';
+          }
+          document.write(out);
+        })();
+      </script>
+
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">7 colours × 3 variants = 21 alert surfaces. Each cell is the canonical alert with icon, title, body, dismiss, and two action buttons. Toggle dark mode to see the full dark-mode coverage — Brand inverts (white bg in filled dark), coloured variants use brighter tones.</p>
+  <div style="display:flex; flex-direction:column; gap:28px; padding:24px; border:1px dashed var(--color-border); border-radius:var(--radius-md); background:var(--color-bg-2);">
+    <script>
+      (function () {
+        var colors = ['brand','info','danger','success','warning','notice','alert'];
+        var labels = ['Brand','Info','Danger','Success','Warning','Notice','Alert'];
+        var variants = [['','Semi-filled'],['alert-filled','Filled'],['alert-border','Border']];
+        function card(color, variant) {
+          var cls = 'alert alert-' + color + (variant ? ' ' + variant : '');
+          return '<div class="' + cls + '" role="alert">'
+            + '<div class="alert-header">'
+            + '<span class="alert-icon"><svg><use href="#ico-al-icon"/></svg></span>'
+            + '<span class="alert-title">Title</span>'
+            + '<button class="alert-close" aria-label="Dismiss"><svg><use href="#ico-al-close"/></svg></button>'
+            + '</div>'
+            + '<p class="alert-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>'
+            + '<div class="alert-actions">'
+            + '<button class="alert-btn-primary">Button</button>'
+            + '<button class="alert-btn-secondary">Button</button>'
+            + '</div></div>';
+        }
+        var out = '';
+        variants.forEach(function (v) {
+          out += '<div>';
+          out += '<div style="font-size:11px;color:var(--color-subheading);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">' + v[1] + '</div>';
+          out += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">';
+          colors.forEach(function (c, i) {
+            out += '<div>';
+            out += '<div style="font-size:11px;color:var(--color-subheading);margin-bottom:6px;">' + labels[i] + '</div>';
+            out += card(c, v[0]);
+            out += '</div>';
+          });
+          out += '</div></div>';
+        });
+        document.write(out);
+      })();
+    </script>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.alert</td><td>&lt;div role="alert"&gt;</td><td>Wrapper. Sets internal CSS custom props, <code>padding: 16px</code>, <code>border-radius: 8px</code>, <code>display: flex; flex-direction: column; gap: 8px</code>. Default = Brand Semi-filled.</td></tr>
+      <tr><td>.alert-brand / -info / -danger / -success / -warning / -notice / -alert</td><td>.alert</td><td>Colour modifiers. Sets the 5 colour-specific CSS custom properties that drive bg, text, border, and button colours for all three variants.</td></tr>
+      <tr><td>.alert-filled</td><td>.alert</td><td>Filled variant — solid accent bg, all-white text and icons. Primary button inverts to white bg + accent text.</td></tr>
+      <tr><td>.alert-border</td><td>.alert</td><td>Border variant — page bg (<code>--color-bg</code>), coloured hairline border, same coloured icon/title as Semi-filled.</td></tr>
+      <tr><td>.alert-header</td><td>&lt;div&gt;</td><td>Flex row: icon · title · close button.</td></tr>
+      <tr><td>.alert-icon</td><td>&lt;span&gt;</td><td>20×20 SVG icon slot, inherits the alert accent colour.</td></tr>
+      <tr><td>.alert-title</td><td>&lt;span&gt;</td><td>Body&nbsp;1 Medium (16/24) in the accent colour. Fills available space (flex: 1).</td></tr>
+      <tr><td>.alert-close</td><td>&lt;button aria-label="Dismiss"&gt;</td><td>24×24 icon button, transparent, uses accent colour at 75% opacity. Fades to full opacity on hover.</td></tr>
+      <tr><td>.alert-body</td><td>&lt;p&gt;</td><td>Body&nbsp;2 Regular (14/24). Uses page heading colour in Semi/Border, white in Filled.</td></tr>
+      <tr><td>.alert-actions</td><td>&lt;div&gt;</td><td>Flex row of action buttons (wrap enabled).</td></tr>
+      <tr><td>.alert-btn-primary</td><td>&lt;button&gt;</td><td>Caption&nbsp;1 Semi Bold (12/16). In Semi/Border: accent bg + white text. In Filled: white bg + accent text.</td></tr>
+      <tr><td>.alert-btn-secondary</td><td>&lt;button&gt;</td><td>Caption&nbsp;1 Semi Bold. Transparent bg, 1px border. Border and text = accent in Semi/Border; white in Filled.</td></tr>
+      <tr><td>role="alert"</td><td>.alert</td><td>ARIA live region — assistive tech announces the content immediately. Use <code>role="status"</code> for lower-priority informational alerts.</td></tr>
+      <tr><td>--alert-{color}-semi-bg / -semi-text</td><td>Token</td><td>Semi-filled background and accent text/icon colour.</td></tr>
+      <tr><td>--alert-{color}-filled-bg / -filled-text</td><td>Token</td><td>Filled variant background + text colour (white for all colours except Brand which inverts in dark mode).</td></tr>
+      <tr><td>--alert-{color}-brd-border</td><td>Token</td><td>Border variant border colour (10% alpha tint of the accent).</td></tr>
+    </tbody>
+  </table>
+
+</main>
+<aside id="toc-mount"></aside>
+</body>
+</html>

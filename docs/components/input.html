@@ -5,23 +5,270 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Text Input — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'input', root: '../', toc: false };
+  window.DS_PAGE = { key: 'input', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  /* Sprite symbols local to this page */
+  .in-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  /* Side-by-side input samples. */
+  .in-row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; padding: 28px 32px; }
+  .in-row .input-field { width: 320px; }
+
+  /* Stacked rows (sizes / states demos). */
+  .in-stack { display: flex; flex-direction: column; gap: 16px; padding: 28px 32px; align-items: stretch; }
+  .in-stack .input-field { width: 320px; }
+
+  /* Full matrix — 3 sizes × 8 states. */
+  .in-matrix {
+    display: grid;
+    grid-template-columns: 110px repeat(3, minmax(320px, 1fr));
+    gap: var(--spacing-md) var(--spacing-lg);
+    align-items: start;
+    padding: var(--spacing-xl);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-2);
+    overflow-x: auto;
+  }
+  .in-matrix-h {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: left;
+  }
+  .in-matrix-row-label {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    align-self: center;
+  }
+</style>
 </head>
 <body>
+
+<svg class="in-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ico-add-square" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8.5 12h7M12 8.5v7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></symbol>
+  <symbol id="ico-tag-x" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Text Input</h1>
-  <p class="page-intro">Single-line text input with label, helper text, and validation states.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">Single-line input with label, optional leading and trailing icon slots, and helper caption. Three sizes (lg 48 / md 40 / sm 32), eight states (Default · Hover · Focus · Filled · Success · Warning · Error · Disabled), and three variants (Default text, Tags input that hosts <a href="tag.html">.tag</a> chips, OTP code input). Values from Figma node 2260-4637.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">The minimal input is a <code>.input-field</code> wrapper with three children: <code>.input-field-label</code>, the <code>.input</code> shell (containing optional leading icon + native <code>&lt;input&gt;</code> + optional trailing icon), and <code>.input-field-caption</code>. The shell handles Hover, Focus, and Filled states automatically via <code>:hover</code>, <code>:focus-within</code>, and <code>:has(input:not(:placeholder-shown))</code>.</p>
+  <div class="demo-box">
+    <div class="demo-panel active in-row">
+      <div class="input-field">
+        <label class="input-field-label" for="i-default">Label</label>
+        <div class="input">
+          <span class="input-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <input id="i-default" type="text" placeholder="Placeholder">
+          <span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span>
+        </div>
+        <p class="input-field-caption">Caption</p>
+      </div>
+    </div>
   </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-default">Copy</button></div>
+    <pre id="c-default"><span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"input-field"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;label</span> <span class="attr">class</span>=<span class="str">"input-field-label"</span> <span class="attr">for</span>=<span class="str">"i1"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/label&gt;</span>
+  <span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"input"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"input-leading"</span><span class="kw">&gt;&lt;svg&gt;</span>&hellip;<span class="kw">&lt;/svg&gt;&lt;/span&gt;</span>
+    <span class="kw">&lt;input</span> <span class="attr">id</span>=<span class="str">"i1"</span> <span class="attr">type</span>=<span class="str">"text"</span> <span class="attr">placeholder</span>=<span class="str">"Placeholder"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"input-trailing"</span><span class="kw">&gt;&lt;svg&gt;</span>&hellip;<span class="kw">&lt;/svg&gt;&lt;/span&gt;</span>
+  <span class="kw">&lt;/div&gt;</span>
+  <span class="kw">&lt;p</span> <span class="attr">class</span>=<span class="str">"input-field-caption"</span><span class="kw">&gt;</span>Caption<span class="kw">&lt;/p&gt;</span>
+<span class="kw">&lt;/div&gt;</span></pre>
+  </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Three variants. <strong>Default</strong> is a single line of typed text. <strong>Tags</strong> wraps the shell to flow lines of <a href="tag.html">.tag</a> chips alongside the editable input — use for multi-token entry like email recipients or category pickers. <strong>OTP</strong> is a row of single-character cells for verification codes.</p>
+  <div class="demo-box">
+    <div class="demo-panel active in-row">
+
+      <!-- Default -->
+      <div class="input-field">
+        <label class="input-field-label" for="i-v-default">Default</label>
+        <div class="input">
+          <span class="input-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <input id="i-v-default" type="text" placeholder="Placeholder">
+          <span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span>
+        </div>
+        <p class="input-field-caption">Caption</p>
+      </div>
+
+      <!-- Tags -->
+      <div class="input-field">
+        <label class="input-field-label" for="i-v-tags">Tags</label>
+        <div class="input input-tags">
+          <span class="tag tag-grey tag-outline tag-sm">Label<span class="tag-trailing"><svg><use href="#ico-tag-x"/></svg></span></span>
+          <span class="tag tag-grey tag-outline tag-sm">Label<span class="tag-trailing"><svg><use href="#ico-tag-x"/></svg></span></span>
+          <input id="i-v-tags" type="text" placeholder="">
+          <span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span>
+        </div>
+        <p class="input-field-caption">Caption</p>
+      </div>
+
+      <!-- OTP -->
+      <div class="input-field">
+        <label class="input-field-label">OTP</label>
+        <div class="input-otp">
+          <input type="text" maxlength="1" inputmode="numeric" placeholder="•" aria-label="Digit 1">
+          <input type="text" maxlength="1" inputmode="numeric" placeholder="•" aria-label="Digit 2">
+          <input type="text" maxlength="1" inputmode="numeric" placeholder="•" aria-label="Digit 3">
+          <input type="text" maxlength="1" inputmode="numeric" placeholder="•" aria-label="Digit 4">
+          <input type="text" maxlength="1" inputmode="numeric" placeholder="•" aria-label="Digit 5">
+          <input type="text" maxlength="1" inputmode="numeric" placeholder="•" aria-label="Digit 6">
+        </div>
+        <p class="input-field-caption">Caption</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Three sizes per Figma: <code>.input-lg</code> (48px), default <code>md</code> (40px), <code>.input-sm</code> (32px). All use Body 1 typography (16/24); sm drops to Body 2 (14/20). Icons scale 24/24/16 px. Label and caption use Caption 1 (12/16) in all sizes.</p>
+  <div class="demo-box">
+    <div class="demo-panel active in-stack">
+      <div class="input-field">
+        <label class="input-field-label" for="i-s-lg">Large</label>
+        <div class="input input-lg">
+          <span class="input-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <input id="i-s-lg" type="text" placeholder="Placeholder">
+          <span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span>
+        </div>
+      </div>
+      <div class="input-field">
+        <label class="input-field-label" for="i-s-md">Medium (default)</label>
+        <div class="input">
+          <span class="input-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <input id="i-s-md" type="text" placeholder="Placeholder">
+          <span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span>
+        </div>
+      </div>
+      <div class="input-field">
+        <label class="input-field-label" for="i-s-sm">Small</label>
+        <div class="input input-sm">
+          <span class="input-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <input id="i-s-sm" type="text" placeholder="Placeholder">
+          <span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Eight states. Hover / Focus / Filled are driven by native CSS (<code>:hover</code>, <code>:focus-within</code>, <code>:has(input:not(:placeholder-shown))</code>) — pointer or keyboard-focus to preview. Success / Warning / Error change only the caption colour (chrome stays neutral so the field never screams). Disabled uses either the wrapper class or native <code>disabled</code> on the <code>&lt;input&gt;</code>. <code>.is-hover</code>, <code>.is-focus</code>, and <code>.is-filled</code> force the visual at rest for documentation.</p>
+  <div class="demo-box">
+    <div class="demo-panel active in-stack">
+      <div class="input-field"><label class="input-field-label">Default</label><div class="input"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+      <div class="input-field"><label class="input-field-label">Hover (forced)</label><div class="input is-hover"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+      <div class="input-field"><label class="input-field-label">Focus (forced)</label><div class="input is-focus"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+      <div class="input-field"><label class="input-field-label">Filled</label><div class="input is-filled"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder" value="User input"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+      <div class="input-field input-field-success"><label class="input-field-label">Success</label><div class="input"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+      <div class="input-field input-field-warning"><label class="input-field-label">Warning</label><div class="input"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+      <div class="input-field input-field-error"><label class="input-field-label">Error</label><div class="input"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+      <div class="input-field"><label class="input-field-label">Disabled</label><div class="input"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder" disabled><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">3 sizes × 8 states for the Default variant, mirroring Figma 1:1 (24 cells). Each cell shows the canonical pattern: leading icon · placeholder · trailing icon, with label above and caption below.</p>
+  <div class="in-matrix">
+    <div></div>
+    <div class="in-matrix-h">Large · 48</div>
+    <div class="in-matrix-h">Medium · 40</div>
+    <div class="in-matrix-h">Small · 32</div>
+
+    <!-- Default -->
+    <div class="in-matrix-row-label">Default</div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input input-lg"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input input-sm"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- Hover -->
+    <div class="in-matrix-row-label">Hover</div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input input-lg is-hover"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input is-hover"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input input-sm is-hover"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- Focus -->
+    <div class="in-matrix-row-label">Focus</div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input input-lg is-focus"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input is-focus"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input input-sm is-focus"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- Filled -->
+    <div class="in-matrix-row-label">Filled</div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input input-lg is-filled"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder" value="User input"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input is-filled"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder" value="User input"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input input-sm is-filled"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder" value="User input"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- Success -->
+    <div class="in-matrix-row-label">Success</div>
+    <div><div class="input-field input-field-success"><label class="input-field-label">Label</label><div class="input input-lg"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field input-field-success"><label class="input-field-label">Label</label><div class="input"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field input-field-success"><label class="input-field-label">Label</label><div class="input input-sm"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- Warning -->
+    <div class="in-matrix-row-label">Warning</div>
+    <div><div class="input-field input-field-warning"><label class="input-field-label">Label</label><div class="input input-lg"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field input-field-warning"><label class="input-field-label">Label</label><div class="input"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field input-field-warning"><label class="input-field-label">Label</label><div class="input input-sm"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- Error -->
+    <div class="in-matrix-row-label">Error</div>
+    <div><div class="input-field input-field-error"><label class="input-field-label">Label</label><div class="input input-lg"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field input-field-error"><label class="input-field-label">Label</label><div class="input"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field input-field-error"><label class="input-field-label">Label</label><div class="input input-sm"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder"><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- Disabled -->
+    <div class="in-matrix-row-label">Disabled</div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input input-lg"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder" disabled><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder" disabled><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="input input-sm"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder" disabled><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.input-field</td><td>&lt;div&gt;</td><td>Wrapper for the whole field — column flex with 4px gap between label / shell / caption.</td></tr>
+      <tr><td>.input-field-label</td><td>&lt;label&gt;</td><td>Above the shell. Caption 1 (12/16), <code>--fw-medium</code>. Pair its <code>for</code> attribute with the input's <code>id</code>.</td></tr>
+      <tr><td>.input-field-caption</td><td>&lt;p&gt;</td><td>Below the shell. Caption 1 (12/16), <code>--fw-regular</code>. Carries the success/warning/error colour via the wrapper state modifier.</td></tr>
+      <tr><td>.input</td><td>&lt;div&gt;</td><td>The shell — flex row containing the leading icon, the native <code>&lt;input&gt;</code>, and the trailing icon. 40px tall (md default), Body 1 typography, 8px radius. Handles Hover / Focus / Filled via native pseudo-classes.</td></tr>
+      <tr><td>.input-lg</td><td>.input</td><td>Large — 48px tall.</td></tr>
+      <tr><td>.input-sm</td><td>.input</td><td>Small — 32px tall, Body 2 (14/20) typography, 16px icons.</td></tr>
+      <tr><td>.input-leading</td><td>&lt;span&gt;</td><td>Leading icon slot. Wrap inline SVG; sized 24×24 (16×16 in sm).</td></tr>
+      <tr><td>.input-trailing</td><td>&lt;span&gt;</td><td>Trailing icon slot. Mirror of <code>.input-leading</code>.</td></tr>
+      <tr><td>.input-tags</td><td>.input</td><td>Tags variant — wraps and hosts <a href="tag.html">.tag</a> chips inline with the editable input.</td></tr>
+      <tr><td>.input-otp</td><td>&lt;div&gt;</td><td>OTP variant — a row of single-character inputs (not a shell). Compose with <code>.input-lg</code> / <code>.input-sm</code> for size.</td></tr>
+      <tr><td>.input-field-success</td><td>.input-field</td><td>Caption colour shifts to <code>--input-success-caption</code> (green).</td></tr>
+      <tr><td>.input-field-warning</td><td>.input-field</td><td>Caption colour shifts to <code>--input-warning-caption</code> (yellow).</td></tr>
+      <tr><td>.input-field-error</td><td>.input-field</td><td>Caption colour shifts to <code>--input-error-caption</code> (red).</td></tr>
+      <tr><td>.input-field-disabled / disabled</td><td>.input-field / &lt;input&gt;</td><td>Sets the disabled visual. Prefer the native HTML <code>disabled</code> attribute on the <code>&lt;input&gt;</code> — the shell adapts via <code>:has()</code>.</td></tr>
+      <tr><td>.is-hover / .is-focus / .is-filled</td><td>.input</td><td>Documentation helpers — force the corresponding state at rest for the Full matrix. Not needed in production code.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
 </body>

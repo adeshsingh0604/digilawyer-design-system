@@ -5,24 +5,418 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Progress Bar — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'progress-bar', root: '../', toc: false };
+  window.DS_PAGE = { key: 'progress-bar', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  /* Page-local helpers — keep the demos tidy without polluting components.css.
+     IMPORTANT: the shared .demo-panel.active selector has specificity (0,2,0).
+     If any helper here uses a single-class selector, .demo-panel.active will
+     beat it on display/layout. Every helper that overrides layout is therefore
+     scoped under .demo-panel to tie specificity (0,2,0) — same-specificity tie,
+     page-style declared after components.css so it wins on source order. */
+
+  /* Default section — a single bar centred, fixed width. */
+  .demo-panel.pb-row {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 28px 32px;
+    align-items: flex-start;
+  }
+  .pb-row .progress { width: 320px; }
+
+  /* Variants / Sizes / States — a 2-col label | bar grid. Label left-aligned
+     under a uniform 100px column so every row stacks vertically; bars fill
+     the rest of the row width. */
+  .demo-panel.pb-grid {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 16px 20px;
+    align-items: center;
+    padding: 28px 32px;
+  }
+  .pb-grid .label {
+    font-size: 12px;
+    color: var(--color-subheading);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .pb-grid .progress { width: 100%; max-width: 480px; }
+
+  /* Interactive — bar on top with % value inline-right; three labelled
+     control rows underneath, each row's label vertically aligned with the
+     others' under an 80px column. */
+  .demo-panel.pb-interactive {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 28px 32px;
+    align-items: stretch;
+  }
+  .pb-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 720px;
+  }
+  .pb-bar-row .progress { flex: 1; }
+  .pb-bar-row .pb-value {
+    flex: 0 0 auto;
+    min-width: 48px;
+    text-align: right;
+    color: var(--color-heading);
+    font-weight: var(--fw-medium);
+    font-variant-numeric: tabular-nums;
+  }
+  .pb-controls-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 12px 16px;
+    align-items: center;
+    max-width: 720px;
+  }
+  .pb-controls-grid > .label {
+    font-size: 12px;
+    color: var(--color-subheading);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .pb-controls-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+</style>
 </head>
 <body>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Progress Bar</h1>
-  <p class="page-intro">Linear progress indicator. Supports success, warning, and error states.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">Linear track that shows how far a determinate operation has progressed (download %, multi-step form completion, quota usage), or a sweeping animation for indeterminate work. Mirrors Figma node 3007-14257 (light) + 5917-1593 (dark) 1:1. Two sizes (8&nbsp;px / 12&nbsp;px), seven colours (Brand / Blue / Green / Purple / Orange / Yellow / Red), and an indeterminate variant. The track is full-width by default; clip it with a wrapper width when you need a fixed length.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">A <code>.progress</code> track with a single <code>.progress-fill</code> child. The fill width is driven inline via <code>style="width: N%;"</code> (or via JS for live updates). Add <code>role="progressbar"</code> plus <code>aria-valuemin</code> / <code>aria-valuemax</code> / <code>aria-valuenow</code> for screen-reader users. Default colour is Brand, default size is Small (8&nbsp;px).</p>
+  <div class="demo-box">
+    <div class="demo-panel active pb-row">
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="60">
+        <div class="progress-fill" style="width: 60%;"></div>
+      </div>
+    </div>
   </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Seven colour modifiers — apply <code>.progress-{color}</code> alongside the base <code>.progress</code>. Each variant swaps three tokens: the track background (~20% alpha of the progress colour), an always-transparent border (kept named so an outlined variant can swap it without forking the CSS), and the solid progress fill. Brand is the only outlier — its track uses neutral black @ 10% (white @ 10% in dark) instead of a tinted background, so it reads as a primary system colour rather than a coloured semantic.</p>
+  <div class="demo-box">
+    <div class="demo-panel active pb-grid">
+      <span class="label">Brand</span>  <div class="progress progress-brand"  role="progressbar" aria-valuenow="60"><div class="progress-fill" style="width:60%;"></div></div>
+      <span class="label">Blue</span>   <div class="progress progress-blue"   role="progressbar" aria-valuenow="60"><div class="progress-fill" style="width:60%;"></div></div>
+      <span class="label">Green</span>  <div class="progress progress-green"  role="progressbar" aria-valuenow="60"><div class="progress-fill" style="width:60%;"></div></div>
+      <span class="label">Purple</span> <div class="progress progress-purple" role="progressbar" aria-valuenow="60"><div class="progress-fill" style="width:60%;"></div></div>
+      <span class="label">Orange</span> <div class="progress progress-orange" role="progressbar" aria-valuenow="60"><div class="progress-fill" style="width:60%;"></div></div>
+      <span class="label">Yellow</span> <div class="progress progress-yellow" role="progressbar" aria-valuenow="60"><div class="progress-fill" style="width:60%;"></div></div>
+      <span class="label">Red</span>    <div class="progress progress-red"    role="progressbar" aria-valuenow="60"><div class="progress-fill" style="width:60%;"></div></div>
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Two heights pulled directly from Figma. <strong>Small</strong> (<code>.progress-sm</code>, 8&nbsp;px) is the default — quietest, best for dense surfaces (cards, list rows, multi-bar dashboards). <strong>Medium</strong> (<code>.progress-md</code>, 12&nbsp;px) reads at a longer glance distance — use it for the primary action on a page (upload, multi-step wizard, quota). Both clip the fill via <code>overflow: hidden</code> + <code>border-radius: var(--radius-full)</code> so the fill pill stays inside the track at every value, including 0% and 100%.</p>
+  <div class="demo-box">
+    <div class="demo-panel active pb-grid">
+      <span class="label">Small · 8</span>   <div class="progress progress-brand progress-sm" role="progressbar" aria-valuenow="60"><div class="progress-fill" style="width:60%;"></div></div>
+      <span class="label">Medium · 12</span> <div class="progress progress-brand progress-md" role="progressbar" aria-valuenow="60"><div class="progress-fill" style="width:60%;"></div></div>
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Progress Bar is a value-driven primitive — there is no hover, focus, or disabled state. The states that matter are <strong>value</strong> (0% / 50% / 100%) and <strong>indeterminate</strong> (when duration is unknown — file upload before headers, server-side processing). Indeterminate is a class modifier (<code>.progress-indeterminate</code>) that ignores <code>aria-valuenow</code> and runs a 1.4&nbsp;s sweep across the track. Use it sparingly — switch back to determinate as soon as you can compute a percentage. The live demo below ramps a real percentage so you can see the <code>width</code> transition.</p>
+  <div class="demo-box">
+    <div class="demo-panel active pb-grid">
+      <span class="label">0%</span>            <div class="progress progress-brand" role="progressbar" aria-valuenow="0"><div class="progress-fill" style="width:0%;"></div></div>
+      <span class="label">25%</span>           <div class="progress progress-brand" role="progressbar" aria-valuenow="25"><div class="progress-fill" style="width:25%;"></div></div>
+      <span class="label">50%</span>           <div class="progress progress-brand" role="progressbar" aria-valuenow="50"><div class="progress-fill" style="width:50%;"></div></div>
+      <span class="label">75%</span>           <div class="progress progress-brand" role="progressbar" aria-valuenow="75"><div class="progress-fill" style="width:75%;"></div></div>
+      <span class="label">100%</span>          <div class="progress progress-brand" role="progressbar" aria-valuenow="100"><div class="progress-fill" style="width:100%;"></div></div>
+      <span class="label">Indeterminate</span> <div class="progress progress-brand progress-indeterminate" role="progressbar" aria-label="Loading"><div class="progress-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- Interactive -->
+  <h2 id="interactive">Interactive</h2>
+  <p class="desc">Live demo. The <strong>Value</strong> row sets a determinate percentage (jump to 0/25/50/75/100), ramps from the current value to 100, or flips into indeterminate. The <strong>Colour</strong> and <strong>Size</strong> rows behave like radio groups — only one option active at a time, selection swaps a modifier class on the live bar. Active selection is shown with the dark primary fill so the current state is unmistakable. Width transitions use a 0.24&nbsp;s ease (see <code>.progress-fill</code> in components.css).</p>
+  <div class="demo-box">
+    <div class="demo-panel active pb-interactive">
+
+      <!-- Live bar + inline percent readout. -->
+      <div class="pb-bar-row">
+        <div id="pb-bar" class="progress progress-brand progress-md" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress-fill" style="width: 0%;"></div>
+        </div>
+        <span class="pb-value" id="pb-value">0%</span>
+      </div>
+
+      <!-- Three labelled control rows. Labels share an 80px column so they
+           stack vertically; options flow horizontally in the second column. -->
+      <div class="pb-controls-grid">
+
+        <span class="label">Value</span>
+        <div class="pb-controls-row">
+          <button type="button" class="btn btn-secondary btn-sm" data-pb-set="0">0</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-pb-set="25">25</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-pb-set="50">50</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-pb-set="75">75</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-pb-set="100">100</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="pb-ramp" aria-pressed="false">Ramp</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="pb-indeterminate" aria-pressed="false">Indeterminate</button>
+        </div>
+
+        <span class="label">Colour</span>
+        <div class="pb-controls-row" role="radiogroup" aria-label="Colour">
+          <button type="button" class="btn btn-primary   btn-sm" data-pb-color="brand"  role="radio" aria-checked="true">Brand</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-pb-color="blue"   role="radio" aria-checked="false">Blue</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-pb-color="green"  role="radio" aria-checked="false">Green</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-pb-color="purple" role="radio" aria-checked="false">Purple</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-pb-color="orange" role="radio" aria-checked="false">Orange</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-pb-color="yellow" role="radio" aria-checked="false">Yellow</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-pb-color="red"    role="radio" aria-checked="false">Red</button>
+        </div>
+
+        <span class="label">Size</span>
+        <div class="pb-controls-row" role="radiogroup" aria-label="Size">
+          <button type="button" class="btn btn-secondary btn-sm" data-pb-size="sm" role="radio" aria-checked="false">Small · 8</button>
+          <button type="button" class="btn btn-primary   btn-sm" data-pb-size="md" role="radio" aria-checked="true">Medium · 12</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">Size × colour at five representative values. Determinate only — indeterminate has no value axis so it lives in States. This is the canonical reference grid for cross-mode comparison; toggle the theme switch in the global header to see every cell under dark tokens.</p>
+  <div style="display:flex; flex-direction:column; gap:24px; padding:24px; border:1px dashed var(--color-border); border-radius:var(--radius-md); background:var(--color-bg-2);">
+
+    <!-- Small (8px) matrix -->
+    <div>
+      <div style="font-size:12px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">Small (8&nbsp;px)</div>
+      <div style="display:grid; grid-template-columns:80px repeat(5, 1fr); gap:12px 16px; align-items:center;">
+        <div></div>
+        <div style="font-size:11px; color:var(--color-subheading); text-align:center;">0%</div>
+        <div style="font-size:11px; color:var(--color-subheading); text-align:center;">25%</div>
+        <div style="font-size:11px; color:var(--color-subheading); text-align:center;">50%</div>
+        <div style="font-size:11px; color:var(--color-subheading); text-align:center;">75%</div>
+        <div style="font-size:11px; color:var(--color-subheading); text-align:center;">100%</div>
+
+        <script>
+          (function () {
+            var rows = ['brand','blue','green','purple','orange','yellow','red'];
+            var vals = [0,25,50,75,100];
+            var html = '';
+            rows.forEach(function (c) {
+              html += '<div style="font-size:12px; color:var(--color-subheading); font-weight:600; text-transform:capitalize;">' + c + '</div>';
+              vals.forEach(function (v) {
+                html += '<div class="progress progress-' + c + ' progress-sm" role="progressbar" aria-valuenow="' + v + '"><div class="progress-fill" style="width:' + v + '%;"></div></div>';
+              });
+            });
+            document.write(html);
+          })();
+        </script>
+      </div>
+    </div>
+
+    <!-- Medium (12px) matrix -->
+    <div>
+      <div style="font-size:12px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">Medium (12&nbsp;px)</div>
+      <div style="display:grid; grid-template-columns:80px repeat(5, 1fr); gap:12px 16px; align-items:center;">
+        <div></div>
+        <div style="font-size:11px; color:var(--color-subheading); text-align:center;">0%</div>
+        <div style="font-size:11px; color:var(--color-subheading); text-align:center;">25%</div>
+        <div style="font-size:11px; color:var(--color-subheading); text-align:center;">50%</div>
+        <div style="font-size:11px; color:var(--color-subheading); text-align:center;">75%</div>
+        <div style="font-size:11px; color:var(--color-subheading); text-align:center;">100%</div>
+
+        <script>
+          (function () {
+            var rows = ['brand','blue','green','purple','orange','yellow','red'];
+            var vals = [0,25,50,75,100];
+            var html = '';
+            rows.forEach(function (c) {
+              html += '<div style="font-size:12px; color:var(--color-subheading); font-weight:600; text-transform:capitalize;">' + c + '</div>';
+              vals.forEach(function (v) {
+                html += '<div class="progress progress-' + c + ' progress-md" role="progressbar" aria-valuenow="' + v + '"><div class="progress-fill" style="width:' + v + '%;"></div></div>';
+              });
+            });
+            document.write(html);
+          })();
+        </script>
+      </div>
+    </div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.progress</td><td>&lt;div role="progressbar"&gt;</td><td>Track wrapper. Full-width by default — clip with a parent or inline <code>width</code>. 8&nbsp;px tall, pill-shaped (<code>--radius-full</code>), <code>overflow: hidden</code> so the fill clips at the corners.</td></tr>
+      <tr><td>.progress-fill</td><td>&lt;div&gt; (only child of .progress)</td><td>The inner fill bar. Set width inline (<code>style="width: 60%;"</code>) or via JS. Transitions across 0.24&nbsp;s ease so updates animate smoothly.</td></tr>
+      <tr><td>.progress-sm / .progress-md</td><td>.progress</td><td>Heights — Small (8&nbsp;px, default) and Medium (12&nbsp;px). Sizes map 1:1 to the Figma "Size" property.</td></tr>
+      <tr><td>.progress-brand</td><td>.progress</td><td>Default. Neutral black-on-white track (<code>--progress-brand-bg</code>) + black fill (<code>--progress-brand-progress</code>). Inverts to white-on-dark in dark mode.</td></tr>
+      <tr><td>.progress-blue / -green / -purple / -orange / -yellow / -red</td><td>.progress</td><td>Coloured variants — semi-transparent tinted track + solid progress fill. Each maps to its own <code>--progress-{color}-{field}</code> token triple.</td></tr>
+      <tr><td>.progress-indeterminate</td><td>.progress</td><td>Switches the fill from value-driven to a 1.4&nbsp;s looped sweep animation. Use when duration is unknown; drop the modifier and set a real <code>aria-valuenow</code> as soon as you can measure progress.</td></tr>
+      <tr><td>role="progressbar"</td><td>.progress</td><td>ARIA role — always present.</td></tr>
+      <tr><td>aria-valuemin / aria-valuemax / aria-valuenow</td><td>.progress</td><td>Bounds + current value (0 / 100 / N). Required for determinate bars so screen readers announce progress. Omit <code>aria-valuenow</code> for indeterminate; pair with <code>aria-label</code> instead.</td></tr>
+      <tr><td>--progress-{color}-bg</td><td>Token</td><td>Track background. Semi-transparent tint (~20% alpha) of the progress colour for every variant except Brand, which uses black @ 10% (white @ 10% in dark).</td></tr>
+      <tr><td>--progress-{color}-border</td><td>Token</td><td>Track border. Transparent on every variant — exposed as a named token so a future outlined variant can swap it without forking the rule.</td></tr>
+      <tr><td>--progress-{color}-progress</td><td>Token</td><td>Solid fill colour for the inner bar.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
+
+<script>
+/* Interactive demo — value ramp, color/size radio swap, indeterminate toggle.
+   Colour and Size rows behave like radio groups (single active). Ramp and
+   Indeterminate are toggles (their own active state, mutually exclusive with
+   each other). Active = .btn-primary (dark fill), inactive = .btn-secondary
+   (subtle fill) — the existing button design tokens give us free visual
+   feedback without inventing a new "selected" style. */
+(function () {
+  var bar = document.getElementById('pb-bar');
+  if (!bar) return;
+  var fill = bar.querySelector('.progress-fill');
+  var valueLabel = document.getElementById('pb-value');
+  var rampBtn = document.getElementById('pb-ramp');
+  var indetBtn = document.getElementById('pb-indeterminate');
+  var rampTimer = null;
+  var currentColor = 'brand';
+  var currentSize = 'md';
+
+  function setBtnActive(btn, active) {
+    if (active) {
+      btn.classList.remove('btn-secondary');
+      btn.classList.add('btn-primary');
+      btn.setAttribute('aria-pressed', 'true');
+    } else {
+      btn.classList.remove('btn-primary');
+      btn.classList.add('btn-secondary');
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  }
+
+  function setRadioActive(groupSelector, activeBtn) {
+    document.querySelectorAll(groupSelector).forEach(function (b) {
+      var on = (b === activeBtn);
+      if (on) {
+        b.classList.remove('btn-secondary');
+        b.classList.add('btn-primary');
+        b.setAttribute('aria-checked', 'true');
+      } else {
+        b.classList.remove('btn-primary');
+        b.classList.add('btn-secondary');
+        b.setAttribute('aria-checked', 'false');
+      }
+    });
+  }
+
+  function leaveIndeterminate() {
+    if (bar.classList.contains('progress-indeterminate')) {
+      bar.classList.remove('progress-indeterminate');
+    }
+    setBtnActive(indetBtn, false);
+  }
+
+  function setValue(v) {
+    leaveIndeterminate();
+    v = Math.max(0, Math.min(100, v));
+    fill.style.width = v + '%';
+    bar.setAttribute('aria-valuenow', v);
+    valueLabel.textContent = v + '%';
+  }
+
+  function stopRamp() {
+    if (rampTimer) {
+      clearInterval(rampTimer);
+      rampTimer = null;
+    }
+    rampBtn.textContent = 'Ramp';
+    setBtnActive(rampBtn, false);
+  }
+
+  /* Numeric jump buttons — stop ramp, leave indeterminate, jump. */
+  document.querySelectorAll('[data-pb-set]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      stopRamp();
+      setValue(parseInt(b.getAttribute('data-pb-set'), 10));
+    });
+  });
+
+  /* Ramp — toggle active state, advance value on a timer. */
+  rampBtn.addEventListener('click', function () {
+    if (rampTimer) { stopRamp(); return; }
+    leaveIndeterminate();
+    var v = parseInt(bar.getAttribute('aria-valuenow') || '0', 10);
+    if (v >= 100) v = 0;
+    rampBtn.textContent = 'Pause';
+    setBtnActive(rampBtn, true);
+    rampTimer = setInterval(function () {
+      v += 2;
+      if (v >= 100) { setValue(100); stopRamp(); return; }
+      setValue(v);
+    }, 80);
+  });
+
+  /* Indeterminate — toggle the modifier class, mutually exclusive with ramp. */
+  indetBtn.addEventListener('click', function () {
+    if (bar.classList.contains('progress-indeterminate')) {
+      leaveIndeterminate();
+      setValue(0);
+      return;
+    }
+    stopRamp();
+    bar.classList.add('progress-indeterminate');
+    bar.removeAttribute('aria-valuenow');
+    valueLabel.textContent = '—';
+    fill.style.width = '';
+    setBtnActive(indetBtn, true);
+  });
+
+  /* Colour radio group. */
+  document.querySelectorAll('[data-pb-color]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      bar.classList.remove('progress-' + currentColor);
+      currentColor = b.getAttribute('data-pb-color');
+      bar.classList.add('progress-' + currentColor);
+      setRadioActive('[data-pb-color]', b);
+    });
+  });
+
+  /* Size radio group. */
+  document.querySelectorAll('[data-pb-size]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      bar.classList.remove('progress-' + currentSize);
+      currentSize = b.getAttribute('data-pb-size');
+      bar.classList.add('progress-' + currentSize);
+      setRadioActive('[data-pb-size]', b);
+    });
+  });
+})();
+</script>
 </body>
 </html>

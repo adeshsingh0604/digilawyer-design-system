@@ -5,23 +5,241 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Options — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'options', root: '../', toc: false };
+  window.DS_PAGE = { key: 'options', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  /* Sprite symbols local to this page */
+  .opt-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  /* Radio-dot indicator for "current selection" style. */
+  .opt-dot {
+    width: 16px; height: 16px;
+    border-radius: var(--radius-full);
+    background: var(--color-heading);
+    position: relative;
+  }
+  .opt-dot::after {
+    content: ''; position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 6px; height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--color-bg);
+  }
+
+  /* Side-by-side menu samples in the demos. */
+  .opt-row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; padding: 28px 32px; }
+
+  /* Matrix grid */
+  .opt-matrix {
+    display: grid;
+    grid-template-columns: 140px repeat(3, minmax(180px, 1fr));
+    gap: var(--spacing-md);
+    align-items: center;
+    padding: var(--spacing-xl);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-2);
+  }
+  .opt-matrix-h {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .opt-matrix-row-label {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+  }
+</style>
 </head>
 <body>
+
+<svg class="opt-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ico-check-thin" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <!-- Vuesax outline icons referenced by the Figma source (node 3420-2878). -->
+  <symbol id="ico-add-square" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8.5 12h7M12 8.5v7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></symbol>
+  <symbol id="ico-arrow-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Options</h1>
-  <p class="page-intro">Segmented control for selecting one option from a small set of choices.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">A single selectable row used inside a dropdown or as a select-style trigger. Three slots (leading icon · label · trailing) and three states (default · hover · disabled), in three sizes (lg 48px / md 40px / sm 32px). Composes with the <a href="tag.html">Tag</a> component for trailing chips.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">The canonical Options row, mirroring the Figma library (node 3420-2878): leading icon, label, trailing chevron, and a <code>.tag.tag-grey.tag-outline</code> chip in the trailing slot. Default size is <code>md</code> (40px). Use <code>&lt;button role="option"&gt;</code> for interactivity.</p>
+  <div class="demo-box">
+    <div class="demo-panel active opt-row" style="width:100%;">
+      <button type="button" class="options" style="max-width:320px;">
+        <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+        <span class="options-label">Options</span>
+        <span class="options-trailing">
+          <svg><use href="#ico-arrow-down"/></svg>
+          <span class="tag tag-grey tag-outline tag-sm">Label</span>
+        </span>
+      </button>
+    </div>
   </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-default">Copy</button></div>
+    <pre id="c-default"><span class="kw">&lt;button</span> <span class="attr">type</span>=<span class="str">"button"</span> <span class="attr">class</span>=<span class="str">"options"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"options-leading"</span><span class="kw">&gt;&lt;svg&gt;</span>&hellip;<span class="kw">&lt;/svg&gt;&lt;/span&gt;</span>
+  <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"options-label"</span><span class="kw">&gt;</span>Options<span class="kw">&lt;/span&gt;</span>
+  <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"options-trailing"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;svg&gt;</span>&hellip;<span class="kw">&lt;/svg&gt;</span>
+    <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"tag tag-grey tag-outline tag-sm"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/span&gt;</span>
+  <span class="kw">&lt;/span&gt;</span>
+<span class="kw">&lt;/button&gt;</span></pre>
+  </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Mix and match content in the leading and trailing slots. The leading slot accepts any inline element — an SVG icon, the <code>.opt-dot</code> radio indicator for "current selection," or nothing. The trailing slot is the right rail for a chevron, a checkmark, a Tag chip, a shortcut hint, or any combination thereof (when combining, they sit side-by-side with an 8px gap).</p>
+  <div class="demo-box">
+    <div class="demo-panel active opt-row">
+
+      <!-- Standalone row (the Figma canonical pattern) -->
+      <div class="options-menu" role="listbox" aria-label="Standalone select-style row">
+        <button type="button" class="options" role="option">
+          <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <span class="options-label">Options</span>
+          <span class="options-trailing">
+            <svg><use href="#ico-arrow-down"/></svg>
+            <span class="tag tag-grey tag-outline tag-sm">Label</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- In a real menu (multiple rows, selected indicator) -->
+      <div class="options-menu" role="listbox" aria-label="In a menu">
+        <button type="button" class="options" role="option" aria-selected="true">
+          <span class="options-leading"><span class="opt-dot" aria-hidden="true"></span></span>
+          <span class="options-label">All views</span>
+          <span class="options-trailing"><svg><use href="#ico-check-thin"/></svg></span>
+        </button>
+        <button type="button" class="options" role="option">
+          <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <span class="options-label">Active</span>
+          <span class="options-trailing"><span class="tag tag-blue tag-semi tag-sm">New</span></span>
+        </button>
+        <button type="button" class="options" role="option" disabled>
+          <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+          <span class="options-label">Trashed</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Three sizes per Figma symbols: <code>.options-lg</code> (48px), default <code>md</code> (40px), <code>.options-sm</code> (32px). The leading + trailing icons scale with the row — <strong>24 / 16 / 16 px</strong> (Large bumps up, Medium and Small share the smaller icon). Typography also steps down per size: Body 1 (16/24) for Large, Body 2 (14/24) for Medium, Caption 1 (12/16) for Small. Horizontal padding is <code>--spacing-sm</code> (12px) at every size.</p>
+  <div class="demo-box">
+    <div class="demo-panel active opt-row" style="flex-direction:column; align-items:stretch; gap:12px;">
+      <button type="button" class="options options-lg" style="max-width:320px;">
+        <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+        <span class="options-label">Options</span>
+        <span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span>
+      </button>
+      <button type="button" class="options" style="max-width:320px;">
+        <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+        <span class="options-label">Options</span>
+        <span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span>
+      </button>
+      <button type="button" class="options options-sm" style="max-width:320px;">
+        <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+        <span class="options-label">Options</span>
+        <span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-xs">Label</span></span>
+      </button>
+    </div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-sizes">Copy</button></div>
+    <pre id="c-sizes"><span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"options options-lg"</span><span class="kw">&gt;</span>&hellip;<span class="kw">&lt;/button&gt;</span>   <span class="cm">/* 48px */</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"options"</span><span class="kw">&gt;</span>&hellip;<span class="kw">&lt;/button&gt;</span>             <span class="cm">/* 40px (default) */</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"options options-sm"</span><span class="kw">&gt;</span>&hellip;<span class="kw">&lt;/button&gt;</span>   <span class="cm">/* 32px */</span></pre>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Default · Hover · Disabled. Hover and focus are real CSS-driven states — pointer over the row or keyboard-focus it to preview. Disabled uses either the HTML <code>disabled</code> attribute (when the row is a <code>&lt;button&gt;</code>) or the <code>.is-disabled</code> class for non-interactive elements. <code>.is-hover</code> forces the hover visual at rest for documentation. Hover bg is a 5% black overlay (Figma <em>Product/Trans-Bg</em>), so it composes correctly over any surface.</p>
+  <div class="demo-box">
+    <div class="demo-panel active opt-row" style="flex-direction:column; align-items:stretch; gap:8px;">
+      <button type="button" class="options" style="max-width:320px;">
+        <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+        <span class="options-label">Default — hover to preview</span>
+        <span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg></span>
+      </button>
+      <button type="button" class="options is-hover" style="max-width:320px;">
+        <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+        <span class="options-label">Hover (forced via .is-hover)</span>
+        <span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg></span>
+      </button>
+      <button type="button" class="options" style="max-width:320px;" disabled>
+        <span class="options-leading"><svg><use href="#ico-add-square"/></svg></span>
+        <span class="options-label">Disabled</span>
+        <span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">3 sizes × 3 states = 9 cells, mirroring the Figma reference (node 3420-2878) 1:1. Each cell shows the canonical pattern: leading add-square icon · "Options" label · trailing chevron + <code>.tag.tag-grey.tag-outline</code> chip.</p>
+  <div class="opt-matrix">
+    <div></div>
+    <div class="opt-matrix-h">Default</div>
+    <div class="opt-matrix-h">Hover</div>
+    <div class="opt-matrix-h">Disabled</div>
+
+    <!-- Large 48px -->
+    <div class="opt-matrix-row-label">Large · 48px</div>
+    <div><button type="button" class="options options-lg"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button></div>
+    <div><button type="button" class="options options-lg is-hover"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button></div>
+    <div><button type="button" class="options options-lg" disabled><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button></div>
+
+    <!-- Medium 40px (default) -->
+    <div class="opt-matrix-row-label">Medium · 40px</div>
+    <div><button type="button" class="options"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button></div>
+    <div><button type="button" class="options is-hover"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button></div>
+    <div><button type="button" class="options" disabled><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-sm">Label</span></span></button></div>
+
+    <!-- Small 32px -->
+    <div class="opt-matrix-row-label">Small · 32px</div>
+    <div><button type="button" class="options options-sm"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-xs">Label</span></span></button></div>
+    <div><button type="button" class="options options-sm is-hover"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-xs">Label</span></span></button></div>
+    <div><button type="button" class="options options-sm" disabled><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-xs">Label</span></span></button></div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.options</td><td>&lt;button role="option"&gt;</td><td>Single selectable row. Flex container with three slots. Default size 40px (md), Body 2 (14/24) typography, 16×16 icons. Use <code>&lt;button&gt;</code> for interactivity; <code>&lt;a&gt;</code> works too when the row navigates.</td></tr>
+      <tr><td>.options-lg</td><td>.options</td><td>Large — 48px tall, <strong>24×24</strong> icons, Body 1 (16/24) typography. Use as a standalone select-style trigger.</td></tr>
+      <tr><td>(no size class)</td><td>.options</td><td>Medium (default) — 40px tall, <strong>16×16</strong> icons, Body 2 (14/24) typography. The canonical row inside a menu.</td></tr>
+      <tr><td>.options-sm</td><td>.options</td><td>Small — 32px tall, <strong>16×16</strong> icons, Caption 1 (12/16) typography, <code>--spacing-sm</code> (12px) horizontal padding. Use in dense toolbars / compact menus.</td></tr>
+      <tr><td>.options-menu</td><td>&lt;div role="listbox"&gt;</td><td>Wrapper panel. White surface, 1px border, full <code>--shadow-5</code> drop shadow, <code>--radius-xs</code> corners. Contains one or more <code>.options</code> rows.</td></tr>
+      <tr><td>.options-leading</td><td>&lt;span&gt;</td><td>Leading slot for an icon, radio dot, avatar, etc. Wrap inline SVG; size auto-scales with the row (24/24/16 px).</td></tr>
+      <tr><td>.options-label</td><td>&lt;span&gt;</td><td>The row's text. Stretches to fill available space; truncates with ellipsis on overflow.</td></tr>
+      <tr><td>.options-trailing</td><td>&lt;span&gt;</td><td>Trailing slot. Can hold a chevron, a checkmark, a <a href="tag.html">.tag</a> chip, a shortcut hint, or any combination. When combining, items sit side-by-side with an 8px gap (per Figma 3420-2878).</td></tr>
+      <tr><td>.is-hover</td><td>.options</td><td>Documentation helper — forces the hover visual at rest. Used in the Full matrix; not needed in production.</td></tr>
+      <tr><td>.is-disabled</td><td>.options</td><td>Sets the disabled visual on non-<code>&lt;button&gt;</code> elements (anchors, divs). For buttons, use the native <code>disabled</code> attribute.</td></tr>
+      <tr><td>role="listbox"</td><td>wrapper</td><td>Recommended ARIA role for the menu. Pair with <code>aria-label</code>.</td></tr>
+      <tr><td>role="option"</td><td>row</td><td>Recommended ARIA role for each item. Pair with <code>aria-selected="true"</code> on the active row.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
 </body>

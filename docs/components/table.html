@@ -5,24 +5,245 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Table — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'table', root: '../', toc: false };
+  window.DS_PAGE = { key: 'table', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  .tbl-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+  /* Scope under .demo-panel so this ties .demo-panel.active's (0,2,0)
+     specificity (display:flex + center) and wins on source order — else
+     flex-direction:column is overridden and stacked children flow inline. */
+  .demo-panel.tbl-row { display: flex; flex-direction: column; gap: 24px; padding: 28px 32px; align-items: flex-start; justify-content: flex-start; }
+</style>
 </head>
 <body>
+
+<svg class="tbl-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ico-kebab" viewBox="0 0 16 16">
+    <circle cx="8" cy="3"  r="1.4" fill="currentColor"/>
+    <circle cx="8" cy="8"  r="1.4" fill="currentColor"/>
+    <circle cx="8" cy="13" r="1.4" fill="currentColor"/>
+  </symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Table</h1>
-  <p class="page-intro">Data table with sorting, selection, and row actions.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">Data grid for rows × columns of structured content. Mirrors Figma node 140-5139 (light) + 5892-39544 (dark) 1:1. Header strip is <code>#F6F6F6</code> (light) / <code>#2D2D2D</code> (dark) with Body 1 Semi Bold text. Body rows are transparent (the page surface shows through) with Body 1 Medium text. Every cell carries a 5%-alpha hairline border that hashes the grid without competing with content. Body cells typically pair their label with a trailing kebab (⋮) action via the <code>.table-cell</code> + <code>.table-cell-action</code> helpers. The outer <code>.table-wrap</code> clips the corners to 8&nbsp;px — required because <code>border-radius</code> can't apply to <code>&lt;table&gt;</code> while <code>border-collapse: collapse</code> is in use.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">A 6-column table with a Header row + 4 Body rows. Each body cell pairs the label with a trailing kebab (⋮) button — the "more actions" affordance Figma calls out on every body cell.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tbl-row">
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Label</th><th>Label</th><th>Label</th>
+              <th>Label</th><th>Label</th><th>Label</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+            </tr>
+            <tr>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+            </tr>
+            <tr>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+            </tr>
+            <tr>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+              <td><div class="table-cell">Label<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
+
+  <!-- Structure -->
+  <h2 id="structure">Structure</h2>
+  <p class="desc">The component is a real HTML <code>&lt;table&gt;</code>. Wrap it in a <code>.table-wrap</code> div to round the outer corners. Header cells live in <code>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;</code>; body cells in <code>&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;</code>. Use the <code>.table-cell</code> flex wrapper inside a <code>&lt;td&gt;</code> when you want a label + trailing action — <code>display: flex</code> can't sit on the <code>td</code> itself without breaking table layout. Drop the <code>.table-cell-action</code> button when a column doesn't need an action.</p>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-structure">Copy</button></div>
+    <pre id="c-structure">&lt;div class="table-wrap"&gt;
+  &lt;table class="table"&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Email&lt;/th&gt;&lt;th&gt;Role&lt;/th&gt;&lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td&gt;
+          &lt;div class="table-cell"&gt;
+            Adesh Singh
+            &lt;button type="button" class="table-cell-action" aria-label="More"&gt;
+              &lt;svg&gt;&lt;use href="#ico-kebab"/&gt;&lt;/svg&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/td&gt;
+        &lt;td&gt;adesh@example.com&lt;/td&gt;
+        &lt;td&gt;Owner&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;</pre>
+  </div>
+
+  <!-- Composition -->
+  <h2 id="composition">Composition</h2>
+  <p class="desc">Body cells hold any inline content — text, links, badges, tags, status dots. The trailing kebab action is optional; drop the button when a column doesn't need it. Cells without the <code>.table-cell</code> flex wrapper render as plain text + the parent <code>td</code>'s padding (use for simple text columns).</p>
+  <div class="demo-box">
+    <div class="demo-panel active tbl-row">
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr><th>Name</th><th>Status</th><th>Plan</th><th>Email</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Adesh Singh</td>
+              <td><span class="badge badge-dot badge-success" aria-label="Online" style="margin-right:8px;"></span>Online</td>
+              <td><span class="tag tag-md">Pro</span></td>
+              <td>adesh@example.com</td>
+              <td><div class="table-cell table-cell-end"><button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+            </tr>
+            <tr>
+              <td>Jane Doe</td>
+              <td><span class="badge badge-dot badge-warning" aria-label="Idle" style="margin-right:8px;"></span>Idle</td>
+              <td><span class="tag tag-md">Free</span></td>
+              <td>jane@example.com</td>
+              <td><div class="table-cell table-cell-end"><button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+            </tr>
+            <tr>
+              <td>Mark Patel</td>
+              <td><span class="badge badge-dot badge-danger" aria-label="Offline" style="margin-right:8px;"></span>Offline</td>
+              <td><span class="tag tag-md">Pro</span></td>
+              <td>mark@example.com</td>
+              <td><div class="table-cell table-cell-end"><button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">The base table has no row hover / selected states in the Figma spec — Figma keeps the surface quiet so content stays primary. The one interactive element is the per-cell <strong>kebab action</strong>, which fades a soft hover background. <code>.is-hover</code> forces the hover visual at rest for documentation; the live <code>:hover</code> pseudo-class handles it in production.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tbl-row">
+      <div class="table-wrap" style="max-width:480px;">
+        <table class="table">
+          <thead><tr><th>State</th><th>Kebab</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Default</td>
+              <td><div class="table-cell table-cell-end"><button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+            </tr>
+            <tr>
+              <td>Hover (forced)</td>
+              <td><div class="table-cell table-cell-end"><button type="button" class="table-cell-action is-hover" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">Cell content type × row position. Toggle the theme switch in the global header to see every cell under dark tokens — header bg flips <code>#F6F6F6</code> → <code>#2D2D2D</code>, body bg stays transparent, all borders flip from 5%-black to 5%-white.</p>
+  <div style="display:flex; flex-direction:column; gap:24px; padding:24px; border:1px dashed var(--color-border); border-radius:var(--radius-md); background:var(--color-bg-2);">
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Header text</th>
+            <th>With kebab</th>
+            <th>Numeric</th>
+            <th>Tag</th>
+            <th>Status dot</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Default row text</td>
+            <td><div class="table-cell">With kebab<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+            <td class="td-num">1,248</td>
+            <td><span class="tag tag-md">Active</span></td>
+            <td><span class="badge badge-dot badge-success" aria-label="Online" style="margin-right:8px;"></span>Online</td>
+            <td><div class="table-cell table-cell-end"><button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td>Long-content row</td>
+            <td><div class="table-cell">Long label here<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+            <td class="td-num">42</td>
+            <td><span class="tag tag-md">Pending</span></td>
+            <td><span class="badge badge-dot badge-warning" aria-label="Idle" style="margin-right:8px;"></span>Idle</td>
+            <td><div class="table-cell table-cell-end"><button type="button" class="table-cell-action is-hover" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td>Compact</td>
+            <td><div class="table-cell">Item<button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+            <td class="td-num">7</td>
+            <td><span class="tag tag-md">Archived</span></td>
+            <td><span class="badge badge-dot badge-danger" aria-label="Offline" style="margin-right:8px;"></span>Offline</td>
+            <td><div class="table-cell table-cell-end"><button type="button" class="table-cell-action" aria-label="More"><svg><use href="#ico-kebab"/></svg></button></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.table-wrap</td><td>&lt;div&gt;</td><td>Clipping wrapper. Carries the outer 1 px border + 8 px radius (<code>--radius-xs</code>) + <code>overflow: hidden</code>. Required when you want rounded corners — <code>&lt;table&gt;</code> can't have <code>border-radius</code> directly under <code>border-collapse: collapse</code>.</td></tr>
+      <tr><td>.table</td><td>&lt;table&gt;</td><td>The grid. <code>width: 100%</code>, <code>border-collapse: collapse</code>, Body 1 (16/24) typography. Cells get a 5%-alpha hairline border from <code>--table-body-border</code>.</td></tr>
+      <tr><td>.table thead th</td><td>&lt;th&gt;</td><td>Header cell. Background <code>--table-header-bg</code>, text <code>--table-header-text</code>, font-weight Semi Bold (600). Padding 8 / 12 px → row height ~40 px (24 line-height + 16 padding).</td></tr>
+      <tr><td>.table tbody td</td><td>&lt;td&gt;</td><td>Body cell. Background <code>--table-body-bg</code> (transparent), text <code>--table-body-text</code>, font-weight Medium (500). Same padding as header → uniform row height.</td></tr>
+      <tr><td>.table-cell</td><td>&lt;div&gt; inside &lt;td&gt;</td><td>Flex row that aligns a label + trailing action inside a cell. Justify-content defaults to <code>space-between</code>; add <code>.table-cell-end</code> to right-align for action-only columns.</td></tr>
+      <tr><td>.table-cell-end</td><td>.table-cell</td><td>Utility that flips justify-content to <code>flex-end</code>. Use on action-only columns where there's no leading label.</td></tr>
+      <tr><td>.td-num</td><td>&lt;td&gt;</td><td>Numeric-column helper. Applies <code>font-variant-numeric: tabular-nums</code> (so digits align column-by-column) and <code>text-align: right</code> in one shot.</td></tr>
+      <tr><td>.table-cell-action</td><td>&lt;button&gt;</td><td>Per-cell action button — typically the kebab (More) glyph. 24×24 transparent, fades to the header bg on hover. Pair with <code>aria-label</code> describing the action.</td></tr>
+      <tr><td>.is-hover</td><td>.table-cell-action</td><td>Documentation helper — forces the hover visual at rest. Not needed in production.</td></tr>
+      <tr><td>--table-header-bg / -text / -border</td><td>Token</td><td>Header strip bg, label text, and border. Border is a 5% alpha hairline in both modes.</td></tr>
+      <tr><td>--table-body-bg / -text / -border</td><td>Token</td><td>Body row tokens. Body bg is transparent in both modes so the table reads on top of the page surface.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
+
 </body>
 </html>

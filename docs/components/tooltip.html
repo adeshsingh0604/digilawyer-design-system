@@ -5,23 +5,246 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tooltip — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'tooltip', root: '../', toc: false };
+  window.DS_PAGE = { key: 'tooltip', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  .tt-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  /* ── Demo helpers (all scoped under .demo-panel to beat .demo-panel.active
+     specificity (0,2,0) and win on source order — see v2.26.2). */
+
+  /* Sizes — 2-col grid: label left, tooltip right. One row per size. */
+  .demo-panel.tt-sizes {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 24px 16px;
+    padding: 28px 32px;
+    align-items: center;
+    justify-items: start;
+  }
+  .tt-sizes .label {
+    font-size: 12px; color: var(--color-subheading);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  /* Positions — flex column, one entry per position.
+     Each entry = position-label row + flex-row of 3 size tooltips. */
+  .demo-panel.tt-positions {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 28px 32px;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .tt-pos-block { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+  .tt-pos-label {
+    font-size: 12px; color: var(--color-subheading);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .tt-pos-row { display: flex; flex-wrap: wrap; gap: 32px; align-items: center; }
+  .tt-wrap { padding: 10px 0; display: inline-flex; }
+
+  /* Interactive — flex row of buttons with hoverable tooltips */
+  .demo-panel.tt-interactive {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    padding: 48px 32px;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .tt-interactive .tt-label {
+    display: flex; flex-direction: column; gap: 8px; align-items: center;
+    font-size: 12px; color: var(--color-subheading); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+</style>
 </head>
 <body>
+
+<svg class="tt-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ico-add-sq-tt" viewBox="0 0 16 16">
+    <rect x="2.5" y="2.5" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.25" fill="none"/>
+    <path d="M5.5 8h5M8 5.5v5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" fill="none"/>
+  </symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Tooltip</h1>
-  <p class="page-intro">Contextual hint shown on hover or focus.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">Contextual hint that appears near a UI element on hover or focus. Mirrors Figma node 140-7707 (light) + 2289-4036 (dark) 1:1. The tooltip <strong>inverts</strong> between modes — dark pill + light text in light mode, light pill + dark text in dark mode — always contrasting with the page surface. Three sizes (Large 40&nbsp;px / Medium 32&nbsp;px / Small 24&nbsp;px) × four arrow positions. For live usage wrap the trigger + tooltip in <code>.tooltip-host</code>; the tooltip hides at rest and fades in on hover/focus-within via pure CSS.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">A bare <code>.tooltip</code> at the Large (default) size. No arrow is shown standalone — add a positional class (<code>.tooltip-top</code> etc.) to get the caret.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tt-interactive">
+      <span class="tooltip"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span>
+    </div>
   </div>
+
+  <!-- Interactive -->
+  <h2 id="interactive">Interactive</h2>
+  <p class="desc">Hover any button below to see the live tooltip. Uses <code>.tooltip-host</code> (position relative wrapper) + absolute child <code>.tooltip.tooltip-{position}</code>. No JavaScript — the caret and fade are pure CSS. Each position offsets the tooltip by <code>calc(100% + 8px)</code> from the trigger edge.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tt-interactive">
+
+      <div class="tt-label">
+        <span class="tooltip-host">
+          <button class="btn btn-secondary btn-md">Hover — top</button>
+          <span class="tooltip tooltip-top">Tooltip appears above</span>
+        </span>
+        <span>Top</span>
+      </div>
+
+      <div class="tt-label">
+        <span class="tooltip-host">
+          <button class="btn btn-secondary btn-md">Hover — bottom</button>
+          <span class="tooltip tooltip-bottom">Tooltip appears below</span>
+        </span>
+        <span>Bottom</span>
+      </div>
+
+      <div class="tt-label">
+        <span class="tooltip-host">
+          <button class="btn btn-secondary btn-md">Hover — right</button>
+          <span class="tooltip tooltip-right">Tooltip appears right</span>
+        </span>
+        <span>Right</span>
+      </div>
+
+      <div class="tt-label">
+        <span class="tooltip-host">
+          <button class="btn btn-secondary btn-md">Hover — left</button>
+          <span class="tooltip tooltip-left">Tooltip appears left</span>
+        </span>
+        <span>Left</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Three sizes mapped 1:1 to Figma's symbol names. Default <code>.tooltip</code> is Large (40&nbsp;px, Body&nbsp;2 14/24 Medium). <code>.tooltip-md</code> is Medium (32&nbsp;px, Caption&nbsp;1 12/16). <code>.tooltip-sm</code> is Small (24&nbsp;px, Caption&nbsp;2 10/12). Horizontal padding is <code>--spacing-sm</code> (12&nbsp;px) for lg/md and <code>--spacing-xs</code> (8&nbsp;px) for sm.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tt-sizes">
+      <div class="label">Large · 40</div>
+      <div class="tt-wrap"><span class="tooltip"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+
+      <div class="label">Medium · 32</div>
+      <div class="tt-wrap"><span class="tooltip tooltip-md"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+
+      <div class="label">Small · 24</div>
+      <div class="tt-wrap"><span class="tooltip tooltip-sm"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+    </div>
+  </div>
+
+  <!-- Positions -->
+  <h2 id="positions">Positions</h2>
+  <p class="desc">Four positions — the class name indicates <strong>where the tooltip appears</strong>; the arrow points back toward the trigger. Shown at Large / Medium / Small per row. In production, combine position + size on the same element: <code>class="tooltip tooltip-md tooltip-top"</code>.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tt-positions">
+
+      <div class="tt-pos-block">
+        <div class="tt-pos-label">Top — tooltip above trigger (arrow at bottom)</div>
+        <div class="tt-pos-row">
+          <div class="tt-wrap"><span class="tooltip tooltip-top"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+          <div class="tt-wrap"><span class="tooltip tooltip-md tooltip-top"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+          <div class="tt-wrap"><span class="tooltip tooltip-sm tooltip-top"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+        </div>
+      </div>
+
+      <div class="tt-pos-block">
+        <div class="tt-pos-label">Bottom — tooltip below trigger (arrow at top)</div>
+        <div class="tt-pos-row">
+          <div class="tt-wrap"><span class="tooltip tooltip-bottom"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+          <div class="tt-wrap"><span class="tooltip tooltip-md tooltip-bottom"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+          <div class="tt-wrap"><span class="tooltip tooltip-sm tooltip-bottom"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+        </div>
+      </div>
+
+      <div class="tt-pos-block">
+        <div class="tt-pos-label">Right — tooltip to the right (arrow at left)</div>
+        <div class="tt-pos-row">
+          <div class="tt-wrap"><span class="tooltip tooltip-right"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+          <div class="tt-wrap"><span class="tooltip tooltip-md tooltip-right"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+          <div class="tt-wrap"><span class="tooltip tooltip-sm tooltip-right"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+        </div>
+      </div>
+
+      <div class="tt-pos-block">
+        <div class="tt-pos-label">Left — tooltip to the left (arrow at right)</div>
+        <div class="tt-pos-row">
+          <div class="tt-wrap"><span class="tooltip tooltip-left"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+          <div class="tt-wrap"><span class="tooltip tooltip-md tooltip-left"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+          <div class="tt-wrap"><span class="tooltip tooltip-sm tooltip-left"><span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>Lorem ipsum dolor sit amet.<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span></span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">4 positions × 3 sizes. Toggle the theme switch to confirm the dark-mode inversion: pill flips to <code>#F6F6F6</code> bg + <code>#2D2D2D</code> text on the dark surface.</p>
+  <div style="display:flex; flex-direction:column; gap:28px; padding:24px; border:1px dashed var(--color-border); border-radius:var(--radius-md); background:var(--color-bg-2);">
+    <script>
+      (function () {
+        var positions = ['top','bottom','right','left'];
+        var sizes = [
+          ['',          'Large · 40'],
+          ['tooltip-md','Medium · 32'],
+          ['tooltip-sm','Small · 24']
+        ];
+        var text = 'Lorem ipsum dolor sit amet.';
+        var icon = '<span class="tooltip-icon"><svg><use href="#ico-add-sq-tt"/></svg></span>';
+        var out = '';
+        positions.forEach(function (pos) {
+          out += '<div>';
+          out += '<div style="font-size:11px;color:var(--color-subheading);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">' + pos + '</div>';
+          out += '<div style="display:flex;flex-wrap:wrap;gap:28px;align-items:center;">';
+          sizes.forEach(function (s) {
+            var cls = ['tooltip', s[0], 'tooltip-' + pos].filter(Boolean).join(' ');
+            out += '<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start;">';
+            out += '<div style="font-size:11px;color:var(--color-subheading);">' + s[1] + '</div>';
+            out += '<div style="padding:10px 0;"><span class="' + cls + '">' + icon + text + icon + '</span></div>';
+            out += '</div>';
+          });
+          out += '</div></div>';
+        });
+        document.write(out);
+      })();
+    </script>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.tooltip</td><td>&lt;span&gt;</td><td>Base pill. Large (40&nbsp;px, Body&nbsp;2 14/24 Medium). Dark bg + light text in light mode; inverts in dark mode. <code>position: relative</code> for the arrow pseudo-elements.</td></tr>
+      <tr><td>.tooltip-md</td><td>.tooltip</td><td>Medium — 32&nbsp;px tall, Caption&nbsp;1 (12/16) Medium.</td></tr>
+      <tr><td>.tooltip-sm</td><td>.tooltip</td><td>Small — 24&nbsp;px tall, Caption&nbsp;2 (10/12) Medium. Padding reduces to <code>6px 8px</code>.</td></tr>
+      <tr><td>.tooltip-top</td><td>.tooltip</td><td>Arrow at the pill's bottom pointing down → tooltip appears above the trigger.</td></tr>
+      <tr><td>.tooltip-bottom</td><td>.tooltip</td><td>Arrow at the pill's top pointing up → tooltip appears below.</td></tr>
+      <tr><td>.tooltip-right</td><td>.tooltip</td><td>Arrow at the pill's left pointing left → tooltip appears to the right.</td></tr>
+      <tr><td>.tooltip-left</td><td>.tooltip</td><td>Arrow at the pill's right pointing right → tooltip appears to the left.</td></tr>
+      <tr><td>.tooltip-icon</td><td>&lt;span&gt; inside .tooltip</td><td>Leading / trailing icon slot. SVG scales 16 / 14 / 12&nbsp;px with the parent size.</td></tr>
+      <tr><td>.tooltip-host</td><td>&lt;span&gt; / &lt;div&gt; wrapping trigger + tooltip</td><td>Interactive wrapper. <code>position: relative</code>. The child tooltip is absolutely positioned and hidden at rest (<code>opacity: 0</code>); it fades in on <code>:hover</code> or <code>:focus-within</code> without JavaScript. Combine with a positional class on the tooltip for offset placement.</td></tr>
+      <tr><td>--tooltip-bg</td><td>Token</td><td><code>#2D2D2D</code> light / <code>#F6F6F6</code> dark — inverts to contrast with the page.</td></tr>
+      <tr><td>--tooltip-text</td><td>Token</td><td><code>#F6F6F6</code> light / <code>#2D2D2D</code> dark.</td></tr>
+      <tr><td>--tooltip-border</td><td>Token</td><td><code>rgba(255,255,255,0.10)</code> light / <code>rgba(0,0,0,0.10)</code> dark — subtle 10% hairline.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
 </body>

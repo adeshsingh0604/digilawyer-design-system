@@ -52,6 +52,12 @@ h2#quick-links{margin-top:12px;}
 .cl-more{display:inline-flex;align-items:center;gap:4px;font-size:var(--fs-14);font-weight:var(--fw-medium);color:var(--color-heading);text-decoration:none;}
 .cl-more:hover{text-decoration:underline;}
 .comp-coming{display:inline-flex;align-items:center;height:16px;padding:0 6px;background:var(--color-bg-trans);border:1px solid var(--color-border);border-radius:var(--radius-xs);font-size:10px;color:var(--color-subheading);font-weight:var(--fw-medium);width:fit-content;}
+.comp-section-label{font-size:11px;font-weight:var(--fw-bold);text-transform:uppercase;letter-spacing:.08em;color:var(--color-subheading);margin-bottom:10px;}
+.cl-card-more{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-decoration:none;cursor:pointer;transition:box-shadow .15s,background .15s;}
+.cl-card-more:hover{box-shadow:var(--shadow-2);background:var(--color-bg);}
+.cl-more-label{font-size:var(--fs-16);font-weight:var(--fw-semibold);color:var(--color-heading);}
+.cl-more-arrow{font-size:var(--fs-20);color:var(--color-subheading);transition:transform .15s;}
+.cl-card-more:hover .cl-more-arrow{transform:translateX(4px);}
 </style>
 </head>
 <body>
@@ -60,11 +66,11 @@ h2#quick-links{margin-top:12px;}
 
   <h1 id="overview" class="page-title">DigiLawyer Design System</h1>
   <div class="version-row">
-    <span class="version-badge">v2.8.0</span>
-    <span class="version-date">Last updated: 25 May 2026</span>
+    <span class="version-badge">v2.31.7</span>
+    <span class="version-date">Last updated: 2 June 2026</span>
   </div>
   <p class="page-intro">A token-driven design system built for DigiLawyer.</p>
-  <p class="stats-line">8 Color Scales &nbsp;&middot;&nbsp; 160+ Design Tokens &nbsp;&middot;&nbsp; 20+ Components</p>
+  <p class="stats-line">8 Color Scales &nbsp;&middot;&nbsp; 160+ Design Tokens &nbsp;&middot;&nbsp; 25 Components</p>
 
   <h2 id="quick-links" style="scroll-margin-top:24px;">Quick Links</h2>
   <p class="desc">Jump to the most used parts of the system.</p>
@@ -92,99 +98,47 @@ h2#quick-links{margin-top:12px;}
   </div>
 
   <h2 id="components" style="scroll-margin-top:24px;">Components</h2>
-  <p class="desc">All components in the DigiLawyer Design System.</p>
-  <div class="qlink-grid">
-    <a href="components/button.html" class="qlink-card">
-      <div class="qlink-title">Button</div>
-    </a>
-    <a href="components/button-group.html" class="qlink-card">
-      <div class="qlink-title">Button Group</div>
-    </a>
-    <a href="components/checkbox.html" class="qlink-card">
-      <div class="qlink-title">Checkbox</div>
-    </a>
-    <a href="components/radio.html" class="qlink-card">
-      <div class="qlink-title">Radio Button</div>
-    </a>
-    <a href="components/toggle.html" class="qlink-card">
-      <div class="qlink-title">Toggle Switch</div>
-    </a>
-    <a href="components/dropdown.html" class="qlink-card">
-      <div class="qlink-title">Dropdown</div>
-    </a>
-    <a href="components/input.html" class="qlink-card">
-      <div class="qlink-title">Text Input</div>
-    </a>
-    <a href="components/textarea.html" class="qlink-card">
-      <div class="qlink-title">Text Area</div>
-    </a>
-    <a href="components/upload-media.html" class="qlink-card">
-      <div class="qlink-title">Upload Media</div>
-      <span class="comp-coming">Coming soon</span>
-    </a>
-    <a href="components/slider.html" class="qlink-card">
-      <div class="qlink-title">Slider</div>
-      <span class="comp-coming">Coming soon</span>
-    </a>
-    <a href="components/rating.html" class="qlink-card">
-      <div class="qlink-title">Rating</div>
-      <span class="comp-coming">Coming soon</span>
-    </a>
-    <a href="components/date-picker.html" class="qlink-card">
-      <div class="qlink-title">Date Picker</div>
-      <span class="comp-coming">Coming soon</span>
-    </a>
-    <a href="components/options.html" class="qlink-card">
-      <div class="qlink-title">Options</div>
-      <span class="comp-coming">Coming soon</span>
-    </a>
-    <a href="components/avatar.html" class="qlink-card">
-      <div class="qlink-title">Avatar</div>
-    </a>
-    <a href="components/badge.html" class="qlink-card">
-      <div class="qlink-title">Badge</div>
-    </a>
-    <a href="components/tag.html" class="qlink-card">
-      <div class="qlink-title">Tag</div>
-    </a>
-    <a href="components/table.html" class="qlink-card">
-      <div class="qlink-title">Table</div>
-    </a>
-    <a href="components/accordion.html" class="qlink-card">
-      <div class="qlink-title">Accordion</div>
-    </a>
-    <a href="components/list-group.html" class="qlink-card">
-      <div class="qlink-title">List Group</div>
-      <span class="comp-coming">Coming soon</span>
-    </a>
-    <a href="components/images.html" class="qlink-card">
-      <div class="qlink-title">Images</div>
-      <span class="comp-coming">Coming soon</span>
-    </a>
-    <a href="components/notification.html" class="qlink-card">
-      <div class="qlink-title">Notification</div>
-    </a>
-    <a href="components/snackbar.html" class="qlink-card">
-      <div class="qlink-title">Snackbar</div>
-    </a>
-    <a href="components/tooltip.html" class="qlink-card">
-      <div class="qlink-title">Tooltip</div>
-    </a>
-    <a href="components/progress-bar.html" class="qlink-card">
-      <div class="qlink-title">Progress Bar</div>
-    </a>
-    <a href="components/tabs.html" class="qlink-card">
-      <div class="qlink-title">Tabs</div>
-    </a>
-    <a href="components/link.html" class="qlink-card">
-      <div class="qlink-title">Link</div>
-    </a>
-    <a href="components/pagination.html" class="qlink-card">
-      <div class="qlink-title">Pagination</div>
-    </a>
-    <a href="components/breadcrumb.html" class="qlink-card">
-      <div class="qlink-title">Breadcrumb</div>
-    </a>
+  <p class="desc">All 25 components in the DigiLawyer Design System — fully documented.</p>
+
+  <div class="comp-section-label">Inputs</div>
+  <div class="qlink-grid" style="margin-bottom:28px;">
+    <a href="components/button.html" class="qlink-card"><div class="qlink-title">Button</div></a>
+    <a href="components/button-group.html" class="qlink-card"><div class="qlink-title">Button Group</div></a>
+    <a href="components/checkbox.html" class="qlink-card"><div class="qlink-title">Checkbox</div></a>
+    <a href="components/radio.html" class="qlink-card"><div class="qlink-title">Radio Button</div></a>
+    <a href="components/toggle.html" class="qlink-card"><div class="qlink-title">Toggle Switch</div></a>
+    <a href="components/dropdown.html" class="qlink-card"><div class="qlink-title">Dropdown</div></a>
+    <a href="components/input.html" class="qlink-card"><div class="qlink-title">Text Input</div></a>
+    <a href="components/textarea.html" class="qlink-card"><div class="qlink-title">Text Area</div></a>
+    <a href="components/upload-media.html" class="qlink-card"><div class="qlink-title">Upload Media</div></a>
+    <a href="components/slider.html" class="qlink-card"><div class="qlink-title">Slider</div></a>
+    <a href="components/rating.html" class="qlink-card"><div class="qlink-title">Rating</div></a>
+    <a href="components/date-picker.html" class="qlink-card"><div class="qlink-title">Date Picker</div></a>
+    <a href="components/options.html" class="qlink-card"><div class="qlink-title">Options</div></a>
+  </div>
+
+  <div class="comp-section-label">Data Display</div>
+  <div class="qlink-grid" style="margin-bottom:28px;">
+    <a href="components/avatar.html" class="qlink-card"><div class="qlink-title">Avatar</div></a>
+    <a href="components/badge.html" class="qlink-card"><div class="qlink-title">Badge</div></a>
+    <a href="components/tag.html" class="qlink-card"><div class="qlink-title">Tag</div></a>
+    <a href="components/table.html" class="qlink-card"><div class="qlink-title">Table</div></a>
+  </div>
+
+  <div class="comp-section-label">Feedback</div>
+  <div class="qlink-grid" style="margin-bottom:28px;">
+    <a href="components/alert.html" class="qlink-card"><div class="qlink-title">Alert</div></a>
+    <a href="components/snackbar.html" class="qlink-card"><div class="qlink-title">Snackbar</div></a>
+    <a href="components/tooltip.html" class="qlink-card"><div class="qlink-title">Tooltip</div></a>
+    <a href="components/progress-bar.html" class="qlink-card"><div class="qlink-title">Progress Bar</div></a>
+  </div>
+
+  <div class="comp-section-label">Navigation</div>
+  <div class="qlink-grid" style="margin-bottom:8px;">
+    <a href="components/tabs.html" class="qlink-card"><div class="qlink-title">Tabs</div></a>
+    <a href="components/link.html" class="qlink-card"><div class="qlink-title">Link</div></a>
+    <a href="components/pagination.html" class="qlink-card"><div class="qlink-title">Pagination</div></a>
+    <a href="components/breadcrumb.html" class="qlink-card"><div class="qlink-title">Breadcrumb</div></a>
   </div>
 
   <h2 id="latest-changes" style="scroll-margin-top:24px;">Latest Changes</h2>
@@ -192,63 +146,33 @@ h2#quick-links{margin-top:12px;}
   <div class="cl-grid">
 
     <div class="cl-card">
-      <div class="cl-version">v2.8.0</div>
-      <span class="cl-badge minor">MINOR</span>
-      <div class="cl-title">Scaffold tooling — tokens.json export + component generator</div>
-      <div class="cl-date">25 May 2026</div>
-      <div class="cl-desc">Two new scripts in docs/scripts/. build-tokens.js exports tokens.json (323 light + 323 dark, var() refs resolved) so React, AI tools, and Figma plugins can consume tokens. new-component.js scaffolds a component page and prints paste-blocks for the manual edits.</div>
+      <div class="cl-version">v2.31.6</div>
+      <span class="cl-badge patch">PATCH</span>
+      <div class="cl-title">Sidebar scroll persistence — 2 bugs fixed. Save is now synchronous + on link click. Restore runs at DOMContentLoaded and window.load.</div>
+      <div class="cl-date">3 June 2026</div>
+      <div class="cl-desc">Bug 1: RAF debounce caused save to be skipped when user clicked a link before the next frame. Bug 2: restoreSidebarScroll ran before CSS applied (sidebar had no height, scrollTop ignored). Both fixed — scroll position now reliably preserved across all navigations.</div>
     </div>
 
     <div class="cl-card">
-      <div class="cl-version">v2.7.0</div>
+      <div class="cl-version">v2.30.0</div>
       <span class="cl-badge minor">MINOR</span>
-      <div class="cl-title">Radio Button component — full documentation</div>
-      <div class="cl-date">22 May 2026</div>
-      <div class="cl-desc">New .radio component implemented 1:1 from Base-AI Figma. Same a11y pattern as Checkbox; browser handles single-select via shared name. 13 new --radio-* tokens, matrix is 2×3 matching Figma. Search index extended.</div>
+      <div class="cl-title">Slider — full documentation (single + range, live demo). 4 new tokens.</div>
+      <div class="cl-date">1 June 2026</div>
+      <div class="cl-desc">New .slider + .slider-range 1:1 from Figma 5877-41490 + 147-5057 (light) + 5967-1515 + 5967-1479 (dark). 4px track, 16px thumb with page-bg halo, dark-pill tooltip above (inverts in dark like Tooltip), value label below. CSS fill gradient driven by --pct custom property; JS positions tooltip and label by offsetWidth. Range variant: two overlapping inputs, fill between thumbs via --pct-a / --pct-b. 4 new tokens: --slider-track-bg / --slider-fill / --slider-tip-bg / --slider-tip-text.</div>
     </div>
 
     <div class="cl-card">
-      <div class="cl-version">v2.6.0</div>
+      <div class="cl-version">v2.29.0</div>
       <span class="cl-badge minor">MINOR</span>
-      <div class="cl-title">Persistent global header — logo, version chip, search, theme toggle</div>
-      <div class="cl-date">22 May 2026</div>
-      <div class="cl-desc">New sticky top bar auto-injected by ds.js on every page. Global search across pages, sections, and ~120 semantic CSS tokens with keyboard nav. Sidebar lost its own logo/theme button — moved to the header.</div>
+      <div class="cl-title">Alert — fully documented (7 colours × 3 variants). Replaces "Notification". 70 new --alert-* tokens (35 light + 35 dark).</div>
+      <div class="cl-date">1 June 2026</div>
+      <div class="cl-desc">New .alert component 1:1 from Figma 140-6541 (light) + 5958-2561 (dark). Renames "Notification" → "Alert" system-wide. Three variants: Semi-filled (tinted bg + colour title), Filled (solid bg + white text + inverted buttons), Border (page bg + coloured hairline). Seven colours: Brand · Info · Danger · Success · Warning · Notice · Alert/orange. CSS custom property cascade: colour modifier sets 5 --alert-* token refs, variant modifier reads them to drive bg, title, body, and both button styles. Brand INVERTS in dark filled mode (white bg + dark text). Full matrix renders 7 × 3 = 21 surfaces from JS.</div>
     </div>
 
-    <div class="cl-card">
-      <div class="cl-version">v2.5.0</div>
-      <span class="cl-badge minor">MINOR</span>
-      <div class="cl-title">Checkbox component — full documentation</div>
-      <div class="cl-date">22 May 2026</div>
-      <div class="cl-desc">New .checkbox built on native input — 3 variants × 3 states, implemented 1:1 from Figma. 13 new --checkbox-* tokens (light + dark), two new sprite symbols (#ico-check, #ico-dash). 5-section docs with 3×3 matrix mirroring Figma.</div>
-    </div>
-
-    <div class="cl-card">
-      <div class="cl-version">v2.4.0</div>
-      <span class="cl-badge minor">MINOR</span>
-      <div class="cl-title">Button Group component — full documentation</div>
-      <div class="cl-date">22 May 2026</div>
-      <div class="cl-desc">.btn-group composes existing button variants. Attached (segmented control) and separated styles, vertical orientation, toggle/selection via aria-pressed. Documented at components/button-group.html with 9 sections, interactive demos, and an API table.</div>
-    </div>
-
-    <div class="cl-card">
-      <div class="cl-version">v2.3.0</div>
-      <span class="cl-badge minor">MINOR</span>
-      <div class="cl-title">Audit pass — auto-TOC, bulk migration, diagnostics</div>
-      <div class="cl-date">22 May 2026</div>
-      <div class="cl-desc">ds.js auto-extracts the TOC from h2[id] anchors. Bulk-migrated all 26 component stubs to the lean v2.3 shell (~25 lines each). Added DS_PAGE diagnostics and a ?ds-debug toggle. Starter templates for new pages.</div>
-    </div>
-
-    <div class="cl-card">
-      <div class="cl-version">v2.2.0</div>
-      <span class="cl-badge minor">MINOR</span>
-      <div class="cl-title">Shared TOC component, head-loaded ds.js</div>
-      <div class="cl-date">22 May 2026</div>
-      <div class="cl-desc">ds.js now renders the on-page TOC from a window.DS_PAGE.toc array, eliminating duplicated scroll-spy code. Moved ds.js to &lt;head&gt; so theme restore fires before first paint (no flash). Migrated all 10 built pages.</div>
-    </div>
-
-  </div>
-  <a href="other/changelog.html" class="cl-more">View full changelog →</a>
+    <a href="other/changelog.html" class="cl-card cl-card-more">
+      <div class="cl-more-label">View full changelog</div>
+      <div class="cl-more-arrow">→</div>
+    </a>
 
 </main>
 <aside id="toc-mount"></aside>

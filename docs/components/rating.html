@@ -5,24 +5,423 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rating — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'rating', root: '../', toc: false };
+  window.DS_PAGE = { key: 'rating', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  .rt-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+  /* Scope helpers under .demo-panel to beat .demo-panel.active (0,2,0). */
+  .demo-panel.rt-row {
+    display: flex; flex-wrap: wrap; gap: 24px; padding: 28px 32px;
+    align-items: center; justify-content: flex-start;
+  }
+  .demo-panel.rt-col {
+    display: flex; flex-direction: column; gap: 20px;
+    padding: 28px 32px; align-items: flex-start; justify-content: flex-start;
+  }
+  .demo-panel.rt-grid {
+    display: grid; grid-template-columns: 90px 1fr;
+    gap: 20px 24px; padding: 28px 32px; align-items: center; justify-items: start;
+  }
+  .rt-grid .label {
+    font-size: 12px; color: var(--color-subheading);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .rt-cap {
+    font-size: 12px; color: var(--color-subheading);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .rt-demo-pair { display: flex; flex-direction: column; gap: 8px; }
+  .rt-current   { font-size: 14px; font-weight: 600; color: var(--color-subheading); min-height: 20px; }
+</style>
 </head>
 <body>
+
+<svg class="rt-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <!-- Star: filled solid -->
+  <symbol id="ico-rt-star-fill" viewBox="0 0 24 24">
+    <path d="M12 2 L15.09 8.26 L22 9.27 L17 14.14 L18.18 21.02 L12 17.77 L5.82 21.02 L7 14.14 L2 9.27 L8.91 8.26 Z"
+          fill="currentColor" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round"/>
+  </symbol>
+  <!-- Star: outline only -->
+  <symbol id="ico-rt-star-stroke" viewBox="0 0 24 24">
+    <path d="M12 2 L15.09 8.26 L22 9.27 L17 14.14 L18.18 21.02 L12 17.77 L5.82 21.02 L7 14.14 L2 9.27 L8.91 8.26 Z"
+          fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  </symbol>
+  <!-- Star: left half filled + full outline -->
+  <symbol id="ico-rt-star-half" viewBox="0 0 24 24">
+    <path d="M12 2 L8.91 8.26 L2 9.27 L7 14.14 L5.82 21.02 L12 17.77 Z" fill="currentColor"/>
+    <path d="M12 2 L15.09 8.26 L22 9.27 L17 14.14 L18.18 21.02 L12 17.77 L5.82 21.02 L7 14.14 L2 9.27 L8.91 8.26 Z"
+          fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  </symbol>
+  <!-- Heart: filled solid -->
+  <symbol id="ico-rt-heart-fill" viewBox="0 0 24 24">
+    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z"
+          fill="currentColor"/>
+  </symbol>
+  <!-- Heart: outline only -->
+  <symbol id="ico-rt-heart-stroke" viewBox="0 0 24 24">
+    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z"
+          fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  </symbol>
+  <!-- Heart: left half filled + full outline -->
+  <symbol id="ico-rt-heart-half" viewBox="0 0 24 24">
+    <path d="M12 21.35 L10.55 20.03 C5.4 15.36 2 12.27 2 8.5 C2 5.41 4.42 3 7.5 3 C9.24 3 10.91 3.81 12 5.08 Z"
+          fill="currentColor"/>
+    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z"
+          fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Rating</h1>
-  <p class="page-intro">Star-based rating input for collecting user feedback.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">Star and heart rating inputs for collecting or displaying user feedback. Mirrors Figma nodes 114-30 + 114-198 (light) + 5970-310 + 5970-401 (dark) 1:1. Two icon shapes — <strong>Star</strong> and <strong>Heart</strong> — each in three colour variants and three fill states (Filled · Half · Stroke). Three sizes: lg&nbsp;24&nbsp;px / md&nbsp;20&nbsp;px / sm&nbsp;16&nbsp;px. 4 tokens: <code>--rating-brand</code> inverts in dark; <code>--rating-star</code>, <code>--rating-heart</code>, and <code>--rating-empty</code> are constant. Interactive: <code>data-interactive</code> enables hover-preview + click-to-rate. <strong>🎉 This is the last planned component — the DigiLawyer Design System is now complete.</strong></p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">5-star rating at 3.5 — Yellow colour, Medium size (default). <code>.is-filled</code> = solid colour. <code>.is-half</code> = left half filled, right half stroke. No class = stroke/empty (uses <code>--rating-empty</code> grey).</p>
+  <div class="demo-box">
+    <div class="demo-panel active rt-row">
+      <div class="rating rating-yellow" aria-label="3.5 out of 5 stars">
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-half"><svg class="rating-icon"><use href="#ico-rt-star-half"/></svg></span>
+        <span class="rating-item"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></span>
+      </div>
+    </div>
   </div>
+
+  <!-- Shapes -->
+  <h2 id="shapes">Shapes</h2>
+  <p class="desc">Stars use <code>#ico-rt-star-*</code>; hearts use <code>#ico-rt-heart-*</code>. The two shapes are independent — mix size and colour freely. Stars typically use Yellow; hearts typically use Red.</p>
+  <div class="demo-box">
+    <div class="demo-panel active rt-col">
+      <div>
+        <div class="rt-cap" style="margin-bottom:8px;">Stars · Yellow · 4 of 5</div>
+        <div class="rating rating-yellow" aria-label="4 out of 5 stars">
+          <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+          <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+          <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+          <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+          <span class="rating-item"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></span>
+        </div>
+      </div>
+      <div>
+        <div class="rt-cap" style="margin-bottom:8px;">Hearts · Red · 4 of 5</div>
+        <div class="rating rating-red" aria-label="4 out of 5 hearts">
+          <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-heart-fill"/></svg></span>
+          <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-heart-fill"/></svg></span>
+          <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-heart-fill"/></svg></span>
+          <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-heart-fill"/></svg></span>
+          <span class="rating-item"><svg class="rating-icon"><use href="#ico-rt-heart-stroke"/></svg></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <h2 id="colors">Colors</h2>
+  <p class="desc">Three colour variants: <strong>Brand</strong> (no class, dark in light / white in dark), <strong>Yellow</strong> (<code>.rating-yellow</code> — star canonical), <strong>Red</strong> (<code>.rating-red</code> — heart canonical). Empty icons always use <code>--rating-empty</code> (#D1D1D1 grey) regardless of the colour class. Toggle the theme switch to see Brand invert.</p>
+  <div class="demo-box">
+    <div class="demo-panel active rt-col">
+      <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:flex-end;">
+        <div>
+          <div class="rt-cap" style="margin-bottom:8px;">Brand stars</div>
+          <div class="rating rating-brand" aria-label="Brand 3.5 stars">
+            <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+            <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+            <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+            <span class="rating-item is-half"><svg class="rating-icon"><use href="#ico-rt-star-half"/></svg></span>
+            <span class="rating-item"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></span>
+          </div>
+        </div>
+        <div>
+          <div class="rt-cap" style="margin-bottom:8px;">Yellow stars</div>
+          <div class="rating rating-yellow" aria-label="Yellow 3.5 stars">
+            <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+            <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+            <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+            <span class="rating-item is-half"><svg class="rating-icon"><use href="#ico-rt-star-half"/></svg></span>
+            <span class="rating-item"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></span>
+          </div>
+        </div>
+        <div>
+          <div class="rt-cap" style="margin-bottom:8px;">Brand hearts</div>
+          <div class="rating rating-brand" aria-label="Brand 3.5 hearts">
+            <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-heart-fill"/></svg></span>
+            <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-heart-fill"/></svg></span>
+            <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-heart-fill"/></svg></span>
+            <span class="rating-item is-half"><svg class="rating-icon"><use href="#ico-rt-heart-half"/></svg></span>
+            <span class="rating-item"><svg class="rating-icon"><use href="#ico-rt-heart-stroke"/></svg></span>
+          </div>
+        </div>
+        <div>
+          <div class="rt-cap" style="margin-bottom:8px;">Red hearts</div>
+          <div class="rating rating-red" aria-label="Red 3.5 hearts">
+            <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-heart-fill"/></svg></span>
+            <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-heart-fill"/></svg></span>
+            <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-heart-fill"/></svg></span>
+            <span class="rating-item is-half"><svg class="rating-icon"><use href="#ico-rt-heart-half"/></svg></span>
+            <span class="rating-item"><svg class="rating-icon"><use href="#ico-rt-heart-stroke"/></svg></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Three icon sizes matched 1:1 to Figma's symbol names. <code>.rating-lg</code> = 24&nbsp;px. Default = 20&nbsp;px (Medium). <code>.rating-sm</code> = 16&nbsp;px. Size modifier on the wrapper cascades to all <code>.rating-icon</code> elements inside.</p>
+  <div class="demo-box">
+    <div class="demo-panel active rt-grid">
+      <div class="label">Large · 24</div>
+      <div class="rating rating-yellow rating-lg" aria-label="Large 3.5 of 5">
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-half"><svg class="rating-icon"><use href="#ico-rt-star-half"/></svg></span>
+        <span class="rating-item"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></span>
+      </div>
+      <div class="label">Medium · 20</div>
+      <div class="rating rating-yellow" aria-label="Medium 3.5 of 5">
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-half"><svg class="rating-icon"><use href="#ico-rt-star-half"/></svg></span>
+        <span class="rating-item"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></span>
+      </div>
+      <div class="label">Small · 16</div>
+      <div class="rating rating-yellow rating-sm" aria-label="Small 3.5 of 5">
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-half"><svg class="rating-icon"><use href="#ico-rt-star-half"/></svg></span>
+        <span class="rating-item"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Three fill states per icon — this is the canonical single-icon reference from the Figma design. Stars (Yellow) and Hearts (Red) shown at all three sizes × three states. Toggle dark mode to see Brand colour invert.</p>
+  <div style="display:flex; flex-direction:column; gap:28px; padding:24px; border:1px dashed var(--color-border); border-radius:var(--radius-md); background:var(--color-bg-2);">
+    <script>
+      (function () {
+        var sizes   = [['Large','rating-lg',24],['Medium','',20],['Small','rating-sm',16]];
+        var statesStar  = [['Filled','is-filled','fill'],['Half','is-half','half'],['Stroke','','stroke']];
+        var out = '';
+        sizes.forEach(function (sz) {
+          out += '<div>';
+          out += '<div style="font-size:11px;color:var(--color-subheading);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">' + sz[0] + ' · ' + sz[2] + 'px</div>';
+          out += '<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;">';
+          // Stars
+          statesStar.forEach(function (st) {
+            var cls = ['rating','rating-yellow', sz[1]].filter(Boolean).join(' ');
+            out += '<div style="display:flex;flex-direction:column;gap:5px;align-items:center;">';
+            out += '<span class="' + cls + '"><span class="rating-item ' + st[1] + '"><svg class="rating-icon"><use href="#ico-rt-star-' + st[2] + '"/></svg></span></span>';
+            out += '<span style="font-size:10px;color:var(--color-subheading);">Star ' + st[0] + '</span>';
+            out += '</div>';
+          });
+          // Hearts
+          statesStar.forEach(function (st) {
+            var cls = ['rating','rating-red', sz[1]].filter(Boolean).join(' ');
+            out += '<div style="display:flex;flex-direction:column;gap:5px;align-items:center;">';
+            out += '<span class="' + cls + '"><span class="rating-item ' + st[1] + '"><svg class="rating-icon"><use href="#ico-rt-heart-' + st[2] + '"/></svg></span></span>';
+            out += '<span style="font-size:10px;color:var(--color-subheading);">Heart ' + st[0] + '</span>';
+            out += '</div>';
+          });
+          out += '</div></div>';
+        });
+        document.write(out);
+      })();
+    </script>
+  </div>
+
+  <!-- Interactive -->
+  <h2 id="interactive">Interactive</h2>
+  <p class="desc">Two interaction modes. <strong>Full Rating</strong> — hover or click selects whole numbers only (1–5). <strong>Half Rating</strong> — hover the <em>left 50%</em> of any icon to preview a .5 value, the <em>right 50%</em> for a full integer; position detected via <code>getBoundingClientRect</code> so child SVG never skews the midpoint. Toggled via <code>data-half="true"</code> on the wrapper. All three colour variants shown in both modes. Toggle dark mode to confirm Brand inverts.</p>
+  <div class="demo-box">
+    <div class="demo-panel active rt-col" style="gap:0;">
+
+      <!-- ── Full Rating ── -->
+      <div style="padding-bottom:24px;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-subheading);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--color-border);">Full Rating — click to select 1 – 5</div>
+        <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;">
+          <div class="rt-demo-pair">
+            <div class="rt-cap">Stars · Yellow</div>
+            <div class="rating rating-yellow" data-interactive aria-label="Full yellow stars">
+              <button class="rating-item" type="button" aria-label="1 star"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="2 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="3 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="4 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="5 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+            </div>
+            <div class="rt-current">Click to rate</div>
+          </div>
+          <div class="rt-demo-pair">
+            <div class="rt-cap">Stars · Brand</div>
+            <div class="rating rating-brand" data-interactive aria-label="Full brand stars">
+              <button class="rating-item" type="button" aria-label="1 star"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="2 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="3 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="4 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="5 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+            </div>
+            <div class="rt-current">Click to rate</div>
+          </div>
+          <div class="rt-demo-pair">
+            <div class="rt-cap">Hearts · Red</div>
+            <div class="rating rating-red" data-interactive data-shape="heart" aria-label="Full red hearts">
+              <button class="rating-item" type="button" aria-label="1"><svg class="rating-icon"><use href="#ico-rt-heart-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="2"><svg class="rating-icon"><use href="#ico-rt-heart-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="3"><svg class="rating-icon"><use href="#ico-rt-heart-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="4"><svg class="rating-icon"><use href="#ico-rt-heart-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="5"><svg class="rating-icon"><use href="#ico-rt-heart-stroke"/></svg></button>
+            </div>
+            <div class="rt-current">Click to rate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Half Rating ── -->
+      <div style="padding-top:24px;border-top:1px solid var(--color-border);">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-subheading);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--color-border);">Half Rating — hover left 50% = ½ · hover right 50% = full</div>
+        <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;">
+          <div class="rt-demo-pair">
+            <div class="rt-cap">Stars · Yellow</div>
+            <div class="rating rating-yellow" data-interactive data-half="true" aria-label="Half yellow stars">
+              <button class="rating-item" type="button" aria-label="1 star"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="2 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="3 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="4 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="5 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+            </div>
+            <div class="rt-current">Click to rate</div>
+          </div>
+          <div class="rt-demo-pair">
+            <div class="rt-cap">Stars · Brand</div>
+            <div class="rating rating-brand" data-interactive data-half="true" aria-label="Half brand stars">
+              <button class="rating-item" type="button" aria-label="1 star"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="2 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="3 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="4 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="5 stars"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></button>
+            </div>
+            <div class="rt-current">Click to rate</div>
+          </div>
+          <div class="rt-demo-pair">
+            <div class="rt-cap">Hearts · Red</div>
+            <div class="rating rating-red" data-interactive data-half="true" data-shape="heart" aria-label="Half red hearts">
+              <button class="rating-item" type="button" aria-label="1"><svg class="rating-icon"><use href="#ico-rt-heart-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="2"><svg class="rating-icon"><use href="#ico-rt-heart-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="3"><svg class="rating-icon"><use href="#ico-rt-heart-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="4"><svg class="rating-icon"><use href="#ico-rt-heart-stroke"/></svg></button>
+              <button class="rating-item" type="button" aria-label="5"><svg class="rating-icon"><use href="#ico-rt-heart-stroke"/></svg></button>
+            </div>
+            <div class="rt-current">Click to rate</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.rating</td><td>&lt;div&gt;</td><td>Wrapper. <code>display: inline-flex; gap: 4px</code>. Add colour + optional size modifier.</td></tr>
+      <tr><td>.rating-brand / .rating-yellow / .rating-red</td><td>.rating</td><td>Colour variants. Brand = <code>--rating-brand</code> (inverts dark). Yellow = <code>--rating-star</code> (#FFC107). Red = <code>--rating-heart</code> (#CD3232).</td></tr>
+      <tr><td>.rating-lg / .rating-sm</td><td>.rating</td><td>24&nbsp;px / 16&nbsp;px. Default (no modifier) = Medium 20&nbsp;px.</td></tr>
+      <tr><td>.rating-item</td><td>&lt;span&gt; or &lt;button&gt;</td><td>Single icon slot. Default colour = <code>--rating-empty</code>. Use <code>&lt;button&gt;</code> for interactive; <code>&lt;span&gt;</code> for read-only.</td></tr>
+      <tr><td>.is-filled</td><td>.rating-item</td><td>Full solid icon. Pair with <code>#ico-rt-star-fill</code> or <code>#ico-rt-heart-fill</code>.</td></tr>
+      <tr><td>.is-half</td><td>.rating-item</td><td>Half icon — left half filled, right half outline. Pair with <code>#ico-rt-star-half</code> or <code>#ico-rt-heart-half</code>.</td></tr>
+      <tr><td>(no state class)</td><td>.rating-item</td><td>Stroke/empty icon in <code>--rating-empty</code> grey. Pair with <code>#ico-rt-star-stroke</code> or <code>#ico-rt-heart-stroke</code>.</td></tr>
+      <tr><td>data-interactive</td><td>.rating</td><td>Enables hover-preview + click-to-rate via JS. Pair with <code>data-half="true"</code> for half-step support. Without it, only whole integers are selectable. Preview uses <code>.is-preview</code>; committed uses <code>.is-filled</code> or <code>.is-half</code>. Add <code>data-shape="heart"</code> to use heart icon IDs.</td></tr>
+      <tr><td>data-half="true"</td><td>.rating</td><td>Unlocks half-rating selection. Cursor left of the icon's midpoint → <code>i + 0.5</code>; cursor right → <code>i + 1</code>. Position read via <code>getBoundingClientRect</code> so child <code>&lt;svg&gt;</code> elements never skew the result. Omit for whole-integer-only mode.</td></tr>
+      <tr><td>aria-readonly="true"</td><td>.rating</td><td>Disables pointer events — use for pure display.</td></tr>
+      <tr><td>--rating-brand</td><td>Token</td><td><code>#2D2D2D</code> light / <code>#FFFFFF</code> dark — inverts with the page.</td></tr>
+      <tr><td>--rating-empty</td><td>Token</td><td>Grey for unfilled icons: <code>#D1D1D1</code> both modes.</td></tr>
+      <tr><td>--rating-star</td><td>Token</td><td>Yellow star fill: <code>#FFC107</code> both modes.</td></tr>
+      <tr><td>--rating-heart</td><td>Token</td><td>Red heart fill: <code>#CD3232</code> both modes.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
+
+<script>
+(function () {
+  document.querySelectorAll('.rating[data-interactive]').forEach(function (rating) {
+    var items     = Array.from(rating.querySelectorAll('.rating-item'));
+    var shape     = rating.dataset.shape === 'heart' ? 'heart' : 'star';
+    var useHalf   = rating.dataset.half === 'true';   /* data-half="true" → half steps enabled */
+    var committed = 0;
+    /* Find the sibling .rt-current via closest .rt-demo-pair — no fragile index mapping */
+    var pair  = rating.closest('.rt-demo-pair');
+    var valEl = pair ? pair.querySelector('.rt-current') : null;
+
+    /* ── Render any value (integer or .5) as preview or committed ── */
+    function renderVal(val, preview) {
+      var full    = Math.floor(val);              /* # of fully-filled slots  */
+      var halfIdx = (val % 1 !== 0) ? full : -1; /* 0-indexed half-icon slot */
+      items.forEach(function (item, i) {
+        var use = item.querySelector('use');
+        item.classList.remove('is-filled', 'is-half', 'is-preview');
+        if (i < full) {
+          item.classList.add(preview ? 'is-preview' : 'is-filled');
+          if (use) use.setAttribute('href', '#ico-rt-' + shape + '-fill');
+        } else if (i === halfIdx) {
+          item.classList.add('is-half');
+          if (preview) item.classList.add('is-preview');
+          if (use) use.setAttribute('href', '#ico-rt-' + shape + '-half');
+        } else {
+          if (use) use.setAttribute('href', '#ico-rt-' + shape + '-stroke');
+        }
+      });
+    }
+
+    /* ── Compute hover value for an item ──
+       Half mode: left 50% → i+0.5, right 50% → i+1 (getBoundingClientRect is safe vs child SVG).
+       Full mode: always i+1. */
+    function hoverVal(item, e, i) {
+      if (!useHalf) return i + 1;
+      var rect   = item.getBoundingClientRect();
+      var isLeft = (e.clientX - rect.left) < rect.width / 2;
+      return isLeft ? i + 0.5 : i + 1;
+    }
+
+    items.forEach(function (item, i) {
+      /* mousemove: live half ↔ full update as cursor crosses the midpoint */
+      item.addEventListener('mousemove', function (e) {
+        renderVal(hoverVal(item, e, i), true);
+      });
+      /* mouseenter: default to full integer on entry (before first mousemove) */
+      item.addEventListener('mouseenter', function () {
+        renderVal(i + 1, true);
+      });
+      /* click: commit the value at the exact cursor position */
+      item.addEventListener('click', function (e) {
+        committed = hoverVal(item, e, i);
+        renderVal(committed, false);
+        if (valEl) valEl.textContent = committed + ' / ' + items.length + ' stars';
+      });
+    });
+
+    /* Restore committed state when cursor leaves the whole widget */
+    rating.addEventListener('mouseleave', function () {
+      renderVal(committed, false);
+    });
+  });
+})();
+</script>
 </body>
 </html>

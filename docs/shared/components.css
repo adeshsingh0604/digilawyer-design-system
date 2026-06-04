@@ -520,6 +520,2277 @@ table.matrix { border-collapse: collapse; width: 100%; background: var(--color-b
   border-color: var(--radio-checked-border-hover);
 }
 
+/* ── TOGGLE SWITCH COMPONENT ─────────────────────────────────────────
+   Native <input type="checkbox"> wrapped in a <label>. Same hidden-input
+   pattern as .checkbox and .radio (visually hidden but keyboard-focusable).
+   The sibling .toggle-track holds the pill background; the .toggle-thumb
+   inside translates left↔right via CSS when :checked. Size lives on the
+   wrapper as a modifier (.toggle-sm, default md, .toggle-lg) and
+   propagates through CSS custom properties.                            */
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--font-primary);
+  font-size: var(--fs-14);
+  color: var(--color-heading);
+  line-height: var(--lh-20);
+  /* Default (md) geometry — overridden by .toggle-sm / .toggle-lg below. */
+  --tg-w: 36px;
+  --tg-h: 20px;
+  --tg-thumb: 16px;
+  --tg-pad: 2px;
+}
+.toggle.toggle-sm { --tg-w: 28px; --tg-h: 16px; --tg-thumb: 12px; }
+.toggle.toggle-lg { --tg-w: 44px; --tg-h: 24px; --tg-thumb: 20px; }
+
+.toggle-input {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.toggle-track {
+  /* Border is intentionally omitted — every Figma state has the border
+     either transparent or the same colour as the bg, so it adds no
+     visual value and would knock the thumb 1px low (asymmetric centering
+     because absolute positioning measures from the padding edge, not the
+     border edge). Solid bg with --radius-full gives the same visual. */
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: var(--tg-w);
+  height: var(--tg-h);
+  border-radius: var(--radius-full);
+  background: var(--toggle-bg);
+  transition: background 0.15s;
+}
+.toggle-thumb {
+  position: absolute;
+  top: var(--tg-pad);
+  left: var(--tg-pad);
+  width: var(--tg-thumb);
+  height: var(--tg-thumb);
+  border-radius: var(--radius-full);
+  background: var(--toggle-thumb);
+  box-shadow: var(--toggle-thumb-shadow);
+  transition: transform 0.18s ease;
+}
+
+/* Checked → slide thumb right by (track − thumb − 2*padding − 2*border). */
+.toggle-input:checked ~ .toggle-track {
+  background: var(--toggle-checked-bg);
+}
+.toggle-input:checked ~ .toggle-track .toggle-thumb {
+  /* track.w − thumb − 2*padding — no more "− 2px" since border is gone. */
+  transform: translateX(calc(var(--tg-w) - var(--tg-thumb) - 2 * var(--tg-pad)));
+  /* Thumb colour is state-dependent (mainly matters in dark mode, where
+     the on-track is white and needs a dark thumb to contrast). Disabled
+     state intentionally falls through to the default --toggle-thumb so a
+     disabled-on toggle still reads with a light thumb on the grey bg. */
+  background: var(--toggle-thumb-on);
+}
+.toggle-input:disabled:checked ~ .toggle-track .toggle-thumb {
+  background: var(--toggle-thumb);
+}
+
+/* Hover */
+.toggle:hover .toggle-input:not(:disabled):not(:checked) ~ .toggle-track {
+  background: var(--toggle-bg-hover);
+}
+.toggle:hover .toggle-input:not(:disabled):checked ~ .toggle-track {
+  background: var(--toggle-checked-bg-hover);
+}
+
+/* Focus */
+.toggle-input:focus-visible ~ .toggle-track {
+  outline: 2px solid var(--color-heading);
+  outline-offset: 2px;
+}
+
+/* Disabled */
+.toggle:has(.toggle-input:disabled) { cursor: not-allowed; }
+.toggle-input:disabled ~ .toggle-track {
+  background: var(--toggle-bg-disabled);
+}
+.toggle-input:disabled:checked ~ .toggle-track {
+  background: var(--toggle-checked-bg-disabled);
+}
+.toggle:has(.toggle-input:disabled) .toggle-label {
+  color: var(--color-subheading);
+  opacity: 0.7;
+}
+
+/* Doc helper: force the hover visual at rest (used in the Full matrix). */
+.toggle.is-hover .toggle-input:not(:disabled):not(:checked) ~ .toggle-track {
+  background: var(--toggle-bg-hover);
+}
+.toggle.is-hover .toggle-input:not(:disabled):checked ~ .toggle-track {
+  background: var(--toggle-checked-bg-hover);
+}
+
+/* ── OPTIONS COMPONENT ──────────────────────────────────────────────
+   A single selectable row that lives inside an open dropdown / menu.
+   Three slots — leading (icon, radio dot, or nothing) · label text ·
+   trailing (checkmark, tag, or nothing) — and three states: default,
+   hover, disabled. Bg fills the entire row so the hover indication is
+   a clean horizontal band edge-to-edge inside the menu panel.
+
+   Structure:
+     <div class="options-menu">           <!-- panel: shadow + radius -->
+       <button class="options">           <!-- one item -->
+         <span class="options-leading">…</span>
+         <span class="options-label">Label</span>
+         <span class="options-trailing">…</span>
+       </button>
+       …
+     </div>
+   ────────────────────────────────────────────────────────────────── */
+/* Dropdown — the panel that wraps one or more .options rows. `.dropdown` is
+   the canonical name (matches Figma node 144-1623); `.options-menu` is kept
+   as an alias for backward compat. Values are Figma-exact: 8px panel radius,
+   4px inner padding, 8px gap between rows, Shadow-3 (subtle drop). */
+.dropdown,
+.options-menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xxs);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-3);
+  min-width: 200px;
+}
+
+.options {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xxs);                /* gap between leading-group and trailing-group */
+  width: 100%;
+  height: 40px;                           /* Medium (default) — Figma exact */
+  padding: 0 var(--spacing-sm);
+  background: var(--options-bg);
+  border: 1px solid var(--options-border);
+  border-radius: var(--radius-xs);        /* 4px — matches Figma radius-xxs */
+  font-family: var(--font-primary);
+  font-size: var(--fs-14);                /* Body 2 — Figma Medium spec */
+  line-height: var(--lh-24);
+  color: var(--options-text);
+  cursor: pointer;
+  text-align: left;
+  user-select: none;
+  transition: background 0.12s, color 0.12s;
+}
+.options:hover:not(:disabled):not(.is-disabled) {
+  background: var(--options-bg-hover);
+  color: var(--options-text-hover);
+}
+.options:focus-visible {
+  outline: 2px solid var(--color-heading);
+  outline-offset: -2px;
+}
+.options:disabled,
+.options.is-disabled {
+  background: var(--options-bg-disabled);
+  color: var(--options-text-disabled);
+  cursor: not-allowed;
+}
+
+/* ── Sizes — heights mirror Figma symbol names 1:1 (node 98-17811).
+   Large 48 (Body 1, 24px icons) / Medium 40 (Body 2, 16px icons, default) /
+   Small 32 (Caption 1, 16px icons). Horizontal padding stays 12px at every
+   size — only height, typography, and the leading/trailing icon scale. */
+.options-lg {
+  height: 48px;
+  font-size: var(--fs-16);                /* Body 1 — Figma Large spec */
+  line-height: var(--lh-24);
+}
+.options-sm {
+  height: 32px;
+  font-size: var(--fs-12);                /* Caption 1 — Figma Small spec */
+  line-height: var(--lh-16);
+}
+.options-lg .options-leading svg,
+.options-lg .options-trailing svg { width: 24px; height: 24px; }
+/* .options-sm icons stay at the base 16 — explicit rule kept for clarity. */
+.options-sm .options-leading svg,
+.options-sm .options-trailing svg { width: 16px; height: 16px; }
+
+.options-leading,
+.options-trailing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: currentColor;
+}
+.options-leading svg,
+.options-trailing svg {
+  width: 16px;          /* default md = 16px per Figma node 98-17811 */
+  height: 16px;
+}
+.options-label {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Trailing slot composition ── when the row carries BOTH a chevron AND
+   a trailing tag (per Figma 3420-2878), wrap both in `.options-trailing`
+   and they sit side-by-side with an 8px gap, mirroring the design. */
+.options-trailing {
+  gap: var(--spacing-xs);
+}
+
+/* Doc helper — force hover visual at rest for the Full matrix. */
+.options.is-hover:not(:disabled):not(.is-disabled) {
+  background: var(--options-bg-hover);
+  color: var(--options-text-hover);
+}
+
+/* ── TAG ────────────────────────────────────────────────────────────
+   Inline status/label chip. 8 colors × 3 variants × 3 sizes.
+
+   Markup:
+     <span class="tag tag-blue">              Filled (default)
+       <span class="tag-leading">…icon…</span>
+       Label
+       <span class="tag-trailing">…icon…</span>
+     </span>
+     <span class="tag tag-blue tag-outline">Label</span>
+     <span class="tag tag-blue tag-semi">Label</span>
+
+   Sizes:
+     default md (28px), .tag-sm (24px), .tag-xs (20px)
+   ────────────────────────────────────────────────────────────────── */
+.tag {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+  height: 28px;                     /* Medium (default) — Figma exact */
+  padding: 0 var(--spacing-xs);
+  border-radius: var(--radius-xs);  /* 4px — matches Figma radius-xxs */
+  border: 1px solid transparent;    /* Filled = transparent border, Outline overrides */
+  font-family: var(--font-primary);
+  font-size: 14px;                  /* Body 3 */
+  line-height: 20px;
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+  vertical-align: middle;
+  background: var(--tag-blue-filled-bg);
+  color: var(--tag-blue-filled-text);
+}
+.tag-leading,
+.tag-trailing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+.tag-leading svg,
+.tag-trailing svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+/* ── Sizes — heights mirror the Figma symbol names 1:1
+   (Large 32 / Medium 28 / Small 24 / X-Small 20).
+   Typography per Figma: lg + md = Body 3 (14/20); sm = Caption 1 (12/16);
+   xs = Caption 2 (10/12). Padding-x = spacing-xs (8px) for lg/md,
+   spacing-xxs (4px) for sm/xs. */
+.tag-lg { height: 32px; padding: 0 var(--spacing-xs); }
+.tag-sm { height: 24px; padding: 0 var(--spacing-xxs); font-size: 12px; line-height: 16px; }
+.tag-xs { height: 20px; padding: 0 var(--spacing-xxs); font-size: 10px; line-height: 12px; }
+.tag-lg .tag-leading svg, .tag-lg .tag-trailing svg { width: 16px; height: 16px; }
+.tag-sm .tag-leading svg, .tag-sm .tag-trailing svg { width: 12px; height: 12px; }
+.tag-xs .tag-leading svg, .tag-xs .tag-trailing svg { width: 10px; height: 10px; }
+
+/* ── Colors × Filled (default variant) — border stays transparent per Figma. */
+.tag-blue   { background: var(--tag-blue-filled-bg);   color: var(--tag-blue-filled-text);   }
+.tag-red    { background: var(--tag-red-filled-bg);    color: var(--tag-red-filled-text);    }
+.tag-green  { background: var(--tag-green-filled-bg);  color: var(--tag-green-filled-text);  }
+.tag-yellow { background: var(--tag-yellow-filled-bg); color: var(--tag-yellow-filled-text); }
+.tag-orange { background: var(--tag-orange-filled-bg); color: var(--tag-orange-filled-text); }
+.tag-purple { background: var(--tag-purple-filled-bg); color: var(--tag-purple-filled-text); }
+.tag-grey   { background: var(--tag-grey-filled-bg);   color: var(--tag-grey-filled-text);   }
+.tag-black  { background: var(--tag-black-filled-bg);  color: var(--tag-black-filled-text);  }
+
+/* ── Outline variant ── tint bg + colored border + colored text */
+.tag-outline.tag-blue   { background: var(--tag-blue-outline-bg);   color: var(--tag-blue-outline-text);   border-color: var(--tag-blue-outline-border);   }
+.tag-outline.tag-red    { background: var(--tag-red-outline-bg);    color: var(--tag-red-outline-text);    border-color: var(--tag-red-outline-border);    }
+.tag-outline.tag-green  { background: var(--tag-green-outline-bg);  color: var(--tag-green-outline-text);  border-color: var(--tag-green-outline-border);  }
+.tag-outline.tag-yellow { background: var(--tag-yellow-outline-bg); color: var(--tag-yellow-outline-text); border-color: var(--tag-yellow-outline-border); }
+.tag-outline.tag-orange { background: var(--tag-orange-outline-bg); color: var(--tag-orange-outline-text); border-color: var(--tag-orange-outline-border); }
+.tag-outline.tag-purple { background: var(--tag-purple-outline-bg); color: var(--tag-purple-outline-text); border-color: var(--tag-purple-outline-border); }
+.tag-outline.tag-grey   { background: var(--tag-grey-outline-bg);   color: var(--tag-grey-outline-text);   border-color: var(--tag-grey-outline-border);   }
+.tag-outline.tag-black  { background: var(--tag-black-outline-bg);  color: var(--tag-black-outline-text);  border-color: var(--tag-black-outline-border);  }
+
+/* ── Semi variant ── same tint as Outline, but no border (transparent) */
+.tag-semi.tag-blue   { background: var(--tag-blue-outline-bg);   color: var(--tag-blue-outline-text);   border-color: transparent; }
+.tag-semi.tag-red    { background: var(--tag-red-outline-bg);    color: var(--tag-red-outline-text);    border-color: transparent; }
+.tag-semi.tag-green  { background: var(--tag-green-outline-bg);  color: var(--tag-green-outline-text);  border-color: transparent; }
+.tag-semi.tag-yellow { background: var(--tag-yellow-outline-bg); color: var(--tag-yellow-outline-text); border-color: transparent; }
+.tag-semi.tag-orange { background: var(--tag-orange-outline-bg); color: var(--tag-orange-outline-text); border-color: transparent; }
+.tag-semi.tag-purple { background: var(--tag-purple-outline-bg); color: var(--tag-purple-outline-text); border-color: transparent; }
+.tag-semi.tag-grey   { background: var(--tag-grey-outline-bg);   color: var(--tag-grey-outline-text);   border-color: transparent; }
+.tag-semi.tag-black  { background: var(--tag-black-outline-bg);  color: var(--tag-black-outline-text);  border-color: transparent; }
+
+/* ── TEXT INPUT ─────────────────────────────────────────────────────
+   Wrapper + shell + native input. Mirrors Figma node 2260-4637 1:1.
+
+   Markup:
+     <div class="input-field">
+       <label class="input-field-label">Label</label>
+       <div class="input">
+         <span class="input-leading"><svg>…</svg></span>
+         <input type="text" placeholder="Placeholder">
+         <span class="input-trailing"><svg>…</svg></span>
+       </div>
+       <p class="input-field-caption">Caption</p>
+     </div>
+
+   Sizes (on .input):  default md=40 / .input-lg=48 / .input-sm=32
+   State (on wrapper): .input-field-success | -warning | -error | -disabled
+   Variants (on .input or wrapper):  default | .input-tags | .input-otp
+   ────────────────────────────────────────────────────────────────── */
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxs);
+  width: 100%;
+}
+.input-field-label,
+.input-field-caption {
+  font-family: var(--font-primary);
+  font-size: var(--fs-12);
+  line-height: var(--lh-16);
+  color: var(--input-default-label);
+  margin: 0;
+}
+.input-field-label   { font-weight: var(--fw-medium); }
+.input-field-caption { font-weight: var(--fw-regular); }
+
+/* Shell — wraps leading icon + native <input> + trailing icon. */
+.input {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  height: 40px;                                   /* Medium (default) */
+  padding: 0 var(--spacing-sm);
+  background: var(--input-default-bg);
+  border: 1px solid var(--input-default-border);
+  border-radius: var(--radius-md);                /* 8px — Figma radius-xs */
+  font-family: var(--font-primary);
+  transition: background 0.12s, border-color 0.12s;
+}
+.input:hover:not(.input-disabled):not(:focus-within) {
+  background: var(--input-hover-bg);
+  border-color: transparent;
+}
+.input:focus-within:not(.input-disabled) {
+  background: var(--input-focus-bg);
+  border-color: var(--input-focus-border);
+}
+/* Filled state — shell has content and isn't focused. */
+.input:not(:focus-within):not(:hover):not(.input-disabled):has(input:not(:placeholder-shown)) {
+  border-color: var(--input-filled-border);
+}
+
+/* ── Sizes ── */
+.input-lg { height: 48px; }
+.input-sm { height: 32px; padding: 0 var(--spacing-xs); }
+
+/* ── Native input — no chrome of its own, inherits shell's font/colour. */
+.input > input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  font-size: var(--fs-16);
+  line-height: var(--lh-24);
+  font-weight: var(--fw-regular);
+  color: var(--color-heading);
+  padding: 0;
+}
+.input-sm > input { font-size: var(--fs-14); line-height: var(--lh-20); }
+.input > input::placeholder { color: var(--input-default-placeholder); }
+.input:hover > input::placeholder,
+.input:focus-within > input::placeholder {
+  color: var(--color-heading);                    /* placeholder darkens on hover/focus */
+}
+
+/* ── Icon slots ── */
+.input-leading,
+.input-trailing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  color: var(--input-default-label);
+}
+.input-leading svg,
+.input-trailing svg { width: 24px; height: 24px; }
+.input-sm .input-leading svg, .input-sm .input-trailing svg { width: 16px; height: 16px; }
+
+/* ── State modifiers — chrome doesn't change, only caption color. */
+.input-field-success .input-field-caption { color: var(--input-success-caption); }
+.input-field-warning .input-field-caption { color: var(--input-warning-caption); }
+.input-field-error   .input-field-caption { color: var(--input-error-caption); }
+
+/* ── Disabled — apply via wrapper class OR native disabled on the <input>. */
+.input-field-disabled .input,
+.input.input-disabled,
+.input:has(> input:disabled) {
+  background: var(--input-disabled-bg);
+  border-color: transparent;
+  cursor: not-allowed;
+}
+.input:has(> input:disabled) > input,
+.input-field-disabled .input > input {
+  cursor: not-allowed;
+  color: var(--input-default-placeholder);
+}
+
+/* Doc helpers — force visual states at rest for the Full matrix. */
+.input.is-hover:not(.input-disabled)    { background: var(--input-hover-bg);  border-color: transparent; }
+.input.is-focus:not(.input-disabled)    { background: var(--input-focus-bg);  border-color: var(--input-focus-border); }
+.input.is-focus:not(.input-disabled) > input::placeholder,
+.input.is-hover:not(.input-disabled) > input::placeholder { color: var(--color-heading); }
+.input.is-filled:not(.input-disabled)   { border-color: var(--input-filled-border); }
+
+/* ── Variant: Tags — input wraps and hosts .tag chips inline. */
+.input-tags {
+  flex-wrap: wrap;
+  height: auto;
+  min-height: 40px;
+  padding-top: var(--spacing-xxs);
+  padding-bottom: var(--spacing-xxs);
+  align-items: center;
+}
+.input-tags.input-lg { min-height: 48px; }
+.input-tags.input-sm { min-height: 32px; }
+.input-tags > input { flex: 1 0 80px; }            /* keep input editable when tags wrap */
+
+/* ── Variant: OTP — N single-character cells in a row. */
+.input-otp {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+.input-otp > input {
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  background: var(--input-default-bg);
+  border: 1px solid var(--input-default-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-primary);
+  font-size: var(--fs-16);
+  line-height: var(--lh-24);
+  font-weight: var(--fw-semibold);
+  color: var(--color-heading);
+  text-align: center;
+  outline: 0;
+  padding: 0;
+  transition: background 0.12s, border-color 0.12s;
+}
+.input-otp > input:hover                                { background: var(--input-hover-bg);  border-color: transparent; }
+.input-otp > input:focus                                { background: var(--input-focus-bg);  border-color: var(--input-focus-border); }
+.input-otp > input:not(:focus):not(:placeholder-shown)  { border-color: var(--input-filled-border); }
+.input-otp > input:disabled                             { background: var(--input-disabled-bg); border-color: transparent; cursor: not-allowed; }
+.input-otp.input-lg > input { width: 48px; height: 48px; }
+.input-otp.input-sm > input { width: 32px; height: 32px; font-size: var(--fs-14); }
+
+/* ── TEXT AREA ──────────────────────────────────────────────────────
+   Multi-line input. Reuses the `.input-field` wrapper + label + caption
+   from Text Input — only the shell is different (taller, top-aligned
+   icon, native textarea resize handle). All `--input-*` tokens carry
+   over 1:1 — Figma's `--text-input-*` group is the same set of values.
+
+   Markup:
+     <div class="input-field">
+       <label class="input-field-label">Label</label>
+       <div class="textarea">
+         <textarea placeholder="Placeholder"></textarea>
+         <span class="textarea-trailing"><svg>…</svg></span>
+       </div>
+       <p class="input-field-caption">Caption</p>
+     </div>
+
+   Sizes (on .textarea):  default md=120 / .textarea-lg=160 / .textarea-sm=80
+   ────────────────────────────────────────────────────────────────── */
+.textarea {
+  box-sizing: border-box;
+  position: relative;                             /* anchor for absolute trailing icon */
+  display: block;
+  width: 100%;
+  min-height: 120px;                              /* Figma: same shell height across all sizes */
+  padding: var(--spacing-xs) var(--spacing-sm);   /* md default = 8/12 */
+  background: var(--input-default-bg);
+  border: 1px solid var(--input-default-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-primary);
+  transition: background 0.12s, border-color 0.12s;
+}
+.textarea:hover:not(.input-disabled):not(:focus-within) {
+  background: var(--input-hover-bg);
+  border-color: transparent;
+}
+.textarea:focus-within:not(.input-disabled) {
+  background: var(--input-focus-bg);
+  border-color: var(--input-focus-border);
+}
+.textarea:not(:focus-within):not(:hover):not(.input-disabled):has(textarea:not(:placeholder-shown)) {
+  border-color: var(--input-filled-border);
+}
+
+/* ── Sizes — Figma differs by TYPOGRAPHY DENSITY, not container height.
+   All three share a 120px min-height shell; what changes is the placeholder
+   font (Body 1 / Body 2 / Caption 1), the trailing icon size (24 / 16 / 16),
+   and Large's symmetric 12px padding (vs 8/12 on md/sm). */
+.textarea-lg { padding: var(--spacing-sm); }      /* 12px all sides */
+
+/* ── Native textarea — spans the shell's full inner width so the browser's
+   resize handle (always bottom-right of the <textarea>) ends up at the
+   bottom-right of the shell, matching the Figma decorative handle position. */
+.textarea > textarea {
+  display: block;
+  width: 100%;
+  min-height: 104px;                              /* 120 - 16 padding-y (md/sm) */
+  padding: 0;
+  padding-right: 24px;                            /* reserve space for 16px trailing icon */
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: var(--font-primary);
+  font-size: var(--fs-14);                        /* md default = Body 2 (14/24) */
+  line-height: var(--lh-24);
+  font-weight: var(--fw-regular);
+  color: var(--color-heading);
+  resize: vertical;                               /* native vertical resize handle, bottom-right */
+}
+.textarea-lg > textarea {
+  min-height: 96px;                               /* 120 - 24 padding-y (lg) */
+  padding-right: 32px;                            /* reserve space for 24px trailing icon */
+  font-size: var(--fs-16);                        /* Body 1 (16/24) per Figma Large */
+}
+.textarea-sm > textarea {
+  font-size: var(--fs-12);                        /* Caption 1 (12/16) per Figma Small */
+  line-height: var(--lh-16);
+}
+.textarea > textarea::placeholder { color: var(--input-default-placeholder); }
+.textarea:hover > textarea::placeholder,
+.textarea:focus-within > textarea::placeholder {
+  color: var(--color-heading);
+}
+
+/* ── Trailing icon — absolutely pinned to the shell's top-right (per Figma).
+   Inset matches the shell's padding so the icon aligns with the placeholder's
+   first line. Large uses bigger 24×24 icon and 12px inset to match its padding. */
+.textarea-trailing {
+  position: absolute;
+  top: var(--spacing-xs);                         /* 8px = md/sm padding-y */
+  right: var(--spacing-sm);                       /* 12px from shell right */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--input-default-label);
+}
+.textarea-trailing svg { width: 16px; height: 16px; }
+.textarea-lg .textarea-trailing { top: var(--spacing-sm); }   /* 12px = lg padding-y */
+.textarea-lg .textarea-trailing svg { width: 24px; height: 24px; }
+
+/* ── Disabled — same propagation pattern as .input. */
+.input-field-disabled .textarea,
+.textarea.input-disabled,
+.textarea:has(> textarea:disabled) {
+  background: var(--input-disabled-bg);
+  border-color: transparent;
+  cursor: not-allowed;
+}
+.textarea:has(> textarea:disabled) > textarea,
+.input-field-disabled .textarea > textarea {
+  cursor: not-allowed;
+  color: var(--input-default-placeholder);
+  resize: none;
+}
+
+/* ── Doc helpers — force visual states at rest for the Full matrix. */
+.textarea.is-hover:not(.input-disabled)  { background: var(--input-hover-bg); border-color: transparent; }
+.textarea.is-focus:not(.input-disabled)  { background: var(--input-focus-bg); border-color: var(--input-focus-border); }
+.textarea.is-hover:not(.input-disabled) > textarea::placeholder,
+.textarea.is-focus:not(.input-disabled) > textarea::placeholder { color: var(--color-heading); }
+.textarea.is-filled:not(.input-disabled) { border-color: var(--input-filled-border); }
+
+/* ── UPLOAD MEDIA ───────────────────────────────────────────────────
+   Drop-target / file-list surface for selecting media. Mirrors the
+   Figma library 1:1 (node 3348-6794). Reuses the `.input-field`
+   wrapper, label, caption, and the `--input-*` token group from Text
+   Input — same colour values, no new tokens. Composes with the existing
+   `.btn` (`.btn-primary.btn-sm`) for the "Choose file" trigger.
+
+   Markup — empty state (Before upload):
+     <div class="input-field">
+       <label class="input-field-label">Label</label>
+       <div class="upload">
+         <div class="upload-empty">
+           <svg class="upload-icon">…gallery-add icon…</svg>
+           <p class="upload-heading">Click to choose file</p>
+           <p class="upload-subheading">Max: 5MB file</p>
+         </div>
+         <button class="btn btn-primary btn-sm">Choose file</button>
+       </div>
+       <p class="input-field-caption">Caption</p>
+     </div>
+
+   Markup — file list (After upload):
+     <div class="upload">
+       <ul class="upload-files">
+         <li class="upload-file">
+           <span class="upload-file-thumb"><svg>…</svg></span>
+           <span class="upload-file-name">filebig…name.png</span>
+           <button class="upload-file-remove"><svg>…×…</svg></button>
+         </li>
+         …
+       </ul>
+       <p class="upload-subheading">Max: 5MB file</p>
+       <button class="btn btn-primary btn-sm">Choose file</button>
+     </div>
+   ────────────────────────────────────────────────────────────────── */
+.upload {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);                          /* 16px between hero / files / button */
+  width: 100%;
+  height: 240px;                                   /* Figma fixed shell */
+  padding: var(--spacing-sm);
+  background: var(--upload-bg);                    /* differs from input bg in dark — see tokens.css */
+  border: 1px solid var(--input-default-border);
+  border-radius: var(--radius-md);                 /* 8px = Figma radius-xs */
+  font-family: var(--font-primary);
+  transition: background 0.12s, border-color 0.12s;
+}
+.upload:hover:not(.input-disabled) { background: var(--upload-bg-hover); }
+.upload.is-hover                   { background: var(--upload-bg-hover); }
+.upload:hover:not(.input-disabled) .upload-heading,
+.upload.is-hover .upload-heading { color: var(--color-heading); }
+
+/* ── Empty-state column (icon + headings). */
+.upload-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  width: 100%;
+}
+.upload-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--input-default-label);
+  flex: 0 0 auto;
+}
+.upload-icon svg { width: 100%; height: 100%; fill: currentColor; }
+.upload-heading {
+  margin: 0;
+  width: 100%;
+  font-size: var(--fs-14);                         /* Body 2 */
+  line-height: var(--lh-24);
+  font-weight: var(--fw-semibold);
+  color: var(--input-default-placeholder);
+  text-align: center;
+}
+.upload-subheading {
+  margin: 0;
+  width: 100%;
+  font-size: var(--fs-12);                         /* Caption 1 */
+  line-height: var(--lh-16);
+  font-weight: var(--fw-regular);
+  color: var(--input-default-placeholder);
+  text-align: center;
+}
+
+/* ── File-list state — one or more uploaded files. */
+.upload-files {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);                          /* 8px between pills */
+}
+.upload-file {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  height: 40px;
+  padding: 0 var(--spacing-xs);
+  background: var(--color-bg);                     /* white */
+  border: 1px solid var(--color-border);           /* Product/Border = 10% black */
+  border-radius: var(--radius-md);
+}
+.upload-file-thumb {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-2);
+  color: var(--input-default-label);
+  overflow: hidden;
+}
+.upload-file-thumb svg,
+.upload-file-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.upload-file-name {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--fs-14);                         /* Body 2 */
+  line-height: var(--lh-20);
+  font-weight: var(--fw-regular);
+  color: var(--color-heading);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.upload-file-remove {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--input-default-label);
+  cursor: pointer;
+}
+.upload-file-remove:hover  { background: var(--input-hover-bg); color: var(--color-heading); }
+.upload-file-remove svg    { width: 16px; height: 16px; }
+
+/* ── Disabled state — same propagation pattern as .input. */
+.input-field-disabled .upload,
+.upload.input-disabled {
+  background: var(--input-disabled-bg);
+  border-color: transparent;
+  cursor: not-allowed;
+}
+.input-field-disabled .upload .btn:not(:disabled),
+.upload.input-disabled .btn:not(:disabled) { pointer-events: none; opacity: 0.5; }
+
+/* ── TABS ───────────────────────────────────────────────────────────
+   A row of horizontal tab items, each with a bottom-border. Active tab
+   bumps the border to solid dark; hover lifts the bg subtly. Mirrors
+   Figma node 3817-106 (light) + 5887-4266 (dark) 1:1.
+
+   Markup:
+     <div class="tabs" role="tablist">
+       <button class="tab" role="tab" aria-selected="true">
+         <span class="tab-icon"><svg>…</svg></span>
+         Label
+         <span class="tab-badge">text</span>
+       </button>
+       <button class="tab" role="tab">Label</button>
+       …
+     </div>
+
+   Sizes (on .tab):  default md=40 / .tab-lg=48 / .tab-sm=32
+   Active state:     aria-selected="true" (preferred) OR .is-active
+   ────────────────────────────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  align-items: stretch;
+  width: fit-content;
+}
+
+.tab {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);                          /* 8px between icon / label / badge */
+  height: 40px;                                    /* Medium (default) */
+  padding: 0 var(--spacing-sm);                    /* 12px horizontal */
+  background: var(--tab-default-bg);
+  border: 0;
+  border-bottom: 1px solid var(--tab-default-border);
+  font-family: var(--font-primary);
+  font-size: var(--fs-14);                         /* Body 2 (14/24) Medium */
+  line-height: var(--lh-24);
+  font-weight: var(--fw-medium);
+  color: var(--tab-default-text);
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+.tab:hover:not(:disabled):not(.is-disabled) {
+  background: var(--tab-hover-bg);
+  border-bottom-color: var(--tab-hover-border);
+  color: var(--tab-hover-text);
+}
+.tab:focus-visible {
+  outline: 2px solid var(--color-heading);
+  outline-offset: -2px;
+}
+.tab[aria-selected="true"]:not(:disabled):not(.is-disabled),
+.tab.is-active:not(:disabled):not(.is-disabled) {
+  background: var(--tab-active-bg);
+  border-bottom-color: var(--tab-active-border);
+  color: var(--tab-active-text);
+}
+.tab:disabled,
+.tab.is-disabled {
+  background: var(--tab-disabled-bg);
+  border-bottom-color: var(--tab-disabled-border);
+  color: var(--tab-disabled-text);
+  cursor: not-allowed;
+}
+
+/* ── Sizes ── */
+.tab-lg { height: 48px; font-size: var(--fs-16); line-height: var(--lh-24); }   /* Body 1 (16/24) */
+.tab-sm { height: 32px; font-size: var(--fs-12); line-height: var(--lh-16); }   /* Caption 1 (12/16) */
+
+/* ── Icon slot ── */
+.tab-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  color: currentColor;
+}
+.tab-icon svg { width: 16px; height: 16px; }
+/* Icon scales per tab size — Figma 3817-106 uses ~20 / 16 / 14 px for
+   horizontal lg / md / sm, and the vertical variants bump up because the
+   icon has its own row and more breathing room above the label. */
+.tab.tab-lg .tab-icon svg          { width: 20px; height: 20px; }
+.tab.tab-sm .tab-icon svg          { width: 14px; height: 14px; }
+.tab.tab-vertical .tab-icon svg    { width: 20px; height: 20px; }
+.tab.tab-vertical.tab-lg .tab-icon svg { width: 24px; height: 24px; }
+.tab.tab-vertical.tab-sm .tab-icon svg { width: 16px; height: 16px; }
+
+/* ── Alignment: Vertical (icon-on-top, label-row below) ──
+   Figma 5934-1968 introduces an Alignment axis on every tab. Default
+   layout (no modifier) is Horizontal — icon · label · badge in a single
+   row. With .tab-vertical the icon stacks above and the label + badge
+   ride together on a second row. Heights map to the Figma symbol sizes:
+     vertical lg = 64 / md = 52 / sm = 48 (vs horizontal 48 / 40 / 32). */
+.tab.tab-vertical {
+  flex-direction: column;
+  gap: 4px;
+  height: 52px;                                    /* Medium (default) */
+  padding: 6px var(--spacing-sm);
+}
+.tab.tab-vertical.tab-lg { height: 64px; padding: 8px var(--spacing-sm); }
+.tab.tab-vertical.tab-sm { height: 48px; padding: 4px var(--spacing-sm); }
+/* Inner row that holds the label text + the optional .tab-badge so they
+   sit side-by-side under the icon. */
+.tab-label-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+}
+
+/* Tabs compose with the canonical Badge component — drop a
+   .badge.badge-label.badge-info inside any .tab and the cascade rules
+   below scale the badge height to match the parent tab size:
+     .tab-sm → 12 px badge (matches .badge-sm)
+     .tab    → 16 px badge (Badge's default md)
+     .tab-lg → 20 px badge (matches .badge-lg)
+   The rule fires only when the consumer hasn't already pinned a size
+   modifier on the badge (`:not(.badge-sm):not(.badge-lg)`) so explicit
+   overrides still win. Per Figma 3817-106 (light) + 5934-1968 (dark)
+   tab badges are always Info (blue) — no Brand option in the spec. */
+.tab.tab-sm > .badge.badge-label:not(.badge-sm):not(.badge-lg),
+.tab.tab-sm .tab-label-row > .badge.badge-label:not(.badge-sm):not(.badge-lg) {
+  height: 12px; min-width: 12px; padding: 0 4px;
+  font-size: 8px; line-height: 12px;
+}
+.tab.tab-lg > .badge.badge-label:not(.badge-sm):not(.badge-lg),
+.tab.tab-lg .tab-label-row > .badge.badge-label:not(.badge-sm):not(.badge-lg) {
+  height: 20px; min-width: 20px; padding: 0 6px;
+  font-size: 12px; line-height: 20px;
+}
+
+/* Doc helper — force hover visual at rest for the Full matrix. */
+.tab.is-hover:not(:disabled):not(.is-disabled) {
+  background: var(--tab-hover-bg);
+  border-bottom-color: var(--tab-hover-border);
+  color: var(--tab-hover-text);
+}
+
+/* ── SNACKBAR ───────────────────────────────────────────────────────
+   Inline notification — 320×48, leading icon, label, action button +
+   close button. 7 variants (brand / info / danger / success / warning /
+   notice / alert) × 3 states (semi-filled / filled / border). Mirrors
+   Figma node 161-5424 1:1 in light mode.
+
+   Markup:
+     <div class="snackbar snackbar-info" role="status">           <!-- semi-filled (default) -->
+       <span class="snackbar-icon"><svg>…</svg></span>
+       <span class="snackbar-label">Label</span>
+       <div class="snackbar-actions">
+         <button class="btn btn-primary btn-sm">Label</button>
+         <button class="snackbar-close" aria-label="Close"><svg>…×…</svg></button>
+       </div>
+     </div>
+
+   State modifiers:  default semi-filled / .snackbar-filled / .snackbar-border
+   ────────────────────────────────────────────────────────────────── */
+.snackbar {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  width: 320px;
+  min-height: 48px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);                /* 8px = Figma radius-xs */
+  box-shadow: var(--shadow-3);                    /* matches Dropdown panel — lifts the toast off any surface */
+  font-family: var(--font-primary);
+  /* default = Brand semi-filled */
+  background: var(--snackbar-brand-semi-bg);
+  color: var(--snackbar-brand-deep);
+}
+.snackbar-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex: 1;
+  min-width: 0;
+}
+.snackbar-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  color: currentColor;
+}
+.snackbar-icon svg { width: 24px; height: 24px; }
+.snackbar-label {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--fs-12);                        /* Caption 1 */
+  line-height: var(--lh-16);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.snackbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex: 0 0 auto;
+}
+.snackbar-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: currentColor;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+.snackbar-close:hover { background: rgba(0,0,0,0.05); }
+[data-theme="dark"] .snackbar-close:hover { background: rgba(255,255,255,0.10); }
+.snackbar-close svg { width: 24px; height: 24px; }
+
+/* ── Variants × Semi-filled (default state — bg+text from deep colour). */
+.snackbar-brand   { background: var(--snackbar-brand-semi-bg);   color: var(--snackbar-brand-deep);   }
+.snackbar-info    { background: var(--snackbar-info-semi-bg);    color: var(--snackbar-info-deep);    }
+.snackbar-danger  { background: var(--snackbar-danger-semi-bg);  color: var(--snackbar-danger-deep);  }
+.snackbar-success { background: var(--snackbar-success-semi-bg); color: var(--snackbar-success-deep); }
+.snackbar-warning { background: var(--snackbar-warning-semi-bg); color: var(--snackbar-warning-deep); }
+.snackbar-notice  { background: var(--snackbar-notice-semi-bg);  color: var(--snackbar-notice-deep);  }
+.snackbar-alert   { background: var(--snackbar-alert-semi-bg);   color: var(--snackbar-alert-deep);   }
+
+/* ── Filled — solid deep bg + filled-text colour. The filled-text token is
+   white for every variant in light mode; in dark mode it stays white for the
+   coloured variants but inverts to #2D2D2D for Brand (whose deep colour is
+   itself white, so text needs to be dark to stay legible). */
+.snackbar.snackbar-filled                  { background: var(--snackbar-brand-deep);   color: var(--snackbar-brand-filled-text);   }
+.snackbar.snackbar-filled.snackbar-info    { background: var(--snackbar-info-deep);    color: var(--snackbar-info-filled-text);    }
+.snackbar.snackbar-filled.snackbar-danger  { background: var(--snackbar-danger-deep);  color: var(--snackbar-danger-filled-text);  }
+.snackbar.snackbar-filled.snackbar-success { background: var(--snackbar-success-deep); color: var(--snackbar-success-filled-text); }
+.snackbar.snackbar-filled.snackbar-warning { background: var(--snackbar-warning-deep); color: var(--snackbar-warning-filled-text); }
+.snackbar.snackbar-filled.snackbar-notice  { background: var(--snackbar-notice-deep);  color: var(--snackbar-notice-filled-text);  }
+.snackbar.snackbar-filled.snackbar-alert   { background: var(--snackbar-alert-deep);   color: var(--snackbar-alert-filled-text);   }
+
+/* ── Border — page bg + 1px colored border + deep text. */
+.snackbar.snackbar-border                  { background: var(--color-bg); border-color: var(--snackbar-brand-border-border);   color: var(--snackbar-brand-deep);   }
+.snackbar.snackbar-border.snackbar-info    { background: var(--color-bg); border-color: var(--snackbar-info-border-border);    color: var(--snackbar-info-deep);    }
+.snackbar.snackbar-border.snackbar-danger  { background: var(--color-bg); border-color: var(--snackbar-danger-border-border);  color: var(--snackbar-danger-deep);  }
+.snackbar.snackbar-border.snackbar-success { background: var(--color-bg); border-color: var(--snackbar-success-border-border); color: var(--snackbar-success-deep); }
+.snackbar.snackbar-border.snackbar-warning { background: var(--color-bg); border-color: var(--snackbar-warning-border-border); color: var(--snackbar-warning-deep); }
+.snackbar.snackbar-border.snackbar-notice  { background: var(--color-bg); border-color: var(--snackbar-notice-border-border);  color: var(--snackbar-notice-deep);  }
+.snackbar.snackbar-border.snackbar-alert   { background: var(--color-bg); border-color: var(--snackbar-alert-border-border);   color: var(--snackbar-alert-deep);   }
+
+/* ── Action button inside Filled snackbar inverts the surface — button bg
+   matches the snackbar text colour (filled-text), button text matches the
+   snackbar bg (deep). For coloured variants in either theme: white button
+   on coloured bg, with the variant deep colour as text. For Brand in dark:
+   dark button on white bg, with white text — the inversion still holds.
+   In Semi-filled / Border the button stays normal primary (no overrides). */
+.snackbar.snackbar-filled                  .btn-primary { background: var(--snackbar-brand-filled-text);   color: var(--snackbar-brand-deep);   border-color: var(--snackbar-brand-filled-text);   }
+.snackbar.snackbar-filled.snackbar-info    .btn-primary { background: var(--snackbar-info-filled-text);    color: var(--snackbar-info-deep);    border-color: var(--snackbar-info-filled-text);    }
+.snackbar.snackbar-filled.snackbar-danger  .btn-primary { background: var(--snackbar-danger-filled-text);  color: var(--snackbar-danger-deep);  border-color: var(--snackbar-danger-filled-text);  }
+.snackbar.snackbar-filled.snackbar-success .btn-primary { background: var(--snackbar-success-filled-text); color: var(--snackbar-success-deep); border-color: var(--snackbar-success-filled-text); }
+.snackbar.snackbar-filled.snackbar-warning .btn-primary { background: var(--snackbar-warning-filled-text); color: var(--snackbar-warning-deep); border-color: var(--snackbar-warning-filled-text); }
+.snackbar.snackbar-filled.snackbar-notice  .btn-primary { background: var(--snackbar-notice-filled-text);  color: var(--snackbar-notice-deep);  border-color: var(--snackbar-notice-filled-text);  }
+.snackbar.snackbar-filled.snackbar-alert   .btn-primary { background: var(--snackbar-alert-filled-text);   color: var(--snackbar-alert-deep);   border-color: var(--snackbar-alert-filled-text);   }
+
+/* ── Stacking region — fixed-position container anchored to a corner of the
+   viewport. The interactive demo creates one of these on first trigger and
+   appends new .snackbar elements with .snackbar-toast for the slide-in anim. */
+.snackbar-region {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  z-index: 9999;
+  pointer-events: none;                            /* let clicks pass through gaps */
+}
+.snackbar-region > .snackbar { pointer-events: auto; }
+.snackbar-region.is-top-left     { top: 24px;    left: 24px; }
+.snackbar-region.is-top-center   { top: 24px;    left: 50%; transform: translateX(-50%); }
+.snackbar-region.is-top-right    { top: 24px;    right: 24px; }
+.snackbar-region.is-bottom-left  { bottom: 24px; left: 24px; }
+.snackbar-region.is-bottom-center{ bottom: 24px; left: 50%; transform: translateX(-50%); }
+.snackbar-region.is-bottom-right { bottom: 24px; right: 24px; }
+
+@keyframes snackbar-in  { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes snackbar-out { from { opacity: 1; transform: translateY(0);  } to { opacity: 0; transform: translateY(-8px); } }
+.snackbar-toast            { animation: snackbar-in  0.20s ease-out both; }
+.snackbar-toast.is-leaving { animation: snackbar-out 0.18s ease-in  both; }
+
+/* ── BADGE ──────────────────────────────────────────────────────────
+   Small indicator pill / dot / verify-check, sized 4 / 8 / 12 px. Used
+   pinned to the top-right of an avatar / button / tab to flag count or
+   status. Mirrors Figma node 123-2217 (label, light) + 123-2267 (dot,
+   light) + 5897-1277 (label, dark) + 5897-1222 (dot, dark) 1:1.
+
+   Markup — Dot (no content):
+     <span class="badge badge-dot badge-danger" aria-label="3 unread"></span>
+
+   Markup — Label (with count text):
+     <span class="badge badge-label badge-danger">3</span>
+
+   Markup — Verify (check icon):
+     <span class="badge badge-verify badge-info" aria-label="Verified">
+       <svg><use href="#ico-tag-check"/></svg>
+     </span>
+
+   Sizes:
+     Dot / Verify (square):  .badge-sm=4 / default md=8 / .badge-lg=12
+     Label (pill height):    .badge-sm=12 / default md=16 / .badge-lg=20
+     Label widths auto-grow with digit count; min-width = height (circular at 1-digit).
+   ────────────────────────────────────────────────────────────────── */
+.badge {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 8px;
+  height: 8px;
+  background: var(--badge-brand-bg);
+  color: var(--badge-brand-text);
+  border: 1px solid var(--badge-brand-border);
+  border-radius: var(--radius-full);
+  font-family: var(--font-primary);
+  font-size: 6px;                                   /* tiny — for count digits */
+  line-height: 6px;
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+  vertical-align: middle;
+  flex: 0 0 auto;
+}
+
+/* Size mods — apply to Dot/Verify (square box). Labels override below. */
+.badge-sm { width: 4px;  height: 4px;  }
+.badge-lg { width: 12px; height: 12px; }
+
+/* Label variant — pill that auto-fits digit content.
+   Default md = 16px tall (Figma "Small(16px)"). Three pill heights:
+     .badge.badge-label.badge-sm  → 12px tall (Figma "Small(12px)")
+     .badge.badge-label           → 16px tall (default)
+     .badge.badge-label.badge-lg  → 20px tall (Figma "Large(20px)")
+   min-width = height keeps the 1-digit form circular. Width auto-grows
+   beyond that with content (2/3/4 digits widen the pill). Font scales
+   per height: 8 / 10 / 12 px.
+   Specificity (0,3,0) on the size-modifier rules beats the plain
+   .badge-sm / .badge-lg (0,1,0) — so dots stay 4/12 px square while
+   labels remain auto-width pills at the right pill heights. */
+.badge.badge-label {
+  width: auto;
+  height: 16px;
+  min-width: 16px;
+  padding: 0 5px;
+  font-size: 10px;
+  line-height: 16px;
+}
+.badge.badge-label.badge-sm {
+  height: 12px;
+  min-width: 12px;
+  padding: 0 4px;
+  font-size: 8px;
+  line-height: 12px;
+}
+.badge.badge-label.badge-lg {
+  height: 20px;
+  min-width: 20px;
+  padding: 0 6px;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+/* Verify variant — the SVG paints the entire visual (scalloped shape +
+   white check). The .badge container drops its background, border, and
+   default fill so the SVG owns the surface. Two CSS custom properties
+   drive the colours:
+     --vs : scalloped shape fill   (badge bg token)
+     --vc : check stroke            (badge text token — flips for Brand dark)
+   Each .badge-{color} modifier below sets these. */
+.badge.badge-verify {
+  background: transparent;
+  border: 0;
+  /* Sensible default if a colour modifier isn't applied. */
+  --vs: var(--badge-brand-bg);
+  --vc: var(--badge-brand-text);
+}
+.badge.badge-verify > svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Per-colour custom properties — only apply when .badge-verify is present
+   so the Dot / Label variants keep using the plain background + text
+   token cascade above. Specificity (0,3,0) beats the (0,2,0) below. */
+.badge.badge-verify.badge-brand   { --vs: var(--badge-brand-bg);   --vc: var(--badge-brand-text);   }
+.badge.badge-verify.badge-info    { --vs: var(--badge-info-bg);    --vc: var(--badge-info-text);    }
+.badge.badge-verify.badge-danger  { --vs: var(--badge-danger-bg);  --vc: var(--badge-danger-text);  }
+.badge.badge-verify.badge-success { --vs: var(--badge-success-bg); --vc: var(--badge-success-text); }
+.badge.badge-verify.badge-warning { --vs: var(--badge-warning-bg); --vc: var(--badge-warning-text); }
+.badge.badge-verify.badge-notice  { --vs: var(--badge-notice-bg);  --vc: var(--badge-notice-text);  }
+.badge.badge-verify.badge-alert   { --vs: var(--badge-alert-bg);   --vc: var(--badge-alert-text);   }
+
+/* ── Colour variants ── */
+.badge-brand   { background: var(--badge-brand-bg);   color: var(--badge-brand-text);   border-color: var(--badge-brand-border);   }
+.badge-info    { background: var(--badge-info-bg);    color: var(--badge-info-text);    border-color: var(--badge-info-border);    }
+.badge-danger  { background: var(--badge-danger-bg);  color: var(--badge-danger-text);  border-color: var(--badge-danger-border);  }
+.badge-success { background: var(--badge-success-bg); color: var(--badge-success-text); border-color: var(--badge-success-border); }
+.badge-warning { background: var(--badge-warning-bg); color: var(--badge-warning-text); border-color: var(--badge-warning-border); }
+.badge-notice  { background: var(--badge-notice-bg);  color: var(--badge-notice-text);  border-color: var(--badge-notice-border);  }
+.badge-alert   { background: var(--badge-alert-bg);   color: var(--badge-alert-text);   border-color: var(--badge-alert-border);   }
+
+/* ── Pinned composition — drop a .badge inside .badge-pin to anchor it
+   to the top-right of any inline-block parent (button, avatar, tab item). */
+.badge-pin {
+  position: relative;
+  display: inline-block;
+}
+.badge-pin > .badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  z-index: 1;
+}
+
+/* ── DATE PICKER ────────────────────────────────────────────────────
+   Floating panel with a 7-column day grid, month-name 4×3 grid, and
+   year 4×3 grid. Composes with `.input-field` as the trigger (the field
+   shows the selected date; clicking the field opens the picker below).
+   Panel chrome mirrors Dropdown — same --shadow-3 and radius — so the
+   visual language is consistent. Mirrors Figma nodes 105-1786 / 105-2329
+   / 105-2431 (light) + 5913-1594 / 5913-1609 / 5913-1616 (dark) 1:1.
+
+   Markup — day view:
+     <div class="datepicker" role="dialog">
+       <div class="datepicker-header">
+         <button class="datepicker-nav" aria-label="Previous"><svg>…‹…</svg></button>
+         <button class="datepicker-title">July 2024 <svg>…⌄…</svg></button>
+         <button class="datepicker-nav" aria-label="Next"><svg>…›…</svg></button>
+       </div>
+       <div class="datepicker-weekdays">
+         <span>Mo</span> … <span>Su</span>
+       </div>
+       <div class="datepicker-days">
+         <button class="datepicker-cell is-other">30</button>
+         <button class="datepicker-cell">1</button>
+         …
+         <button class="datepicker-cell is-active">9</button>
+         …
+       </div>
+     </div>
+   ────────────────────────────────────────────────────────────────── */
+.datepicker {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 320px;
+  padding: var(--spacing-md);
+  background: var(--datepicker-bg);
+  border: 1px solid var(--datepicker-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-3);
+  font-family: var(--font-primary);
+  color: var(--datepicker-text);
+}
+
+/* ── Header — prev/next arrows + month/year title with optional dropdown chevron. */
+.datepicker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+}
+.datepicker-title {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: transparent;
+  border: 0;
+  padding: 4px var(--spacing-sm);
+  color: inherit;
+  font-family: inherit;
+  font-size: var(--fs-16);
+  line-height: var(--lh-24);
+  font-weight: var(--fw-medium);
+  cursor: pointer;
+  border-radius: var(--radius-xs);
+}
+.datepicker-title:hover { background: var(--datepicker-cell-bg-hover); }
+.datepicker-title svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.datepicker-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  border-radius: var(--radius-xs);
+}
+.datepicker-nav:hover { background: var(--datepicker-cell-bg-hover); }
+.datepicker-nav svg { width: 16px; height: 16px; }
+
+/* ── Weekday row + day grid — 7 columns. */
+.datepicker-weekdays,
+.datepicker-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.datepicker-weekdays {
+  margin-bottom: var(--spacing-sm);
+}
+.datepicker-weekdays > span {
+  text-align: center;
+  font-size: var(--fs-14);
+  line-height: var(--lh-20);
+  font-weight: var(--fw-medium);
+  color: var(--datepicker-text);
+  opacity: 0.85;
+}
+.datepicker-days { gap: 2px; }
+
+/* ── Cells — day / month / year. Active inverts via tokens. */
+.datepicker-cell {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-xs);
+  font-family: inherit;
+  font-size: var(--fs-14);
+  line-height: var(--lh-20);
+  font-weight: var(--fw-medium);
+  color: var(--datepicker-cell-text);
+  cursor: pointer;
+  transition: background 0.08s, color 0.08s;
+}
+.datepicker-cell:hover:not(:disabled):not(.is-disabled):not(.is-active) {
+  background: var(--datepicker-cell-bg-hover);
+  color: var(--datepicker-cell-text-hover);
+}
+.datepicker-cell.is-active,
+.datepicker-cell[aria-pressed="true"] {
+  background: var(--datepicker-cell-bg-active);
+  color: var(--datepicker-cell-text-active);
+}
+.datepicker-cell.is-in-range {
+  background: var(--datepicker-cell-bg-in-range);
+  color: var(--datepicker-cell-text-hover);
+  border-radius: 0;
+}
+.datepicker-cell.is-range-start { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.datepicker-cell.is-range-end   { border-top-left-radius: 0;  border-bottom-left-radius: 0;  }
+.datepicker-cell:disabled,
+.datepicker-cell.is-disabled,
+.datepicker-cell.is-other {
+  color: var(--datepicker-cell-text-disabled);
+  cursor: not-allowed;
+  background: transparent;
+}
+.datepicker-cell.is-other { cursor: default; }
+
+/* ── Month / Year grids — 4 columns. Reuses .datepicker-cell. */
+.datepicker-months,
+.datepicker-years {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-md) var(--spacing-xs);
+}
+.datepicker-months .datepicker-cell,
+.datepicker-years  .datepicker-cell { height: 36px; }
+
+/* ── Range — two months side-by-side. */
+.datepicker.datepicker-range {
+  width: auto;
+  display: inline-flex;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+}
+.datepicker.datepicker-range > .datepicker-month {
+  width: 280px;
+}
+
+/* When a .datepicker sits inside an .input-field column, anchor it below
+   the input. Use position:absolute + a positioned ancestor in markup. */
+.input-field {
+  position: relative;
+}
+.input-field > .datepicker {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: var(--spacing-xxs);
+  z-index: 20;
+}
+.input-field > .datepicker[hidden] { display: none; }
+
+/* ────────────────────────────────────────────────────────────────────────────
+   Progress Bar — Figma 3007-14257 (light) + 5917-1593 (dark).
+   ──────────────────────────────────────────────────────────────────────────── */
+/*
+   Structure:
+     <div class="progress progress-brand progress-md"
+          role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="60">
+       <div class="progress-fill" style="width: 60%;"></div>
+     </div>
+
+   Sizes:    .progress-sm (8px) [default] · .progress-md (12px)
+   Colors:   .progress-brand [default] · -blue · -green · -purple · -orange · -yellow · -red
+   States:   Pure value-driven — no hover/disabled. .progress-indeterminate
+             adds the looped sweep animation when value is unknown.
+*/
+.progress {
+  display: block;
+  width: 100%;
+  height: 8px;
+  background: var(--progress-brand-bg);
+  border: 1px solid var(--progress-brand-border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+.progress-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--progress-brand-progress);
+  border-radius: var(--radius-full);
+  transition: width 0.24s ease;
+}
+
+/* Sizes */
+.progress-sm { height: 8px; }
+.progress-md { height: 12px; }
+
+/* Color modifiers — only the three relevant tokens swap per variant. */
+.progress-brand  { background: var(--progress-brand-bg);  border-color: var(--progress-brand-border);  }
+.progress-brand  > .progress-fill { background: var(--progress-brand-progress); }
+.progress-blue   { background: var(--progress-blue-bg);   border-color: var(--progress-blue-border);   }
+.progress-blue   > .progress-fill { background: var(--progress-blue-progress); }
+.progress-green  { background: var(--progress-green-bg);  border-color: var(--progress-green-border);  }
+.progress-green  > .progress-fill { background: var(--progress-green-progress); }
+.progress-purple { background: var(--progress-purple-bg); border-color: var(--progress-purple-border); }
+.progress-purple > .progress-fill { background: var(--progress-purple-progress); }
+.progress-orange { background: var(--progress-orange-bg); border-color: var(--progress-orange-border); }
+.progress-orange > .progress-fill { background: var(--progress-orange-progress); }
+.progress-yellow { background: var(--progress-yellow-bg); border-color: var(--progress-yellow-border); }
+.progress-yellow > .progress-fill { background: var(--progress-yellow-progress); }
+.progress-red    { background: var(--progress-red-bg);    border-color: var(--progress-red-border);    }
+.progress-red    > .progress-fill { background: var(--progress-red-progress); }
+
+/* Indeterminate — looped sweep for unknown-duration work. */
+.progress-indeterminate > .progress-fill {
+  width: 40%;
+  animation: progress-sweep 1.4s ease-in-out infinite;
+}
+@keyframes progress-sweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+
+/* ── Table — Figma 140-5139 (light) + 5892-39544 (dark).
+   See docs/components/table.html "Structure" section for markup. */
+.table-wrap {
+  border: 1px solid var(--table-body-border);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  background: var(--color-bg);
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-primary);
+  font-size: var(--fs-16);
+  line-height: var(--lh-24);
+}
+.table th,
+.table td {
+  text-align: left;
+  vertical-align: middle;
+  padding: 8px var(--spacing-sm);
+  border: 1px solid var(--table-body-border);
+}
+.table th {
+  background: var(--table-header-bg);
+  color: var(--table-header-text);
+  font-weight: var(--fw-semibold);
+}
+.table td {
+  background: var(--table-body-bg);
+  color: var(--table-body-text);
+  font-weight: var(--fw-medium);
+}
+
+/* Cell content row — flex to keep the label + trailing action aligned.
+   .table-cell-end is a utility to right-align action-only columns. */
+.table-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+.table-cell-end { justify-content: flex-end; }
+/* Numeric column helper — tabular figures + right-align in one shot. */
+.td-num {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.table-cell-action {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s;
+}
+.table-cell-action:hover,
+.table-cell-action.is-hover { background: var(--table-header-bg); }
+.table-cell-action svg { width: 16px; height: 16px; display: block; }
+
+/* ── Link — Figma 140-7864 (light) + 5940-2868 (dark). Inline text link.
+   Three colour variants (Default / Brand / Blue) × four sizes (md/sm/xs/xxs).
+   :hover swaps to the matching hover token and adds an underline; the
+   .link-underline modifier pins the underline at rest (for cases where
+   the link is the dominant interactive). Disabled drops to a single
+   shared --link-disabled-text token across variants. */
+.link {
+  color: var(--link-default-text);
+  font-family: var(--font-primary);
+  font-size: var(--fs-16);
+  line-height: var(--lh-24);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xxs);                          /* 4px between icon + text */
+  vertical-align: middle;                           /* baseline-align with surrounding inline text */
+  transition: color 0.12s;
+}
+.link:hover:not(:disabled):not(.is-disabled) {
+  color: var(--link-hover-text);
+  text-decoration: underline;
+}
+.link:focus-visible {
+  outline: 2px solid var(--color-heading);
+  outline-offset: 2px;
+  border-radius: var(--radius-xxs);
+}
+.link.is-underline {
+  text-decoration: underline;
+}
+.link:disabled,
+.link.is-disabled {
+  color: var(--link-disabled-text);
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+/* ── Colour variants */
+.link-brand { color: var(--link-brand-text); }
+.link-brand:hover:not(:disabled):not(.is-disabled) { color: var(--link-brand-hover); }
+.link-blue  { color: var(--link-blue-text); }
+.link-blue:hover:not(:disabled):not(.is-disabled)  { color: var(--link-blue-hover); }
+
+/* ── Sizes — match Figma's Body 1 / Body 3 / Caption 1 / Caption 2. */
+.link-sm  { font-size: var(--fs-14); line-height: var(--lh-20); }
+.link-xs  { font-size: var(--fs-12); line-height: var(--lh-16); }
+.link-xxs { font-size: var(--fs-10); line-height: var(--lh-12); }
+
+/* ── Leading / trailing icon slot. Size tracks the parent link's font.
+   Use `currentColor` so the icon inherits the link's variant + state. */
+.link-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+.link-icon svg          { display: block; }
+.link     .link-icon svg { width: 16px; height: 16px; }
+.link-sm  .link-icon svg { width: 14px; height: 14px; }
+.link-xs  .link-icon svg { width: 12px; height: 12px; }
+.link-xxs .link-icon svg { width: 10px; height: 10px; }
+
+/* ── Pagination — Figma 141-8644 (light) + 5941-919 (dark). Pure
+   composition over Button. Active page reuses .btn.btn-primary; the
+   other page cells + Previous / Next reuse .btn.btn-ghost. Three
+   pagination densities (lg 40 / md 36 default / sm 32 px tall) drive
+   the inner buttons via cascade — overrides Button's standard heights
+   and typography to match Figma's Body 1 / Body 2 / Caption 1 spec.
+   .btn-square clamps min-width to the row height so page-number cells
+   sit on a uniform track. */
+.pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+/* Size cascade — pagination's size class drives the inner buttons.
+   IMPORTANT: also restore .btn's gap (the base rule zeroes it) so the
+   chevron icons in Previous / Next get breathing room from the label. */
+.pagination-lg .btn { height: 40px; font-size: var(--fs-16); line-height: var(--lh-24); padding: 0 var(--spacing-md); gap: var(--spacing-xs); }
+.pagination    .btn { height: 36px; font-size: var(--fs-14); line-height: var(--lh-24); padding: 0 var(--spacing-md); gap: var(--spacing-xs); }
+.pagination-sm .btn { height: 32px; font-size: var(--fs-12); line-height: var(--lh-16); padding: 0 var(--spacing-sm); gap: var(--spacing-xxs); }
+
+/* Square page-number cells — width tracks the row height; drop padding. */
+.btn-square                { padding: 0; }
+.pagination-lg .btn-square { min-width: 40px; }
+.pagination    .btn-square { min-width: 36px; }
+.pagination-sm .btn-square { min-width: 32px; }
+
+/* Pagination-scoped icon sizing — Prev / Next chevrons step per size. */
+.pagination-lg .btn .icon svg { width: 16px; height: 16px; }
+.pagination    .btn .icon svg { width: 14px; height: 14px; }
+.pagination-sm .btn .icon svg { width: 12px; height: 12px; }
+
+/* Ellipsis separator — occupies the same cell as a page button but is
+   non-interactive (no hover surface, no focus ring). */
+.pagination-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--btn-ghost-text);
+  font-weight: var(--fw-semibold);
+  user-select: none;
+}
+.pagination-lg .pagination-ellipsis { min-width: 40px; height: 40px; font-size: var(--fs-16); }
+.pagination    .pagination-ellipsis { min-width: 36px; height: 36px; font-size: var(--fs-14); }
+.pagination-sm .pagination-ellipsis { min-width: 32px; height: 32px; font-size: var(--fs-12); }
+
+/* ── Breadcrumb — Figma 141-9432 (light) + 5942-1172 (dark). Pure
+   composition over foundation tokens — no own colour family. Trail items
+   use Body 1 Medium in --color-subheading; the current page reads as
+   Body 1 Semi Bold in --color-heading. Separator markup is supplied by
+   the consumer (svg / glyph / text) so the same component handles
+   chevron, slash, or any other affordance without needing modifiers. */
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  font-family: var(--font-primary);
+  font-size: var(--fs-16);
+  line-height: var(--lh-24);
+}
+.breadcrumb-item {
+  color: var(--color-subheading);
+  font-weight: var(--fw-medium);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.12s;
+}
+.breadcrumb-item:hover:not(.is-disabled):not(:disabled) {
+  color: var(--color-heading);
+}
+.breadcrumb-item:focus-visible {
+  outline: 2px solid var(--color-heading);
+  outline-offset: 2px;
+  border-radius: var(--radius-xxs);
+}
+.breadcrumb-current {
+  color: var(--color-heading);
+  font-weight: var(--fw-semibold);
+}
+.breadcrumb-separator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-subheading);
+  user-select: none;
+  font-weight: var(--fw-medium);
+  /* Explicit 1em box so the slash / chevron / thick-chev all occupy the
+     same cell height, matching the icon size — keeps the cross-axis
+     centering consistent across all separator variants. */
+  height: 1em;
+  line-height: 1;
+}
+.breadcrumb-separator svg { width: 1em; height: 1em; display: block; }
+
+/* Size cascade — sm drops to Body 2 (14/20). The 1em sizing on the
+   separator means it auto-scales with the breadcrumb's font-size, no
+   per-size SVG override needed. */
+.breadcrumb-sm { font-size: var(--fs-14); line-height: var(--lh-20); }
+
+/* ── Avatar — Figma 125-2432 (light) + 5914-6626 (dark). Circular user
+   token. 4 sizes (xs 24 / sm 32 / md 40 / lg 48) × 3 fill variants
+   (Icon / Initials / Image) × Default + Hover. Composes with Badge for the
+   count (top-right) + status dot (bottom-right) via .avatar-stack +
+   .avatar-pin-* anchors. */
+.avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 40px;                                      /* Medium (default) */
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--avatar-bg);
+  color: var(--avatar-text);
+  border: 1px solid var(--avatar-border);
+  overflow: hidden;                                 /* clip the Image variant */
+  font-family: var(--font-primary);
+  font-weight: var(--fw-semibold);
+  font-size: 16px;
+  line-height: 1;
+  user-select: none;
+  vertical-align: middle;
+}
+/* Hover — bg is unchanged (Figma 1:1); a 10% black scrim signals interactivity. */
+.avatar:hover::after,
+.avatar.is-hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--avatar-overlay-hover);
+  pointer-events: none;
+}
+
+/* Sizes — diameter + initials typography. */
+.avatar-lg { width: 48px; height: 48px; font-size: 20px; }   /* Heading 6b */
+.avatar-sm { width: 32px; height: 32px; font-size: 12px; }   /* Caption 1 */
+.avatar-xs { width: 24px; height: 24px; font-size: 10px; }   /* Caption 2 */
+
+/* Icon variant — person silhouette, ~56% of the diameter, inherits text colour. */
+.avatar-icon svg { width: 56%; height: 56%; display: block; color: currentColor; }
+
+/* Image variant — clip an <img> to the circle; grey placeholder when empty. */
+.avatar-image { background: var(--color-bg-3, #E7E7E7); }
+.avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ── Composition — pin Badge count + status dot to a circular avatar.
+   .avatar-stack shrink-wraps the avatar so the pins anchor to its corners
+   without being clipped by the avatar's own overflow:hidden. */
+/* Avatar stack — shrink-wraps the avatar so pinned badges anchor to its
+   bounds without being clipped by the avatar's own overflow:hidden.
+   --_av-r is the avatar's FULL radius including the 1px border. The
+   pin offset = 50% - r/√2 places each badge's CENTRE exactly on the
+   circle's 45° edge, so the badge extends half-outward at every size —
+   no per-badge-size tuning, no percentage drift. Inherits via cascade:
+   .avatar-stack-lg / -sm / -xs override --_av-r, and --_av-pin
+   recalculates automatically wherever it is used. */
+.avatar-stack {
+  position: relative;
+  display: inline-flex;
+  overflow: visible;                        /* badges must not be clipped */
+  --_av-r:   21px;                          /* md: (40 content + 2 border) / 2 */
+  --_av-pin: calc(50% - var(--_av-r) * 0.7071); /* 45° edge offset ≈ 14.6% */
+}
+.avatar-stack-lg { --_av-r: 25px; }        /* lg: (48 + 2) / 2 */
+.avatar-stack-sm { --_av-r: 17px; }        /* sm: (32 + 2) / 2 */
+.avatar-stack-xs { --_av-r: 13px; }        /* xs: (24 + 2) / 2 */
+
+.avatar-stack > .badge,
+.avatar-stack > .avatar-status { position: absolute; z-index: 1; }
+
+/* Badge center lands exactly on the 45° circle edge; translate(50%,-50%) /
+   translate(50%,50%) shifts it outward so ANY badge size auto-centres there. */
+.avatar-pin-tr { top: var(--_av-pin);    right: var(--_av-pin); transform: translate(50%, -50%); }
+.avatar-pin-br { bottom: var(--_av-pin); right: var(--_av-pin); transform: translate(50%,  50%); }
+
+/* Status dot — small presence indicator with a page-bg ring for separation.
+   Scales with the avatar via the stack size cascade. */
+.avatar-status {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-bg);
+  background: var(--badge-success-bg);
+}
+.avatar-status-online  { background: var(--badge-success-bg); }
+.avatar-status-busy    { background: var(--badge-danger-bg); }
+.avatar-status-away    { background: var(--badge-warning-bg); }
+.avatar-status-offline { background: var(--color-subheading); }
+.avatar-stack-lg .avatar-status { width: 12px; height: 12px; }
+.avatar-stack-sm .avatar-status { width: 8px;  height: 8px; }
+.avatar-stack-xs .avatar-status { width: 7px;  height: 7px; border-width: 1.5px; }
+
+/* ── Tooltip — Figma 140-7707 (light) + 2289-4036 (dark). Inverted surface:
+   dark pill in light mode, light pill in dark mode — always contrasts with
+   the page. 3 sizes (lg default 40px / md 32px / sm 24px) × 4 arrow
+   positions (top / bottom / left / right where the name says WHERE THE
+   TOOLTIP APPEARS; the arrow points back toward the trigger). */
+.tooltip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 8px var(--spacing-sm);
+  background: var(--tooltip-bg);
+  color: var(--tooltip-text);
+  border: 1px solid var(--tooltip-border);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-primary);
+  font-size: var(--fs-14);
+  line-height: var(--lh-24);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+  position: relative;
+}
+/* Size modifiers — height = font line-height + 8+8 vertical padding */
+.tooltip-md { font-size: var(--fs-12); line-height: var(--lh-16); }  /* 32px = 16 + 8+8 */
+.tooltip-sm { font-size: var(--fs-10); line-height: var(--lh-12); padding: 6px var(--spacing-xs); } /* 24px ≈ 12 + 6+6 */
+
+/* Arrow (caret). Uses ::after for the fill triangle and ::before for the
+   border border. The border triangle is one pixel larger on each side. */
+.tooltip-top::after,   .tooltip-top::before,
+.tooltip-bottom::after,.tooltip-bottom::before,
+.tooltip-left::after,  .tooltip-left::before,
+.tooltip-right::after, .tooltip-right::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+/* ── Tooltip above trigger — arrow at bottom pointing DOWN */
+.tooltip-top::after  { top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: var(--tooltip-bg); }
+.tooltip-top::before { top: 100%; left: 50%; transform: translateX(-50%); border: 7px solid transparent; border-top-color: var(--tooltip-border); margin-top: 1px; z-index: -1; }
+
+/* ── Tooltip below trigger — arrow at top pointing UP */
+.tooltip-bottom::after  { bottom: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-bottom-color: var(--tooltip-bg); }
+.tooltip-bottom::before { bottom: 100%; left: 50%; transform: translateX(-50%); border: 7px solid transparent; border-bottom-color: var(--tooltip-border); margin-bottom: 1px; z-index: -1; }
+
+/* ── Tooltip to the right of trigger — arrow at left pointing LEFT */
+.tooltip-right::after  { right: 100%; top: 50%; transform: translateY(-50%); border: 6px solid transparent; border-right-color: var(--tooltip-bg); }
+.tooltip-right::before { right: 100%; top: 50%; transform: translateY(-50%); border: 7px solid transparent; border-right-color: var(--tooltip-border); margin-right: 1px; z-index: -1; }
+
+/* ── Tooltip to the left of trigger — arrow at right pointing RIGHT */
+.tooltip-left::after  { left: 100%; top: 50%; transform: translateY(-50%); border: 6px solid transparent; border-left-color: var(--tooltip-bg); }
+.tooltip-left::before { left: 100%; top: 50%; transform: translateY(-50%); border: 7px solid transparent; border-left-color: var(--tooltip-border); margin-left: 1px; z-index: -1; }
+
+/* Icon slot — for leading/trailing icons inside the tooltip text. */
+.tooltip-icon { display: inline-flex; align-items: center; flex: 0 0 auto; }
+.tooltip      .tooltip-icon svg { width: 16px; height: 16px; }
+.tooltip-md   .tooltip-icon svg { width: 14px; height: 14px; }
+.tooltip-sm   .tooltip-icon svg { width: 12px; height: 12px; }
+
+/* ── Tooltip host (interactive/hover usage). Wrap the trigger + tooltip:
+     <span class="tooltip-host">
+       <button>Trigger</button>
+       <span class="tooltip tooltip-top">Text</span>
+     </span>
+   The tooltip hides at rest and fades in on parent hover or focus. */
+.tooltip-host {
+  position: relative;
+  display: inline-flex;
+}
+.tooltip-host > .tooltip {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 100;
+}
+.tooltip-host:hover > .tooltip,
+.tooltip-host:focus-within > .tooltip { opacity: 1; }
+/* Positional offsets within a host */
+.tooltip-host > .tooltip.tooltip-top    { bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); }
+.tooltip-host > .tooltip.tooltip-bottom { top:    calc(100% + 8px); left: 50%; transform: translateX(-50%); }
+.tooltip-host > .tooltip.tooltip-right  { left:   calc(100% + 8px); top:  50%; transform: translateY(-50%); }
+.tooltip-host > .tooltip.tooltip-left   { right:  calc(100% + 8px); top:  50%; transform: translateY(-50%); }
+
+/* ── Rating — Figma 114-30 + 114-198 (light) + 5970-310 + 5970-401 (dark).
+   Two icon shapes (star / heart), three colour types per shape, three fill
+   states per icon (filled / half / stroke), three sizes (lg/md/sm).
+
+   Markup:
+     <div class="rating rating-yellow" aria-label="3.5 out of 5 stars">
+       <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+       <span class="rating-item is-filled">…</span>
+       <span class="rating-item is-half"><svg class="rating-icon"><use href="#ico-rt-star-half"/></svg></span>
+       <span class="rating-item"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></span>
+     </div>
+   Interactive: add data-interactive on the .rating wrapper; JS on the page
+   handles hover-preview and click-to-rate.
+*/
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.rating-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--rating-empty);  /* default = grey/empty */
+  transition: color 0.1s, transform 0.1s;
+  line-height: 0;
+}
+.rating-item:focus-visible {
+  outline: 2px solid var(--color-heading);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.rating-icon { width: 20px; height: 20px; display: block; }  /* md default */
+/* Sizes */
+.rating-lg .rating-icon { width: 24px; height: 24px; }
+.rating-sm .rating-icon { width: 16px; height: 16px; }
+
+/* Filled + half items use the variant colour */
+.rating-item.is-filled,
+.rating-item.is-half { color: var(--_rt, var(--rating-brand)); }
+
+/* ── Colour variants (set --_rt; unfilled items stay --rating-empty) */
+.rating-brand  { --_rt: var(--rating-brand); }
+.rating-yellow { --_rt: var(--rating-star);  }
+.rating-red    { --_rt: var(--rating-heart); }
+
+/* ── Interactive hover preview (.is-preview added by JS) */
+.rating[data-interactive] .rating-item.is-preview { color: var(--_rt, var(--rating-brand)); }
+.rating[data-interactive] .rating-item:hover       { transform: scale(1.12); }
+
+/* Read-only (no events) */
+.rating[aria-readonly="true"] .rating-item { cursor: default; pointer-events: none; }
+
+/* ── Slider — Figma 5877-41490 + 147-5057 (light) + 5967-1515 + 5967-1479.
+   Fixes: (1) thumb centred via margin-top calc on track; (2) hover/drag ring
+   using box-shadow; (3) three track sizes (4/8/12 px via --track-h);
+   (4) tooltip hidden by default — visible only on hover/drag (.has-tip);
+   (5) two display modes: pill tooltip (.has-tip) vs permanent label (.has-val).
+
+   Variants:
+     .slider-field.has-tip   → tooltip pill shown on hover / drag
+     .slider-field.has-val   → permanent value label below track
+   Sizes (on .slider-field):
+     default = 4px  |  .slider-md = 8px  |  .slider-lg = 12px
+   Range: add .slider-range + .slider-range-track wrapper. */
+
+.slider-field {
+  position: relative;
+  width: 100%;
+  --track-h: 4px;               /* overridden by size modifiers below */
+}
+/* Reserve space only when the display element is present */
+.slider-field.has-tip { padding-top: 36px; }
+.slider-field.has-val { padding-bottom: 24px; }
+/* Size modifiers — change the track height via --track-h */
+.slider-field.slider-md { --track-h: 8px;  }
+.slider-field.slider-lg { --track-h: 12px; }
+
+/* ── Native input: height = thumb height (16px) ensures the browser
+   auto-centres the thumb vertically relative to the track. */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 16px;       /* = thumb diameter; DO NOT change — needed for centering */
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  margin: 0; padding: 0;
+}
+.slider:disabled { opacity: 0.38; cursor: not-allowed; }
+
+/* ── Webkit/Blink track */
+.slider::-webkit-slider-runnable-track {
+  height: var(--track-h, 4px);
+  border-radius: 99px;
+  background: linear-gradient(to right,
+    var(--slider-fill)     var(--pct, 0%),
+    var(--slider-track-bg) var(--pct, 0%)
+  );
+}
+/* ── Webkit/Blink thumb
+   margin-top = (track-h − thumb-size) / 2 centres the thumb on the track.
+   The UA style already vertically centres the track within the 16px input,
+   and margin-top centres the thumb on that centred track. */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--slider-fill);
+  border: 2px solid var(--color-bg);
+  cursor: pointer;
+  margin-top: calc((var(--track-h, 4px) - 16px) / 2);
+  box-shadow: 0 0 0 0 transparent;
+  transition: box-shadow 0.15s ease;
+}
+/* Hover ring — translucent halo around the thumb */
+.slider:not(:disabled):hover::-webkit-slider-thumb {
+  box-shadow: 0 0 0 8px var(--slider-ring-hover, rgba(0,0,0,0.07));
+}
+/* Active/drag ring — larger on drag */
+.slider:not(:disabled):active::-webkit-slider-thumb {
+  box-shadow: 0 0 0 14px var(--slider-ring-active, rgba(0,0,0,0.11));
+}
+
+/* ── Firefox track (progress + background) */
+.slider::-moz-range-track {
+  height: var(--track-h, 4px);
+  border-radius: 99px;
+  background: var(--slider-track-bg);
+}
+.slider::-moz-range-progress {
+  height: var(--track-h, 4px);
+  border-radius: 99px;
+  background: var(--slider-fill);
+}
+/* ── Firefox thumb (no margin-top needed — FF auto-centres) */
+.slider::-moz-range-thumb {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--slider-fill);
+  border: 2px solid var(--color-bg);
+  cursor: pointer;
+  box-shadow: 0 0 0 0 transparent;
+  transition: box-shadow 0.15s ease;
+}
+.slider:not(:disabled):hover::-moz-range-thumb {
+  box-shadow: 0 0 0 8px var(--slider-ring-hover, rgba(0,0,0,0.07));
+}
+.slider:not(:disabled):active::-moz-range-thumb {
+  box-shadow: 0 0 0 14px var(--slider-ring-active, rgba(0,0,0,0.11));
+}
+
+/* ── Tooltip pill (display variant A)
+   Hidden at rest; visible on hover OR while dragging (.is-dragging class
+   added/removed by JS). Only active when the field has .has-tip. */
+.slider-tip {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  background: var(--slider-tip-bg);
+  color: var(--slider-tip-text);
+  border-radius: var(--radius-xs);
+  padding: 3px 8px;
+  font-family: var(--font-primary);
+  font-size: var(--fs-12);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-16);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+/* Downward caret on tooltip */
+.slider-tip::after {
+  content: "";
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--slider-tip-bg);
+}
+/* Show tooltip on field hover OR during drag */
+.slider-field.has-tip:hover .slider-tip,
+.slider-field.has-tip.is-dragging .slider-tip { opacity: 1; }
+/* Force-visible helper for documentation demos */
+.slider-field.tip-visible .slider-tip { opacity: 1; }
+
+/* ── Bottom value label (display variant B)
+   Permanent — always shows the current value below the track. */
+.slider-val {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  font-family: var(--font-primary);
+  font-size: var(--fs-12);
+  font-weight: var(--fw-medium);
+  color: var(--color-subheading);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Range variant — two overlapping inputs share one track container */
+.slider-range .slider-range-track {
+  position: relative;
+  height: 16px; /* = slider height, inputs fill it absolutely */
+}
+.slider-range .slider {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  pointer-events: none;      /* JS/CSS re-enables the active thumb */
+  background: transparent;   /* fill drawn on .slider-a only */
+}
+.slider-range .slider-a {
+  z-index: 3;
+  background: transparent;
+}
+/* Range fill: track bg → fill (from pct-a) → fill (to pct-b) → track bg */
+.slider-range .slider-a::-webkit-slider-runnable-track {
+  background: linear-gradient(to right,
+    var(--slider-track-bg) 0%,
+    var(--slider-track-bg) var(--pct-a, 30%),
+    var(--slider-fill)     var(--pct-a, 30%),
+    var(--slider-fill)     var(--pct-b, 70%),
+    var(--slider-track-bg) var(--pct-b, 70%),
+    var(--slider-track-bg) 100%
+  );
+}
+.slider-range .slider-a::-moz-range-track {
+  /* Firefox: fill is applied via moz-range-progress on slider-a only */
+  background: var(--slider-track-bg);
+}
+.slider-range .slider-b { z-index: 4; }
+/* Re-enable pointer events on the thumbs */
+.slider-range .slider-a::-webkit-slider-thumb,
+.slider-range .slider-b::-webkit-slider-thumb { pointer-events: all; }
+.slider-range .slider-a::-moz-range-thumb,
+.slider-range .slider-b::-moz-range-thumb     { pointer-events: all; }
+
+/* ── Alert — Figma 140-6541 (light) + 5958-2561 (dark). Inline feedback
+   panel. 7 colours × 3 variants (semi-filled default / filled / border).
+   Each colour modifier sets 5 CSS custom properties; the variant modifier
+   reads them. The --_accent always holds the vivid colour so that the
+   filled variant's primary action button can use it as its label colour
+   (white bg + accent text) even after the variant has overridden --_fg to
+   white for the title/icon.
+   Markup:
+     <div class="alert alert-info alert-filled" role="alert">
+       <div class="alert-header">
+         <span class="alert-icon"><svg>…</svg></span>
+         <span class="alert-title">Title</span>
+         <button class="alert-close" aria-label="Dismiss">
+           <svg>…×…</svg>
+         </button>
+       </div>
+       <p class="alert-body">Description text…</p>
+       <div class="alert-actions">
+         <button class="alert-btn-primary">Button</button>
+         <button class="alert-btn-secondary">Button</button>
+       </div>
+     </div>
+*/
+.alert {
+  /* -- Internal CSS custom props (colour + variant cascade) -- */
+  --_accent:  var(--alert-brand-semi-text);
+  --_bg:      var(--alert-brand-semi-bg);
+  --_fg:      var(--alert-brand-semi-text);   /* title / icon / close */
+  --_bd:      transparent;
+  /* body text = same accent as the title/icon. In semi-filled this means
+     coloured text on the tinted bg (matches Figma & stays readable in dark
+     mode because dark semi bgs are LIGHT tints, not dark). Border variant
+     overrides this back to page heading colour below. */
+  --_body:    var(--_fg);
+  --_b1bg:    var(--alert-brand-semi-text);   /* primary button bg */
+  --_b1fg:    #FFFFFF;                        /* primary button text (brand overrides below) */
+  --_b2bd:    rgba(0,0,0,0.10);              /* secondary button border */
+  --_b2fg:    var(--alert-brand-semi-text);   /* secondary button text */
+  /* layout */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--_bd);
+  background: var(--_bg);
+}
+
+/* ── Colour modifiers — set the 5 raw tokens onto internal props ── */
+/* Brand: --_b1fg must use filled-text so it flips correctly in dark mode.
+   In dark mode: semi-text=#FFF → btn-bg=#FFF, so btn-text must be dark
+   (filled-text=#2D2D2D). In light mode: semi-text=#2D2D2D → btn-bg=dark,
+   so btn-text=#FFF. --_b2bd also uses the adaptive brd-border token. */
+.alert-brand  { --_accent: var(--alert-brand-semi-text);  --_bg: var(--alert-brand-semi-bg);  --_fg: var(--alert-brand-semi-text);  --_b1bg: var(--alert-brand-semi-text);  --_b1fg: var(--alert-brand-filled-text); --_b2fg: var(--alert-brand-semi-text); --_b2bd: var(--alert-brand-brd-border);  --_filled-bg: var(--alert-brand-filled-bg);  --_filled-fg: var(--alert-brand-filled-text); --_brd-bd: var(--alert-brand-brd-border);  }
+.alert-info   { --_accent: var(--alert-info-semi-text);   --_bg: var(--alert-info-semi-bg);   --_fg: var(--alert-info-semi-text);   --_b1bg: var(--alert-info-semi-text);   --_b2fg: var(--alert-info-semi-text);   --_filled-bg: var(--alert-info-filled-bg);   --_filled-fg: var(--alert-info-filled-text);  --_brd-bd: var(--alert-info-brd-border);   }
+.alert-danger { --_accent: var(--alert-danger-semi-text); --_bg: var(--alert-danger-semi-bg); --_fg: var(--alert-danger-semi-text); --_b1bg: var(--alert-danger-semi-text); --_b2fg: var(--alert-danger-semi-text); --_filled-bg: var(--alert-danger-filled-bg); --_filled-fg: var(--alert-danger-filled-text);--_brd-bd: var(--alert-danger-brd-border); }
+.alert-success{ --_accent: var(--alert-success-semi-text);--_bg: var(--alert-success-semi-bg);--_fg: var(--alert-success-semi-text);--_b1bg: var(--alert-success-semi-text);--_b2fg: var(--alert-success-semi-text);--_filled-bg: var(--alert-success-filled-bg);--_filled-fg: var(--alert-success-filled-text);--_brd-bd: var(--alert-success-brd-border);}
+.alert-warning{ --_accent: var(--alert-warning-semi-text);--_bg: var(--alert-warning-semi-bg);--_fg: var(--alert-warning-semi-text);--_b1bg: var(--alert-warning-semi-text);--_b2fg: var(--alert-warning-semi-text);--_filled-bg: var(--alert-warning-filled-bg);--_filled-fg: var(--alert-warning-filled-text);--_brd-bd: var(--alert-warning-brd-border);}
+.alert-notice { --_accent: var(--alert-notice-semi-text); --_bg: var(--alert-notice-semi-bg); --_fg: var(--alert-notice-semi-text); --_b1bg: var(--alert-notice-semi-text); --_b2fg: var(--alert-notice-semi-text); --_filled-bg: var(--alert-notice-filled-bg); --_filled-fg: var(--alert-notice-filled-text); --_brd-bd: var(--alert-notice-brd-border); }
+.alert-alert  { --_accent: var(--alert-alert-semi-text);  --_bg: var(--alert-alert-semi-bg);  --_fg: var(--alert-alert-semi-text);  --_b1bg: var(--alert-alert-semi-text);  --_b2fg: var(--alert-alert-semi-text);  --_filled-bg: var(--alert-alert-filled-bg);  --_filled-fg: var(--alert-alert-filled-text);  --_brd-bd: var(--alert-alert-brd-border);  }
+
+/* ── Variant modifiers ── */
+/* Filled — solid colour bg, all-white text, inverted button colours */
+.alert-filled {
+  background: var(--_filled-bg);
+  border-color: transparent;
+  color: var(--_filled-fg);
+  --_fg:   var(--_filled-fg);
+  --_body: var(--_filled-fg);
+  --_b1bg: rgba(255,255,255,0.92);
+  --_b1fg: var(--_accent);  /* accent still holds vivid colour for btn text */
+  --_b2bd: rgba(255,255,255,0.20);
+  --_b2fg: var(--_filled-fg);
+}
+/* Border — page bg, coloured hairline, title/icon use accent (_fg already set),
+   body text reverts to page heading colour since bg = page bg in both modes. */
+.alert-border {
+  background: var(--color-bg);
+  border-color: var(--_brd-bd);
+  --_body: var(--color-heading);  /* override: page text on page bg */
+}
+
+/* Brand + Filled combined override. In dark mode --_filled-bg=#FFF so the
+   whole alert is white. rgba(255,255,255,0.92) button on white = invisible.
+   Use --alert-brand-filled-text (=#FFFFFF light / =#2D2D2D dark) as btn-bg
+   and --alert-brand-filled-bg (=#2D2D2D light / =#FFFFFF dark) as btn-fg
+   so the contrast flips correctly in both modes. */
+.alert-brand.alert-filled {
+  --_b1bg: var(--alert-brand-filled-text);  /* #FFFFFF light → white btn on dark; #2D2D2D dark → dark btn on white */
+  --_b1fg: var(--alert-brand-filled-bg);    /* #2D2D2D light → dark text on white; #FFFFFF dark → white text on dark */
+  --_b2fg: var(--alert-brand-filled-text);  /* matches btn1 logic */
+}
+
+/* ── Sub-elements ── */
+.alert-header {
+  display: flex;
+  align-items: center;              /* centre-align icon · title · close */
+  gap: var(--spacing-xs);
+}
+.alert-icon {
+  flex: 0 0 24px;                   /* both icon slots = 24px wide */
+  width: 24px; height: 24px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--_fg);
+}
+.alert-icon svg { width: 24px; height: 24px; display: block; }
+.alert-title {
+  flex: 1;
+  font-family: var(--font-primary);
+  font-size: var(--fs-16);
+  line-height: var(--lh-24);
+  font-weight: var(--fw-medium);
+  color: var(--_fg);
+}
+.alert-close {
+  flex: 0 0 24px;                   /* same 24px slot as the leading icon */
+  width: 24px; height: 24px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: var(--_fg);
+  border-radius: var(--radius-xxs);
+  opacity: 0.75;
+  transition: opacity 0.12s;
+}
+.alert-close:hover { opacity: 1; }
+.alert-close svg { width: 16px; height: 16px; display: block; }
+.alert-body {
+  font-family: var(--font-primary);
+  font-size: var(--fs-14);
+  line-height: var(--lh-24);
+  font-weight: var(--fw-regular, 400);
+  color: var(--_body);
+}
+.alert-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+.alert-btn-primary {
+  display: inline-flex; align-items: center;
+  height: 28px; padding: 0 var(--spacing-xs);
+  background: var(--_b1bg); color: var(--_b1fg);
+  border: 1px solid transparent;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-primary);
+  font-size: var(--fs-12); line-height: var(--lh-16);
+  font-weight: var(--fw-semibold);
+  cursor: pointer; white-space: nowrap;
+  transition: opacity 0.12s;
+}
+.alert-btn-primary:hover { opacity: 0.85; }
+.alert-btn-secondary {
+  display: inline-flex; align-items: center;
+  height: 28px; padding: 0 var(--spacing-xs);
+  background: transparent; color: var(--_b2fg);
+  border: 1px solid var(--_b2bd);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-primary);
+  font-size: var(--fs-12); line-height: var(--lh-16);
+  font-weight: var(--fw-semibold);
+  cursor: pointer; white-space: nowrap;
+  transition: opacity 0.12s;
+}
+.alert-btn-secondary:hover { opacity: 0.75; }
+
 /* ── GLOBAL HEADER ──────────────────────────────────────────────────
    Injected into <body> by ds.js. Pages don't need a mount point.
    ────────────────────────────────────────────────────────────────── */

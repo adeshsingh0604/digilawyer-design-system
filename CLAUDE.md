@@ -128,7 +128,7 @@ When bumping a version:
 2. `DS_VERSION` constant near the top of `docs/shared/ds.js` (this drives the sidebar tag on every page automatically)
 3. Entry at the top of `CHANGELOG.md`
 4. New `<tr>` at the top of the `<tbody>` in `docs/other/changelog.html`
-5. For MINOR/MAJOR: update the "Latest Changes" cards in `index.html`
+5. For MINOR/MAJOR: refresh the "Latest Changes" cards in `docs/index.html` — **exactly 3 cards always**. Add the new release at the top, drop the oldest. The full history lives in `CHANGELOG.md` + `docs/other/changelog.html` — the homepage just teases the 3 most recent.
 6. Update `STATUS.md` (version + date)
 
 ## Deferred cleanups (good first issues)

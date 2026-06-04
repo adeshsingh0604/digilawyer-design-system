@@ -5,23 +5,189 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Link — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'link', root: '../', toc: false };
+  window.DS_PAGE = { key: 'link', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  .ln-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+  /* Scope under .demo-panel so these tie .demo-panel.active's (0,2,0)
+     specificity (which sets display:flex + center) and win on source order
+     — otherwise display:grid / flex-direction:column get overridden and
+     every cell flows inline. Same pattern as Progress Bar's .pb-grid. */
+  .demo-panel.ln-row { display: flex; flex-direction: column; gap: 16px; padding: 28px 32px; align-items: flex-start; justify-content: flex-start; }
+  .demo-panel.ln-grid {
+    display: grid;
+    grid-template-columns: 80px repeat(3, 1fr);
+    gap: 16px 24px;
+    padding: 28px 32px;
+    align-items: center;
+    justify-items: start;
+  }
+  .ln-grid .label {
+    font-size: 12px; color: var(--color-subheading);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  /* Doc helper — force hover visual at rest for the matrix. */
+  .link.is-hover { color: var(--link-hover-text); text-decoration: underline; }
+  .link-brand.is-hover { color: var(--link-brand-hover); }
+  .link-blue.is-hover  { color: var(--link-blue-hover); }
+</style>
 </head>
 <body>
+
+<svg class="ln-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ico-add-square" viewBox="0 0 16 16"><rect x="2.5" y="2.5" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.25" fill="none"/><path d="M5.5 8h5M8 5.5v5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" fill="none"/></symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Link</h1>
-  <p class="page-intro">Inline and standalone hyperlink styles.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">Inline text hyperlink. Mirrors Figma node 140-7864 (light) + 5940-2868 (dark) 1:1. Three colour variants — <strong>Default</strong> (neutral black / white), <strong>Brand</strong> (`#9B8B5D` tan), <strong>Blue</strong> (`#3156DF` / `#4675EB`) — each with its own hover colour. Disabled is shared across variants (one <code>--link-disabled-text</code> token). Four sizes step through Body 1 (16/24) · Body 3 (14/20) · Caption 1 (12/16) · Caption 2 (10/12), all Semi Bold. Inline-flex layout means the link works equally well as a standalone Text Title or wrapped around an icon + label.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">A bare <code>.link</code> on an <code>&lt;a&gt;</code> — neutral Default colour, Body 1 Semi Bold, no underline at rest. Hover swaps to <code>--link-hover-text</code> and adds an underline.</p>
+  <div class="demo-box">
+    <div class="demo-panel active ln-row">
+      <a href="#" class="link">Title</a>
+    </div>
   </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Three colour modifiers. The base <code>.link</code> is the neutral Default; add <code>.link-brand</code> for the tan accent or <code>.link-blue</code> for the system blue. Each variant ships its own hover colour — Brand stays at the resting tan in light (no hover shift) and lifts to a brighter tan in dark; Blue and Default both step to a deeper / lighter shade on hover.</p>
+  <div class="demo-box">
+    <div class="demo-panel active ln-grid">
+      <div></div>
+      <div class="label">Default</div>
+      <div class="label">Hover</div>
+      <div class="label">Disabled</div>
+
+      <div class="label">Default</div>
+      <a href="#" class="link">Title</a>
+      <a href="#" class="link is-hover">Title</a>
+      <a href="#" class="link is-disabled" aria-disabled="true">Title</a>
+
+      <div class="label">Brand</div>
+      <a href="#" class="link link-brand">Title</a>
+      <a href="#" class="link link-brand is-hover">Title</a>
+      <a href="#" class="link link-brand is-disabled" aria-disabled="true">Title</a>
+
+      <div class="label">Blue</div>
+      <a href="#" class="link link-blue">Title</a>
+      <a href="#" class="link link-blue is-hover">Title</a>
+      <a href="#" class="link link-blue is-disabled" aria-disabled="true">Title</a>
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Four size modifiers map 1:1 to Figma's text-style names. Default (no class) is Body 1 (16/24); <code>.link-sm</code> is Body 3 (14/20); <code>.link-xs</code> is Caption 1 (12/16); <code>.link-xxs</code> is Caption 2 (10/12). All sizes ship at Semi Bold so the link reads as an interactive element regardless of typography weight.</p>
+  <div class="demo-box">
+    <div class="demo-panel active ln-row">
+      <a href="#" class="link">Title — Body 1 (16/24)</a>
+      <a href="#" class="link link-sm">Title — Body 3 (14/20)</a>
+      <a href="#" class="link link-xs">Title — Caption 1 (12/16)</a>
+      <a href="#" class="link link-xxs">Title — Caption 2 (10/12)</a>
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Three states. <strong>Default</strong> renders the variant's colour, no underline. <strong>Hover</strong> swaps to the matching <code>-hover</code> token and adds an underline (use <code>.is-hover</code> in static demos to force this; <code>:hover</code> handles it live). <strong>Disabled</strong> drops to <code>--link-disabled-text</code> and removes the underline (set <code>aria-disabled="true"</code> or class <code>.is-disabled</code>; use the native <code>disabled</code> attribute when the link sits on a <code>&lt;button&gt;</code>). Add <code>.link-underline</code> to pin the underline at rest — useful when the link is the only interactive on the surface.</p>
+  <div class="demo-box">
+    <div class="demo-panel active ln-row">
+      <a href="#" class="link">Default — hover me to see the live state</a>
+      <a href="#" class="link is-hover">Hover (forced via <code>.is-hover</code>)</a>
+      <a href="#" class="link link-underline">Underline pinned at rest</a>
+      <a href="#" class="link is-disabled" aria-disabled="true">Disabled</a>
+    </div>
+  </div>
+
+  <!-- With icons -->
+  <h2 id="with-icons">With icons</h2>
+  <p class="desc">Wrap an inline SVG in <code>.link-icon</code> to add a leading or trailing affordance. Icon size auto-scales per <code>.link-{size}</code>: 16 px on default, 14 / 12 / 10 px on sm / xs / xxs. The icon inherits <code>currentColor</code>, so it flips through every variant + state automatically.</p>
+  <div class="demo-box">
+    <div class="demo-panel active ln-row">
+      <a href="#" class="link"><span class="link-icon"><svg><use href="#ico-add-square"/></svg></span>Title<span class="link-icon"><svg><use href="#ico-add-square"/></svg></span></a>
+      <a href="#" class="link link-brand link-sm"><span class="link-icon"><svg><use href="#ico-add-square"/></svg></span>Title<span class="link-icon"><svg><use href="#ico-add-square"/></svg></span></a>
+      <a href="#" class="link link-blue link-xs"><span class="link-icon"><svg><use href="#ico-add-square"/></svg></span>Title<span class="link-icon"><svg><use href="#ico-add-square"/></svg></span></a>
+      <a href="#" class="link link-xxs"><span class="link-icon"><svg><use href="#ico-add-square"/></svg></span>Title<span class="link-icon"><svg><use href="#ico-add-square"/></svg></span></a>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">3 variants × 4 sizes × 3 states. Toggle the theme switch in the global header to see every cell under dark tokens — Default text flips white, Default-hover lifts to <code>#D1D1D1</code>, Brand-hover steps from `#9B8B5D` (no change in light) to `#BAB28A` (brighter tan in dark), Blue steps to `#4675EB` resting / `#6999F1` hover.</p>
+  <div style="display:flex; flex-direction:column; gap:24px; padding:24px; border:1px dashed var(--color-border); border-radius:var(--radius-md); background:var(--color-bg-2);">
+
+    <script>
+      (function () {
+        var variants = [
+          ['', 'Default'],
+          ['link-brand', 'Brand'],
+          ['link-blue', 'Blue']
+        ];
+        var sizes = [
+          ['', 'md · Body 1'],
+          ['link-sm', 'sm · Body 3'],
+          ['link-xs', 'xs · Caption 1'],
+          ['link-xxs', 'xxs · Caption 2']
+        ];
+        var states = [
+          ['', 'Default'],
+          ['is-hover', 'Hover'],
+          ['is-disabled', 'Disabled']
+        ];
+        var html = '';
+        variants.forEach(function (v) {
+          html += '<div>';
+          html += '<div style="font-size:11px; color:var(--color-subheading); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">' + v[1] + '</div>';
+          html += '<div style="display:grid; grid-template-columns:120px repeat(3, 1fr); gap:10px 16px; align-items:center;">';
+          html += '<div></div>';
+          states.forEach(function (s) {
+            html += '<div style="font-size:11px; color:var(--color-subheading); font-weight:600;">' + s[1] + '</div>';
+          });
+          sizes.forEach(function (sz) {
+            html += '<div style="font-size:11px; color:var(--color-subheading); font-weight:600;">' + sz[1] + '</div>';
+            states.forEach(function (s) {
+              var classes = ['link', v[0], sz[0], s[0]].filter(Boolean).join(' ');
+              var ariaDisabled = s[0] === 'is-disabled' ? ' aria-disabled="true"' : '';
+              html += '<div><a href="#" class="' + classes + '"' + ariaDisabled + '>Title</a></div>';
+            });
+          });
+          html += '</div></div>';
+        });
+        document.write(html);
+      })();
+    </script>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.link</td><td>&lt;a&gt; (or &lt;button&gt;)</td><td>Base. Inline-flex, Body 1 (16/24) Semi Bold, neutral Default colour, no underline. Hover adds underline + swaps to <code>--link-hover-text</code>. Use <code>&lt;a href&gt;</code> for navigation, <code>&lt;button&gt;</code> for in-page actions styled as links.</td></tr>
+      <tr><td>.link-brand</td><td>.link</td><td>Brand (tan) variant. Resting + hover both at <code>#9B8B5D</code> in light; dark mode lifts hover to <code>#BAB28A</code>.</td></tr>
+      <tr><td>.link-blue</td><td>.link</td><td>Blue variant. <code>#3156DF</code> / <code>#4675EB</code> resting; <code>#2739A6</code> / <code>#6999F1</code> hover (light / dark).</td></tr>
+      <tr><td>.link-sm</td><td>.link</td><td>Small. Body 3 (14/20) Semi Bold. Icon scales to 14 × 14.</td></tr>
+      <tr><td>.link-xs</td><td>.link</td><td>Extra small. Caption 1 (12/16) Semi Bold. Icon scales to 12 × 12.</td></tr>
+      <tr><td>.link-xxs</td><td>.link</td><td>Smallest. Caption 2 (10/12) Semi Bold. Icon scales to 10 × 10.</td></tr>
+      <tr><td>.link-underline</td><td>.link</td><td>Pin the underline at rest (no hover required). Use when the link is the only interactive on its surface — saves users a hover-to-confirm beat.</td></tr>
+      <tr><td>.link-icon</td><td>&lt;span&gt; inside .link</td><td>Wrap an inline SVG to add a leading or trailing icon. Icon inherits <code>currentColor</code> + scales per parent <code>.link-{size}</code>.</td></tr>
+      <tr><td>.is-disabled / disabled / aria-disabled="true"</td><td>.link</td><td>Disabled state — drops to <code>--link-disabled-text</code> (`#5D5D5D` / `#E7E7E7`), removes underline, cursor: not-allowed. Use the native <code>disabled</code> attribute on a <code>&lt;button&gt;</code>; on an <code>&lt;a&gt;</code> use <code>aria-disabled="true"</code> (or <code>.is-disabled</code> for static demos).</td></tr>
+      <tr><td>.is-hover</td><td>.link</td><td>Documentation helper — forces the hover visual at rest for the matrix. <code>:hover</code> handles the live state.</td></tr>
+      <tr><td>--link-{variant}-text / -hover</td><td>Token</td><td>Per-variant colours. <code>--link-default-text</code> + <code>--link-hover-text</code>; <code>--link-brand-text</code> + <code>--link-brand-hover</code>; <code>--link-blue-text</code> + <code>--link-blue-hover</code>.</td></tr>
+      <tr><td>--link-disabled-text</td><td>Token</td><td>Shared disabled colour across all variants.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
 </body>

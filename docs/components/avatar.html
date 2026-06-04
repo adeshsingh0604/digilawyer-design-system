@@ -5,23 +5,219 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Avatar — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'avatar', root: '../', toc: false };
+  window.DS_PAGE = { key: 'avatar', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  .av-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+  /* Scope under .demo-panel so these tie .demo-panel.active's (0,2,0)
+     specificity and win on source order (see v2.26.2). */
+  .demo-panel.av-row {
+    display: flex; flex-wrap: wrap; gap: 28px; padding: 28px 32px;
+    align-items: center; justify-content: flex-start;
+  }
+  .demo-panel.av-grid {
+    display: grid; grid-template-columns: 90px repeat(3, 1fr);
+    gap: 24px; padding: 28px 32px; align-items: center; justify-items: start;
+  }
+  .av-grid .label, .av-cap {
+    font-size: 12px; color: var(--color-subheading);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .av-cell { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+  /* Sample "photo" fills for the Image variant (no external assets). */
+  .av-photo-1 { background: linear-gradient(135deg, #6999F1, #2843CD); }
+  .av-photo-2 { background: linear-gradient(135deg, #F1B469, #DF7417); }
+  .av-photo-3 { background: linear-gradient(135deg, #7ED9A0, #20994F); }
+</style>
 </head>
 <body>
+
+<svg class="av-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <!-- Person silhouette (head + shoulders) for the Icon variant. -->
+  <symbol id="ico-avatar-person" viewBox="0 0 24 24">
+    <circle cx="12" cy="8.5" r="3.5" fill="currentColor"/>
+    <path d="M5 19.5c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="currentColor"/>
+  </symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Avatar</h1>
-  <p class="page-intro">User representation as image or initials. Uses avatar tokens.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">Circular indicator for a user or entity. Mirrors Figma node 125-2432 (light) + 5914-6626 (dark) 1:1. Three fill variants — <strong>Icon</strong> (person silhouette), <strong>Initials</strong> (1–2 letters), <strong>Image</strong> (clipped photo). Four sizes (xs&nbsp;24 / sm&nbsp;32 / md&nbsp;40 / lg&nbsp;48). The disc is a blue <code>#3156DF</code> surface with white content and a 1px black-10% hairline — identical in light and dark per Figma. Hover keeps the same background and signals interactivity with a 10% black scrim. Composes with <a href="badge.html">Badge</a> for a count pill (top-right) and a status dot (bottom-right) via the <code>.avatar-stack</code> + <code>.avatar-pin-*</code> anchors.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">A bare <code>.avatar</code> at the default md size, Initials variant. Add a fill variant (<code>.avatar-icon</code> / <code>.avatar-initials</code> / <code>.avatar-image</code>) and an optional size (<code>.avatar-lg</code> / <code>-sm</code> / <code>-xs</code>).</p>
+  <div class="demo-box">
+    <div class="demo-panel active av-row">
+      <span class="avatar avatar-initials">A</span>
+    </div>
   </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Three fill variants. <strong>Icon</strong> wraps the <code>#ico-avatar-person</code> silhouette (any inline SVG works — it inherits <code>currentColor</code>). <strong>Initials</strong> holds 1–2 letters in Semi Bold. <strong>Image</strong> clips an <code>&lt;img&gt;</code> to the circle (shown here with gradient placeholders standing in for photos). All three share the same disc chrome — blue bg, white content, black-10% hairline.</p>
+  <div class="demo-box">
+    <div class="demo-panel active av-row">
+      <div class="av-cell">
+        <span class="avatar avatar-lg avatar-icon"><svg><use href="#ico-avatar-person"/></svg></span>
+        <span class="av-cap">Icon</span>
+      </div>
+      <div class="av-cell">
+        <span class="avatar avatar-lg avatar-initials">A</span>
+        <span class="av-cap">Initials</span>
+      </div>
+      <div class="av-cell">
+        <span class="avatar avatar-lg avatar-image av-photo-1"></span>
+        <span class="av-cap">Image</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Four sizes mapped 1:1 to Figma's symbol names. <code>.avatar-lg</code> 48&nbsp;px (initials Heading&nbsp;6b 20/24); default <code>md</code> 40&nbsp;px (16&nbsp;px); <code>.avatar-sm</code> 32&nbsp;px (Caption&nbsp;1 12/16); <code>.avatar-xs</code> 24&nbsp;px (Caption&nbsp;2 10/12). The icon scales to ~56% of the diameter at every size.</p>
+  <div class="demo-box">
+    <div class="demo-panel active av-grid">
+      <div class="av-cap"></div>
+      <div class="av-cap">Icon</div>
+      <div class="av-cap">Initials</div>
+      <div class="av-cap">Image</div>
+
+      <div class="label">Large · 48</div>
+      <span class="avatar avatar-lg avatar-icon"><svg><use href="#ico-avatar-person"/></svg></span>
+      <span class="avatar avatar-lg avatar-initials">A</span>
+      <span class="avatar avatar-lg avatar-image av-photo-2"></span>
+
+      <div class="label">Medium · 40</div>
+      <span class="avatar avatar-icon"><svg><use href="#ico-avatar-person"/></svg></span>
+      <span class="avatar avatar-initials">A</span>
+      <span class="avatar avatar-image av-photo-2"></span>
+
+      <div class="label">Small · 32</div>
+      <span class="avatar avatar-sm avatar-icon"><svg><use href="#ico-avatar-person"/></svg></span>
+      <span class="avatar avatar-sm avatar-initials">A</span>
+      <span class="avatar avatar-sm avatar-image av-photo-2"></span>
+
+      <div class="label">X-small · 24</div>
+      <span class="avatar avatar-xs avatar-icon"><svg><use href="#ico-avatar-person"/></svg></span>
+      <span class="avatar avatar-xs avatar-initials">A</span>
+      <span class="avatar avatar-xs avatar-image av-photo-2"></span>
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Two states. <strong>Default</strong> renders the blue disc. <strong>Hover</strong> keeps the same background (Figma 1:1) and overlays a 10% black scrim to signal the avatar is interactive — use it when the avatar is a button / link (account menu trigger, profile link). <code>.is-hover</code> forces the scrim at rest for the docs; <code>:hover</code> handles the live state. A non-interactive avatar (pure presence indicator) needs no hover.</p>
+  <div class="demo-box">
+    <div class="demo-panel active av-grid">
+      <div class="label">Default</div>
+      <span class="avatar avatar-lg avatar-icon"><svg><use href="#ico-avatar-person"/></svg></span>
+      <span class="avatar avatar-lg avatar-initials">A</span>
+      <span class="avatar avatar-lg avatar-image av-photo-3"></span>
+
+      <div class="label">Hover</div>
+      <span class="avatar avatar-lg avatar-icon is-hover"><svg><use href="#ico-avatar-person"/></svg></span>
+      <span class="avatar avatar-lg avatar-initials is-hover">A</span>
+      <span class="avatar avatar-lg avatar-image av-photo-3 is-hover"></span>
+    </div>
+  </div>
+
+  <!-- Composition -->
+  <h2 id="composition">Composition</h2>
+  <p class="desc">Wrap an avatar in <code>.avatar-stack</code> to pin a <a href="badge.html">Badge</a> count to the top-right (<code>.avatar-pin-tr</code>) and a status dot to the bottom-right (<code>.avatar-pin-br</code>). The count is the canonical <code>.badge.badge-label.badge-danger</code>; the status dot is <code>.avatar-status</code> with a page-bg ring and one of <code>-online</code> / <code>-busy</code> / <code>-away</code> / <code>-offline</code>. Add <code>.avatar-stack-lg</code> / <code>-sm</code> / <code>-xs</code> to scale the status dot with the avatar.</p>
+  <div class="demo-box">
+    <div class="demo-panel active av-row">
+      <div class="av-cell">
+        <span class="avatar-stack avatar-stack-lg">
+          <span class="avatar avatar-lg avatar-icon"><svg><use href="#ico-avatar-person"/></svg></span>
+          <span class="badge badge-label badge-danger avatar-pin-tr">9</span>
+          <span class="avatar-status avatar-status-online avatar-pin-br"></span>
+        </span>
+        <span class="av-cap">Count + online</span>
+      </div>
+      <div class="av-cell">
+        <span class="avatar-stack avatar-stack-lg">
+          <span class="avatar avatar-lg avatar-initials">A</span>
+          <span class="badge badge-label badge-danger avatar-pin-tr">9</span>
+          <span class="avatar-status avatar-status-busy avatar-pin-br"></span>
+        </span>
+        <span class="av-cap">Count + busy</span>
+      </div>
+      <div class="av-cell">
+        <span class="avatar-stack avatar-stack-lg">
+          <span class="avatar avatar-lg avatar-image av-photo-1"></span>
+          <span class="avatar-status avatar-status-away avatar-pin-br"></span>
+        </span>
+        <span class="av-cap">Status only</span>
+      </div>
+      <div class="av-cell">
+        <span class="avatar-stack">
+          <span class="avatar avatar-icon"><svg><use href="#ico-avatar-person"/></svg></span>
+          <span class="badge badge-dot badge-danger avatar-pin-tr"></span>
+        </span>
+        <span class="av-cap">Dot badge</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">3 variants × 4 sizes. Toggle the theme switch in the global header to confirm dark-mode parity — Figma reports identical disc tokens in both modes (blue bg, white content, black-10% hairline), so the only cross-mode change is the page surface the avatars sit on.</p>
+  <div style="display:flex; flex-direction:column; gap:16px; padding:24px; border:1px dashed var(--color-border); border-radius:var(--radius-md); background:var(--color-bg-2);">
+    <div style="display:grid; grid-template-columns:90px repeat(4, 1fr); gap:16px 12px; align-items:center; justify-items:center;">
+      <div></div>
+      <div class="av-cap">lg · 48</div>
+      <div class="av-cap">md · 40</div>
+      <div class="av-cap">sm · 32</div>
+      <div class="av-cap">xs · 24</div>
+
+      <div class="av-cap" style="justify-self:start;">Icon</div>
+      <span class="avatar avatar-lg avatar-icon"><svg><use href="#ico-avatar-person"/></svg></span>
+      <span class="avatar avatar-icon"><svg><use href="#ico-avatar-person"/></svg></span>
+      <span class="avatar avatar-sm avatar-icon"><svg><use href="#ico-avatar-person"/></svg></span>
+      <span class="avatar avatar-xs avatar-icon"><svg><use href="#ico-avatar-person"/></svg></span>
+
+      <div class="av-cap" style="justify-self:start;">Initials</div>
+      <span class="avatar avatar-lg avatar-initials">A</span>
+      <span class="avatar avatar-initials">A</span>
+      <span class="avatar avatar-sm avatar-initials">A</span>
+      <span class="avatar avatar-xs avatar-initials">A</span>
+
+      <div class="av-cap" style="justify-self:start;">Image</div>
+      <span class="avatar avatar-lg avatar-image av-photo-1"></span>
+      <span class="avatar avatar-image av-photo-1"></span>
+      <span class="avatar avatar-sm avatar-image av-photo-1"></span>
+      <span class="avatar avatar-xs avatar-image av-photo-1"></span>
+    </div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.avatar</td><td>&lt;span&gt;</td><td>Base. 40&nbsp;px (md) circular disc — blue <code>--avatar-bg</code>, white <code>--avatar-text</code>, 1px <code>--avatar-border</code> hairline, <code>overflow: hidden</code> to clip the Image variant. Semi Bold. Add a variant + size.</td></tr>
+      <tr><td>.avatar-icon</td><td>.avatar</td><td>Icon variant — wrap an inline SVG (e.g. <code>#ico-avatar-person</code>). The SVG sizes to ~56% of the diameter and inherits <code>currentColor</code>.</td></tr>
+      <tr><td>.avatar-initials</td><td>.avatar</td><td>Initials variant — 1–2 letters of text. Font scales per size: 20 / 16 / 12 / 10&nbsp;px (lg / md / sm / xs).</td></tr>
+      <tr><td>.avatar-image</td><td>.avatar</td><td>Image variant — drop an <code>&lt;img&gt;</code> inside; it's clipped to the circle via <code>object-fit: cover</code>. Empty shows a grey placeholder.</td></tr>
+      <tr><td>.avatar-lg / -sm / -xs</td><td>.avatar</td><td>Sizes — 48 / 32 / 24&nbsp;px. Default (no class) is md 40&nbsp;px.</td></tr>
+      <tr><td>.is-hover / :hover</td><td>.avatar</td><td>Interactive hover — overlays a 10% black scrim (<code>--avatar-overlay-hover</code>). Use only when the avatar is a button / link.</td></tr>
+      <tr><td>.avatar-stack</td><td>&lt;span&gt;</td><td>Composition wrapper. Shrink-wraps the avatar (position: relative) so pinned Badge + status dot anchor to its corners without being clipped by the avatar's <code>overflow: hidden</code>. Add <code>.avatar-stack-lg / -sm / -xs</code> to scale the status dot.</td></tr>
+      <tr><td>.avatar-pin-tr</td><td>.badge inside .avatar-stack</td><td>Pins a Badge count to the top-right (sits half-outside the circle corner). Use with <code>.badge.badge-label.badge-danger</code> or <code>.badge.badge-dot</code>.</td></tr>
+      <tr><td>.avatar-pin-br</td><td>.avatar-status inside .avatar-stack</td><td>Pins the status dot to the bottom-right, sitting on the circle edge.</td></tr>
+      <tr><td>.avatar-status</td><td>&lt;span&gt;</td><td>Status dot — a small disc with a 2px page-bg ring for separation. Pair a colour: <code>-online</code> (green) / <code>-busy</code> (red) / <code>-away</code> (yellow) / <code>-offline</code> (grey).</td></tr>
+      <tr><td>--avatar-bg / -text / -border</td><td>Token</td><td>Disc surface, content colour, hairline. Identical in light + dark per Figma.</td></tr>
+      <tr><td>--avatar-bg-hover / -overlay-hover</td><td>Token</td><td>Hover background (equals <code>--avatar-bg</code>) + the 10% black interactive scrim.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
 </body>

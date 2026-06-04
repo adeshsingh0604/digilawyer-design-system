@@ -5,23 +5,239 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tag — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'tag', root: '../', toc: false };
+  window.DS_PAGE = { key: 'tag', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  /* Sprite symbols local to this page */
+  .tag-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  /* Demo helpers */
+  .tag-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 28px 32px; }
+
+  /* Full matrix: 8 colors × 3 variants. Sticky-row labels on the left. */
+  .tag-matrix {
+    display: grid;
+    grid-template-columns: 120px repeat(3, minmax(120px, 1fr));
+    gap: var(--spacing-md);
+    align-items: center;
+    padding: var(--spacing-xl);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-2);
+  }
+  .tag-matrix-h {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: left;
+  }
+  .tag-matrix-row-label {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    text-transform: capitalize;
+  }
+</style>
 </head>
 <body>
+
+<svg class="tag-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ico-tag-dot" viewBox="0 0 16 16">
+    <circle cx="8" cy="8" r="4" fill="currentColor"/>
+  </symbol>
+  <symbol id="ico-tag-x" viewBox="0 0 16 16">
+    <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  </symbol>
+  <!-- Placeholder square — matches the Figma library's empty icon-swap slot,
+       used in the Full matrix to mirror the design-system reference 1:1. -->
+  <symbol id="ico-tag-ph" viewBox="0 0 16 16">
+    <rect x="2.5" y="2.5" width="11" height="11" rx="1.5" stroke="currentColor" stroke-width="1.25" fill="none"/>
+  </symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Tag</h1>
-  <p class="page-intro">Compact label for metadata, categories, and statuses.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">An inline label chip for status, category, or metadata. Comes in 8 colors (blue, red, green, yellow, orange, purple, grey, black) × 3 variants (Filled, Outline, Semi) × 4 sizes (lg, md, sm, xs). Use Tag for at-a-glance labelling — keep the label one or two words.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">The smallest possible Tag is a single <code>&lt;span class="tag tag-{color}"&gt;</code> with text inside. Default size is <code>md</code> (Body 3 typography, 4px vertical padding). Default variant is Filled.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tag-row">
+      <span class="tag tag-blue">Label</span>
+      <span class="tag tag-green">Label</span>
+      <span class="tag tag-red">Label</span>
+      <span class="tag tag-orange">Label</span>
+    </div>
   </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-default">Copy</button></div>
+    <pre id="c-default"><span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"tag tag-blue"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/span&gt;</span>
+<span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"tag tag-green"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/span&gt;</span></pre>
+  </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Three visual treatments per color. <strong>Filled</strong> (default) — solid colored background with white text (yellow uses dark text). <strong>Outline</strong> — 10% tinted background with a colored border and colored text. <strong>Semi</strong> — same tint as Outline but no border, softer presence.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tag-row">
+      <span class="tag tag-blue"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Filled<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span>
+      <span class="tag tag-blue tag-outline"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Outline<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span>
+      <span class="tag tag-blue tag-semi"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Semi<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span>
+    </div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-variants">Copy</button></div>
+    <pre id="c-variants"><span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"tag tag-blue"</span><span class="kw">&gt;</span>Filled<span class="kw">&lt;/span&gt;</span>
+<span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"tag tag-blue tag-outline"</span><span class="kw">&gt;</span>Outline<span class="kw">&lt;/span&gt;</span>
+<span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"tag tag-blue tag-semi"</span><span class="kw">&gt;</span>Semi<span class="kw">&lt;/span&gt;</span></pre>
+  </div>
+
+  <!-- Colors -->
+  <h2 id="colors">Colors</h2>
+  <p class="desc">Eight semantic colors. Blue / Green / Yellow / Red / Orange / Purple read as status (info, success, caution, danger, alert, notice). Grey and Black are neutral — use them for non-status metadata or category chips.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tag-row">
+      <span class="tag tag-blue">Blue</span>
+      <span class="tag tag-green">Green</span>
+      <span class="tag tag-yellow">Yellow</span>
+      <span class="tag tag-red">Red</span>
+      <span class="tag tag-orange">Orange</span>
+      <span class="tag tag-purple">Purple</span>
+      <span class="tag tag-grey">Grey</span>
+      <span class="tag tag-black">Black</span>
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Four sizes. <code>.tag-lg</code> and default <code>md</code> share Body 3 (14/20) typography but differ in vertical padding. <code>.tag-sm</code> drops to Caption 1 (12/16) for compact toolbars and dense tables. <code>.tag-xs</code> drops to Caption 2 (10/12) for inline-with-caption text.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tag-row">
+      <span class="tag tag-blue tag-lg"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Large<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span>
+      <span class="tag tag-blue"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Medium<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span>
+      <span class="tag tag-blue tag-sm"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Small<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span>
+      <span class="tag tag-blue tag-xs"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>X-Small<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span>
+    </div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-sizes">Copy</button></div>
+    <pre id="c-sizes"><span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"tag tag-blue tag-lg"</span><span class="kw">&gt;</span>Large<span class="kw">&lt;/span&gt;</span>
+<span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"tag tag-blue"</span><span class="kw">&gt;</span>Medium<span class="kw">&lt;/span&gt;</span>
+<span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"tag tag-blue tag-sm"</span><span class="kw">&gt;</span>Small<span class="kw">&lt;/span&gt;</span>
+<span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"tag tag-blue tag-xs"</span><span class="kw">&gt;</span>X-Small<span class="kw">&lt;/span&gt;</span></pre>
+  </div>
+
+  <!-- With icons -->
+  <h2 id="with-icons">With icons</h2>
+  <p class="desc">Optional leading and/or trailing icon slots. Wrap an inline SVG inside <code>.tag-leading</code> or <code>.tag-trailing</code> — the icon inherits the text color via <code>currentColor</code> and scales with the tag size.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tag-row">
+      <span class="tag tag-green">
+        <span class="tag-leading"><svg><use href="#ico-tag-dot"/></svg></span>
+        Active
+      </span>
+      <span class="tag tag-blue tag-outline">
+        Beta
+        <span class="tag-trailing"><svg><use href="#ico-tag-x"/></svg></span>
+      </span>
+      <span class="tag tag-yellow">
+        <span class="tag-leading"><svg><use href="#ico-tag-dot"/></svg></span>
+        Pending
+        <span class="tag-trailing"><svg><use href="#ico-tag-x"/></svg></span>
+      </span>
+      <span class="tag tag-grey tag-semi">
+        <span class="tag-leading"><svg><use href="#ico-tag-dot"/></svg></span>
+        Draft
+      </span>
+    </div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-icons">Copy</button></div>
+    <pre id="c-icons"><span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"tag tag-green"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"tag-leading"</span><span class="kw">&gt;&lt;svg&gt;</span>&hellip;<span class="kw">&lt;/svg&gt;&lt;/span&gt;</span>
+  Active
+<span class="kw">&lt;/span&gt;</span></pre>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">Every combination of color × variant — 8 × 3 = 24 cells, mirroring the Base-AI Figma reference (node 5296-8782). Each cell shows the canonical pattern: leading icon · label · trailing icon. Yellow is the only Filled tag with dark text; Grey and Black share neutral treatment.</p>
+  <div class="tag-matrix">
+    <div></div>
+    <div class="tag-matrix-h">Filled</div>
+    <div class="tag-matrix-h">Outline</div>
+    <div class="tag-matrix-h">Semi</div>
+
+    <div class="tag-matrix-row-label">Blue</div>
+    <div><span class="tag tag-blue"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-blue tag-outline"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-blue tag-semi"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+
+    <div class="tag-matrix-row-label">Red</div>
+    <div><span class="tag tag-red"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-red tag-outline"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-red tag-semi"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+
+    <div class="tag-matrix-row-label">Green</div>
+    <div><span class="tag tag-green"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-green tag-outline"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-green tag-semi"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+
+    <div class="tag-matrix-row-label">Yellow</div>
+    <div><span class="tag tag-yellow"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-yellow tag-outline"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-yellow tag-semi"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+
+    <div class="tag-matrix-row-label">Orange</div>
+    <div><span class="tag tag-orange"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-orange tag-outline"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-orange tag-semi"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+
+    <div class="tag-matrix-row-label">Purple</div>
+    <div><span class="tag tag-purple"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-purple tag-outline"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-purple tag-semi"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+
+    <div class="tag-matrix-row-label">Grey</div>
+    <div><span class="tag tag-grey"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-grey tag-outline"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-grey tag-semi"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+
+    <div class="tag-matrix-row-label">Black</div>
+    <div><span class="tag tag-black"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-black tag-outline"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+    <div><span class="tag tag-black tag-semi"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.tag</td><td>&lt;span&gt;</td><td>Base class. Inline-flex container, <code>--radius-xxs</code> corners, Body 3 Semi Bold typography. Default size 28px (md), default variant Filled.</td></tr>
+      <tr><td>.tag-blue / -red / -green / -yellow / -orange / -purple / -grey / -black</td><td>.tag</td><td>Color modifier. Required — pick one per tag. Drives bg, text, and border color via the <code>--tag-{color}-*</code> token set.</td></tr>
+      <tr><td>.tag-outline</td><td>.tag</td><td>Outline variant — 10% tinted bg, colored 1px border, colored text.</td></tr>
+      <tr><td>.tag-semi</td><td>.tag</td><td>Semi variant — same tint as Outline, no border. Softer presence than Outline.</td></tr>
+      <tr><td>(no variant class)</td><td>.tag</td><td>Filled (default) — solid colored background, white text. Yellow uses dark text for contrast.</td></tr>
+      <tr><td>.tag-lg</td><td>.tag</td><td>Large — Body 3 (14/20) typography, 6px vertical padding. Use as a stand-alone status chip in cards/panels.</td></tr>
+      <tr><td>(no size class)</td><td>.tag</td><td>Medium (default) — Body 3 (14/20) typography, 4px vertical padding. Inline with body text.</td></tr>
+      <tr><td>.tag-sm</td><td>.tag</td><td>Small — Caption 1 (12/16) typography, tighter padding. Use in toolbars and dense rows.</td></tr>
+      <tr><td>.tag-xs</td><td>.tag</td><td>X-Small — Caption 2 (10/12) typography. Use inline with caption text.</td></tr>
+      <tr><td>.tag-leading</td><td>&lt;span&gt; inside .tag</td><td>Optional leading slot. Wrap an inline SVG; icon inherits <code>currentColor</code> and scales with the tag size (16/14/12/10 px).</td></tr>
+      <tr><td>.tag-trailing</td><td>&lt;span&gt; inside .tag</td><td>Optional trailing slot. Mirror of <code>.tag-leading</code>.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
 </body>

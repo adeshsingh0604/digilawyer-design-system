@@ -81,18 +81,18 @@
   --primitive-green-950: #082B16;
 
   /* Yellow */
-  --primitive-yellow-25:  #FFF8D7;
-  --primitive-yellow-50:  #FFF3B8;
-  --primitive-yellow-100: #FFED97;
-  --primitive-yellow-200: #FFE35A;
-  --primitive-yellow-300: #FFDE39;
-  --primitive-yellow-400: #FFD91B;
-  --primitive-yellow-500: #FFD400;
-  --primitive-yellow-600: #E9C200;
-  --primitive-yellow-700: #D5B101;
-  --primitive-yellow-800: #C9A700;
-  --primitive-yellow-900: #BD9D00;
-  --primitive-yellow-950: #AB8E00;
+  --primitive-yellow-25:  #FFFDF0;
+  --primitive-yellow-50:  #FFFDEA;
+  --primitive-yellow-100: #FFFAC5;
+  --primitive-yellow-200: #FFF585;
+  --primitive-yellow-300: #FFEA46;
+  --primitive-yellow-400: #FFDB1B;
+  --primitive-yellow-500: #FFC107;
+  --primitive-yellow-600: #E29500;
+  --primitive-yellow-700: #BB6902;
+  --primitive-yellow-800: #985008;
+  --primitive-yellow-900: #7C420B;
+  --primitive-yellow-950: #482200;
 
   /* Purple */
   --primitive-purple-25:  #FCFAFF;
@@ -145,7 +145,7 @@
   --color-success-bg:   rgba(50,205,109,0.10);
   --color-success-text: #20994F;
   --color-warning-bg:   rgba(223,207,19,0.10);
-  --color-warning-text: #E9C200;
+  --color-warning-text: #E29500;
   --color-danger-bg:    rgba(225,82,82,0.10);
   --color-danger-text:  #CD3232;
   --color-alert-bg:     rgba(237,138,25,0.10);
@@ -224,6 +224,41 @@
   --radio-checked-bg-disabled:      #5D5D5D;
   --radio-checked-border-disabled:  #5D5D5D;
 
+  /* Toggle Switch */
+  --toggle-bg:                       rgba(0,0,0,0.10);
+  --toggle-border:                   transparent;
+  --toggle-bg-hover:                 rgba(0,0,0,0.20);
+  --toggle-border-hover:             transparent;
+  --toggle-bg-disabled:              #6D6D6D;
+  --toggle-border-disabled:          #6D6D6D;
+  --toggle-checked-bg:               #2D2D2D;
+  --toggle-checked-border:           #2D2D2D;
+  --toggle-checked-bg-hover:         #3D3D3D;
+  --toggle-checked-border-hover:     #3D3D3D;
+  --toggle-checked-bg-disabled:      #6D6D6D;
+  --toggle-checked-border-disabled:  #6D6D6D;
+  --toggle-thumb:                    #FFFFFF;
+  --toggle-thumb-on:                 #FFFFFF;
+  --toggle-thumb-shadow:             0 1px 3px rgba(0,0,0,0.15);
+
+  /* Options — values from Figma node 3420-2878. Hover is a 5% black
+     overlay (Figma "Product/Trans-Bg" #0000000d) so it works on any
+     surface the menu lives on. Disabled text is #6D6D6D per Figma. */
+  --options-bg:                  #FFFFFF;
+  --options-border:              transparent;
+  --options-text:                #2D2D2D;
+  --options-bg-hover:            rgba(0,0,0,0.05);
+  --options-text-hover:          #2D2D2D;
+  --options-bg-disabled:         #E7E7E7;
+  --options-text-disabled:       #6D6D6D;
+
+  /* Upload Media — shell bg. In light mode these collapse onto the same
+     values as `--input-default-bg / -hover`, but in dark mode Figma
+     diverges (Upload uses a lighter shell than Text Input), so they live
+     in their own token group. */
+  --upload-bg:        #F6F6F6;
+  --upload-bg-hover:  #E7E7E7;
+
   /* Input */
   --input-default-bg:          #F6F6F6;
   --input-default-border:      rgba(0,0,0,0.05);
@@ -234,62 +269,317 @@
   --input-focus-border:        #2D2D2D;
   --input-filled-border:       rgba(0,0,0,0.20);
   --input-success-caption:     #20994F;
-  --input-warning-caption:     #E9C200;
+  --input-warning-caption:     #E29500;
   --input-error-caption:       #CD3232;
   --input-disabled-bg:         #E7E7E7;
 
-  /* Tags */
-  --tag-blue-filled-bg:      #2843CD;
-  --tag-blue-filled-text:    #FFFFFF;
-  --tag-blue-outline-bg:     rgba(49,86,223,0.10);
-  --tag-blue-outline-border: #3156DF;
-  --tag-red-filled-bg:       #CD3232;
-  --tag-green-filled-bg:     #20994F;
-  --tag-yellow-filled-bg:    #FFD400;
-  --tag-yellow-filled-text:  #2D2D2D;
-  --tag-purple-filled-bg:    #7F56D9;
-  --tag-grey-filled-bg:      #5D5D5D;
-  --tag-orange-filled-bg:    #DF7417;
+  /* Tag — 8 colors × 3 variants (Filled / Outline / Semi). Values mirror
+     the Base-AI Figma library (node 5296-8782) 1:1. Outline + Semi share
+     bg + text; Semi just drops the border. The Outline text is always
+     the DARKER (filled-bg) shade — the border is the LIGHTER shade —
+     so the chip reads as colored-text-on-light-tint. */
+  --tag-blue-filled-bg:        #2843CD;
+  --tag-blue-filled-text:      #FFFFFF;
+  --tag-blue-outline-bg:       rgba(49,86,223,0.10);
+  --tag-blue-outline-border:   #3156DF;
+  --tag-blue-outline-text:     #2843CD;
 
-  /* Tabs */
-  --tab-default-text:  #5D5D5D;
-  --tab-hover-bg:      #F6F6F6;
-  --tab-active-border: #2D2D2D;
-  --tab-active-text:   #2D2D2D;
-  --tab-disabled-text: #6D6D6D;
+  --tag-red-filled-bg:         #CD3232;
+  --tag-red-filled-text:       #FFFFFF;
+  --tag-red-outline-bg:        rgba(225,82,82,0.10);
+  --tag-red-outline-border:    #E15252;
+  --tag-red-outline-text:      #CD3232;
 
-  /* Avatar */
-  --avatar-bg:       #3156DF;
-  --avatar-text:     #FFFFFF;
-  --avatar-bg-hover: #2739A6;
+  --tag-green-filled-bg:       #20994F;
+  --tag-green-filled-text:     #FFFFFF;
+  --tag-green-outline-bg:      rgba(50,205,109,0.10);
+  --tag-green-outline-border:  #32CD6D;
+  --tag-green-outline-text:    #20994F;
 
-  /* Tooltip */
-  --tooltip-bg:   #2D2D2D;
-  --tooltip-text: #F6F6F6;
+  --tag-yellow-filled-bg:      #FFC107;
+  --tag-yellow-filled-text:    #2D2D2D;
+  --tag-yellow-outline-bg:     rgba(223,207,19,0.10);
+  --tag-yellow-outline-border: #DFCF13;
+  --tag-yellow-outline-text:   #E29500;
 
-  /* Progress Bar */
-  --progress-filled: #2D2D2D;
-  --progress-green:  #20994F;
-  --progress-yellow: #E9C200;
-  --progress-red:    #CD3232;
+  --tag-orange-filled-bg:      #DF7417;
+  --tag-orange-filled-text:    #FFFFFF;
+  --tag-orange-outline-bg:     rgba(237,138,25,0.10);
+  --tag-orange-outline-border: #ED8A19;
+  --tag-orange-outline-text:   #DF7417;
 
-  /* Checkbox */
-  --checkbox-unchecked-border: rgba(0,0,0,0.10);
-  --checkbox-checked-bg:       #2D2D2D;
-  --checkbox-checked-icon:     #FFFFFF;
-  --checkbox-disabled-bg:      #5D5D5D;
+  --tag-purple-filled-bg:      #7F56D9;
+  --tag-purple-filled-text:    #FFFFFF;
+  --tag-purple-outline-bg:     rgba(158,119,237,0.10);
+  --tag-purple-outline-border: #9E77ED;
+  --tag-purple-outline-text:   #7F56D9;
 
-  /* Toggle */
-  --toggle-off-bg: rgba(0,0,0,0.10);
-  --toggle-on-bg:  #2D2D2D;
-  --toggle-knob:   #FFFFFF;
+  --tag-grey-filled-bg:        #5D5D5D;
+  --tag-grey-filled-text:      #FFFFFF;
+  --tag-grey-outline-bg:       rgba(0,0,0,0.10);
+  --tag-grey-outline-border:   #6D6D6D;
+  --tag-grey-outline-text:     #5D5D5D;
 
-  /* Link */
+  --tag-black-filled-bg:       #2D2D2D;
+  --tag-black-filled-text:     #FFFFFF;
+  --tag-black-outline-bg:      rgba(0,0,0,0.10);
+  --tag-black-outline-border:  rgba(0,0,0,0.10);
+  --tag-black-outline-text:    #2D2D2D;
+
+  /* Tabs — values from Figma node 3817-106 (light) + 5934-1968 (dark).
+     Each tab has bg + border-b + text per state. Default/Hover/Disabled
+     borders are 10% black/white; Active uses the solid Active border
+     token (#2D2D2D light, #FFFFFF dark) to read as an underline indicator.
+     Re-audited against the refreshed Figma frames on 2026-06-01: all 24
+     values still match 1:1, no token changes required. */
+  --tab-default-bg:      transparent;
+  --tab-default-border:  rgba(0,0,0,0.10);
+  --tab-default-text:    #5D5D5D;
+  --tab-hover-bg:        #F6F6F6;
+  --tab-hover-border:    rgba(0,0,0,0.10);
+  --tab-hover-text:      #2D2D2D;
+  --tab-active-bg:       transparent;
+  --tab-active-border:   #2D2D2D;
+  --tab-active-text:     #2D2D2D;
+  --tab-disabled-bg:     transparent;
+  --tab-disabled-border: rgba(0,0,0,0.10);
+  --tab-disabled-text:   #6D6D6D;
+
+  /* Snackbar — values from Figma node 161-5424. 7 variants × 3 states
+     (Semi-filled / Filled / Border). Each variant exposes a "deep" colour
+     (used as semi-filled text + filled bg + border-state text) and a
+     "semi-bg" pale fill. Border state uses the same deep colour for
+     text and a 10% tint of a medium shade for the actual border. */
+  --snackbar-brand-deep:            #2D2D2D;
+  --snackbar-brand-semi-bg:         #F6F6F6;
+  --snackbar-brand-border-border:   rgba(0,0,0,0.10);
+  --snackbar-brand-filled-text:     #FFFFFF;
+
+  --snackbar-info-deep:             #2843CD;
+  --snackbar-info-semi-bg:          #C3D6FA;
+  --snackbar-info-border-border:    rgba(49,86,223,0.10);
+  --snackbar-info-filled-text:      #FFFFFF;
+
+  --snackbar-danger-deep:           #CD3232;
+  --snackbar-danger-semi-bg:        #FCE4E4;
+  --snackbar-danger-border-border:  rgba(225,82,82,0.10);
+  --snackbar-danger-filled-text:    #FFFFFF;
+
+  --snackbar-success-deep:          #20994F;
+  --snackbar-success-semi-bg:       #DEFAE8;
+  --snackbar-success-border-border: rgba(50,205,109,0.10);
+  --snackbar-success-filled-text:   #FFFFFF;
+
+  --snackbar-warning-deep:          #E29500;
+  --snackbar-warning-semi-bg:       #FFFAC5;
+  --snackbar-warning-border-border: rgba(223,207,19,0.10);
+  --snackbar-warning-filled-text:   #FFFFFF;
+
+  --snackbar-notice-deep:           #7F56D9;
+  --snackbar-notice-semi-bg:        #F4EBFF;
+  --snackbar-notice-border-border:  rgba(158,119,237,0.10);
+  --snackbar-notice-filled-text:    #FFFFFF;
+
+  --snackbar-alert-deep:            #DF7417;
+  --snackbar-alert-semi-bg:         #FDF2D7;
+  --snackbar-alert-border-border:   rgba(237,138,25,0.10);
+  --snackbar-alert-filled-text:     #FFFFFF;
+
+  /* Badge — values from Figma nodes 123-2217 (Badge_label, light) +
+     123-2267 (Badge_element, light) + 5926-1828 (Badge_label, dark) +
+     5926-1773 (Badge_element, dark). Re-audited against the refreshed
+     Figma frames on 2026-06-01: every bg / text / border value still
+     matches 1:1, no token changes required. Each colour exposes
+     bg + text + border. The border is a 1px halo that separates the
+     badge from whatever surface it sits on (button, avatar, tab). In
+     light mode the halo is white; in dark mode it shifts to the page
+     bg colour (#1C1C1C). Brand inverts in dark — see the dark block. */
+  --badge-brand-bg:      #2D2D2D;
+  --badge-brand-text:    #FFFFFF;
+  --badge-brand-border:  #FFFFFF;
+
+  --badge-info-bg:       #2843CD;
+  --badge-info-text:     #FFFFFF;
+  --badge-info-border:   #FFFFFF;
+
+  --badge-danger-bg:     #CD3232;
+  --badge-danger-text:   #FFFFFF;
+  --badge-danger-border: #FFFFFF;
+
+  --badge-success-bg:    #20994F;
+  --badge-success-text:  #FFFFFF;
+  --badge-success-border:#FFFFFF;
+
+  --badge-warning-bg:    #E29500;
+  --badge-warning-text:  #FFFFFF;
+  --badge-warning-border:#FFFFFF;
+
+  --badge-notice-bg:     #7F56D9;
+  --badge-notice-text:   #FFFFFF;
+  --badge-notice-border: #FFFFFF;
+
+  --badge-alert-bg:      #DF7417;
+  --badge-alert-text:    #FFFFFF;
+  --badge-alert-border:  #FFFFFF;
+
+  /* Date Picker — values from Figma nodes 105-1786 (cells) + 105-2329
+     (month cells) + 105-2431 (full panel + range + month/year pickers).
+     Panel chrome uses --color-bg/border/shadow-3 indirectly (we map them
+     through --datepicker-* so the component is portable). Cell active
+     state inverts: dark bg + white text in light, white bg + dark text
+     in dark — same pattern as Brand Badge / Black Tag / Black Snackbar. */
+  --datepicker-bg:                 #FFFFFF;
+  --datepicker-border:             rgba(0,0,0,0.10);
+  --datepicker-text:               #2D2D2D;
+
+  --datepicker-cell-text:          #2D2D2D;
+  --datepicker-cell-bg-hover:      #E7E7E7;
+  --datepicker-cell-text-hover:    #2D2D2D;
+  --datepicker-cell-bg-active:     #2D2D2D;
+  --datepicker-cell-text-active:   #FFFFFF;
+  --datepicker-cell-text-disabled: #5D5D5D;
+  --datepicker-cell-bg-in-range:   #E7E7E7;
+
+  /* Avatar — values from Figma node 125-2432 (light) + 5914-6626 (dark).
+     bg / text / border are identical in both modes (Figma 1:1): blue disc,
+     white initials, 1px black-10% hairline on the disc edge. Hover keeps the
+     same bg (Figma's Hover background == Default) and signals interactivity
+     with a 10% black scrim overlay (the Opacity/Black/10 value Figma exposes).
+     --avatar-bg-hover is kept for token-API parity even though it equals bg. */
+  --avatar-bg:            #3156DF;
+  --avatar-text:          #FFFFFF;
+  --avatar-border:        rgba(0,0,0,0.10);
+  --avatar-bg-hover:      #3156DF;
+  --avatar-overlay-hover: rgba(0,0,0,0.10);
+
+  /* Slider — values from Figma nodes 5877-41490 + 147-5057 (light) and
+     5967-1515 + 5967-1479 (dark). Brand/Primary-color drives the fill +
+     thumb; track is 10% black/white alpha; tooltip inverts like Tooltip. */
+  --slider-track-bg:    rgba(0,0,0,0.10);   /* unfilled track strip */
+  --slider-fill:        #2D2D2D;            /* filled track + thumb */
+  --slider-tip-bg:      #2D2D2D;            /* tooltip pill background */
+  --slider-tip-text:    #FFFFFF;            /* tooltip pill text */
+  --slider-ring-hover:  rgba(0,0,0,0.07);  /* thumb hover halo */
+  --slider-ring-active: rgba(0,0,0,0.11);  /* thumb drag halo (larger) */
+
+  /* Rating — values from Figma 114-30 (star light) + 114-198 (heart light)
+     + 5970-310 (star dark) + 5970-401 (heart dark).
+     Brand inverts in dark; Yellow and Red are constant (always vivid). */
+  --rating-brand: #2D2D2D;  /* brand colour stars/hearts (inverts dark) */
+  --rating-empty: #D1D1D1;  /* unfilled icons (same both modes) */
+  --rating-star:  #FFC107;  /* Yellow/500 — star fill colour */
+  --rating-heart: #CD3232;  /* Red/600 — heart fill colour */
+
+  /* Tooltip — values from Figma node 140-7707 (light) + 2289-4036 (dark).
+     Tooltip INVERTS in dark mode: light bg + dark text on a dark page,
+     dark bg + light text on a light page — so it always contrasts.
+     Border is a 10% white hairline (light) / 10% black hairline (dark). */
+  --tooltip-bg:     #2D2D2D;
+  --tooltip-text:   #F6F6F6;
+  --tooltip-border: rgba(255,255,255,0.10);
+
+  /* Alert — values from Figma node 140-6541 (light) + 5958-2561 (dark).
+     7 colours × 3 variants (Semi-filled / Filled / Border) × 5 tokens each.
+     semi-text doubles as the accent for the Border variant.
+     filled-text = #FFFFFF for all colours except Brand (which inverts). */
+
+  /* Brand */
+  --alert-brand-semi-bg:       #F6F6F6;
+  --alert-brand-semi-text:     #2D2D2D;
+  --alert-brand-filled-bg:     #2D2D2D;
+  --alert-brand-filled-text:   #FFFFFF;
+  --alert-brand-brd-border:    rgba(0,0,0,0.10);
+  /* Info */
+  --alert-info-semi-bg:        #C3D6FA;
+  --alert-info-semi-text:      #2843CD;
+  --alert-info-filled-bg:      #2843CD;
+  --alert-info-filled-text:    #FFFFFF;
+  --alert-info-brd-border:     rgba(49,86,223,0.10);
+  /* Danger */
+  --alert-danger-semi-bg:      #FCE4E4;
+  --alert-danger-semi-text:    #CD3232;
+  --alert-danger-filled-bg:    #CD3232;
+  --alert-danger-filled-text:  #FFFFFF;
+  --alert-danger-brd-border:   rgba(225,82,82,0.10);
+  /* Success */
+  --alert-success-semi-bg:     #DEFAE8;
+  --alert-success-semi-text:   #20994F;
+  --alert-success-filled-bg:   #20994F;
+  --alert-success-filled-text: #FFFFFF;
+  --alert-success-brd-border:  rgba(50,205,109,0.10);
+  /* Warning */
+  --alert-warning-semi-bg:     #FFFAC5;
+  --alert-warning-semi-text:   #E29500;
+  --alert-warning-filled-bg:   #E29500;
+  --alert-warning-filled-text: #FFFFFF;
+  --alert-warning-brd-border:  rgba(223,207,19,0.10);
+  /* Notice */
+  --alert-notice-semi-bg:      #F4EBFF;
+  --alert-notice-semi-text:    #7F56D9;
+  --alert-notice-filled-bg:    #7F56D9;
+  --alert-notice-filled-text:  #FFFFFF;
+  --alert-notice-brd-border:   rgba(158,119,237,0.10);
+  /* Alert/Orange */
+  --alert-alert-semi-bg:       #FDF2D7;
+  --alert-alert-semi-text:     #DF7417;
+  --alert-alert-filled-bg:     #DF7417;
+  --alert-alert-filled-text:   #FFFFFF;
+  --alert-alert-brd-border:    rgba(237,138,25,0.10);
+
+  /* Progress Bar — values from Figma nodes 3007-14257 (light) + 5917-1593
+     (dark). 7 colors × 3 fields = 21 tokens per mode. Background sits at
+     ~20% alpha of the progress color (Brand is the outlier — black @ 10%
+     in light, white @ 10% in dark — to keep neutral track contrast).
+     Border is transparent on every color; kept as a named token so a
+     consumer who wants an outlined variant can swap it without forking
+     the CSS. Bar fills via --progress-{color}-progress on a value-driven
+     inline width; track uses --progress-{color}-bg. */
+  --progress-brand-bg:        rgba(0,0,0,0.10);
+  --progress-brand-border:    transparent;
+  --progress-brand-progress:  #2D2D2D;
+  --progress-blue-bg:         rgba(49,86,223,0.20);
+  --progress-blue-border:     transparent;
+  --progress-blue-progress:   #2843CD;
+  --progress-green-bg:        rgba(50,205,109,0.20);
+  --progress-green-border:    transparent;
+  --progress-green-progress:  #20994F;
+  --progress-purple-bg:       rgba(158,119,237,0.20);
+  --progress-purple-border:   transparent;
+  --progress-purple-progress: #7F56D9;
+  --progress-orange-bg:       rgba(237,138,25,0.20);
+  --progress-orange-border:   transparent;
+  --progress-orange-progress: #DF7417;
+  --progress-yellow-bg:       rgba(223,207,19,0.20);
+  --progress-yellow-border:   transparent;
+  --progress-yellow-progress: #FFC107;
+  --progress-red-bg:          rgba(225,82,82,0.20);
+  --progress-red-border:      transparent;
+  --progress-red-progress:    #CD3232;
+
+  /* Table — values from Figma node 140-5139 (light) + 5892-39544 (dark).
+     Header is a quiet contrast strip; body is transparent so the table
+     reads on top of the page's --color-bg. Borders are a 5% alpha rule
+     (the lightest hairline in the system) that hashes the cell grid
+     without competing with content. Typography is Body 1 Semi Bold for
+     the header and Body 1 Medium for body cells. */
+  --table-header-bg:     #F6F6F6;
+  --table-header-text:   #2D2D2D;
+  --table-header-border: rgba(0,0,0,0.05);
+  --table-body-bg:       transparent;
+  --table-body-text:     #2D2D2D;
+  --table-body-border:   rgba(0,0,0,0.05);
+
+  /* Link — values from Figma node 140-7864 (light) + 5940-2868 (dark).
+     Three colour variants (Default / Brand / Blue) × Default + Hover.
+     Disabled is shared across variants (mapped from Default). Brand hover
+     in light is the same tan as the resting state (no colour change);
+     Brand hover in dark lifts to a brighter tan to read on the dark page. */
   --link-default-text:  #2D2D2D;
   --link-hover-text:    #454545;
   --link-blue-text:     #3156DF;
   --link-blue-hover:    #2739A6;
   --link-brand-text:    #9B8B5D;
+  --link-brand-hover:   #9B8B5D;
   --link-disabled-text: #5D5D5D;
 
   /* ── 3. Typography ── */
@@ -346,7 +636,7 @@
   --shadow-5: 0 4px 16px 4px rgba(0,0,0,0.10);
 
   /* ── System ── */
-  --ds-version: "2.8.0";
+  --ds-version: "2.31.7";
   --sidebar-width: 240px;
   --toc-width: 200px;
   --ds-header-height: 56px;
@@ -396,7 +686,7 @@
   --color-success-bg:   rgba(50,205,109,0.20);
   --color-success-text: #32CD6D;
   --color-warning-bg:   rgba(223,207,19,0.20);
-  --color-warning-text: #FFD400;
+  --color-warning-text: #FFC107;
   --color-danger-bg:    rgba(225,82,82,0.20);
   --color-danger-text:  #E15252;
   --color-alert-bg:     rgba(237,138,25,0.20);
@@ -438,36 +728,78 @@
   --btn-danger-bg-disabled:   #454545;
   --btn-danger-text-disabled: #E7E7E7;
 
-  /* Checkbox — dark mode inverts unchecked/checked treatment so the
-     "checked" tile pops the same way it does on light. */
+  /* Checkbox — values from Figma dark reference (node 3557-20436).
+     Unchecked hover uses a solid #2D2D2D fill (matches the dropdown
+     panel's hover step); checked uses #FFFFFF tile with #D1D1D1 hover
+     ramp and #454545 disabled (matches Button Secondary/Primary disabled). */
   --checkbox-bg:                       transparent;
   --checkbox-border:                   rgba(255,255,255,0.10);
-  --checkbox-bg-hover:                 #3D3D3D;
+  --checkbox-bg-hover:                 #2D2D2D;
   --checkbox-border-hover:             rgba(255,255,255,0.10);
   --checkbox-bg-disabled:              #454545;
   --checkbox-border-disabled:          #454545;
   --checkbox-checked-bg:               #FFFFFF;
   --checkbox-checked-border:           #FFFFFF;
   --checkbox-checked-glyph:            #2D2D2D;
-  --checkbox-checked-bg-hover:         #E7E7E7;
-  --checkbox-checked-border-hover:     #E7E7E7;
-  --checkbox-checked-bg-disabled:      #6D6D6D;
-  --checkbox-checked-border-disabled:  #6D6D6D;
+  --checkbox-checked-bg-hover:         #D1D1D1;
+  --checkbox-checked-border-hover:     #D1D1D1;
+  --checkbox-checked-bg-disabled:      #454545;
+  --checkbox-checked-border-disabled:  #454545;
 
-  /* Radio Button — dark mode inverts the same way Checkbox does. */
+  /* Radio Button — values from Figma dark reference (node 3557-20480).
+     Same hover + disabled ramp as Checkbox (mirrors the Figma spec). */
   --radio-bg:                       transparent;
   --radio-border:                   rgba(255,255,255,0.10);
-  --radio-bg-hover:                 #3D3D3D;
+  --radio-bg-hover:                 #2D2D2D;
   --radio-border-hover:             rgba(255,255,255,0.10);
   --radio-bg-disabled:              #454545;
   --radio-border-disabled:          #454545;
   --radio-checked-bg:               #FFFFFF;
   --radio-checked-border:           #FFFFFF;
   --radio-checked-dot:              #2D2D2D;
-  --radio-checked-bg-hover:         #E7E7E7;
-  --radio-checked-border-hover:     #E7E7E7;
-  --radio-checked-bg-disabled:      #6D6D6D;
-  --radio-checked-border-disabled:  #6D6D6D;
+  --radio-checked-bg-hover:         #D1D1D1;
+  --radio-checked-border-hover:     #D1D1D1;
+  --radio-checked-bg-disabled:      #454545;
+  --radio-checked-border-disabled:  #454545;
+
+  /* Toggle Switch — values from Figma dark reference (node 3745-361).
+     Thumb color is state-dependent in dark mode: white when off/disabled,
+     dark only when on. --toggle-thumb-on is what drives the swap. */
+  --toggle-bg:                       rgba(255,255,255,0.10);
+  --toggle-border:                   transparent;
+  --toggle-bg-hover:                 rgba(255,255,255,0.20);
+  --toggle-border-hover:             transparent;
+  --toggle-bg-disabled:              #6D6D6D;
+  --toggle-border-disabled:          #6D6D6D;
+  --toggle-checked-bg:               #FFFFFF;
+  --toggle-checked-border:           #FFFFFF;
+  --toggle-checked-bg-hover:         #FAFAFA;
+  --toggle-checked-border-hover:     #FAFAFA;
+  --toggle-checked-bg-disabled:      #6D6D6D;
+  --toggle-checked-border-disabled:  #6D6D6D;
+  --toggle-thumb:                    #FFFFFF;
+  --toggle-thumb-on:                 #2D2D2D;
+  --toggle-thumb-shadow:             0 1px 3px rgba(0,0,0,0.40);
+
+  /* Options — values from Figma dark reference (node 5837-3332).
+     In dark mode the dropdown panel bg = --color-bg = #1C1C1C, so the
+     Default row matches the panel (rows are invisible until interacted
+     with) and Hover LIFTS to a solid #2D2D2D — opposite of the light
+     mode where hover DIMS via a 5% black overlay. */
+  --options-bg:                  #1C1C1C;
+  --options-border:              transparent;
+  --options-text:                #FFFFFF;
+  --options-bg-hover:            #2D2D2D;
+  --options-text-hover:          #FFFFFF;
+  --options-bg-disabled:         #3D3D3D;
+  --options-text-disabled:       #888888;          /* Neutral/400 per Figma */
+
+  /* Upload Media — values from Figma dark reference (node 3643-23015).
+     Diverges from Text Input dark: Upload sits at #2D2D2D (lighter than
+     Input's #3D3D3D) and hover lifts to #3D3D3D — the shell reads as a
+     drop-target distinct from any input field next to it. */
+  --upload-bg:        #2D2D2D;
+  --upload-bg-hover:  #3D3D3D;
 
   --input-default-bg:          #3D3D3D;
   --input-default-border:      rgba(255,255,255,0.05);
@@ -478,44 +810,283 @@
   --input-focus-border:        #FFFFFF;
   --input-filled-border:       rgba(255,255,255,0.20);
   --input-success-caption:     #32CD6D;
-  --input-warning-caption:     #FFD400;
+  --input-warning-caption:     #FFC107;
   --input-error-caption:       #E15252;
   --input-disabled-bg:         #3D3D3D;
 
-  --tab-default-text:  #E7E7E7;
-  --tab-hover-bg:      #2D2D2D;
-  --tab-active-border: #FFFFFF;
-  --tab-active-text:   #FFFFFF;
-  --tab-disabled-text: #3D3D3D;
+  /* Tag — values from Figma dark reference (node 5856-4255). 1:1 with
+     the design tokens. Pattern: outline bg = 10% of the colour, border +
+     text both shift to the LIGHTER shade (the deep colour reads too dark
+     against the dark page surface). Two Filled overrides (Yellow + Orange
+     + Black) where Figma diverges from light values. Semi mirrors Outline
+     except border stays transparent — handled in CSS, no extra tokens. */
 
-  --avatar-bg-hover: #4675EB;
+  /* Filled overrides — Yellow and Orange ramp up in dark mode for visibility;
+     Black inverts to a white tile (Black would collapse onto the dark page). */
+  --tag-yellow-filled-bg:      #FFDB1B;
+  --tag-orange-filled-bg:      #ED8A19;
+  --tag-black-filled-bg:       #FFFFFF;
+  --tag-black-filled-text:     #2D2D2D;
 
-  --tooltip-bg:   #F6F6F6;
-  --tooltip-text: #2D2D2D;
+  /* Outline (Semi reuses these via .tag-semi rules, border collapses) */
+  --tag-blue-outline-bg:       rgba(49,86,223,0.10);
+  --tag-blue-outline-border:   #3156DF;
+  --tag-blue-outline-text:     #3156DF;
 
-  --progress-filled: #FFFFFF;
-  --progress-green:  #32CD6D;
-  --progress-yellow: #FFD400;
-  --progress-red:    #E15252;
+  --tag-red-outline-bg:        rgba(225,82,82,0.10);
+  --tag-red-outline-border:    #E15252;
+  --tag-red-outline-text:      #E15252;
 
-  --checkbox-unchecked-border: rgba(255,255,255,0.10);
-  --checkbox-checked-bg:       #FFFFFF;
-  --checkbox-checked-icon:     #2D2D2D;
-  --checkbox-disabled-bg:      #6D6D6D;
+  --tag-green-outline-bg:      rgba(50,205,109,0.10);
+  --tag-green-outline-border:  #32CD6D;
+  --tag-green-outline-text:    #32CD6D;
 
-  --toggle-off-bg: rgba(255,255,255,0.10);
-  --toggle-on-bg:  #FFFFFF;
-  --toggle-knob:   #2D2D2D;
+  --tag-yellow-outline-bg:     rgba(223,207,19,0.10);
+  --tag-yellow-outline-border: #DFCF13;
+  --tag-yellow-outline-text:   #FFC107;
+
+  --tag-orange-outline-bg:     rgba(237,138,25,0.10);
+  --tag-orange-outline-border: #ED8A19;
+  --tag-orange-outline-text:   #ED8A19;
+
+  --tag-purple-outline-bg:     rgba(158,119,237,0.10);
+  --tag-purple-outline-border: #9E77ED;
+  --tag-purple-outline-text:   #9E77ED;
+
+  --tag-grey-outline-bg:       rgba(255,255,255,0.10);
+  --tag-grey-outline-border:   #6D6D6D;
+  --tag-grey-outline-text:     #E7E7E7;
+
+  --tag-black-outline-bg:      rgba(255,255,255,0.10);
+  --tag-black-outline-border:  rgba(0,0,0,0.10);
+  --tag-black-outline-text:    #FFFFFF;
+
+  /* Tabs — values from Figma dark reference (node 5934-1968). Default and
+     non-active borders use 10% white; Active border inverts to solid white. */
+  --tab-default-bg:      transparent;
+  --tab-default-border:  rgba(255,255,255,0.10);
+  --tab-default-text:    #E7E7E7;
+  --tab-hover-bg:        #2D2D2D;
+  --tab-hover-border:    rgba(255,255,255,0.10);
+  --tab-hover-text:      #FFFFFF;
+  --tab-active-bg:       transparent;
+  --tab-active-border:   #FFFFFF;
+  --tab-active-text:     #FFFFFF;
+  --tab-disabled-bg:     transparent;
+  --tab-disabled-border: rgba(255,255,255,0.10);
+  --tab-disabled-text:   #3D3D3D;
+
+  /* Snackbar — dark mode. Figma dark reference for Snackbar wasn't shared,
+     so this is a best-effort interpretation that mirrors the light scheme
+     with theme-appropriate values: deep colours stay vivid (read fine on
+     dark surfaces), semi-bg shifts to a 15% rgba tint of the deep colour
+     (replaces the solid pale), border-border uses 15% white tints. Flag
+     for Figma verification — see STATUS.md Known Issues. */
+  /* Brand: deep inverts to white in dark, so the Filled text needs to drop
+     to a dark colour to stay readable on the white surface. Semi-bg bumps
+     from #2D2D2D (which collided with --color-bg-2) to #3D3D3D so the toast
+     lifts off every surface in the system. */
+  --snackbar-brand-deep:            #FFFFFF;
+  --snackbar-brand-semi-bg:         #3D3D3D;
+  --snackbar-brand-border-border:   rgba(255,255,255,0.10);
+  --snackbar-brand-filled-text:     #2D2D2D;
+
+  /* Other variants: semi-bg uses solid dark colours (same pattern as light
+     mode, which uses solid pale colours) so the snackbar surface is
+     predictable regardless of where it sits — page, bg-2 panel, card,
+     anywhere. The values are roughly equivalent to a 20–25% blend of the
+     variant's deep colour over the dark page bg. Filled text stays white
+     except Brand (handled above). */
+  --snackbar-info-deep:             #3156DF;
+  --snackbar-info-semi-bg:          #212B4D;
+  --snackbar-info-border-border:    rgba(70,117,235,0.20);
+  --snackbar-info-filled-text:      #FFFFFF;
+
+  --snackbar-danger-deep:           #E15252;
+  --snackbar-danger-semi-bg:        #4A2929;
+  --snackbar-danger-border-border:  rgba(225,82,82,0.20);
+  --snackbar-danger-filled-text:    #FFFFFF;
+
+  --snackbar-success-deep:          #32CD6D;
+  --snackbar-success-semi-bg:       #224429;
+  --snackbar-success-border-border: rgba(50,205,109,0.20);
+  --snackbar-success-filled-text:   #FFFFFF;
+
+  --snackbar-warning-deep:          #FFC107;
+  --snackbar-warning-semi-bg:       #4A4119;
+  --snackbar-warning-border-border: rgba(223,207,19,0.20);
+  --snackbar-warning-filled-text:   #FFFFFF;
+
+  --snackbar-notice-deep:           #9E77ED;
+  --snackbar-notice-semi-bg:        #382E4F;
+  --snackbar-notice-border-border:  rgba(158,119,237,0.20);
+  --snackbar-notice-filled-text:    #FFFFFF;
+
+  --snackbar-alert-deep:            #ED8A19;
+  --snackbar-alert-semi-bg:         #4D341A;
+  --snackbar-alert-border-border:   rgba(237,138,25,0.20);
+  --snackbar-alert-filled-text:     #FFFFFF;
+
+  /* Badge — values from Figma dark reference (nodes 5926-1828 + 5926-1773). Border
+     shifts to the page bg colour (#1C1C1C) so the badge reads as a
+     "punched-out" disc — the halo blends with the page surface and
+     visually separates the badge from whatever it's pinned to. Brand
+     inverts: white tile + dark text (matches Black-Tag-in-dark pattern). */
+  --badge-brand-bg:      #FFFFFF;
+  --badge-brand-text:    #2D2D2D;
+  --badge-brand-border:  #1C1C1C;
+
+  --badge-info-bg:       #2843CD;
+  --badge-info-text:     #FFFFFF;
+  --badge-info-border:   #1C1C1C;
+
+  --badge-danger-bg:     #CD3232;
+  --badge-danger-text:   #FFFFFF;
+  --badge-danger-border: #1C1C1C;
+
+  --badge-success-bg:    #20994F;
+  --badge-success-text:  #FFFFFF;
+  --badge-success-border:#1C1C1C;
+
+  --badge-warning-bg:    #E29500;
+  --badge-warning-text:  #FFFFFF;
+  --badge-warning-border:#1C1C1C;
+
+  --badge-notice-bg:     #7F56D9;
+  --badge-notice-text:   #FFFFFF;
+  --badge-notice-border: #1C1C1C;
+
+  --badge-alert-bg:      #DF7417;
+  --badge-alert-text:    #FFFFFF;
+  --badge-alert-border:  #1C1C1C;
+
+  /* Date Picker — values from Figma dark reference (node 5913-1616).
+     Active cell inverts to white tile + dark text; hover uses #454545
+     (one step brighter than the panel for visible lift). */
+  --datepicker-bg:                 #1C1C1C;
+  --datepicker-border:             rgba(255,255,255,0.10);
+  --datepicker-text:               #FFFFFF;
+
+  --datepicker-cell-text:          #FFFFFF;
+  --datepicker-cell-bg-hover:      #454545;
+  --datepicker-cell-text-hover:    #FFFFFF;
+  --datepicker-cell-bg-active:     #FFFFFF;
+  --datepicker-cell-text-active:   #2D2D2D;
+  --datepicker-cell-text-disabled: #E7E7E7;
+  --datepicker-cell-bg-in-range:   #454545;
+
+  /* Avatar dark — Figma 5914-6626 reports identical values to light
+     (bg #3156DF, white text, black-10% border, hover bg == default). The
+     bg / text / border / overlay inherit from :root; only the legacy
+     bg-hover override is corrected from the old brighter-blue to match. */
+  --avatar-bg-hover: #3156DF;
+
+  --tooltip-bg:     #F6F6F6;
+  --tooltip-text:   #2D2D2D;
+  --tooltip-border: rgba(0,0,0,0.10);
+
+  /* Rating dark — only brand inverts; yellow + red stay constant. */
+  --rating-brand: #FFFFFF;
+
+  /* Slider dark — fill and thumb flip to white; tooltip inverts; halos use white alpha. */
+  --slider-track-bg:    rgba(255,255,255,0.10);
+  --slider-fill:        #FFFFFF;
+  --slider-tip-bg:      #FFFFFF;
+  --slider-tip-text:    #1C1C1C;
+  --slider-ring-hover:  rgba(255,255,255,0.12);
+  --slider-ring-active: rgba(255,255,255,0.18);
+
+  /* Alert dark — Figma 5958-2561. Brand INVERTS (white bg in dark filled,
+     dark text). Colour semi-bgs are lighter/brighter tints. Filled bg shifts
+     to brighter accent in dark (Info: 3156DF, Danger: E15252, etc.). */
+  --alert-brand-semi-bg:       #454545;
+  --alert-brand-semi-text:     #FFFFFF;
+  --alert-brand-filled-bg:     #FFFFFF;
+  --alert-brand-filled-text:   #2D2D2D;
+  --alert-brand-brd-border:    rgba(255,255,255,0.10);
+  --alert-info-semi-bg:        #DDE7FC;
+  --alert-info-semi-text:      #2843CD;
+  --alert-info-filled-bg:      #3156DF;
+  --alert-info-filled-text:    #FFFFFF;
+  --alert-info-brd-border:     rgba(49,86,223,0.10);
+  --alert-danger-semi-bg:      #FDF3F3;
+  --alert-danger-semi-text:    #CD3232;
+  --alert-danger-filled-bg:    #E15252;
+  --alert-danger-filled-text:  #FFFFFF;
+  --alert-danger-brd-border:   rgba(225,82,82,0.10);
+  --alert-success-semi-bg:     #F1FCF4;
+  --alert-success-semi-text:   #20994F;
+  --alert-success-filled-bg:   #32CD6D;
+  --alert-success-filled-text: #FFFFFF;
+  --alert-success-brd-border:  rgba(50,205,109,0.10);
+  --alert-warning-semi-bg:     #FFFDEA;
+  --alert-warning-semi-text:   #E29500;
+  --alert-warning-filled-bg:   #E29500;
+  --alert-warning-filled-text: #FFFFFF;
+  --alert-warning-brd-border:  rgba(223,207,19,0.10);
+  --alert-notice-semi-bg:      #F9F5FF;
+  --alert-notice-semi-text:    #7F56D9;
+  --alert-notice-filled-bg:    #9E77ED;
+  --alert-notice-filled-text:  #FFFFFF;
+  --alert-notice-brd-border:   rgba(158,119,237,0.10);
+  --alert-alert-semi-bg:       #FEF9EE;
+  --alert-alert-semi-text:     #DF7417;
+  --alert-alert-filled-bg:     #ED8A19;
+  --alert-alert-filled-text:   #FFFFFF;
+  --alert-alert-brd-border:    rgba(237,138,25,0.10);
+
+  /* Progress Bar dark — Brand inverts (white track @ 10%, white fill);
+     other colors keep the same 20% bg alpha but the progress fill shifts
+     to the brighter dark-mode tones (Blue/Green/Purple/Red follow the
+     Notice/Success/Brand-Blue conventions used elsewhere). */
+  --progress-brand-bg:        rgba(255,255,255,0.10);
+  --progress-brand-border:    transparent;
+  --progress-brand-progress:  #FFFFFF;
+  --progress-blue-bg:         rgba(49,86,223,0.20);
+  --progress-blue-border:     transparent;
+  --progress-blue-progress:   #3156DF;
+  --progress-green-bg:        rgba(50,205,109,0.20);
+  --progress-green-border:    transparent;
+  --progress-green-progress:  #32CD6D;
+  --progress-purple-bg:       rgba(158,119,237,0.20);
+  --progress-purple-border:   transparent;
+  --progress-purple-progress: #9E77ED;
+  --progress-orange-bg:       rgba(237,138,25,0.20);
+  --progress-orange-border:   transparent;
+  --progress-orange-progress: #ED8A19;
+  --progress-yellow-bg:       rgba(223,207,19,0.20);
+  --progress-yellow-border:   transparent;
+  --progress-yellow-progress: #FFC107;
+  --progress-red-bg:          rgba(225,82,82,0.20);
+  --progress-red-border:      transparent;
+  --progress-red-progress:    #E15252;
+
+  /* Table dark — Header darkens to the standard dark surface chip
+     (#2D2D2D), body stays transparent. Borders become 5% white. */
+  --table-header-bg:     #2D2D2D;
+  --table-header-text:   #FFFFFF;
+  --table-header-border: rgba(255,255,255,0.05);
+  --table-body-bg:       transparent;
+  --table-body-text:     #FFFFFF;
+  --table-body-border:   rgba(255,255,255,0.05);
 
   --link-default-text:  #FFFFFF;
   --link-hover-text:    #D1D1D1;
   --link-blue-text:     #4675EB;
   --link-blue-hover:    #6999F1;
+  --link-brand-text:    #9B8B5D;
+  --link-brand-hover:   #BAB28A;
   --link-disabled-text: #E7E7E7;
 
-  --shadow-1: 0 4px 12px 4px rgba(255,255,255,0.02);
-  --shadow-2: 0 4px 12px 2px rgba(255,255,255,0.04);
-  --shadow-3: 0 4px 16px 4px rgba(255,255,255,0.06);
-  --shadow-4: 0 4px 16px 4px rgba(255,255,255,0.08);
-  --shadow-5: 0 4px 16px 4px rgba(255,255,255,0.10);
+  /* Dark drop shadows — black with elevated alpha. The Figma source uses
+     white shadows in dark mode (Shadow/3/Color #ffffff0f etc.), which is
+     a stylistic choice that reads as ambient light rather than depth.
+     Industry-standard dark-mode implementations (Material 3, iOS, Tailwind)
+     use deeper black drop shadows to create real elevation on top of dark
+     surfaces — we follow that convention here for a more professional feel. */
+  --shadow-1: 0 4px 12px 4px rgba(0,0,0,0.15);
+  --shadow-2: 0 4px 12px 2px rgba(0,0,0,0.20);
+  --shadow-3: 0 4px 16px 4px rgba(0,0,0,0.30);
+  --shadow-4: 0 4px 16px 4px rgba(0,0,0,0.35);
+  --shadow-5: 0 4px 16px 4px rgba(0,0,0,0.40);
 }

@@ -38,7 +38,7 @@
 (function () {
   'use strict';
 
-  var DS_VERSION = '2.8.0';
+  var DS_VERSION = '2.31.7';
   var DEBUG = /[?&]ds-debug=1\b/.test(location.search) || window.DS_DEBUG === true;
   function dlog() {
     if (!DEBUG) return;
@@ -79,21 +79,18 @@
     { label: 'Dropdown',      href: 'components/dropdown.html',     key: 'dropdown'      },
     { label: 'Text Input',    href: 'components/input.html',        key: 'input'         },
     { label: 'Text Area',     href: 'components/textarea.html',     key: 'textarea'      },
-    { label: 'Upload Media',  href: 'components/upload-media.html', key: 'upload-media',  stub: true },
-    { label: 'Slider',        href: 'components/slider.html',       key: 'slider',        stub: true },
-    { label: 'Rating',        href: 'components/rating.html',       key: 'rating',        stub: true },
-    { label: 'Date Picker',   href: 'components/date-picker.html',  key: 'date-picker',   stub: true },
-    { label: 'Options',       href: 'components/options.html',      key: 'options',       stub: true },
+    { label: 'Upload Media',  href: 'components/upload-media.html', key: 'upload-media'   },
+    { label: 'Slider', href: 'components/slider.html', key: 'slider' },
+    { label: 'Rating',        href: 'components/rating.html',       key: 'rating'         },
+    { label: 'Date Picker',   href: 'components/date-picker.html',  key: 'date-picker'    },
+    { label: 'Options',       href: 'components/options.html',      key: 'options'       },
     { section: 'Data Display' },
     { label: 'Avatar',        href: 'components/avatar.html',       key: 'avatar'        },
     { label: 'Badge',         href: 'components/badge.html',        key: 'badge'         },
     { label: 'Tag',           href: 'components/tag.html',          key: 'tag'           },
     { label: 'Table',         href: 'components/table.html',        key: 'table'         },
-    { label: 'Accordion',     href: 'components/accordion.html',    key: 'accordion'     },
-    { label: 'List Group',    href: 'components/list-group.html',   key: 'list-group',    stub: true },
-    { label: 'Images',        href: 'components/images.html',       key: 'images',        stub: true },
     { section: 'Feedback' },
-    { label: 'Notification',  href: 'components/notification.html', key: 'notification'  },
+    { label: 'Alert',         href: 'components/alert.html',         key: 'alert'          },
     { label: 'Snackbar',      href: 'components/snackbar.html',     key: 'snackbar'      },
     { label: 'Tooltip',       href: 'components/tooltip.html',      key: 'tooltip'       },
     { label: 'Progress Bar',  href: 'components/progress-bar.html', key: 'progress-bar'  },
@@ -137,32 +134,49 @@
       sections: [['default','Default'],['variants','Variants'],['states','States'],['full-matrix','Full matrix'],['api','API']] },
     { label: 'Radio Button', href: 'components/radio.html', context: 'Component',
       sections: [['default','Default'],['variants','Variants'],['states','States'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Toggle Switch', href: 'components/toggle.html', context: 'Component',
+      sections: [['default','Default'],['variants','Variants'],['sizes','Sizes'],['states','States'],['full-matrix','Full matrix'],['api','API']] },
 
     /* Stubs — page-level only, no sections yet */
-    { label: 'Toggle Switch', href: 'components/toggle.html',        context: 'Component (stub)' },
-    { label: 'Dropdown',      href: 'components/dropdown.html',      context: 'Component (stub)' },
-    { label: 'Text Input',    href: 'components/input.html',         context: 'Component (stub)' },
-    { label: 'Text Area',     href: 'components/textarea.html',      context: 'Component (stub)' },
-    { label: 'Upload Media',  href: 'components/upload-media.html',  context: 'Component (stub)' },
-    { label: 'Slider',        href: 'components/slider.html',        context: 'Component (stub)' },
-    { label: 'Rating',        href: 'components/rating.html',        context: 'Component (stub)' },
-    { label: 'Date Picker',   href: 'components/date-picker.html',   context: 'Component (stub)' },
-    { label: 'Options',       href: 'components/options.html',       context: 'Component (stub)' },
-    { label: 'Avatar',        href: 'components/avatar.html',        context: 'Component (stub)' },
-    { label: 'Badge',         href: 'components/badge.html',         context: 'Component (stub)' },
-    { label: 'Tag',           href: 'components/tag.html',           context: 'Component (stub)' },
-    { label: 'Table',         href: 'components/table.html',         context: 'Component (stub)' },
-    { label: 'Accordion',     href: 'components/accordion.html',     context: 'Component (stub)' },
-    { label: 'List Group',    href: 'components/list-group.html',    context: 'Component (stub)' },
-    { label: 'Images',        href: 'components/images.html',        context: 'Component (stub)' },
-    { label: 'Notification',  href: 'components/notification.html',  context: 'Component (stub)' },
-    { label: 'Snackbar',      href: 'components/snackbar.html',      context: 'Component (stub)' },
-    { label: 'Tooltip',       href: 'components/tooltip.html',       context: 'Component (stub)' },
-    { label: 'Progress Bar',  href: 'components/progress-bar.html',  context: 'Component (stub)' },
-    { label: 'Tabs',          href: 'components/tabs.html',          context: 'Component (stub)' },
-    { label: 'Link',          href: 'components/link.html',          context: 'Component (stub)' },
-    { label: 'Pagination',    href: 'components/pagination.html',    context: 'Component (stub)' },
-    { label: 'Breadcrumb',    href: 'components/breadcrumb.html',    context: 'Component (stub)' },
+    { label: 'Dropdown', href: 'components/dropdown.html', context: 'Component',
+      sections: [['default','Default'],['sizes','Sizes'],['composition','Composition'],['api','API']] },
+    { label: 'Text Input', href: 'components/input.html', context: 'Component',
+      sections: [['default','Default'],['variants','Variants'],['sizes','Sizes'],['states','States'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Text Area', href: 'components/textarea.html', context: 'Component',
+      sections: [['default','Default'],['variants','Variants'],['sizes','Sizes'],['states','States'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Upload Media', href: 'components/upload-media.html', context: 'Component',
+      sections: [['default','Default'],['variants','Variants'],['states','States'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Slider', href: 'components/slider.html', context: 'Component',
+      sections: [['default','Default'],['range','Range'],['states','States'],['interactive','Interactive'],['api','API']] },
+    { label: 'Rating', href: 'components/rating.html', context: 'Component', sections: [['default','Default'],['shapes','Shapes'],['colors','Colors'],['sizes','Sizes'],['states','States'],['interactive','Interactive'],['api','API']] },
+    { label: 'Date Picker', href: 'components/date-picker.html', context: 'Component',
+      sections: [['default','Default'],['variants','Variants'],['states','States'],['interactive','Interactive'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Options', href: 'components/options.html', context: 'Component',
+      sections: [['default','Default'],['variants','Variants'],['sizes','Sizes'],['states','States'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Avatar', href: 'components/avatar.html', context: 'Component',
+      sections: [['default','Default'],['variants','Variants'],['sizes','Sizes'],['states','States'],['composition','Composition'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Badge', href: 'components/badge.html', context: 'Component',
+      sections: [['default','Default'],['variants','Variants'],['sizes','Sizes'],['colors','Colors'],['composition','Composition'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Tag', href: 'components/tag.html', context: 'Component',
+      sections: [['default','Default'],['variants','Variants'],['colors','Colors'],['sizes','Sizes'],['with-icons','With icons'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Table', href: 'components/table.html', context: 'Component',
+      sections: [['default','Default'],['structure','Structure'],['composition','Composition'],['states','States'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Alert', href: 'components/alert.html', context: 'Component',
+      sections: [['default','Default'],['variants','Variants'],['colors','Colors'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Snackbar', href: 'components/snackbar.html', context: 'Component',
+      sections: [['default','Default'],['variants','Variants'],['states','States'],['interactive','Interactive'],['positions','Positions'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Tooltip', href: 'components/tooltip.html', context: 'Component',
+      sections: [['default','Default'],['interactive','Interactive'],['sizes','Sizes'],['positions','Positions'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Progress Bar', href: 'components/progress-bar.html', context: 'Component',
+      sections: [['default','Default'],['variants','Variants'],['sizes','Sizes'],['states','States'],['interactive','Interactive'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Tabs', href: 'components/tabs.html', context: 'Component',
+      sections: [['default','Default'],['sizes','Sizes'],['states','States'],['alignment','Alignment'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Link', href: 'components/link.html', context: 'Component',
+      sections: [['default','Default'],['variants','Variants'],['sizes','Sizes'],['states','States'],['with-icons','With icons'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Pagination', href: 'components/pagination.html', context: 'Component',
+      sections: [['default','Default'],['sizes','Sizes'],['states','States'],['composition','Composition'],['full-matrix','Full matrix'],['api','API']] },
+    { label: 'Breadcrumb', href: 'components/breadcrumb.html', context: 'Component',
+      sections: [['default','Default'],['separators','Separators'],['sizes','Sizes'],['states','States'],['composition','Composition'],['api','API']] },
 
     { label: 'Changelog',    href: 'other/changelog.html', context: 'Other',
       sections: [['all-versions','All versions']] }
@@ -325,6 +339,232 @@
     ['--radio-checked-border-hover',     'components/radio.html#api', 'Radio'],
     ['--radio-checked-bg-disabled',      'components/radio.html#api', 'Radio'],
     ['--radio-checked-border-disabled',  'components/radio.html#api', 'Radio'],
+
+    /* Toggle Switch */
+    ['--toggle-bg',                       'components/toggle.html#api', 'Toggle'],
+    ['--toggle-border',                   'components/toggle.html#api', 'Toggle'],
+    ['--toggle-bg-hover',                 'components/toggle.html#api', 'Toggle'],
+    ['--toggle-border-hover',             'components/toggle.html#api', 'Toggle'],
+    ['--toggle-bg-disabled',              'components/toggle.html#api', 'Toggle'],
+    ['--toggle-border-disabled',          'components/toggle.html#api', 'Toggle'],
+    ['--toggle-checked-bg',               'components/toggle.html#api', 'Toggle'],
+    ['--toggle-checked-border',           'components/toggle.html#api', 'Toggle'],
+    ['--toggle-checked-bg-hover',         'components/toggle.html#api', 'Toggle'],
+    ['--toggle-checked-border-hover',     'components/toggle.html#api', 'Toggle'],
+    ['--toggle-checked-bg-disabled',      'components/toggle.html#api', 'Toggle'],
+    ['--toggle-checked-border-disabled',  'components/toggle.html#api', 'Toggle'],
+    ['--toggle-thumb',                    'components/toggle.html#api', 'Toggle'],
+    ['--toggle-thumb-on',                 'components/toggle.html#api', 'Toggle'],
+    ['--toggle-thumb-shadow',             'components/toggle.html#api', 'Toggle'],
+
+    /* Options */
+    ['--options-bg',           'components/options.html#api', 'Options'],
+    ['--options-border',       'components/options.html#api', 'Options'],
+    ['--options-text',         'components/options.html#api', 'Options'],
+    ['--options-bg-hover',     'components/options.html#api', 'Options'],
+    ['--options-text-hover',   'components/options.html#api', 'Options'],
+    ['--options-bg-disabled',  'components/options.html#api', 'Options'],
+    ['--options-text-disabled','components/options.html#api', 'Options'],
+
+    /* Tag — Filled bg + text per color */
+    ['--tag-blue-filled-bg',        'components/tag.html#api', 'Tag'],
+    ['--tag-blue-filled-text',      'components/tag.html#api', 'Tag'],
+    ['--tag-red-filled-bg',         'components/tag.html#api', 'Tag'],
+    ['--tag-red-filled-text',       'components/tag.html#api', 'Tag'],
+    ['--tag-green-filled-bg',       'components/tag.html#api', 'Tag'],
+    ['--tag-green-filled-text',     'components/tag.html#api', 'Tag'],
+    ['--tag-yellow-filled-bg',      'components/tag.html#api', 'Tag'],
+    ['--tag-yellow-filled-text',    'components/tag.html#api', 'Tag'],
+    ['--tag-orange-filled-bg',      'components/tag.html#api', 'Tag'],
+    ['--tag-orange-filled-text',    'components/tag.html#api', 'Tag'],
+    ['--tag-purple-filled-bg',      'components/tag.html#api', 'Tag'],
+    ['--tag-purple-filled-text',    'components/tag.html#api', 'Tag'],
+    ['--tag-grey-filled-bg',        'components/tag.html#api', 'Tag'],
+    ['--tag-grey-filled-text',      'components/tag.html#api', 'Tag'],
+    ['--tag-black-filled-bg',       'components/tag.html#api', 'Tag'],
+    ['--tag-black-filled-text',     'components/tag.html#api', 'Tag'],
+    /* Tag — Outline/Semi share the same bg/border/text per color */
+    ['--tag-blue-outline-bg',       'components/tag.html#api', 'Tag'],
+    ['--tag-blue-outline-border',   'components/tag.html#api', 'Tag'],
+    ['--tag-blue-outline-text',     'components/tag.html#api', 'Tag'],
+    ['--tag-red-outline-bg',        'components/tag.html#api', 'Tag'],
+    ['--tag-red-outline-border',    'components/tag.html#api', 'Tag'],
+    ['--tag-red-outline-text',      'components/tag.html#api', 'Tag'],
+    ['--tag-green-outline-bg',      'components/tag.html#api', 'Tag'],
+    ['--tag-green-outline-border',  'components/tag.html#api', 'Tag'],
+    ['--tag-green-outline-text',    'components/tag.html#api', 'Tag'],
+    ['--tag-yellow-outline-bg',     'components/tag.html#api', 'Tag'],
+    ['--tag-yellow-outline-border', 'components/tag.html#api', 'Tag'],
+    ['--tag-yellow-outline-text',   'components/tag.html#api', 'Tag'],
+    ['--tag-orange-outline-bg',     'components/tag.html#api', 'Tag'],
+    ['--tag-orange-outline-border', 'components/tag.html#api', 'Tag'],
+    ['--tag-orange-outline-text',   'components/tag.html#api', 'Tag'],
+    ['--tag-purple-outline-bg',     'components/tag.html#api', 'Tag'],
+    ['--tag-purple-outline-border', 'components/tag.html#api', 'Tag'],
+    ['--tag-purple-outline-text',   'components/tag.html#api', 'Tag'],
+    ['--tag-grey-outline-bg',       'components/tag.html#api', 'Tag'],
+    ['--tag-grey-outline-border',   'components/tag.html#api', 'Tag'],
+    ['--tag-grey-outline-text',     'components/tag.html#api', 'Tag'],
+    ['--tag-black-outline-bg',      'components/tag.html#api', 'Tag'],
+    ['--tag-black-outline-border',  'components/tag.html#api', 'Tag'],
+    ['--tag-black-outline-text',    'components/tag.html#api', 'Tag'],
+
+    /* Text Input */
+    ['--input-default-bg',          'components/input.html#api', 'Text Input'],
+    ['--input-default-border',      'components/input.html#api', 'Text Input'],
+    ['--input-default-label',       'components/input.html#api', 'Text Input'],
+    ['--input-default-placeholder', 'components/input.html#api', 'Text Input'],
+    ['--input-hover-bg',            'components/input.html#api', 'Text Input'],
+    ['--input-focus-bg',            'components/input.html#api', 'Text Input'],
+    ['--input-focus-border',        'components/input.html#api', 'Text Input'],
+    ['--input-filled-border',       'components/input.html#api', 'Text Input'],
+    ['--input-success-caption',     'components/input.html#api', 'Text Input'],
+    ['--input-warning-caption',     'components/input.html#api', 'Text Input'],
+    ['--input-error-caption',       'components/input.html#api', 'Text Input'],
+    ['--input-disabled-bg',         'components/input.html#api', 'Text Input'],
+
+    /* Tabs */
+    ['--tab-default-bg',      'components/tabs.html#api', 'Tabs'],
+    ['--tab-default-border',  'components/tabs.html#api', 'Tabs'],
+    ['--tab-default-text',    'components/tabs.html#api', 'Tabs'],
+    ['--tab-hover-bg',        'components/tabs.html#api', 'Tabs'],
+    ['--tab-hover-border',    'components/tabs.html#api', 'Tabs'],
+    ['--tab-hover-text',      'components/tabs.html#api', 'Tabs'],
+    ['--tab-active-bg',       'components/tabs.html#api', 'Tabs'],
+    ['--tab-active-border',   'components/tabs.html#api', 'Tabs'],
+    ['--tab-active-text',     'components/tabs.html#api', 'Tabs'],
+    ['--tab-disabled-bg',     'components/tabs.html#api', 'Tabs'],
+    ['--tab-disabled-border', 'components/tabs.html#api', 'Tabs'],
+    ['--tab-disabled-text',   'components/tabs.html#api', 'Tabs'],
+
+    /* Snackbar */
+    ['--snackbar-brand-deep',            'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-brand-semi-bg',         'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-brand-border-border',   'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-info-deep',             'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-info-semi-bg',          'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-info-border-border',    'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-danger-deep',           'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-danger-semi-bg',        'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-danger-border-border',  'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-success-deep',          'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-success-semi-bg',       'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-success-border-border', 'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-warning-deep',          'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-warning-semi-bg',       'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-warning-border-border', 'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-notice-deep',           'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-notice-semi-bg',        'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-notice-border-border',  'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-alert-deep',            'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-alert-semi-bg',         'components/snackbar.html#api', 'Snackbar'],
+    ['--snackbar-alert-border-border',   'components/snackbar.html#api', 'Snackbar'],
+
+    /* Badge */
+    ['--badge-brand-bg',       'components/badge.html#api', 'Badge'],
+    ['--badge-brand-text',     'components/badge.html#api', 'Badge'],
+    ['--badge-brand-border',   'components/badge.html#api', 'Badge'],
+    ['--badge-info-bg',        'components/badge.html#api', 'Badge'],
+    ['--badge-info-text',      'components/badge.html#api', 'Badge'],
+    ['--badge-info-border',    'components/badge.html#api', 'Badge'],
+    ['--badge-danger-bg',      'components/badge.html#api', 'Badge'],
+    ['--badge-danger-text',    'components/badge.html#api', 'Badge'],
+    ['--badge-danger-border',  'components/badge.html#api', 'Badge'],
+    ['--badge-success-bg',     'components/badge.html#api', 'Badge'],
+    ['--badge-success-text',   'components/badge.html#api', 'Badge'],
+    ['--badge-success-border', 'components/badge.html#api', 'Badge'],
+    ['--badge-warning-bg',     'components/badge.html#api', 'Badge'],
+    ['--badge-warning-text',   'components/badge.html#api', 'Badge'],
+    ['--badge-warning-border', 'components/badge.html#api', 'Badge'],
+    ['--badge-notice-bg',      'components/badge.html#api', 'Badge'],
+    ['--badge-notice-text',    'components/badge.html#api', 'Badge'],
+    ['--badge-notice-border',  'components/badge.html#api', 'Badge'],
+    ['--badge-alert-bg',       'components/badge.html#api', 'Badge'],
+    ['--badge-alert-text',     'components/badge.html#api', 'Badge'],
+    ['--badge-alert-border',   'components/badge.html#api', 'Badge'],
+
+    /* Date Picker */
+    ['--datepicker-bg',                 'components/date-picker.html#api', 'Date Picker'],
+    ['--datepicker-border',             'components/date-picker.html#api', 'Date Picker'],
+    ['--datepicker-text',               'components/date-picker.html#api', 'Date Picker'],
+    ['--datepicker-cell-text',          'components/date-picker.html#api', 'Date Picker'],
+    ['--datepicker-cell-bg-hover',      'components/date-picker.html#api', 'Date Picker'],
+    ['--datepicker-cell-text-hover',    'components/date-picker.html#api', 'Date Picker'],
+    ['--datepicker-cell-bg-active',     'components/date-picker.html#api', 'Date Picker'],
+    ['--datepicker-cell-text-active',   'components/date-picker.html#api', 'Date Picker'],
+    ['--datepicker-cell-text-disabled', 'components/date-picker.html#api', 'Date Picker'],
+    ['--datepicker-cell-bg-in-range',   'components/date-picker.html#api', 'Date Picker'],
+
+    /* Progress Bar — 7 colors × 3 fields (bg / border / progress). */
+    ['--progress-brand-bg',        'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-brand-border',    'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-brand-progress',  'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-blue-bg',         'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-blue-border',     'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-blue-progress',   'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-green-bg',        'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-green-border',    'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-green-progress',  'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-purple-bg',       'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-purple-border',   'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-purple-progress', 'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-orange-bg',       'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-orange-border',   'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-orange-progress', 'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-yellow-bg',       'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-yellow-border',   'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-yellow-progress', 'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-red-bg',          'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-red-border',      'components/progress-bar.html#api', 'Progress Bar'],
+    ['--progress-red-progress',    'components/progress-bar.html#api', 'Progress Bar'],
+
+    /* Table — 6 tokens (header bg/text/border + body bg/text/border). */
+    ['--table-header-bg',     'components/table.html#api', 'Table'],
+    ['--table-header-text',   'components/table.html#api', 'Table'],
+    ['--table-header-border', 'components/table.html#api', 'Table'],
+    ['--table-body-bg',       'components/table.html#api', 'Table'],
+    ['--table-body-text',     'components/table.html#api', 'Table'],
+    ['--table-body-border',   'components/table.html#api', 'Table'],
+
+    /* Link — 7 tokens (3 variants × default + hover + shared disabled). */
+    ['--link-default-text',  'components/link.html#api', 'Link'],
+    ['--link-hover-text',    'components/link.html#api', 'Link'],
+    ['--link-brand-text',    'components/link.html#api', 'Link'],
+    ['--link-brand-hover',   'components/link.html#api', 'Link'],
+    ['--link-blue-text',     'components/link.html#api', 'Link'],
+    ['--link-blue-hover',    'components/link.html#api', 'Link'],
+    ['--link-disabled-text', 'components/link.html#api', 'Link'],
+
+    /* Avatar — disc bg / text / border + hover bg + hover scrim overlay. */
+    ['--avatar-bg',            'components/avatar.html#api', 'Avatar'],
+    ['--avatar-text',          'components/avatar.html#api', 'Avatar'],
+    ['--avatar-border',        'components/avatar.html#api', 'Avatar'],
+    ['--avatar-bg-hover',      'components/avatar.html#api', 'Avatar'],
+    ['--avatar-overlay-hover', 'components/avatar.html#api', 'Avatar'],
+
+    /* Tooltip — 3 tokens (bg / text / border), inverts light ↔ dark. */
+    ['--tooltip-bg',     'components/tooltip.html#api', 'Tooltip'],
+    ['--tooltip-text',   'components/tooltip.html#api', 'Tooltip'],
+    ['--tooltip-border', 'components/tooltip.html#api', 'Tooltip'],
+
+    /* Alert — representative tokens (brand, 5 fields; other 6 colours follow same pattern). */
+    ['--alert-brand-semi-bg',     'components/alert.html#api', 'Alert'],
+    ['--alert-brand-semi-text',   'components/alert.html#api', 'Alert'],
+    ['--alert-brand-filled-bg',   'components/alert.html#api', 'Alert'],
+    ['--alert-brand-filled-text', 'components/alert.html#api', 'Alert'],
+    ['--alert-brand-brd-border',  'components/alert.html#api', 'Alert'],
+
+    /* Slider — 4 tokens (track / fill / tip-bg / tip-text). */
+    ['--slider-track-bg', 'components/slider.html#api', 'Slider'],
+    ['--slider-fill',     'components/slider.html#api', 'Slider'],
+    ['--slider-tip-bg',   'components/slider.html#api', 'Slider'],
+    ['--slider-tip-text', 'components/slider.html#api', 'Slider'],
+
+    /* Rating — 4 tokens (brand inverts dark; yellow/red constant). */
+    ['--rating-brand', 'components/rating.html#api', 'Rating'],
+    ['--rating-empty', 'components/rating.html#api', 'Rating'],
+    ['--rating-star',  'components/rating.html#api', 'Rating'],
+    ['--rating-heart', 'components/rating.html#api', 'Rating'],
 
     /* System */
     ['--ds-version',       'index.html', 'System'],
@@ -735,11 +975,101 @@
     });
   }
 
+  /* ── Sidebar scroll persistence ─────────────────────────────────────────
+     Normal navigation (sidebar link clicks): save the current scrollTop to
+     sessionStorage and restore it on every page load — sidebar stays exactly
+     where the user left it.
+
+     Content navigation (clicking a component card on the overview page or
+     any .qlink-card link): set a one-shot "pending active" flag so the
+     destination page nudges the sidebar just enough to make the active link
+     visible — without centering or jarring movement.
+
+     Restore runs twice: immediately at DOMContentLoaded (works if CSS is
+     already cached so sidebar has real height) and again at window.load
+     (guarantees the restore/nudge runs after the stylesheet has applied
+     `height: calc(100vh - 56px)`). Double-set is harmless.                 */
+  var SIDEBAR_SCROLL_KEY          = 'ds-sidebar-scroll';
+  var SIDEBAR_PENDING_ACTIVE_KEY  = 'ds-sidebar-pending-active';
+
+  function restoreSidebarScroll(sidebar) {
+    try {
+      var saved = sessionStorage.getItem(SIDEBAR_SCROLL_KEY);
+      if (saved !== null) sidebar.scrollTop = parseInt(saved, 10) || 0;
+    } catch (e) {}
+  }
+
+  /* Nudge the sidebar just enough to bring the active link into view.
+     No centering — only scrolls if the link is genuinely off-screen.       */
+  function nudgeSidebarToActive(sidebar) {
+    var active = sidebar.querySelector('.sb-link.active');
+    if (!active) return;
+    var sTop = sidebar.scrollTop;
+    var sH   = sidebar.clientHeight;
+    var aTop = active.offsetTop;
+    var aH   = active.offsetHeight;
+    if (aTop < sTop)               sidebar.scrollTop = aTop;
+    else if (aTop + aH > sTop + sH) sidebar.scrollTop = aTop + aH - sH;
+  }
+
+  function initSidebarScrollPersistence(sidebar) {
+    /* Save synchronously on every scroll (no RAF — avoids race on fast clicks) */
+    sidebar.addEventListener('scroll', function () {
+      try { sessionStorage.setItem(SIDEBAR_SCROLL_KEY, sidebar.scrollTop); } catch (e) {}
+    }, { passive: true });
+
+    /* Save on sidebar link click right before navigation */
+    sidebar.querySelectorAll('.sb-link').forEach(function (link) {
+      link.addEventListener('click', function () {
+        try { sessionStorage.setItem(SIDEBAR_SCROLL_KEY, sidebar.scrollTop); } catch (e) {}
+      });
+    });
+
+    /* Set pending-active flag for any .qlink-card click (overview page cards
+       and any other content links that navigate to a component page).
+       The destination page reads this flag and nudges its sidebar to the link. */
+    document.querySelectorAll('.qlink-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        try { sessionStorage.setItem(SIDEBAR_PENDING_ACTIVE_KEY, '1'); } catch (e) {}
+      });
+    });
+  }
+
   /* ── Init ────────────────────────────────────────────────────────────── */
   function init() {
     injectSprite();
     injectHeader();
     buildSidebar();
+    var sidebar = document.querySelector('.sidebar');
+    if (sidebar) {
+      /* Check for pending-active flag (set when navigating via content cards) */
+      var pendingActive = false;
+      try {
+        pendingActive = sessionStorage.getItem(SIDEBAR_PENDING_ACTIVE_KEY) === '1';
+        if (pendingActive) sessionStorage.removeItem(SIDEBAR_PENDING_ACTIVE_KEY);
+      } catch (e) {}
+
+      if (pendingActive) {
+        /* Content navigation → nudge sidebar to show the active link */
+        if (document.readyState === 'complete') {
+          nudgeSidebarToActive(sidebar);
+        } else {
+          window.addEventListener('load', function () {
+            nudgeSidebarToActive(sidebar);
+          }, { once: true });
+        }
+      } else {
+        /* Sidebar navigation / direct URL → restore saved scroll position */
+        restoreSidebarScroll(sidebar);
+        if (document.readyState !== 'complete') {
+          window.addEventListener('load', function () {
+            restoreSidebarScroll(sidebar);
+          }, { once: true });
+        }
+      }
+
+      initSidebarScrollPersistence(sidebar);
+    }
     var sections = buildTOC();
     updateVersion();
     initThemeToggle();

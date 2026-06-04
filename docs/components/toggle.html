@@ -5,23 +5,220 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Toggle Switch — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'toggle', root: '../', toc: false };
+  window.DS_PAGE = { key: 'toggle', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  .tg-matrix {
+    display: grid;
+    grid-template-columns: 120px repeat(3, 1fr);
+    gap: var(--spacing-md);
+    align-items: center;
+    padding: var(--spacing-xl);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    max-width: 560px;
+  }
+  .tg-matrix-h {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .tg-matrix-row-label {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+  }
+  .tg-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: flex-start;
+  }
+  .tg-inline {
+    display: flex;
+    gap: var(--spacing-lg);
+    align-items: center;
+  }
+</style>
 </head>
 <body>
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Toggle Switch</h1>
-  <p class="page-intro">Boolean on/off control. Uses toggle tokens from the design system.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">A boolean on/off control — like a checkbox, but the "on" state takes effect immediately (no separate submit). Built on a native <code>&lt;input type="checkbox"&gt;</code> for keyboard support and form integration; the thumb slide is pure CSS.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">Wrap a native checkbox input + a styled pill in a <code>&lt;label class="toggle"&gt;</code>. The input is visually hidden but stays in the focus path; the <code>.toggle-track</code> holds the colored pill and the <code>.toggle-thumb</code> inside translates left↔right when <code>:checked</code>.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tg-row">
+      <label class="toggle">
+        <input type="checkbox" class="toggle-input">
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        <span class="toggle-label">Email notifications</span>
+      </label>
+      <label class="toggle">
+        <input type="checkbox" class="toggle-input" checked>
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        <span class="toggle-label">Auto-save drafts</span>
+      </label>
+    </div>
   </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-default">Copy</button></div>
+    <pre id="c-default"><span class="kw">&lt;label</span> <span class="attr">class</span>=<span class="str">"toggle"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;input</span> <span class="attr">type</span>=<span class="str">"checkbox"</span> <span class="attr">class</span>=<span class="str">"toggle-input"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"toggle-track"</span><span class="kw">&gt;&lt;span</span> <span class="attr">class</span>=<span class="str">"toggle-thumb"</span><span class="kw">&gt;&lt;/span&gt;&lt;/span&gt;</span>
+  <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"toggle-label"</span><span class="kw">&gt;</span>Email notifications<span class="kw">&lt;/span&gt;</span>
+<span class="kw">&lt;/label&gt;</span></pre>
+  </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Two visual states. <strong>Off</strong> shows the thumb on the left over a translucent gray pill; <strong>On</strong> slides the thumb to the right and fills the pill with the heading colour. Use a toggle (not a checkbox) when the state should take effect immediately, without a form submit.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tg-inline">
+      <label class="toggle">
+        <input type="checkbox" class="toggle-input">
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        <span class="toggle-label">Off</span>
+      </label>
+      <label class="toggle">
+        <input type="checkbox" class="toggle-input" checked>
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        <span class="toggle-label">On</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <h2 id="sizes">Sizes</h2>
+  <p class="desc">Three sizes — <code>.toggle-sm</code> (28×16), default <code>.toggle</code> (36×20), <code>.toggle-lg</code> (44×24). Track height, thumb size, and slide distance all scale together via CSS custom properties; same border-radius (full pill) across all sizes.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tg-inline">
+      <label class="toggle toggle-sm">
+        <input type="checkbox" class="toggle-input" checked>
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        <span class="toggle-label">Small</span>
+      </label>
+      <label class="toggle">
+        <input type="checkbox" class="toggle-input" checked>
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        <span class="toggle-label">Medium (default)</span>
+      </label>
+      <label class="toggle toggle-lg">
+        <input type="checkbox" class="toggle-input" checked>
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        <span class="toggle-label">Large</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Three interaction states. Hover and focus are CSS-driven (real interaction needed, or use the <code>.is-hover</code> doc helper to force the hover visual). Disabled uses the HTML <code>disabled</code> attribute on the input — both off and on disabled states use the same neutral grey, intentional in the Figma source.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tg-row">
+      <label class="toggle">
+        <input type="checkbox" class="toggle-input" checked>
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        <span class="toggle-label">Default — hover and focus me to preview</span>
+      </label>
+      <label class="toggle">
+        <input type="checkbox" class="toggle-input" checked disabled>
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        <span class="toggle-label">Disabled (on)</span>
+      </label>
+      <label class="toggle">
+        <input type="checkbox" class="toggle-input" disabled>
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        <span class="toggle-label">Disabled (off)</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">3 sizes × 3 states × 2 variants = 18 cells, mirroring the Figma source. Each cell stacks Off above On. Default row is interactive; Hover row uses the <code>.is-hover</code> documentation helper to force the hover visual at rest; Disabled row uses the native <code>disabled</code> attribute.</p>
+  <div class="tg-matrix">
+    <div></div>
+    <div class="tg-matrix-h">Default</div>
+    <div class="tg-matrix-h">Hover</div>
+    <div class="tg-matrix-h">Disabled</div>
+
+    <!-- Small -->
+    <div class="tg-matrix-row-label">Small</div>
+    <div class="tg-row">
+      <label class="toggle toggle-sm"><input type="checkbox" class="toggle-input"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+      <label class="toggle toggle-sm"><input type="checkbox" class="toggle-input" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+    </div>
+    <div class="tg-row">
+      <label class="toggle toggle-sm is-hover"><input type="checkbox" class="toggle-input"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+      <label class="toggle toggle-sm is-hover"><input type="checkbox" class="toggle-input" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+    </div>
+    <div class="tg-row">
+      <label class="toggle toggle-sm"><input type="checkbox" class="toggle-input" disabled><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+      <label class="toggle toggle-sm"><input type="checkbox" class="toggle-input" checked disabled><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+    </div>
+
+    <!-- Medium -->
+    <div class="tg-matrix-row-label">Medium</div>
+    <div class="tg-row">
+      <label class="toggle"><input type="checkbox" class="toggle-input"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+      <label class="toggle"><input type="checkbox" class="toggle-input" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+    </div>
+    <div class="tg-row">
+      <label class="toggle is-hover"><input type="checkbox" class="toggle-input"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+      <label class="toggle is-hover"><input type="checkbox" class="toggle-input" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+    </div>
+    <div class="tg-row">
+      <label class="toggle"><input type="checkbox" class="toggle-input" disabled><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+      <label class="toggle"><input type="checkbox" class="toggle-input" checked disabled><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+    </div>
+
+    <!-- Large -->
+    <div class="tg-matrix-row-label">Large</div>
+    <div class="tg-row">
+      <label class="toggle toggle-lg"><input type="checkbox" class="toggle-input"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+      <label class="toggle toggle-lg"><input type="checkbox" class="toggle-input" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+    </div>
+    <div class="tg-row">
+      <label class="toggle toggle-lg is-hover"><input type="checkbox" class="toggle-input"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+      <label class="toggle toggle-lg is-hover"><input type="checkbox" class="toggle-input" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+    </div>
+    <div class="tg-row">
+      <label class="toggle toggle-lg"><input type="checkbox" class="toggle-input" disabled><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+      <label class="toggle toggle-lg"><input type="checkbox" class="toggle-input" checked disabled><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+    </div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.toggle</td><td>&lt;label&gt;</td><td>Wrapper. Makes the whole row a click/tap target for the input inside. Owns the size CSS custom properties.</td></tr>
+      <tr><td>.toggle-sm</td><td>.toggle</td><td>Modifier — small size (28×16 track, 12px thumb).</td></tr>
+      <tr><td>.toggle-lg</td><td>.toggle</td><td>Modifier — large size (44×24 track, 20px thumb). Default (no modifier) is medium (36×20 track, 16px thumb).</td></tr>
+      <tr><td>.toggle-input</td><td>&lt;input type="checkbox"&gt;</td><td>The native input, visually hidden but accessible and focusable. Drives the visual via <code>:checked</code> / <code>:disabled</code>.</td></tr>
+      <tr><td>.toggle-track</td><td>&lt;span&gt;</td><td>The visible pill background. Inherits size from the wrapper's custom properties.</td></tr>
+      <tr><td>.toggle-thumb</td><td>&lt;span&gt;</td><td>The circular knob inside the track. Translates left↔right based on <code>:checked</code>.</td></tr>
+      <tr><td>.toggle-label</td><td>&lt;span&gt;</td><td>The text label. Inherits muted color + reduced opacity when the input is disabled.</td></tr>
+      <tr><td>checked</td><td>&lt;input&gt;</td><td>HTML attribute — toggle starts in the "on" state.</td></tr>
+      <tr><td>disabled</td><td>&lt;input&gt;</td><td>HTML attribute — disables interaction; both off and on disabled states use the same neutral fill per the Figma source.</td></tr>
+      <tr><td>.is-hover</td><td>.toggle</td><td>Documentation helper — forces the hover visual at rest. Used in the Full matrix; not needed in production.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
 </body>

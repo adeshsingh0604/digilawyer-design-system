@@ -5,24 +5,392 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Upload Media — DigiLawyer DS</title>
 <script>
-  window.DS_PAGE = { key: 'upload-media', root: '../', toc: false };
+  window.DS_PAGE = { key: 'upload-media', root: '../' };
 </script>
 <script src="../shared/ds.js"></script>
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/layout.css">
 <link rel="stylesheet" href="../shared/components.css">
+<style>
+  /* Sprite symbols local to this page */
+  .um-svg-pool { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  /* Side-by-side upload samples. */
+  .um-row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; padding: 28px 32px; }
+  .um-row .input-field { width: 320px; }
+
+  /* Full matrix — 4 variants × 2 states. */
+  .um-matrix {
+    display: grid;
+    grid-template-columns: 130px repeat(2, minmax(320px, 1fr));
+    gap: var(--spacing-md) var(--spacing-lg);
+    align-items: start;
+    padding: var(--spacing-xl);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-2);
+    overflow-x: auto;
+  }
+  .um-matrix-h {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: left;
+  }
+  .um-matrix-row-label {
+    font-size: var(--fs-12);
+    color: var(--color-subheading);
+    font-weight: var(--fw-semibold);
+    align-self: center;
+  }
+</style>
 </head>
 <body>
+
+<svg class="um-svg-pool" xmlns="http://www.w3.org/2000/svg">
+  <!-- Upload arrow-into-tray — the empty-state hero glyph (32×32). -->
+  <symbol id="ico-upload" viewBox="0 0 32 32">
+    <!-- Up arrow stem + head -->
+    <path d="M16 4v17M9 11l7-7 7 7"
+          stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <!-- Tray base -->
+    <path d="M4 21v4a3 3 0 0 0 3 3h18a3 3 0 0 0 3-3v-4"
+          stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </symbol>
+  <!-- Tiny image-thumb placeholder for file pills. -->
+  <symbol id="ico-file-thumb" viewBox="0 0 24 24">
+    <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+    <circle cx="9" cy="9" r="1.5" fill="currentColor"/>
+    <path d="M3 18l5-5 4 4 4-3 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </symbol>
+  <!-- ×  close icon for the per-file remove button. -->
+  <symbol id="ico-x" viewBox="0 0 16 16">
+    <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  </symbol>
+</svg>
+
 <nav id="sidebar-mount"></nav>
+
 <main class="main">
+
   <h1 class="page-title">Upload Media</h1>
-  <p class="page-intro">File upload control supporting drag-and-drop, file type validation, and progress indication.</p>
-  <div class="coming-soon">
-    <div class="cs-icon">⚙️</div>
-    <p>Full documentation coming soon.</p>
-    <small>This page is a planned stub in the DigiLawyer Design System.</small>
+  <p class="page-intro">A drop-target / file-list surface for picking media. Reuses the <code>.input-field</code> wrapper, label, caption, and the <code>--input-*</code> token group from <a href="input.html">Text Input</a> — same colour values, no new tokens. The "Choose file" trigger is the existing <a href="button.html">.btn.btn-primary.btn-sm</a>. Four content variants (Empty · 1 file · 2 files · 3 files / limit) × two states (Default · Hover) per Figma node 3348-6794.</p>
+
+  <!-- Default -->
+  <h2 id="default">Default</h2>
+  <p class="desc">The minimal upload is a <code>.input-field</code> wrapper with three children: <code>.input-field-label</code>, the <code>.upload</code> shell, and <code>.input-field-caption</code>. The empty state lives inside <code>.upload-empty</code> (upload-arrow icon · Body 2 Semi-Bold heading · Caption 1 subheading) and is followed by the primary "Choose file" button. Hover state is browser-native (<code>:hover</code> on the shell), <code>.is-hover</code> forces it at rest for the matrix.</p>
+  <div class="demo-box">
+    <div class="demo-panel active um-row">
+      <div class="input-field">
+        <label class="input-field-label">Label</label>
+        <div class="upload" data-upload-interactive data-upload-max="3" data-upload-accept="image/*">
+          <div class="upload-empty">
+            <span class="upload-icon"><svg><use href="#ico-upload"/></svg></span>
+            <p class="upload-heading">Click to choose file</p>
+            <p class="upload-subheading">Max: 5MB file</p>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm">Choose file</button>
+        </div>
+        <p class="input-field-caption">Try it — pick up to 3 images, hit × to remove.</p>
+      </div>
+    </div>
   </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-default">Copy</button></div>
+    <pre id="c-default"><span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"input-field"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;label</span> <span class="attr">class</span>=<span class="str">"input-field-label"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/label&gt;</span>
+  <span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"upload"</span> <span class="attr">data-upload-interactive</span> <span class="attr">data-upload-max</span>=<span class="str">"3"</span> <span class="attr">data-upload-accept</span>=<span class="str">"image/*"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"upload-empty"</span><span class="kw">&gt;</span>
+      <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"upload-icon"</span><span class="kw">&gt;&lt;svg&gt;</span>&hellip;<span class="kw">&lt;/svg&gt;&lt;/span&gt;</span>
+      <span class="kw">&lt;p</span> <span class="attr">class</span>=<span class="str">"upload-heading"</span><span class="kw">&gt;</span>Click to choose file<span class="kw">&lt;/p&gt;</span>
+      <span class="kw">&lt;p</span> <span class="attr">class</span>=<span class="str">"upload-subheading"</span><span class="kw">&gt;</span>Max: 5MB file<span class="kw">&lt;/p&gt;</span>
+    <span class="kw">&lt;/div&gt;</span>
+    <span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-primary btn-sm"</span><span class="kw">&gt;</span>Choose file<span class="kw">&lt;/button&gt;</span>
+  <span class="kw">&lt;/div&gt;</span>
+  <span class="kw">&lt;p</span> <span class="attr">class</span>=<span class="str">"input-field-caption"</span><span class="kw">&gt;</span>Caption<span class="kw">&lt;/p&gt;</span>
+<span class="kw">&lt;/div&gt;</span></pre>
+  </div>
+
+  <!-- Variants -->
+  <h2 id="variants">Variants</h2>
+  <p class="desc">Four content variants tracking how many files the user has selected so far. <strong>Empty</strong> shows the hero illustration and the Choose-file CTA. <strong>1 file</strong> and <strong>2 files</strong> show a vertical list of <code>.upload-file</code> pills (white surface, 24×24 thumbnail · filename · × remove button) plus the same Choose-file button to add more. <strong>3 files</strong> (the limit in this 5MB demo) keeps the same file list but drops the Choose button — once the limit is hit, the only affordance is removing an existing file.</p>
+  <div class="demo-box">
+    <div class="demo-panel active um-row">
+
+      <!-- Empty -->
+      <div class="input-field">
+        <label class="input-field-label">Empty</label>
+        <div class="upload">
+          <div class="upload-empty">
+            <span class="upload-icon"><svg><use href="#ico-upload"/></svg></span>
+            <p class="upload-heading">Click to choose file</p>
+            <p class="upload-subheading">Max: 5MB file</p>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm">Choose file</button>
+        </div>
+      </div>
+
+      <!-- 1 file -->
+      <div class="input-field">
+        <label class="input-field-label">1 file uploaded</label>
+        <div class="upload">
+          <ul class="upload-files">
+            <li class="upload-file">
+              <span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span>
+              <span class="upload-file-name">filebig…name.png</span>
+              <button type="button" class="upload-file-remove" aria-label="Remove file"><svg><use href="#ico-x"/></svg></button>
+            </li>
+          </ul>
+          <p class="upload-subheading">Max: 5MB file</p>
+          <button type="button" class="btn btn-primary btn-sm">Choose file</button>
+        </div>
+      </div>
+
+      <!-- 2 files -->
+      <div class="input-field">
+        <label class="input-field-label">2 files uploaded</label>
+        <div class="upload">
+          <ul class="upload-files">
+            <li class="upload-file">
+              <span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span>
+              <span class="upload-file-name">filebig…name.png</span>
+              <button type="button" class="upload-file-remove" aria-label="Remove file"><svg><use href="#ico-x"/></svg></button>
+            </li>
+            <li class="upload-file">
+              <span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span>
+              <span class="upload-file-name">filebig…name.png</span>
+              <button type="button" class="upload-file-remove" aria-label="Remove file"><svg><use href="#ico-x"/></svg></button>
+            </li>
+          </ul>
+          <p class="upload-subheading">Max: 5MB file</p>
+          <button type="button" class="btn btn-primary btn-sm">Choose file</button>
+        </div>
+      </div>
+
+      <!-- 3 files (limit) -->
+      <div class="input-field">
+        <label class="input-field-label">3 files (limit reached)</label>
+        <div class="upload">
+          <ul class="upload-files">
+            <li class="upload-file">
+              <span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span>
+              <span class="upload-file-name">filebig…name.png</span>
+              <button type="button" class="upload-file-remove" aria-label="Remove file"><svg><use href="#ico-x"/></svg></button>
+            </li>
+            <li class="upload-file">
+              <span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span>
+              <span class="upload-file-name">filebig…name.png</span>
+              <button type="button" class="upload-file-remove" aria-label="Remove file"><svg><use href="#ico-x"/></svg></button>
+            </li>
+            <li class="upload-file">
+              <span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span>
+              <span class="upload-file-name">filebig…name.png</span>
+              <button type="button" class="upload-file-remove" aria-label="Remove file"><svg><use href="#ico-x"/></svg></button>
+            </li>
+          </ul>
+          <p class="upload-subheading">Max: 5MB file</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- States -->
+  <h2 id="states">States</h2>
+  <p class="desc">Two states: <strong>Default</strong> (bg <code>--input-default-bg</code> #F6F6F6) and <strong>Hover</strong> (bg <code>--input-hover-bg</code> #E7E7E7 + heading text darkens). Hover is browser-native — pointer over the shell to preview, or apply <code>.is-hover</code> to force it at rest. Per-file pills and the Choose-file button each carry their own hover behaviour independently.</p>
+  <div class="demo-box">
+    <div class="demo-panel active um-row">
+      <div class="input-field">
+        <label class="input-field-label">Default — hover to preview</label>
+        <div class="upload">
+          <div class="upload-empty">
+            <span class="upload-icon"><svg><use href="#ico-upload"/></svg></span>
+            <p class="upload-heading">Click to choose file</p>
+            <p class="upload-subheading">Max: 5MB file</p>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm">Choose file</button>
+        </div>
+      </div>
+      <div class="input-field">
+        <label class="input-field-label">Hover (forced via .is-hover)</label>
+        <div class="upload is-hover">
+          <div class="upload-empty">
+            <span class="upload-icon"><svg><use href="#ico-upload"/></svg></span>
+            <p class="upload-heading">Click to choose file</p>
+            <p class="upload-subheading">Max: 5MB file</p>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm">Choose file</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full matrix -->
+  <h2 id="full-matrix">Full matrix</h2>
+  <p class="desc">4 variants × 2 states = 8 cells, mirroring Figma 1:1.</p>
+  <div class="um-matrix">
+    <div></div>
+    <div class="um-matrix-h">Default</div>
+    <div class="um-matrix-h">Hover</div>
+
+    <!-- Empty -->
+    <div class="um-matrix-row-label">Empty</div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="upload"><div class="upload-empty"><span class="upload-icon"><svg><use href="#ico-upload"/></svg></span><p class="upload-heading">Click to choose file</p><p class="upload-subheading">Max: 5MB file</p></div><button type="button" class="btn btn-primary btn-sm">Choose file</button></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="upload is-hover"><div class="upload-empty"><span class="upload-icon"><svg><use href="#ico-upload"/></svg></span><p class="upload-heading">Click to choose file</p><p class="upload-subheading">Max: 5MB file</p></div><button type="button" class="btn btn-primary btn-sm">Choose file</button></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- 1 file -->
+    <div class="um-matrix-row-label">1 file</div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="upload"><ul class="upload-files"><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li></ul><p class="upload-subheading">Max: 5MB file</p><button type="button" class="btn btn-primary btn-sm">Choose file</button></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="upload is-hover"><ul class="upload-files"><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li></ul><p class="upload-subheading">Max: 5MB file</p><button type="button" class="btn btn-primary btn-sm">Choose file</button></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- 2 files -->
+    <div class="um-matrix-row-label">2 files</div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="upload"><ul class="upload-files"><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li></ul><p class="upload-subheading">Max: 5MB file</p><button type="button" class="btn btn-primary btn-sm">Choose file</button></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="upload is-hover"><ul class="upload-files"><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li></ul><p class="upload-subheading">Max: 5MB file</p><button type="button" class="btn btn-primary btn-sm">Choose file</button></div><p class="input-field-caption">Caption</p></div></div>
+
+    <!-- 3 files (limit) -->
+    <div class="um-matrix-row-label">3 files (limit)</div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="upload"><ul class="upload-files"><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li></ul><p class="upload-subheading">Max: 5MB file</p></div><p class="input-field-caption">Caption</p></div></div>
+    <div><div class="input-field"><label class="input-field-label">Label</label><div class="upload is-hover"><ul class="upload-files"><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li></ul><p class="upload-subheading">Max: 5MB file</p></div><p class="input-field-caption">Caption</p></div></div>
+  </div>
+
+  <!-- API -->
+  <h2 id="api">API</h2>
+  <table class="api-table">
+    <thead><tr><th>Class / attr</th><th>On</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>.input-field</td><td>&lt;div&gt;</td><td>Shared wrapper with <a href="input.html">Text Input</a> and <a href="textarea.html">Text Area</a>. Column flex with 4px gap between label / shell / caption.</td></tr>
+      <tr><td>.upload</td><td>&lt;div&gt;</td><td>The drop-target shell — 240px tall, <code>--input-default-bg</code>, 8px radius, column flex centered, 16px gap between hero / file list / button. Handles Hover natively via <code>:hover</code>.</td></tr>
+      <tr><td>.upload-empty</td><td>&lt;div&gt;</td><td>The empty-state column. Holds an icon + heading + subheading, all centered.</td></tr>
+      <tr><td>.upload-icon</td><td>&lt;span&gt;</td><td>32×32 hero glyph slot. Wrap an inline SVG; inherits <code>currentColor</code>.</td></tr>
+      <tr><td>.upload-heading</td><td>&lt;p&gt;</td><td>"Click to choose file" — Body 2 Semi-Bold (14/24, weight 600), centered.</td></tr>
+      <tr><td>.upload-subheading</td><td>&lt;p&gt;</td><td>"Max: 5MB file" — Caption 1 Regular (12/16), centered. Also reused under the file list when one or more files are uploaded.</td></tr>
+      <tr><td>.upload-files</td><td>&lt;ul&gt;</td><td>Reset list (no bullets, no padding). Column flex with 8px gap between <code>.upload-file</code> pills.</td></tr>
+      <tr><td>.upload-file</td><td>&lt;li&gt;</td><td>One file pill — 40px tall, white surface, 8px radius, 1px <code>--color-border</code> outline, holds thumb + name + remove button.</td></tr>
+      <tr><td>.upload-file-thumb</td><td>&lt;span&gt;</td><td>24×24 leading slot. Use an inline SVG placeholder while the file is uploading, swap to an <code>&lt;img&gt;</code> once the thumbnail is ready (<code>object-fit: cover</code>).</td></tr>
+      <tr><td>.upload-file-name</td><td>&lt;span&gt;</td><td>The filename. Truncates with ellipsis on overflow.</td></tr>
+      <tr><td>.upload-file-remove</td><td>&lt;button&gt;</td><td>The × remove button (24×24). Native button — pair with <code>aria-label="Remove file"</code>.</td></tr>
+      <tr><td>.btn.btn-primary.btn-sm</td><td>&lt;button&gt;</td><td>The "Choose file" trigger. Reuses the existing <a href="button.html">Button</a> component at <code>sm</code> (32px) primary. Hidden once the upload limit is reached.</td></tr>
+      <tr><td>.input-field-disabled / disabled</td><td>.input-field / interactive children</td><td>Sets the disabled visual on the shell and locks the Choose-file button. Native <code>disabled</code> on the underlying file input is the source of truth.</td></tr>
+      <tr><td>.is-hover</td><td>.upload</td><td>Documentation helper — forces the hover bg at rest for the Full matrix. Not needed in production.</td></tr>
+      <tr><td>data-upload-interactive</td><td>.upload</td><td>Opt-in: when present, the page script wires the shell to a hidden <code>&lt;input type="file"&gt;</code>. Clicking the Choose-file button opens the native picker, selected images render as <code>.upload-file</code> pills with live thumbnails, and the × button removes each file. When the limit is reached the Choose button is hidden automatically. (See the inline script at the end of this page for the reference implementation.)</td></tr>
+      <tr><td>data-upload-max</td><td>.upload[data-upload-interactive]</td><td>Maximum number of files (integer, default 3). Once reached, the Choose button is hidden until a file is removed.</td></tr>
+      <tr><td>data-upload-accept</td><td>.upload[data-upload-interactive]</td><td>MIME filter passed through to the file picker's <code>accept</code> attribute (e.g. <code>image/*</code>, <code>application/pdf</code>). Files over 5MB are silently skipped.</td></tr>
+    </tbody>
+  </table>
+
 </main>
 <aside id="toc-mount"></aside>
+
+<script>
+/* ── Page-script: wire any [data-upload-interactive] .upload to a real file picker.
+   Lives inline because it's demo behaviour, not a shared component. To turn this
+   into a reusable widget, lift the body of initUpload() into ds.js. */
+(function () {
+  var MAX_SIZE = 5 * 1024 * 1024; // 5MB per Figma caption
+
+  function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+    });
+  }
+
+  function initUpload(uploadEl) {
+    var choose = uploadEl.querySelector('.btn-primary');
+    if (!choose) return;
+
+    var maxFiles = parseInt(uploadEl.getAttribute('data-upload-max') || '3', 10);
+    var accept   = uploadEl.getAttribute('data-upload-accept') || '';
+
+    // Hidden file picker — lives as a sibling of the shell so it doesn't
+    // disturb the .upload's centered column layout.
+    var fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.multiple = true;
+    if (accept) fileInput.accept = accept;
+    fileInput.style.display = 'none';
+    uploadEl.parentNode.appendChild(fileInput);
+
+    var files = []; // current selection — array of File objects
+
+    function renderEmpty() {
+      return '<div class="upload-empty">' +
+               '<span class="upload-icon"><svg><use href="#ico-upload"/></svg></span>' +
+               '<p class="upload-heading">Click to choose file</p>' +
+               '<p class="upload-subheading">Max: 5MB file</p>' +
+             '</div>';
+    }
+
+    function renderFileList() {
+      var items = files.map(function (f, i) {
+        return '<li class="upload-file">' +
+                 '<span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span>' +
+                 '<span class="upload-file-name">' + escapeHTML(f.name) + '</span>' +
+                 '<button type="button" class="upload-file-remove" data-idx="' + i + '" aria-label="Remove file">' +
+                   '<svg><use href="#ico-x"/></svg>' +
+                 '</button>' +
+               '</li>';
+      }).join('');
+      return '<ul class="upload-files">' + items + '</ul>' +
+             '<p class="upload-subheading">Max: 5MB file</p>';
+    }
+
+    function attachPreview(thumbSpan, file) {
+      if (file.type.indexOf('image/') !== 0) return;
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        thumbSpan.innerHTML = '<img src="' + e.target.result + '" alt="">';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function render() {
+      // Wipe everything except the Choose button so its reference stays stable.
+      Array.prototype.slice.call(uploadEl.children).forEach(function (child) {
+        if (child !== choose) uploadEl.removeChild(child);
+      });
+
+      if (files.length === 0) {
+        choose.insertAdjacentHTML('beforebegin', renderEmpty());
+        choose.style.display = '';
+        return;
+      }
+
+      choose.insertAdjacentHTML('beforebegin', renderFileList());
+      choose.style.display = files.length >= maxFiles ? 'none' : '';
+
+      // Wire remove handlers + load thumbnail previews for image files.
+      Array.prototype.slice.call(uploadEl.querySelectorAll('.upload-file')).forEach(function (li, i) {
+        li.querySelector('.upload-file-remove').addEventListener('click', function () {
+          files.splice(i, 1);
+          render();
+        });
+        attachPreview(li.querySelector('.upload-file-thumb'), files[i]);
+      });
+    }
+
+    choose.addEventListener('click', function (e) {
+      e.preventDefault();
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function () {
+      var incoming = Array.prototype.slice.call(fileInput.files).filter(function (f) {
+        return f.size <= MAX_SIZE;
+      });
+      var remaining = maxFiles - files.length;
+      files = files.concat(incoming.slice(0, remaining));
+      fileInput.value = ''; // reset so the user can re-select the same file
+      render();
+    });
+  }
+
+  Array.prototype.slice.call(document.querySelectorAll('[data-upload-interactive]')).forEach(initUpload);
+})();
+</script>
 </body>
 </html>
