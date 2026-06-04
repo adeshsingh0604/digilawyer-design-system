@@ -24,7 +24,81 @@
 <main class="main">
 
   <h1 class="page-title">Button Group</h1>
+  <div class="comp-meta">
+    <span class="comp-level comp-level-molecule">Molecule</span>
+  </div>
   <p class="page-intro">A row (or column) of related buttons that should be visually grouped — toolbars, segmented controls, filter pills. Composes existing <a href="button.html">Button</a> sizes and states. Use Secondary, Tertiary, or Ghost as the base variant; let the selected button carry the emphasis (primary fill via <code>aria-pressed</code>, or solid border via <code>.btn-group-active-border</code>).</p>
+
+  <!-- When to use -->
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use when 2–5 related actions share the same context (Bold / Italic / Underline, filter pills)</li>
+        <li>Use <strong>Tertiary</strong> as the base variant for all buttons in a group — it reads as neutral and equal weight</li>
+        <li>Use <strong>Primary</strong> only for the active / selected button within the group</li>
+        <li>Use <strong>Attached</strong> variant when actions form a single logical control (segmented selector)</li>
+        <li>Use <strong>Separated</strong> variant when actions are related but independently triggerable</li>
+        <li>Keep all buttons in a group the same size</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use <strong>Secondary</strong> or <strong>Ghost</strong> inside a group — Tertiary is the correct neutral base</li>
+        <li>Use more than one Primary button in the same group — only one button should be active at a time</li>
+        <li>Use for page-level navigation — use Tabs or sidebar Links instead</li>
+        <li>Mix variants inside a group (e.g. Primary next to Tertiary for non-active buttons)</li>
+        <li>Use more than 5 buttons in a single group — use a Dropdown instead</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DigiLawyer Patterns -->
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">Button Group composes entirely with Button — all <a href="button.html#dl-patterns">Button DigiLawyer Patterns</a> carry over. The most relevant one for groups is shown below.</p>
+  <div class="dl-patterns">
+
+    <div class="dl-pattern-card">
+      <div class="dl-pattern-title">Inherits: Icon-only = single icon per button</div>
+      <div class="dl-pattern-body">Each button in an icon-only group must use exactly one icon with <code>.btn-square</code>. Never two icons inside a single button within the group.</div>
+      <div class="dl-pattern-demo">
+        <div class="btn-group">
+          <button class="btn btn-secondary btn-square btn-md btn-pos-left"  style="pointer-events:none;" aria-label="Bold">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8h5a2.5 2.5 0 0 0 0-5H4v5zm0 0h5.5a2.5 2.5 0 0 1 0 5H4V8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="btn btn-secondary btn-square btn-md btn-pos-middle" style="pointer-events:none;" aria-label="Italic">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3H7M9 13H6M8.5 3l-3 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+          <button class="btn btn-secondary btn-square btn-md btn-pos-right"  style="pointer-events:none;" aria-label="Underline">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 13h8M5 3v5a3 3 0 0 0 6 0V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Anatomy -->
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Button Group wraps two or more Button atoms. The wrapper controls spacing and border-radius; individual buttons remain structurally unchanged.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <div class="btn-group" style="pointer-events:none;">
+        <button class="btn btn-secondary btn-md btn-pos-left">Left</button>
+        <button class="btn btn-secondary btn-md btn-pos-middle">Middle</button>
+        <button class="btn btn-secondary btn-md btn-pos-right">Right</button>
+      </div>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Group wrapper</strong> — <code>.btn-group</code>. Sets <code>display: inline-flex</code> and manages the gap or border-overlap between children.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Left button</strong> — <code>.btn-pos-left</code>. Rounds left corners only.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Middle button(s)</strong> — <code>.btn-pos-middle</code>. No border-radius on any corner.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Right button</strong> — <code>.btn-pos-right</code>. Rounds right corners only.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Active indicator</strong> — Optional. <code>.btn-group-active-border</code> on the wrapper shows a coloured left border on the selected button.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -277,6 +351,21 @@
       <div class="bg-matrix-cell-label">Position = Down</div>
     </div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <p class="desc">Follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/" target="_blank" rel="noopener" class="link link-blue">WAI-ARIA Toolbar pattern</a> for action groups, or the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/radio/" target="_blank" rel="noopener" class="link link-blue">Radio Group pattern</a> for selection groups.</p>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Wrapper role — toolbar</td><td><code>role="toolbar"</code></td><td>Use when buttons are independent actions (Bold, Italic, Copy)</td></tr>
+      <tr><td>Wrapper role — selection</td><td><code>role="group"</code></td><td>Use when buttons form a mutually exclusive selection (Day / Week / Month)</td></tr>
+      <tr><td>Selected state</td><td><code>aria-pressed="true"</code></td><td>Set on the active button for toggle/selection groups</td></tr>
+      <tr><td>Keyboard — focus</td><td><kbd>Tab</kbd></td><td>Each button is individually focusable</td></tr>
+      <tr><td>Keyboard — activate</td><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Activates the focused button</td></tr>
+      <tr><td>Icon-only buttons</td><td><code>aria-label</code> required</td><td>Each icon-only button must have a descriptive <code>aria-label</code></td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

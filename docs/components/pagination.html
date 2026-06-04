@@ -44,7 +44,53 @@
 <main class="main">
 
   <h1 class="page-title">Pagination</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-molecule">Molecule</span></div>
   <p class="page-intro">Numbered page-navigation control for long lists and tables. Mirrors Figma node 141-8644 (light) + 5941-919 (dark) 1:1. Pure composition over <a href="button.html">Button</a> — the active page reuses <code>.btn.btn-primary</code>, inactive pages + Previous / Next reuse <code>.btn.btn-ghost</code>. The pagination's size class (lg / md default / sm) overrides the button defaults so all cells track a uniform 40 / 36 / 32 px row height with Body 1 / Body 2 / Caption 1 Semi Bold typography. Page-number cells are square (width = height) via the <code>.btn-square</code> modifier; the <code>.pagination-ellipsis</code> separator occupies the same cell but is non-interactive. No new tokens — every colour value flows through the existing Button system.</p>
+
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use when displaying large data sets that are split across pages (tables, lists)</li>
+        <li>Always show Previous and Next buttons alongside page numbers</li>
+        <li>Use ellipsis (<code>.pagination-ellipsis</code>) to truncate long page ranges</li>
+        <li>Highlight the current page with the Primary button variant</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use for fewer than 3 pages — show all items or use infinite scroll instead</li>
+        <li>Show all page numbers without truncation for large page counts</li>
+        <li>Use for sequential step navigation — use a Stepper component instead</li>
+        <li>Disable Previous/Next without communicating the boundary to users</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">Pagination composes entirely with Button — no new tokens. Page cells use <code>.btn-square</code> for equal width/height.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <nav class="pagination" aria-label="Pagination" style="pointer-events:none;">
+        <button class="btn btn-ghost btn-md btn-square">‹</button>
+        <button class="btn btn-ghost btn-md btn-square">1</button>
+        <button class="btn btn-primary btn-md btn-square">2</button>
+        <button class="btn btn-ghost btn-md btn-square">3</button>
+        <span class="pagination-ellipsis">…</span>
+        <button class="btn btn-ghost btn-md btn-square">›</button>
+      </nav>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Nav wrapper</strong> — <code>.pagination</code>. Flex row with <code>role="navigation"</code>.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Prev / Next</strong> — <code>.btn.btn-ghost.btn-square</code>. Arrow icon buttons at each end.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Page button</strong> — <code>.btn.btn-ghost.btn-square</code>. Inactive page number.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Active page</strong> — <code>.btn.btn-primary.btn-square</code>. Current page in Primary.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Ellipsis</strong> — <code>.pagination-ellipsis</code>. Non-interactive gap indicator.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -236,6 +282,19 @@
       })();
     </script>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Nav wrapper</td><td><code>role="navigation"</code> + <code>aria-label="Pagination"</code></td><td>Identifies the pagination as a landmark navigation region</td></tr>
+      <tr><td>Current page</td><td><code>aria-current="page"</code></td><td>Set on the active page button so screen readers announce "current page"</td></tr>
+      <tr><td>Disabled Prev/Next</td><td><code>aria-disabled="true"</code> + <code>disabled</code></td><td>Communicate the boundary when on page 1 (disable Prev) or last page (disable Next)</td></tr>
+      <tr><td>Ellipsis</td><td><code>aria-hidden="true"</code></td><td>The ellipsis is decorative — screen readers don't need to announce it</td></tr>
+      <tr><td>Keyboard</td><td><kbd>Tab</kbd> + <kbd>Enter</kbd></td><td>All page buttons are in the natural tab order</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

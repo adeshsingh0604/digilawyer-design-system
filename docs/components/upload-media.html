@@ -78,7 +78,68 @@
 <main class="main">
 
   <h1 class="page-title">Upload Media</h1>
+  <div class="comp-meta">
+    <span class="comp-level comp-level-molecule">Molecule</span>
+  </div>
   <p class="page-intro">A drop-target / file-list surface for picking media. Reuses the <code>.input-field</code> wrapper, label, caption, and the <code>--input-*</code> token group from <a href="input.html">Text Input</a> — same colour values, no new tokens. The "Choose file" trigger is the existing <a href="button.html">.btn.btn-primary.btn-sm</a>. Four content variants (Empty · 1 file · 2 files · 3 files / limit) × two states (Default · Hover) per Figma node 3348-6794.</p>
+
+  <!-- When to use -->
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for file attachments, image uploads, and document submissions</li>
+        <li>Show accepted file types and size limits in the caption or subheading</li>
+        <li>Show preview thumbnails after files are selected so users can confirm their choice</li>
+        <li>Show progress feedback when files are uploading</li>
+        <li>Allow users to remove already-selected files before submitting</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use for simple text input — use Text Input instead</li>
+        <li>Accept file types you cannot handle server-side without warning the user</li>
+        <li>Allow uploads without a file size limit or without communicating the limit clearly</li>
+        <li>Use a primary button for "Choose file" if a more prominent action exists on the same page</li>
+        <li>Show more than 3 file previews without a scroll or collapse mechanism</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DigiLawyer Patterns -->
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No additional product-specific patterns for Upload Media.</p>
+
+  <!-- Anatomy -->
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">Upload Media shares the <code>.input-field</code> wrapper with Text Input and Text Area. The drop-target shell is <code>.upload</code>, which changes content based on how many files have been selected.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <div class="input-field" style="width:220px;pointer-events:none;">
+        <label class="input-field-label">Label</label>
+        <div class="upload">
+          <div class="upload-empty">
+            <svg class="upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 16V8M12 8l-3 3M12 8l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 16v1a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4v-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <p class="upload-heading">Click to choose file</p>
+            <p class="upload-subheading">Max: 5MB</p>
+          </div>
+          <button class="btn btn-primary btn-sm" type="button">Choose file</button>
+        </div>
+        <p class="input-field-caption">Caption</p>
+      </div>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Label</strong> — <code>.input-field-label</code>. Always visible above the drop zone.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Wrapper</strong> — <code>.input-field</code>. Shared with Text Input and Text Area.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Drop zone shell</strong> — <code>.upload</code>. The clickable/draggable target. Background changes on hover.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Upload icon</strong> — <code>.upload-icon</code>. Arrow-into-tray shape. Always present in the empty state.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Heading + subheading</strong> — <code>.upload-heading</code> / <code>.upload-subheading</code>. File type and size limit guidance.</span></li>
+      <li><span class="anatomy-num">6</span><span><strong>Choose file button</strong> — <code>.btn.btn-primary.btn-sm</code>. Triggers the native file picker. Never change this to Secondary or Ghost.</span></li>
+      <li><span class="anatomy-num">7</span><span><strong>Caption</strong> — <code>.input-field-caption</code>. Optional helper text or error message below the drop zone.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -257,6 +318,21 @@
     <div><div class="input-field"><label class="input-field-label">Label</label><div class="upload"><ul class="upload-files"><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li></ul><p class="upload-subheading">Max: 5MB file</p></div><p class="input-field-caption">Caption</p></div></div>
     <div><div class="input-field"><label class="input-field-label">Label</label><div class="upload is-hover"><ul class="upload-files"><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li><li class="upload-file"><span class="upload-file-thumb"><svg><use href="#ico-file-thumb"/></svg></span><span class="upload-file-name">filebig…name.png</span><button type="button" class="upload-file-remove"><svg><use href="#ico-x"/></svg></button></li></ul><p class="upload-subheading">Max: 5MB file</p></div><p class="input-field-caption">Caption</p></div></div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <p class="desc">Upload Media is built on a native <code>&lt;input type="file"&gt;</code> triggered by the "Choose file" button. All keyboard and screen reader behaviour is implicit.</p>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Label association</td><td><code>&lt;label for="id"&gt;</code></td><td>Associate the visible label with the hidden file input via <code>for</code> / <code>id</code></td></tr>
+      <tr><td>Keyboard — trigger</td><td><kbd>Tab</kbd> + <kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Tab to the "Choose file" button then activate it to open the native file picker</td></tr>
+      <tr><td>Drop zone</td><td><code>role="button"</code> + <code>aria-label</code></td><td>If the drop zone itself is clickable, give it a role and label so keyboard users can activate it</td></tr>
+      <tr><td>File accepted</td><td>Announce via live region</td><td>After a file is selected, announce the filename to screen readers using <code>aria-live="polite"</code></td></tr>
+      <tr><td>Remove file</td><td><code>aria-label="Remove [filename]"</code></td><td>Each remove button must include the filename in its label so the action is unambiguous</td></tr>
+      <tr><td>Error state</td><td><code>aria-describedby</code> → caption</td><td>Link the upload zone to the caption error message for screen reader announcement</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

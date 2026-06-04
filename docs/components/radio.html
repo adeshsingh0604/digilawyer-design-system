@@ -49,7 +49,58 @@
 <main class="main">
 
   <h1 class="page-title">Radio Button</h1>
+  <div class="comp-meta">
+    <span class="comp-level comp-level-atom">Atom</span>
+  </div>
   <p class="page-intro">A single-selection control from a mutually exclusive set. Built on a native <code>&lt;input type="radio"&gt;</code> — browser handles the "one of N" semantics via the shared <code>name="…"</code> attribute, so no JS is needed for state.</p>
+
+  <!-- When to use -->
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use when exactly one option must be selected from a mutually exclusive set</li>
+        <li>Use when there are 2–6 options and all should be visible at once</li>
+        <li>Use when users benefit from seeing all choices side by side to compare</li>
+        <li>Group all radios with the same <code>name</code> attribute so the browser enforces single-select</li>
+        <li>Always pre-select the most common or safest default option</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use when multiple options can be selected — use Checkbox instead</li>
+        <li>Use when there are more than 6 options — use a Dropdown instead</li>
+        <li>Use for a setting that takes effect immediately — use Toggle Switch instead</li>
+        <li>Leave all options unselected — radio groups should always have a default</li>
+        <li>Use a single standalone radio — a single choice is not a radio group</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DigiLawyer Patterns -->
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No additional product-specific patterns for Radio Button. The same label-positioning rule from <a href="checkbox.html#dl-patterns">Checkbox</a> applies — radio button always appears on the left, label text always to the right.</p>
+
+  <!-- Anatomy -->
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Radio Button is composed of a hidden native input, a visible circle, an inner dot, and a label. The dot appears via CSS when <code>:checked</code> — no JS needed.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <label class="radio" style="pointer-events:none;">
+        <input type="radio" class="radio-input" checked>
+        <span class="radio-box"><span class="radio-dot"></span></span>
+        <span class="radio-label">Label</span>
+      </label>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Hidden input</strong> — <code>.radio-input</code>. Visually hidden but focusable. Drives all states via CSS <code>:checked</code>, <code>:disabled</code>, <code>:focus-visible</code> using the <code>~</code> sibling selector.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Circle</strong> — <code>.radio-box</code>. The visible outer ring. Background and border change per state.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Dot</strong> — <code>.radio-dot</code>. The inner filled circle. Hidden by default; shows when <code>:checked</code> via CSS.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Label</strong> — <code>.radio-label</code>. Always placed to the right of the circle. Required for accessibility.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -142,6 +193,22 @@
     <label class="radio is-hover"><input type="radio" class="radio-input" name="mtx-s-h" checked><span class="radio-box"><span class="radio-dot"></span></span></label>
     <label class="radio"><input type="radio" class="radio-input" name="mtx-s-x" checked disabled><span class="radio-box"><span class="radio-dot"></span></span></label>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <p class="desc">Built on a native <code>&lt;input type="radio"&gt;</code> — all ARIA semantics are implicit. Group all radios with a shared <code>name</code> attribute so the browser enforces single-select natively.</p>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Role</td><td><code>radio</code></td><td>Implicit from native <code>&lt;input type="radio"&gt;</code></td></tr>
+      <tr><td>Keyboard — select</td><td><kbd>Space</kbd></td><td>Selects the focused radio button</td></tr>
+      <tr><td>Keyboard — move within group</td><td><kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd></td><td>Arrow keys move focus AND selection within a radio group</td></tr>
+      <tr><td>Keyboard — between groups</td><td><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd></td><td>Moves focus between groups and other interactive elements</td></tr>
+      <tr><td>Grouping</td><td><code>name="group-name"</code></td><td>All radios in a group must share the same <code>name</code> — this is what makes them mutually exclusive</td></tr>
+      <tr><td>Group label</td><td><code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code></td><td>Wrap groups in a fieldset with a legend to give screen readers a shared group name</td></tr>
+      <tr><td><code>disabled</code></td><td>HTML boolean</td><td>Removes the radio from tab order and blocks interaction</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

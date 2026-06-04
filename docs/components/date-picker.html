@@ -47,7 +47,55 @@
 <main class="main">
 
   <h1 class="page-title">Date Picker</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-organism">Organism</span></div>
   <p class="page-intro">Calendar surface for selecting a single date, a range, a month, or a year. Floats as a panel under a <a href="input.html">Text Input</a> trigger (the input shows the chosen date; click it to open the picker). Mirrors Figma node 105-1786 / 105-2329 / 105-2431 (light) + 5913-1594 / 5913-1609 / 5913-1616 (dark) 1:1. Panel chrome matches Dropdown — same `--shadow-3`, 8px radius, 1px border. Cells invert on Active state (dark fill + white text in light, white fill + dark text in dark).</p>
+
+  <!-- When to use -->
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for date selection in forms (booking, filtering, scheduling)</li>
+        <li>Use the Range variant for start/end date selection (check-in/check-out, date filters)</li>
+        <li>Always attach to a Text Input trigger that shows the selected date</li>
+        <li>Pre-select today or the most common default date to reduce user effort</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use for time selection — the picker is date-only</li>
+        <li>Use without a Text Input trigger — the panel must always float below a trigger element</li>
+        <li>Allow past dates when the context requires future dates only</li>
+        <li>Use inline (always visible) for non-primary date fields — keep it as a floating panel</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Date Picker is a floating panel with a header, weekday row, and day grid. Panel chrome matches Dropdown.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo" style="align-items:flex-start;">
+      <div class="datepicker" style="pointer-events:none;min-width:200px;">
+        <div class="datepicker-header">
+          <button class="datepicker-nav">‹</button>
+          <span class="datepicker-title">June 2026</span>
+          <button class="datepicker-nav">›</button>
+        </div>
+        <div class="datepicker-weekdays"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div>
+      </div>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Panel</strong> — <code>.datepicker</code>. Floating container, 320px wide, border + shadow-3.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Header</strong> — <code>.datepicker-header</code>. Nav buttons + centered month/year title.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Nav buttons</strong> — <code>.datepicker-nav</code>. Previous/next month. Arrow icons.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Weekday row</strong> — <code>.datepicker-weekdays</code>. 7 column headers (Mo–Su).</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Day grid</strong> — <code>.datepicker-grid</code>. 7-column grid of day cells.</span></li>
+      <li><span class="anatomy-num">6</span><span><strong>Day cell</strong> — <code>.datepicker-day</code>. States: <code>.is-active</code> (selected, inverts), <code>.is-today</code>, <code>.is-other</code> (dimmed).</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -211,6 +259,22 @@
       <div style="display:flex; justify-content:center;"><button class="datepicker-cell is-disabled" style="width:64px;" disabled>2024</button></div>
     </div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <p class="desc">Follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/" target="_blank" rel="noopener" class="link link-blue">WAI-ARIA Date Picker Dialog pattern</a>.</p>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Panel role</td><td><code>role="dialog"</code> + <code>aria-modal="true"</code></td><td>The calendar panel is a modal dialog when open</td></tr>
+      <tr><td>Trigger</td><td><code>aria-haspopup="dialog"</code> + <code>aria-expanded</code></td><td>Set on the Text Input trigger to communicate open/closed state</td></tr>
+      <tr><td>Keyboard — open</td><td><kbd>Enter</kbd> on trigger</td><td>Opens the calendar panel</td></tr>
+      <tr><td>Keyboard — navigate days</td><td><kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd></td><td>Move focus between day cells</td></tr>
+      <tr><td>Keyboard — select</td><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Selects the focused day and closes the panel</td></tr>
+      <tr><td>Keyboard — close</td><td><kbd>Esc</kbd></td><td>Closes without selecting; returns focus to the trigger</td></tr>
+      <tr><td>Nav buttons</td><td><code>aria-label="Previous month"</code> / <code>"Next month"</code></td><td>Icon-only buttons must have descriptive labels</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

@@ -54,7 +54,67 @@
 <main class="main">
 
   <h1 class="page-title">Dropdown</h1>
+  <div class="comp-meta">
+    <span class="comp-level comp-level-molecule">Molecule</span>
+  </div>
   <p class="page-intro">The floating panel that holds one or more <a href="options.html">Options</a> rows. Use it as the open state of a select, combobox, or menu trigger. Panel chrome is Figma-exact (node 144-1623): 8px rounded corners, 1px border, Shadow-3 drop, 4px inner padding, 8px gap between rows. Composes with <a href="tag.html">Tag</a> chips in the trailing slot.</p>
+
+  <!-- When to use -->
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use when the user needs to select from a list of 7 or more options</li>
+        <li>Use to conserve vertical space when Radio Buttons would take too much room</li>
+        <li>Use for contextual actions (right-click menus, overflow menus with 3+ actions)</li>
+        <li>Use alongside a Text Input or Button as the trigger that opens the panel</li>
+        <li>Use composition with <a href="tag.html">Tag</a> chips in the trailing slot for metadata labels</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use for fewer than 4 options — show them as Radio Buttons instead</li>
+        <li>Use for navigation between pages — use Tabs or Links instead</li>
+        <li>Use without a visible trigger — the panel must always be attached to a trigger element</li>
+        <li>Nest dropdowns inside dropdowns — maximum one level of depth</li>
+        <li>Use for destructive actions without a confirmation step</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DigiLawyer Patterns -->
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No additional product-specific patterns for Dropdown. Note that <code>.dropdown</code> is a direct alias of <code>.options-menu</code> — they are identical and interchangeable.</p>
+
+  <!-- Anatomy -->
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Dropdown is a floating panel wrapping one or more Options rows. The panel itself has no interactive state — it is shown or hidden by the trigger element.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <div class="dropdown" style="position:relative;min-width:200px;">
+        <div class="options" style="pointer-events:none;">
+          <span class="options-leading"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <span class="options-label">Option one</span>
+        </div>
+        <div class="options options-active" style="pointer-events:none;">
+          <span class="options-leading"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <span class="options-label">Option two</span>
+        </div>
+        <div class="options" style="pointer-events:none;">
+          <span class="options-leading"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <span class="options-label">Option three</span>
+        </div>
+      </div>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Panel</strong> — <code>.dropdown</code> / <code>.options-menu</code>. Floating container with border, shadow, and inner padding. Positioned by JS relative to its trigger.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Options rows</strong> — One or more <code>.options</code> items. Each row has up to three slots: leading icon, label, and trailing icon/tag.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Active row</strong> — <code>.options-active</code>. Highlights the currently hovered or keyboard-focused row.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Trigger</strong> — Not part of the component. A Button, Text Input, or any focusable element that opens/closes the panel.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -220,6 +280,23 @@
 
     </div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <p class="desc">Follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/listbox/" target="_blank" rel="noopener" class="link link-blue">WAI-ARIA Listbox pattern</a> for select dropdowns, or the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/menu/" target="_blank" rel="noopener" class="link link-blue">Menu pattern</a> for action menus.</p>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Panel role</td><td><code>listbox</code> or <code>menu</code></td><td>Use <code>listbox</code> for selection; <code>menu</code> for actions</td></tr>
+      <tr><td>Trigger attribute</td><td><code>aria-expanded="true/false"</code></td><td>Set on the trigger element to communicate open/closed state to screen readers</td></tr>
+      <tr><td>Trigger attribute</td><td><code>aria-haspopup="listbox"</code></td><td>Tells assistive tech that this trigger opens a popup</td></tr>
+      <tr><td>Keyboard — open</td><td><kbd>Enter</kbd> / <kbd>Space</kbd> / <kbd>↓</kbd></td><td>Opens the dropdown from the trigger</td></tr>
+      <tr><td>Keyboard — navigate</td><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Moves focus between options rows</td></tr>
+      <tr><td>Keyboard — select</td><td><kbd>Enter</kbd></td><td>Selects the focused option and closes the panel</td></tr>
+      <tr><td>Keyboard — close</td><td><kbd>Esc</kbd></td><td>Closes the panel and returns focus to the trigger</td></tr>
+      <tr><td>Click outside</td><td>Closes panel</td><td>Clicking outside the panel must close it and return focus to the trigger</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

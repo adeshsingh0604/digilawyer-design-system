@@ -72,7 +72,50 @@
 <main class="main">
 
   <h1 class="page-title">Options</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-molecule">Molecule</span></div>
   <p class="page-intro">A single selectable row used inside a dropdown or as a select-style trigger. Three slots (leading icon · label · trailing) and three states (default · hover · disabled), in three sizes (lg 48px / md 40px / sm 32px). Composes with the <a href="tag.html">Tag</a> component for trailing chips.</p>
+
+  <!-- When to use -->
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use as individual selectable rows inside a <a href="dropdown.html">Dropdown</a> panel</li>
+        <li>Use the trailing slot for Tag chips to show metadata alongside the label</li>
+        <li>Use <code>&lt;button role="option"&gt;</code> for interactive rows in a listbox context</li>
+        <li>Keep all items in a list the same size for visual consistency</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use as a standalone element without a Dropdown or list wrapper</li>
+        <li>Use more than 10 items without a search or filter mechanism</li>
+        <li>Use as navigation between pages — use Tabs or Links instead</li>
+        <li>Mix sizes within the same dropdown list</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">An Options row has three slots — leading icon, label, and trailing — around a base interactive element.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <div class="options" style="pointer-events:none;width:200px;">
+        <span class="options-leading"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        <span class="options-label">Label</span>
+        <span class="options-trailing"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </div>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Base</strong> — <code>.options</code>. The row element. Use <code>&lt;button role="option"&gt;</code> for interactive use.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Leading slot</strong> — <code>.options-leading</code>. Optional icon (16px for md/sm, 24px for lg).</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Label</strong> — <code>.options-label</code>. The primary text. Always required.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Trailing slot</strong> — <code>.options-trailing</code>. Optional chevron, icon, or Tag chip.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -219,6 +262,21 @@
     <div><button type="button" class="options options-sm is-hover"><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-xs">Label</span></span></button></div>
     <div><button type="button" class="options options-sm" disabled><span class="options-leading"><svg><use href="#ico-add-square"/></svg></span><span class="options-label">Options</span><span class="options-trailing"><svg><use href="#ico-arrow-down"/></svg><span class="tag tag-grey tag-outline tag-xs">Label</span></span></button></div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <p class="desc">Options rows use native <code>&lt;button&gt;</code> elements with an appropriate role depending on context.</p>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Role — selection list</td><td><code>role="option"</code></td><td>Use inside a <code>role="listbox"</code> container for selection context</td></tr>
+      <tr><td>Role — action menu</td><td><code>role="menuitem"</code></td><td>Use inside a <code>role="menu"</code> for action context</td></tr>
+      <tr><td>Selected state</td><td><code>aria-selected="true"</code></td><td>Set on the currently selected option in a listbox</td></tr>
+      <tr><td>Disabled state</td><td><code>aria-disabled="true"</code></td><td>Prefer over the HTML <code>disabled</code> attribute so the item remains focusable</td></tr>
+      <tr><td>Keyboard — activate</td><td><kbd>Enter</kbd></td><td>Selects or activates the focused option</td></tr>
+      <tr><td>Keyboard — navigate</td><td><kbd>↑</kbd> / <kbd>↓</kbd></td><td>Moves between options within the list</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

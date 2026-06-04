@@ -104,7 +104,47 @@
 <main class="main">
 
   <h1 class="page-title">Progress Bar</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-atom">Atom</span></div>
   <p class="page-intro">Linear track that shows how far a determinate operation has progressed (download %, multi-step form completion, quota usage), or a sweeping animation for indeterminate work. Mirrors Figma node 3007-14257 (light) + 5917-1593 (dark) 1:1. Two sizes (8&nbsp;px / 12&nbsp;px), seven colours (Brand / Blue / Green / Purple / Orange / Yellow / Red), and an indeterminate variant. The track is full-width by default; clip it with a wrapper width when you need a fixed length.</p>
+
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for operations with a known duration (file upload, form completion percentage)</li>
+        <li>Use Indeterminate variant when the duration is unknown (loading, processing)</li>
+        <li>Show a percentage or step label alongside the bar for clarity</li>
+        <li>Use semantic colours consistently — Green for completion, Blue for progress, Red for errors</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use for ratings — use the Rating component instead</li>
+        <li>Use for step-by-step wizards without step labels — use a Step indicator</li>
+        <li>Set a fixed width — Progress Bar is full-width by default; clip with a wrapper</li>
+        <li>Use more than one progress bar for the same operation</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Progress Bar is a track with a fill element. Width is driven by a <code>--pct</code> CSS custom property set inline.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <div class="progress progress-brand" style="--pct:65%;width:200px;pointer-events:none;">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Track</strong> — <code>.progress</code>. Full-width pill-shaped container. Add colour modifier.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Fill</strong> — <code>.progress-fill</code>. Width = <code>var(--pct)</code> set as inline style on the track.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Colour modifier</strong> — <code>.progress-brand</code> / <code>.progress-info</code> etc. Seven semantic colours.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Indeterminate</strong> — <code>.progress-indeterminate</code>. CSS animation sweeps the fill back and forth. No <code>--pct</code> needed.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -267,6 +307,20 @@
       </div>
     </div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Role</td><td><code>role="progressbar"</code></td><td>Set on the <code>.progress</code> track element</td></tr>
+      <tr><td>Current value</td><td><code>aria-valuenow="65"</code></td><td>Update dynamically as the value changes</td></tr>
+      <tr><td>Range</td><td><code>aria-valuemin="0"</code> + <code>aria-valuemax="100"</code></td><td>Set the scale context for screen readers</td></tr>
+      <tr><td>Label</td><td><code>aria-label="Upload progress"</code></td><td>Describe what is progressing — the bar alone has no context</td></tr>
+      <tr><td>Indeterminate</td><td>Omit <code>aria-valuenow</code></td><td>When duration is unknown, remove <code>aria-valuenow</code> so screen readers announce it as indeterminate</td></tr>
+      <tr><td>Completion</td><td>Announce via live region</td><td>When progress reaches 100%, announce "Complete" via <code>aria-live="polite"</code></td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

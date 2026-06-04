@@ -81,7 +81,53 @@
 <main class="main">
 
   <h1 class="page-title">Rating</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-atom">Atom</span></div>
   <p class="page-intro">Star and heart rating inputs for collecting or displaying user feedback. Mirrors Figma nodes 114-30 + 114-198 (light) + 5970-310 + 5970-401 (dark) 1:1. Two icon shapes — <strong>Star</strong> and <strong>Heart</strong> — each in three colour variants and three fill states (Filled · Half · Stroke). Three sizes: lg&nbsp;24&nbsp;px / md&nbsp;20&nbsp;px / sm&nbsp;16&nbsp;px. 4 tokens: <code>--rating-brand</code> inverts in dark; <code>--rating-star</code>, <code>--rating-heart</code>, and <code>--rating-empty</code> are constant. Interactive: <code>data-interactive</code> enables hover-preview + click-to-rate. <strong>🎉 This is the last planned component — the DigiLawyer Design System is now complete.</strong></p>
+
+  <!-- When to use -->
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for collecting user feedback scores (product reviews, service ratings)</li>
+        <li>Use read-only mode (<code>aria-readonly="true"</code>) for displaying average ratings</li>
+        <li>Use <code>data-half="true"</code> when half-step precision is needed</li>
+        <li>Use Yellow stars for ratings, Red hearts for favourites/likes</li>
+        <li>Always pair with a text label or numeric value for accessibility</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use for binary yes/no feedback — use a Toggle or Checkbox instead</li>
+        <li>Use more than 5 items in a rating row — the scale becomes difficult to interpret</li>
+        <li>Use as a progress indicator — use Progress Bar instead</li>
+        <li>Use without a label describing what is being rated</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Rating is composed of a wrapper and individual item slots referencing SVG symbols from a hidden sprite pool.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <div class="rating rating-yellow" aria-label="3.5 of 5 stars" style="pointer-events:none;">
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-filled"><svg class="rating-icon"><use href="#ico-rt-star-fill"/></svg></span>
+        <span class="rating-item is-half"><svg class="rating-icon"><use href="#ico-rt-star-half"/></svg></span>
+        <span class="rating-item"><svg class="rating-icon"><use href="#ico-rt-star-stroke"/></svg></span>
+      </div>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Wrapper</strong> — <code>.rating</code>. Add colour modifier (<code>.rating-yellow</code>) and optional size modifier.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Item</strong> — <code>.rating-item</code>. Use <code>&lt;button&gt;</code> for interactive, <code>&lt;span&gt;</code> for display-only.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Icon</strong> — <code>.rating-icon</code> SVG referencing a sprite symbol: <code>-fill</code>, <code>-half</code>, or <code>-stroke</code>.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Fill state</strong> — <code>.is-filled</code> (solid) / <code>.is-half</code> (left half filled) / no class (stroke/empty).</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -332,6 +378,20 @@
 
     </div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <p class="desc">Interactive rating uses <code>&lt;button&gt;</code> elements; display-only uses <code>&lt;span&gt;</code> with <code>aria-readonly</code>.</p>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Wrapper label</td><td><code>aria-label="3.5 out of 5 stars"</code></td><td>Always set on the <code>.rating</code> wrapper to announce the current value</td></tr>
+      <tr><td>Interactive items</td><td><code>&lt;button&gt;</code> with <code>aria-label</code></td><td>Each item needs an <code>aria-label</code> e.g. "1 star", "2 stars"</td></tr>
+      <tr><td>Display-only</td><td><code>aria-readonly="true"</code> on wrapper</td><td>Disables pointer events and removes interactive role from items</td></tr>
+      <tr><td>Keyboard — select</td><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Selects the focused rating item</td></tr>
+      <tr><td>Keyboard — navigate</td><td><kbd>Tab</kbd></td><td>Moves between rating buttons</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

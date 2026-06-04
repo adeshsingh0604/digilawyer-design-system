@@ -85,7 +85,49 @@
 <main class="main">
 
   <h1 class="page-title">Badge</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-atom">Atom</span></div>
   <p class="page-intro">Tiny status / count indicator — 4–12 px in size. Three variants: <strong>Dot</strong> (solid colored disc, no content), <strong>Label</strong> (count text 1–4 digits), and <strong>Verify</strong> (check-mark icon for verified status). Seven semantic colours (Brand · Info · Danger · Success · Warning · Notice · Alert) matching the rest of the system. Mirrors Figma node 123-2217 / 123-2267 (light) + 5926-1828 / 5926-1773 (dark) 1:1.</p>
+
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use Label badge for notification counts and numeric status indicators</li>
+        <li>Use Dot badge for unread / active indicators where a count isn't needed</li>
+        <li>Use Verify badge to indicate a verified or trusted entity</li>
+        <li>Compose with Avatar (<code>.avatar-pin-*</code>), Button, and Tabs</li>
+        <li>Keep label text to 1–4 digits — truncate to "99+" for large counts</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use Badge for primary actions — use Button instead</li>
+        <li>Use Label badge without a count context — use a Tag instead for status labels</li>
+        <li>Show more than 3 digits without truncating to "99+"</li>
+        <li>Use Badge without ensuring it has sufficient colour contrast against its surface</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">Badge has three variants — Dot, Label, and Verify — all sharing the same base token structure.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo" style="gap:16px;flex-direction:column;align-items:center;">
+      <span class="badge badge-brand badge-dot" style="pointer-events:none;"></span>
+      <span class="badge badge-label badge-brand" style="pointer-events:none;">12</span>
+      <span class="badge badge-verify badge-brand" style="pointer-events:none;"></span>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Base</strong> — <code>.badge</code>. Circular pill with 1px halo border that separates it from any surface.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Dot variant</strong> — <code>.badge-dot</code>. Solid coloured disc, no content. 8px default size.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Label variant</strong> — <code>.badge-label</code>. Pill with count text. Expands horizontally with content.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Verify variant</strong> — <code>.badge-verify</code>. Checkmark icon for verified/trusted status.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Colour modifier</strong> — <code>.badge-brand</code> / <code>.badge-info</code> / <code>.badge-danger</code> etc. Seven semantic colours.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -329,6 +371,19 @@
     <div class="bg-matrix-cell"><span class="badge badge-label badge-notice">9999</span></div>
     <div class="bg-matrix-cell"><span class="badge badge-label badge-alert">9999</span></div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Count announcement</td><td><code>aria-label="12 notifications"</code></td><td>The number alone is not sufficient — add context via <code>aria-label</code></td></tr>
+      <tr><td>Dynamic count</td><td><code>aria-live="polite"</code></td><td>When the count updates dynamically, wrap in a live region so screen readers announce changes</td></tr>
+      <tr><td>Dot badge</td><td><code>aria-label="Unread"</code></td><td>Dot has no visible text — always provide a label</td></tr>
+      <tr><td>Verify badge</td><td><code>aria-label="Verified"</code></td><td>Checkmark icon needs a text alternative</td></tr>
+      <tr><td>Decorative badge</td><td><code>aria-hidden="true"</code></td><td>If the count is already announced elsewhere on the page, hide the badge from screen readers</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

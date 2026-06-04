@@ -48,7 +48,51 @@
 <main class="main">
 
   <h1 class="page-title">Breadcrumb</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-molecule">Molecule</span></div>
   <p class="page-intro">Hierarchical location indicator for deep navigation — the trail from the root to the current page. Mirrors Figma node 141-9432 (light) + 5942-1172 (dark) 1:1. Pure composition over foundation tokens — trail items use Body 1 Medium in <code>--color-subheading</code>; the current page reads as Body 1 Semi Bold in <code>--color-heading</code>. The separator is supplied by the consumer (SVG / glyph / character) so the same component handles thin chevron, slash, thick chevron, or any other affordance without needing modifier classes. No new tokens — every value flows through existing foundation tokens.</p>
+
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use on pages that are 2 or more levels deep in the site hierarchy</li>
+        <li>Always make ancestor links clickable — only the current page is non-interactive</li>
+        <li>Keep labels short and match the destination page title exactly</li>
+        <li>Wrap in <code>&lt;nav aria-label="Breadcrumb"&gt;</code> for screen reader identification</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use on the home page or other top-level pages — there is no hierarchy to show</li>
+        <li>Use more than 5 levels — simplify the navigation hierarchy instead</li>
+        <li>Make the current page item a link — it should be a non-interactive <code>&lt;span&gt;</code></li>
+        <li>Use Breadcrumb as a substitute for the main navigation</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Breadcrumb trail is a list of items separated by a CSS-rendered separator. Only the last item (current page) is non-interactive.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <nav class="breadcrumb" aria-label="Breadcrumb" style="pointer-events:none;">
+        <a href="#" class="breadcrumb-item" onclick="return false;">Home</a>
+        <span class="breadcrumb-sep" aria-hidden="true">›</span>
+        <a href="#" class="breadcrumb-item" onclick="return false;">Cases</a>
+        <span class="breadcrumb-sep" aria-hidden="true">›</span>
+        <span class="breadcrumb-item breadcrumb-current" aria-current="page">Case #1042</span>
+      </nav>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Nav wrapper</strong> — <code>.breadcrumb</code>. Flex row with <code>role="navigation"</code> + <code>aria-label="Breadcrumb"</code>.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Ancestor links</strong> — <code>.breadcrumb-item</code> as <code>&lt;a&gt;</code>. Clickable, in <code>--color-subheading</code>.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Separator</strong> — <code>.breadcrumb-sep</code>. Supplied by the consumer (/, ›, ·). <code>aria-hidden="true"</code>.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Current page</strong> — <code>.breadcrumb-item.breadcrumb-current</code> as <code>&lt;span&gt;</code>. Non-interactive, <code>aria-current="page"</code>, Semi Bold.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -205,6 +249,19 @@
       </div>
     </div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Nav wrapper</td><td><code>&lt;nav aria-label="Breadcrumb"&gt;</code></td><td>Wraps the breadcrumb in a navigation landmark with a descriptive label</td></tr>
+      <tr><td>Current page</td><td><code>aria-current="page"</code></td><td>Set on the last, non-interactive breadcrumb item</td></tr>
+      <tr><td>Separator</td><td><code>aria-hidden="true"</code></td><td>The separator is purely visual — screen readers should skip it</td></tr>
+      <tr><td>Ancestor links</td><td>Standard <code>&lt;a href&gt;</code></td><td>All ancestors must be real links, not <code>&lt;button&gt;</code> elements</td></tr>
+      <tr><td>Current page element</td><td><code>&lt;span aria-current="page"&gt;</code></td><td>The current page is NOT a link — it describes where the user is, not where to go</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

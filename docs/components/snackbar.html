@@ -82,7 +82,49 @@
 <main class="main">
 
   <h1 class="page-title">Snackbar</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-molecule">Molecule</span></div>
   <p class="page-intro">Inline notification — 320px wide, 48px tall, with a leading icon, label, optional action button, and dismiss × button. Seven colour variants (brand · info · danger · success · warning · notice · alert) × three states (semi-filled · filled · border). Use the interactive triggers below to see how each variant renders in real time, then position the toast around the viewport with the Positions demo. Values from Figma node 161-5424.</p>
+
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for brief, transient feedback after a user action (saved, deleted, sent, copied)</li>
+        <li>Auto-dismiss after 3–5 seconds — the user should not need to interact with it</li>
+        <li>Provide an optional undo/action button for reversible operations</li>
+        <li>Position bottom-center or bottom-right — least disruptive placement</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use for persistent messages — use Alert instead</li>
+        <li>Show more than one Snackbar at a time — queue them</li>
+        <li>Use for error messages that require user attention — use Alert or an inline error</li>
+        <li>Put critical information in a Snackbar — it disappears too quickly</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Snackbar is a compact notification bar with an icon, message, optional action, and dismiss button.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <div class="snackbar snackbar-info" style="pointer-events:none;position:relative;transform:none;">
+        <svg class="snackbar-icon" width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4M10 13h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span class="snackbar-label">Message text</span>
+      </div>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Container</strong> — <code>.snackbar</code>. 320px wide, 48px tall. Add colour + variant modifier.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Icon</strong> — <code>.snackbar-icon</code>. 16px leading icon.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Label</strong> — <code>.snackbar-label</code>. Body 2 Regular message text.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Action</strong> — <code>.snackbar-action</code>. Optional. Caption 1 Semi Bold text button.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Dismiss</strong> — <code>.snackbar-close</code>. × icon button, trailing.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -229,6 +271,19 @@
     <div><div class="snackbar snackbar-alert snackbar-filled"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
     <div><div class="snackbar snackbar-alert snackbar-border"><span class="snackbar-icon"><svg><use href="#ico-info-circle"/></svg></span><span class="snackbar-label">Label</span><div class="snackbar-actions"><button class="btn btn-primary btn-sm">Label</button><button class="snackbar-close"><svg><use href="#ico-x"/></svg></button></div></div></div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Role</td><td><code>role="status"</code></td><td>Announces the message politely to screen readers without interrupting</td></tr>
+      <tr><td>Live region</td><td><code>aria-live="polite"</code></td><td>Use polite for informational messages; <code>aria-live="assertive"</code> only for critical errors</td></tr>
+      <tr><td>Dismiss button</td><td><code>aria-label="Dismiss"</code></td><td>The × icon needs a text alternative</td></tr>
+      <tr><td>Auto-dismiss timing</td><td>3–5 seconds minimum</td><td>Users with cognitive disabilities need enough time to read and act on the message</td></tr>
+      <tr><td>Pause on hover</td><td>Pause auto-dismiss timer on <code>:hover</code> / <code>:focus-within</code></td><td>Allow users to read or interact before the snackbar disappears</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

@@ -66,7 +66,50 @@
 <main class="main">
 
   <h1 class="page-title">Tag</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-atom">Atom</span></div>
   <p class="page-intro">An inline label chip for status, category, or metadata. Comes in 8 colors (blue, red, green, yellow, orange, purple, grey, black) × 3 variants (Filled, Outline, Semi) × 4 sizes (lg, md, sm, xs). Use Tag for at-a-glance labelling — keep the label one or two words.</p>
+
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for categorisation labels, filter chips, and status indicators</li>
+        <li>Keep label text to 1–2 words — Tags are at-a-glance indicators</li>
+        <li>Use in the trailing slot of Options rows for metadata</li>
+        <li>Use Outline or Semi variant when the tag needs to sit lightly on a coloured surface</li>
+        <li>Use consistent colour semantics — e.g. always Red for errors, Green for success</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use Tags as buttons for actions — use Button instead</li>
+        <li>Stack more than 3–4 tags in a single row without wrapping</li>
+        <li>Use Tag for long descriptions — keep it to 1–2 words maximum</li>
+        <li>Mix Filled and Outline variants in the same list</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Tag has optional leading and trailing icon slots around a required label. The canonical pattern is <code>[icon] Label [icon]</code>.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <span class="tag tag-blue tag-filled tag-md" style="pointer-events:none;">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/></svg>
+        Label
+      </span>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Container</strong> — <code>.tag</code>. Inline-flex pill. Add colour + variant + size modifiers.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Leading icon</strong> — Optional. Scales with the size modifier.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Label</strong> — Required. 1–2 words. Always centred between icons.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Trailing icon</strong> — Optional. Often a close/remove ×.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Variant</strong> — <code>.tag-filled</code> / <code>.tag-outline</code> / <code>.tag-semi</code>. Controls bg/border treatment.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -218,6 +261,18 @@
     <div><span class="tag tag-black tag-outline"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
     <div><span class="tag tag-black tag-semi"><span class="tag-leading"><svg><use href="#ico-tag-ph"/></svg></span>Label<span class="tag-trailing"><svg><use href="#ico-tag-ph"/></svg></span></span></div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Display-only tag</td><td><code>&lt;span&gt;</code></td><td>Non-interactive tags should be <code>&lt;span&gt;</code> elements — not buttons or links</td></tr>
+      <tr><td>Interactive/removable tag</td><td><code>&lt;button&gt;</code></td><td>If the tag can be clicked or removed, use a <code>&lt;button&gt;</code> so it's keyboard accessible</td></tr>
+      <tr><td>Remove button</td><td><code>aria-label="Remove [tag name]"</code></td><td>The × icon needs a descriptive label including the tag text</td></tr>
+      <tr><td>Colour-only status</td><td>Pair with text</td><td>Never use colour as the only indicator of status — always include a visible text label</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

@@ -46,7 +46,54 @@
 <main class="main">
 
   <h1 class="page-title">Alert</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-molecule">Molecule</span></div>
   <p class="page-intro">Inline feedback panel for contextual status messages. Replaces "Notification" — previously named <em>Notification</em>, now referred to as <strong>Alert</strong> throughout the system. Mirrors Figma node 140-6541 (light) + 5958-2561 (dark) 1:1. Three visual variants — <strong>Semi-filled</strong> (tinted bg + colour title), <strong>Filled</strong> (solid colour bg + white text), <strong>Border</strong> (white bg + colour border + title). Seven semantic colours: Brand · Info · Danger · Success · Warning · Notice · Alert&nbsp;(orange). Each alert carries a header row (icon + title + dismiss), a description body, and up to two action buttons. 70 new <code>--alert-*</code> tokens (35 light + 35 dark) power the cascade; a small set of CSS custom properties on the wrapper propagates colour + variant to every child.</p>
+
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for persistent, inline feedback that stays visible until the user dismisses it</li>
+        <li>Use for form validation summaries at the top of a form</li>
+        <li>Use Danger for errors, Success for confirmations, Warning for cautions, Info for neutral notices</li>
+        <li>Keep the description concise — one or two sentences maximum</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use for transient feedback after a user action — use Snackbar instead</li>
+        <li>Show more than 2 alerts on the same page simultaneously</li>
+        <li>Use Alert as a modal replacement — it is inline, not blocking</li>
+        <li>Call it "Notification" — the system-wide name is Alert</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">An Alert is structured as a header row (icon + title + dismiss) followed by a description body and optional action buttons.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo" style="align-items:flex-start;">
+      <div class="alert alert-info" style="pointer-events:none;max-width:260px;">
+        <div class="alert-header">
+          <span class="alert-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4M10 13h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <span class="alert-title">Alert title</span>
+        </div>
+        <div class="alert-body">Description text here.</div>
+      </div>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Wrapper</strong> — <code>.alert</code>. Add colour modifier + optional variant modifier.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Header row</strong> — <code>.alert-header</code>. Centre-aligned flex row with icon, title, and close button.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Icon</strong> — <code>.alert-icon</code>. 20px, colour driven by <code>--_accent</code> private variable.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Title</strong> — <code>.alert-title</code>. Body 1 Semi Bold.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Close button</strong> — <code>.alert-close</code>. 24px hit target, 16px icon.</span></li>
+      <li><span class="anatomy-num">6</span><span><strong>Body</strong> — <code>.alert-body</code>. Body 2 Regular description text.</span></li>
+      <li><span class="anatomy-num">7</span><span><strong>Actions</strong> — <code>.alert-actions</code>. Optional flex row of 1–2 buttons.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -186,6 +233,19 @@
       })();
     </script>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Role — error/critical</td><td><code>role="alert"</code></td><td>Use for Danger alerts — announces immediately to screen readers</td></tr>
+      <tr><td>Role — informational</td><td><code>role="status"</code></td><td>Use for Info/Success/Warning — announces politely without interrupting</td></tr>
+      <tr><td>Dismiss button</td><td><code>aria-label="Dismiss alert"</code></td><td>The × icon alone has no accessible name</td></tr>
+      <tr><td>Action buttons</td><td>Standard <code>&lt;button&gt;</code></td><td>Use descriptive labels — "Retry", "Undo", not just "OK"</td></tr>
+      <tr><td>Icon</td><td><code>aria-hidden="true"</code></td><td>The icon is decorative — colour and title already communicate the type</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

@@ -79,7 +79,46 @@
 <main class="main">
 
   <h1 class="page-title">Tooltip</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-atom">Atom</span></div>
   <p class="page-intro">Contextual hint that appears near a UI element on hover or focus. Mirrors Figma node 140-7707 (light) + 2289-4036 (dark) 1:1. The tooltip <strong>inverts</strong> between modes — dark pill + light text in light mode, light pill + dark text in dark mode — always contrasting with the page surface. Three sizes (Large 40&nbsp;px / Medium 32&nbsp;px / Small 24&nbsp;px) × four arrow positions. For live usage wrap the trigger + tooltip in <code>.tooltip-host</code>; the tooltip hides at rest and fades in on hover/focus-within via pure CSS.</p>
+
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for supplementary hints on icon-only buttons where no visible label is present</li>
+        <li>Use for truncated text that needs full-text disclosure on hover</li>
+        <li>Keep tooltip text to a single short phrase — 1–8 words</li>
+        <li>Use <code>.tooltip-host</code> for hover/focus-triggered show without JavaScript</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Put critical information in a tooltip — it is invisible by default</li>
+        <li>Use on mobile — hover doesn't exist on touch devices</li>
+        <li>Repeat visible label text — tooltips add context, not duplicates</li>
+        <li>Use for long descriptions — use a popover or inline text instead</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Tooltip is a pill that inverts between light and dark mode. The arrow caret is rendered via CSS pseudo-elements.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <span class="tooltip tooltip-top" style="position:relative;opacity:1;pointer-events:none;">Tooltip text</span>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Pill</strong> — <code>.tooltip</code>. Inverts between modes: dark in light, light in dark.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Arrow caret</strong> — <code>::before</code> (border) + <code>::after</code> (fill). Direction set by position modifier.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Position</strong> — <code>.tooltip-top/bottom/left/right</code>. Controls which side the arrow appears on.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Icon slot</strong> — <code>.tooltip-icon</code>. Optional leading icon, scales with size modifier.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Host wrapper</strong> — <code>.tooltip-host</code>. CSS-only show/hide on hover and focus-within. No JS needed.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -224,6 +263,19 @@
       })();
     </script>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Tooltip role</td><td><code>role="tooltip"</code></td><td>Set on the tooltip element so screen readers identify it</td></tr>
+      <tr><td>Trigger association</td><td><code>aria-describedby="tooltip-id"</code></td><td>Link the trigger element to the tooltip via its ID</td></tr>
+      <tr><td>Keyboard — show</td><td>On focus of the trigger</td><td>Tooltip must appear when the trigger receives keyboard focus, not only on hover</td></tr>
+      <tr><td>Keyboard — hide</td><td><kbd>Esc</kbd></td><td>Always allow dismissing the tooltip with Escape</td></tr>
+      <tr><td>Touch</td><td>Not supported</td><td>Tooltip is hover/focus only. For mobile, include the info inline or in a tap-accessible popover</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

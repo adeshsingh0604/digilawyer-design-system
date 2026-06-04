@@ -60,7 +60,64 @@
 <main class="main">
 
   <h1 class="page-title">Text Area</h1>
+  <div class="comp-meta">
+    <span class="comp-level comp-level-molecule">Molecule</span>
+  </div>
   <p class="page-intro">Multi-line input. Shares the <code>.input-field</code> wrapper, label, caption, and token set with <a href="input.html">Text Input</a> — only the shell differs (top-aligned trailing icon, native vertical resize). Three sizes (lg Body 1 / md Body 2 / sm Caption 1) sharing a 120px starting shell — Figma's "size" axis is typography density, not container height. Eight states (Default · Hover · Focus · Filled · Success · Warning · Error · Disabled). Values from Figma node 101-18519.</p>
+
+  <!-- When to use -->
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for multi-line free-text entry (descriptions, comments, notes, bios)</li>
+        <li>Always show a visible label above the field — never rely on placeholder alone</li>
+        <li>Allow vertical resize so users can expand the field for longer content</li>
+        <li>Use the Error state with a helper message when validation fails</li>
+        <li>Set a minimum height that comfortably shows 2–3 lines of text</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use for single-line input — use Text Input instead</li>
+        <li>Use placeholder text as the only label — placeholders disappear on focus</li>
+        <li>Set a fixed height that cannot grow — allow vertical resize</li>
+        <li>Use <code>resize: both</code> or <code>resize: horizontal</code> — vertical only</li>
+        <li>Use without a character limit when the backend has one — show the limit as helper text</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DigiLawyer Patterns -->
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No additional product-specific patterns for Text Area. Same rules as <a href="input.html#dl-patterns">Text Input</a> apply — always pair with a visible label.</p>
+
+  <!-- Anatomy -->
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">Text Area shares the <code>.input-field</code> wrapper with Text Input. The shell is <code>.textarea</code> instead of <code>.input</code>, and the trailing icon sits top-aligned.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo" style="align-items:flex-start;">
+      <div class="input-field" style="width:200px;pointer-events:none;">
+        <label class="input-field-label">Label</label>
+        <div class="textarea">
+          <textarea placeholder="Placeholder" readonly style="height:80px;"></textarea>
+          <span class="textarea-trailing"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3.5L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </div>
+        <p class="input-field-caption">Helper text</p>
+      </div>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Label</strong> — <code>.input-field-label</code>. Always visible above the field.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Wrapper</strong> — <code>.input-field</code>. Shared with Text Input and Upload Media. Carries the state class.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Shell</strong> — <code>.textarea</code> (<code>&lt;div&gt;</code>). Contains the native textarea and optional trailing icon.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Native textarea</strong> — bare <code>&lt;textarea&gt;</code>. Resizes vertically only. Font weight 400 always.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Trailing icon</strong> — <code>.textarea-trailing</code>. Top-aligned inside the shell. Use for actions or status.</span></li>
+      <li><span class="anatomy-num">6</span><span><strong>Caption</strong> — <code>.input-field-caption</code>. Optional helper text or error message below the field.</span></li>
+      <li><span class="anatomy-num">7</span><span><strong>Resize handle</strong> — Native browser vertical resize (bottom-right). Set via <code>resize: vertical</code> in CSS. Removed automatically on disabled state.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -229,6 +286,22 @@
     <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea"><textarea placeholder="Placeholder" disabled></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
     <div><div class="input-field"><label class="input-field-label">Label</label><div class="textarea textarea-sm"><textarea placeholder="Placeholder" disabled></textarea><span class="textarea-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <p class="desc">Built on a native <code>&lt;textarea&gt;</code> — all standard keyboard and screen reader behaviour is implicit.</p>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Label association</td><td><code>&lt;label for="id"&gt;</code></td><td>Always associate the visible label with the textarea via <code>for</code> / <code>id</code>. Never use placeholder as the only label.</td></tr>
+      <tr><td>Keyboard — focus</td><td><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd></td><td>Moves focus into and out of the textarea</td></tr>
+      <tr><td>Keyboard — new line</td><td><kbd>Enter</kbd></td><td>Inserts a line break inside the textarea (does not submit the form)</td></tr>
+      <tr><td>Error state</td><td><code>aria-invalid="true"</code></td><td>Set when validation fails. Pair with <code>aria-describedby</code> pointing to the caption error message.</td></tr>
+      <tr><td>Helper message</td><td><code>aria-describedby="caption-id"</code></td><td>Links the textarea to its caption so screen readers announce it on focus</td></tr>
+      <tr><td>Character limit</td><td><code>maxlength</code> + helper text</td><td>Always show the limit visually in the caption — <code>maxlength</code> alone silently truncates</td></tr>
+      <tr><td>Disabled</td><td><code>disabled</code> HTML boolean</td><td>Removes from tab order and blocks all interaction</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

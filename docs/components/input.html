@@ -63,7 +63,66 @@
 <main class="main">
 
   <h1 class="page-title">Text Input</h1>
+  <div class="comp-meta">
+    <span class="comp-level comp-level-molecule">Molecule</span>
+  </div>
   <p class="page-intro">Single-line input with label, optional leading and trailing icon slots, and helper caption. Three sizes (lg 48 / md 40 / sm 32), eight states (Default · Hover · Focus · Filled · Success · Warning · Error · Disabled), and three variants (Default text, Tags input that hosts <a href="tag.html">.tag</a> chips, OTP code input). Values from Figma node 2260-4637.</p>
+
+  <!-- When to use -->
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for short, single-line free-text entry (name, email, search, phone number)</li>
+        <li>Always show a visible label above the input — never rely on placeholder alone</li>
+        <li>Use the Error state with a helper message explaining what went wrong</li>
+        <li>Use the Success state to confirm valid input in real-time (e.g. available username)</li>
+        <li>Use the Tags variant when users need to enter multiple values (chips) in one field</li>
+        <li>Use OTP variant for verification code inputs — one digit per cell</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use for multi-line content — use Text Area instead</li>
+        <li>Use placeholder text as the only label — placeholders disappear on focus</li>
+        <li>Use the Error state before the user has interacted with the field</li>
+        <li>Use more than one trailing icon — choose the most contextually relevant one</li>
+        <li>Use a Text Input for selecting from a list — use Dropdown instead</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DigiLawyer Patterns -->
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No additional product-specific patterns for Text Input.</p>
+
+  <!-- Anatomy -->
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Text Input is composed of a label, an input field wrapper, optional icon slots, and a helper caption. The wrapper is shared with Text Area and Upload Media.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <div class="input-field" style="width:220px;pointer-events:none;">
+        <label class="input-field-label">Label</label>
+        <div class="input">
+          <span class="input-leading"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <input type="text" placeholder="Placeholder" readonly>
+          <span class="input-trailing"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3.5L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </div>
+        <p class="input-field-caption">Helper text</p>
+      </div>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Label</strong> — <code>.input-field-label</code>. Always visible above the field. Never replaced by placeholder.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Wrapper</strong> — <code>.input-field</code>. Shared with Text Area and Upload Media. Carries the state class (e.g. <code>.input-field-error</code>).</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Shell</strong> — <code>.input</code> (<code>&lt;div&gt;</code>). Contains the icon slots and native input. Handles hover, focus, and filled states via CSS.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Leading icon</strong> — <code>.input-leading</code>. Optional. Use for context (search, user, calendar).</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Native input</strong> — bare <code>&lt;input type="text"&gt;</code> inside the shell. Font weight 400 always.</span></li>
+      <li><span class="anatomy-num">6</span><span><strong>Trailing icon</strong> — <code>.input-trailing</code>. Optional. Use for actions (clear, show/hide password) or status.</span></li>
+      <li><span class="anatomy-num">7</span><span><strong>Caption</strong> — <code>.input-field-caption</code>. Optional helper text or error message below the field.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -245,6 +304,22 @@
     <div><div class="input-field"><label class="input-field-label">Label</label><div class="input"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder" disabled><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
     <div><div class="input-field"><label class="input-field-label">Label</label><div class="input input-sm"><span class="input-leading"><svg><use href="#ico-add-square"/></svg></span><input type="text" placeholder="Placeholder" disabled><span class="input-trailing"><svg><use href="#ico-add-square"/></svg></span></div><p class="input-field-caption">Caption</p></div></div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <p class="desc">Built on a native <code>&lt;input&gt;</code> element — all standard keyboard and screen reader behaviour is implicit.</p>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Label association</td><td><code>&lt;label for="id"&gt;</code></td><td>Always associate the visible label with the input via <code>for</code> / <code>id</code>. Never use <code>placeholder</code> as the only label.</td></tr>
+      <tr><td>Keyboard — focus</td><td><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd></td><td>Moves focus into and out of the input</td></tr>
+      <tr><td>Error state</td><td><code>aria-invalid="true"</code></td><td>Set when the field has a validation error. Pair with <code>aria-describedby</code> pointing to the helper error message.</td></tr>
+      <tr><td>Helper message</td><td><code>aria-describedby="helper-id"</code></td><td>Links the input to its helper/error text so screen readers announce it on focus</td></tr>
+      <tr><td>Required</td><td><code>required</code> or <code>aria-required="true"</code></td><td>Communicate required fields both visually and programmatically</td></tr>
+      <tr><td>Disabled</td><td><code>disabled</code> HTML boolean</td><td>Removes from tab order. Use sparingly — prefer read-only for content that should be visible but not editable.</td></tr>
+      <tr><td>Autocomplete</td><td><code>autocomplete="email"</code> etc.</td><td>Set the correct autocomplete hint so browsers and password managers can fill values correctly</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

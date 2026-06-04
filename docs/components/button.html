@@ -48,6 +48,68 @@
     </div>
   </div>
 
+  <!-- DigiLawyer Patterns -->
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">Product-specific conventions used across DigiLawyer interfaces. These apply on top of the generic usage rules above.</p>
+  <div class="dl-patterns">
+
+    <div class="dl-pattern-card">
+      <div class="dl-pattern-title">Secondary on dark backgrounds</div>
+      <div class="dl-pattern-body">Always use the Secondary variant when placing a button on a dark surface. Primary on dark creates contrast imbalance and draws too much weight.</div>
+      <div class="dl-pattern-demo" style="background:#2D2D2D;border-color:transparent;">
+        <button class="btn btn-md" style="background:rgba(255,255,255,0.90);color:#2D2D2D;pointer-events:none;">Secondary</button>
+      </div>
+    </div>
+
+    <div class="dl-pattern-card">
+      <div class="dl-pattern-title">Primary + Tertiary pairing</div>
+      <div class="dl-pattern-body">When offering a main action alongside an alternative, always pair Primary with Tertiary. Never pair two Primary buttons or Primary with Secondary.</div>
+      <div class="dl-pattern-demo">
+        <button class="btn btn-primary btn-md" style="pointer-events:none;">Confirm</button>
+        <button class="btn btn-tertiary btn-md" style="pointer-events:none;">Cancel</button>
+      </div>
+    </div>
+
+    <div class="dl-pattern-card">
+      <div class="dl-pattern-title">Icon-only = single icon + equal padding</div>
+      <div class="dl-pattern-body">When using a button with no label, use exactly one icon and add <code>.btn-square</code> for equal padding on all sides. The button keeps the same height — only the width adapts to a square.</div>
+      <div class="dl-pattern-demo">
+        <button class="btn btn-primary btn-square btn-md" style="pointer-events:none;" aria-label="Add">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3.5v9M3.5 8h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <button class="btn btn-secondary btn-square btn-md" style="pointer-events:none;" aria-label="Edit">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M11.5 2.5l2 2-9 9H2.5v-2l9-9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="btn btn-ghost btn-square btn-md" style="pointer-events:none;" aria-label="Delete">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4h10M6 4V2.5h4V4M5.5 4v8.5h5V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="dl-pattern-card">
+      <div class="dl-pattern-title">Never two icons without a label</div>
+      <div class="dl-pattern-body">Two icons side by side with no label is not allowed. A label must always sit between them. <code>[icon] Label [icon]</code> is valid — <code>[icon] [icon]</code> is not.</div>
+      <div class="dl-pattern-demo" style="gap:32px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <span style="font-size:11px;font-weight:600;color:var(--color-success-text);">✅ Do</span>
+          <button class="btn btn-primary btn-md" style="pointer-events:none;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3.5v9M3.5 8h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span class="btn-label">Label</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <span style="font-size:11px;font-weight:600;color:var(--color-danger-text);">❌ Don't</span>
+          <button class="btn btn-primary btn-md" style="pointer-events:none;opacity:0.5;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3.5v9M3.5 8h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   <!-- Anatomy -->
   <h2 id="anatomy">Anatomy</h2>
   <p class="desc">A Button is composed of up to five parts. Only the label is required.</p>

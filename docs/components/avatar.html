@@ -49,7 +49,47 @@
 <main class="main">
 
   <h1 class="page-title">Avatar</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-atom">Atom</span></div>
   <p class="page-intro">Circular indicator for a user or entity. Mirrors Figma node 125-2432 (light) + 5914-6626 (dark) 1:1. Three fill variants — <strong>Icon</strong> (person silhouette), <strong>Initials</strong> (1–2 letters), <strong>Image</strong> (clipped photo). Four sizes (xs&nbsp;24 / sm&nbsp;32 / md&nbsp;40 / lg&nbsp;48). The disc is a blue <code>#3156DF</code> surface with white content and a 1px black-10% hairline — identical in light and dark per Figma. Hover keeps the same background and signals interactivity with a 10% black scrim. Composes with <a href="badge.html">Badge</a> for a count pill (top-right) and a status dot (bottom-right) via the <code>.avatar-stack</code> + <code>.avatar-pin-*</code> anchors.</p>
+
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use to represent a user, team member, or entity with a face/initials/image</li>
+        <li>Use Image variant when the user has a profile photo</li>
+        <li>Use Initials when no photo is available — 1 or 2 characters maximum</li>
+        <li>Use Stack (<code>.avatar-stack</code>) for showing multiple users at once (e.g. "3 collaborators")</li>
+        <li>Compose with Badge for notification counts or status indicators</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use for decorative icons unrelated to a person or entity — use the SVG sprite directly</li>
+        <li>Use more than 5 avatars in a stack without a "+N" overflow indicator</li>
+        <li>Use initials longer than 2 characters</li>
+        <li>Use Avatar as a navigation element without a visible label nearby</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">An Avatar is a circular disc with an inner content slot (icon, initials, or image) and optional composition anchors for Badge and status dot.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <div class="avatar avatar-initials avatar-md" style="pointer-events:none;">AD</div>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Disc</strong> — <code>.avatar</code>. The circular container. Blue bg, white content, 1px hairline border.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Content</strong> — <code>.avatar-icon</code> / <code>.avatar-initials</code> / <code>.avatar-image</code>. Mutually exclusive fill variants.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Status dot</strong> — <code>.avatar-status</code>. Online (green) / offline (grey) indicator, bottom-right.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Badge pin</strong> — <code>.avatar-pin-tr</code> / <code>.avatar-pin-br</code> etc. Anchors a Badge at a corner of the disc.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Stack wrapper</strong> — <code>.avatar-stack</code>. Negative margin creates the overlapping group effect.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -197,6 +237,19 @@
       <span class="avatar avatar-xs avatar-image av-photo-1"></span>
     </div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Image alt text</td><td><code>alt="User's name"</code></td><td>Always provide descriptive alt text on <code>&lt;img&gt;</code> avatars</td></tr>
+      <tr><td>Initials avatar</td><td><code>aria-label="AD (Adesh Singh)"</code></td><td>Initials are not self-explanatory — add a full name via <code>aria-label</code></td></tr>
+      <tr><td>Icon avatar</td><td><code>aria-label="Unknown user"</code></td><td>Generic icon needs a label describing the entity</td></tr>
+      <tr><td>Interactive avatar</td><td><code>&lt;button&gt;</code> wrapping</td><td>If the avatar is clickable, wrap it in a <code>&lt;button&gt;</code> or <code>&lt;a&gt;</code></td></tr>
+      <tr><td>Status dot</td><td><code>aria-label="Online"</code> on dot</td><td>Colour alone is not accessible — add a text label or <code>aria-label</code></td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

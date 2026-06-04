@@ -49,7 +49,94 @@
 <main class="main">
 
   <h1 class="page-title">Checkbox</h1>
+  <div class="comp-meta">
+    <span class="comp-level comp-level-atom">Atom</span>
+  </div>
   <p class="page-intro">A binary selection control with three visual states (unchecked / checked / indeterminate) and three interaction states (default / hover / disabled). Built on a native <code>&lt;input type="checkbox"&gt;</code> — fully keyboard-accessible with no JS required for state.</p>
+
+  <!-- When to use -->
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for multi-select — when the user can pick zero or more options from a list</li>
+        <li>Use for binary settings that take effect only after a Save or Submit action</li>
+        <li>Use the indeterminate state for a "select all" parent that has mixed children</li>
+        <li>Always pair with a visible label that describes what checking the box does</li>
+        <li>Group related checkboxes together with a clear group heading</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use when only one option can be selected — use Radio Button instead</li>
+        <li>Use for a setting that takes effect immediately — use Toggle Switch instead</li>
+        <li>Use without a label — a bare checkbox with no description is inaccessible</li>
+        <li>Use more than 8 checkboxes in a flat list — consider grouping or a Dropdown</li>
+        <li>Use to trigger an action directly — use a Button</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DigiLawyer Patterns -->
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">Product-specific conventions used across DigiLawyer interfaces.</p>
+  <div class="dl-patterns">
+
+    <div class="dl-pattern-card">
+      <div class="dl-pattern-title">Checkbox first, label second — always</div>
+      <div class="dl-pattern-body">The checkbox control always appears on the left. The label text always follows to the right. Never place the label before the checkbox. This is consistent across every form and list in the DigiLawyer product.</div>
+      <div class="dl-pattern-demo" style="gap:32px;">
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:8px;">
+          <span style="font-size:11px;font-weight:600;color:var(--color-success-text);">✅ Do — checkbox then label</span>
+          <label class="checkbox" style="pointer-events:none;">
+            <input type="checkbox" class="checkbox-input" checked>
+            <span class="checkbox-box">
+              <svg class="checkbox-check"><use href="#ico-check"/></svg>
+              <svg class="checkbox-dash"><use href="#ico-dash"/></svg>
+            </span>
+            <span class="checkbox-label">Accept terms</span>
+          </label>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:8px;">
+          <span style="font-size:11px;font-weight:600;color:var(--color-danger-text);">❌ Don't — label before checkbox</span>
+          <label class="checkbox" style="pointer-events:none;flex-direction:row-reverse;gap:8px;">
+            <input type="checkbox" class="checkbox-input" checked>
+            <span class="checkbox-box">
+              <svg class="checkbox-check"><use href="#ico-check"/></svg>
+              <svg class="checkbox-dash"><use href="#ico-dash"/></svg>
+            </span>
+            <span class="checkbox-label">Accept terms</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Anatomy -->
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Checkbox is composed of a hidden native input, a visible box, and an optional label. The box and glyph are CSS-only — no SVG injection at runtime.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <label class="checkbox" style="pointer-events:none;">
+        <input type="checkbox" class="checkbox-input" checked>
+        <span class="checkbox-box">
+          <svg class="checkbox-check"><use href="#ico-check"/></svg>
+          <svg class="checkbox-dash"><use href="#ico-dash"/></svg>
+        </span>
+        <span class="checkbox-label">Label</span>
+      </label>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Hidden input</strong> — <code>.checkbox-input</code>. Visually hidden but focusable. Drives all states via CSS <code>:checked</code>, <code>:disabled</code>, <code>:focus-visible</code> using the <code>~</code> sibling selector.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Box</strong> — <code>.checkbox-box</code>. The visible square. Background and border change per state via sibling CSS.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Check glyph</strong> — Rendered inside <code>.checkbox-box::after</code> using the <code>#ico-check</code> SVG symbol from the ds.js sprite when checked.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Dash glyph</strong> — Rendered via <code>#ico-dash</code> sprite symbol for the indeterminate state.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Label</strong> — <code>.checkbox-label</code>. Always placed to the right of the box. Required for accessibility.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -181,6 +268,22 @@
     <label class="checkbox is-hover"><input type="checkbox" class="checkbox-input" data-indeterminate><span class="checkbox-box"><svg class="checkbox-check"><use href="#ico-check"/></svg><svg class="checkbox-dash"><use href="#ico-dash"/></svg></span></label>
     <label class="checkbox"><input type="checkbox" class="checkbox-input" data-indeterminate disabled><span class="checkbox-box"><svg class="checkbox-check"><use href="#ico-check"/></svg><svg class="checkbox-dash"><use href="#ico-dash"/></svg></span></label>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <p class="desc">Built on a native <code>&lt;input type="checkbox"&gt;</code> — all ARIA semantics are implicit. No additional role attributes needed.</p>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Role</td><td><code>checkbox</code></td><td>Implicit from native <code>&lt;input type="checkbox"&gt;</code></td></tr>
+      <tr><td>Keyboard — toggle</td><td><kbd>Space</kbd></td><td>Checks or unchecks a focused checkbox</td></tr>
+      <tr><td>Keyboard — focus</td><td><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd></td><td>Moves focus between checkboxes and other interactive elements</td></tr>
+      <tr><td><code>aria-checked="mixed"</code></td><td>Indeterminate state</td><td>Set via JS: <code>input.indeterminate = true</code>. CSS alone cannot set this state.</td></tr>
+      <tr><td><code>disabled</code></td><td>HTML boolean</td><td>Removes from tab order and blocks interaction</td></tr>
+      <tr><td>Label association</td><td><code>&lt;label&gt;</code> wrapping</td><td>Always wrap input + label in a <code>&lt;label&gt;</code> element. Never use <code>aria-label</code> as a substitute for a visible label.</td></tr>
+      <tr><td>Group heading</td><td><code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code></td><td>Use to give a group of related checkboxes a shared accessible name</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

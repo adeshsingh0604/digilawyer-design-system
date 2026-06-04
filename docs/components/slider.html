@@ -31,7 +31,52 @@
 <main class="main">
 
   <h1 class="page-title">Slider</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-atom">Atom</span></div>
   <p class="page-intro">Range input for selecting a numeric value along a continuous track. Mirrors Figma nodes 5877-41490 + 147-5057 (light) + 5967-1515 + 5967-1479 (dark). Three track heights (4 / 8 / 12&nbsp;px). Thumb stays 16&nbsp;px at all sizes, centred on the track via <code>margin-top: calc((--track-h - 16px) / 2)</code>. Hover/drag show a translucent ring (<code>--slider-ring-hover/active</code>). <strong>Two count display modes</strong> — use exactly one: <code>.has-tip</code> shows a tooltip pill only on hover or drag; <code>.has-val</code> shows a permanent label below the track. Range variant uses two overlapping inputs. 6 tokens drive all colours including dark-mode inversion.</p>
+
+  <!-- When to use -->
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for continuous ranges where approximate values are acceptable (volume, brightness, opacity)</li>
+        <li>Use the Range variant when the user needs to define both a minimum and maximum</li>
+        <li>Use <code>.has-tip</code> to show the value on hover/drag without cluttering the UI</li>
+        <li>Use <code>.has-val</code> when the current value must always be visible</li>
+        <li>Always show min and max labels so users understand the scale</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use when the user needs to enter a precise value — use Text Input instead</li>
+        <li>Use both <code>.has-tip</code> and <code>.has-val</code> on the same slider — choose one</li>
+        <li>Use without visible min/max context — the range must be communicated</li>
+        <li>Use for selecting from a discrete list of options — use Radio or Dropdown instead</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Slider is composed of a field wrapper, a native range input (track + thumb), and optional value display elements.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <div class="slider-field has-val" style="width:200px;pointer-events:none;">
+        <input type="range" class="slider" min="0" max="100" value="60" readonly>
+        <div class="slider-val">60</div>
+      </div>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Field wrapper</strong> — <code>.slider-field</code>. Contains the input, tooltip, and value label.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Track</strong> — The grey background bar. Height set by <code>--track-h</code> CSS variable (4/8/12px).</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Fill</strong> — Coloured portion showing progress. Driven by <code>--pct</code> CSS custom property set by JS.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Thumb</strong> — 16px circle, always centred on the track via <code>margin-top: calc((--track-h - 16px) / 2)</code>.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Tooltip</strong> — <code>.slider-tip</code>. Hidden at rest; shown on hover/drag (<code>.has-tip</code>).</span></li>
+      <li><span class="anatomy-num">6</span><span><strong>Value label</strong> — <code>.slider-val</code>. Permanent label below the track (<code>.has-val</code>).</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -220,6 +265,21 @@
       </div>
     </div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <p class="desc">Built on a native <code>&lt;input type="range"&gt;</code> — keyboard and ARIA semantics are implicit.</p>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Role</td><td><code>slider</code></td><td>Implicit from native <code>&lt;input type="range"&gt;</code></td></tr>
+      <tr><td>Keyboard — increment</td><td><kbd>→</kbd> / <kbd>↑</kbd></td><td>Increases value by one step</td></tr>
+      <tr><td>Keyboard — decrement</td><td><kbd>←</kbd> / <kbd>↓</kbd></td><td>Decreases value by one step</td></tr>
+      <tr><td>Keyboard — jump</td><td><kbd>Home</kbd> / <kbd>End</kbd></td><td>Jumps to minimum or maximum value</td></tr>
+      <tr><td><code>aria-label</code></td><td>Descriptive string</td><td>Required — "Volume", "Price range", etc. The track alone has no visible label.</td></tr>
+      <tr><td><code>aria-valuemin/max/now</code></td><td>Numeric</td><td>Implicit from <code>min</code>, <code>max</code>, <code>value</code> attributes</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

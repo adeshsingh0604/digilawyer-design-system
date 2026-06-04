@@ -47,7 +47,46 @@
 <main class="main">
 
   <h1 class="page-title">Link</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-atom">Atom</span></div>
   <p class="page-intro">Inline text hyperlink. Mirrors Figma node 140-7864 (light) + 5940-2868 (dark) 1:1. Three colour variants — <strong>Default</strong> (neutral black / white), <strong>Brand</strong> (`#9B8B5D` tan), <strong>Blue</strong> (`#3156DF` / `#4675EB`) — each with its own hover colour. Disabled is shared across variants (one <code>--link-disabled-text</code> token). Four sizes step through Body 1 (16/24) · Body 3 (14/20) · Caption 1 (12/16) · Caption 2 (10/12), all Semi Bold. Inline-flex layout means the link works equally well as a standalone Text Title or wrapped around an icon + label.</p>
+
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for navigation — linking to another page, section, or external resource</li>
+        <li>Use descriptive link text that makes sense out of context ("View case details", not "click here")</li>
+        <li>Use <code>.link-underline</code> when the link must always be visually distinct from surrounding text</li>
+        <li>Use Blue variant for standard hyperlinks within body text</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use for actions that change state — use a Button (Ghost or Tertiary) instead</li>
+        <li>Use vague link text like "here", "click here", or "read more"</li>
+        <li>Use Link for submitting forms — use a Button</li>
+        <li>Use the <code>disabled</code> HTML attribute — use <code>pointer-events:none</code> + <code>aria-disabled</code> instead</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Link is an inline-flex anchor element with an optional leading icon. Underline shows on hover by default.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <a href="#" class="link link-blue link-md" style="pointer-events:none;" onclick="return false;">View document</a>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Anchor</strong> — <code>.link</code>. Inline-flex element. Add colour + size modifier.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Colour variant</strong> — <code>.link-default</code> / <code>.link-blue</code> / <code>.link-brand</code>.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Size</strong> — <code>.link-xl</code> / <code>.link-lg</code> / <code>.link-md</code> (default) / <code>.link-sm</code>.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Icon</strong> — <code>.link-icon</code>. Optional leading icon, scales with size.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Underline</strong> — Shown on hover. <code>.link-underline</code> forces it always visible.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -167,6 +206,19 @@
       })();
     </script>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Element</td><td><code>&lt;a href="..."&gt;</code></td><td>Always use a real <code>&lt;a&gt;</code> with a valid <code>href</code> — never a <code>&lt;button&gt;</code> styled as a link for navigation</td></tr>
+      <tr><td>Descriptive text</td><td>Meaningful label</td><td>Link text must make sense out of context. Screen reader users often navigate by link text alone.</td></tr>
+      <tr><td>External links</td><td><code>target="_blank"</code> + <code>rel="noopener"</code></td><td>Warn users when a link opens in a new tab — add <code>aria-label="...(opens in new tab)"</code></td></tr>
+      <tr><td>Disabled state</td><td><code>aria-disabled="true"</code> + <code>tabindex="-1"</code></td><td>Remove from tab order and block clicks without using the HTML <code>disabled</code> attribute (which doesn't work on <code>&lt;a&gt;</code>)</td></tr>
+      <tr><td>Keyboard</td><td><kbd>Enter</kbd></td><td>Activates the link when focused</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>

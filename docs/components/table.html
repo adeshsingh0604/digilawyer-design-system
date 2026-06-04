@@ -34,7 +34,55 @@
 <main class="main">
 
   <h1 class="page-title">Table</h1>
+  <div class="comp-meta"><span class="comp-level comp-level-organism">Organism</span></div>
   <p class="page-intro">Data grid for rows × columns of structured content. Mirrors Figma node 140-5139 (light) + 5892-39544 (dark) 1:1. Header strip is <code>#F6F6F6</code> (light) / <code>#2D2D2D</code> (dark) with Body 1 Semi Bold text. Body rows are transparent (the page surface shows through) with Body 1 Medium text. Every cell carries a 5%-alpha hairline border that hashes the grid without competing with content. Body cells typically pair their label with a trailing kebab (⋮) action via the <code>.table-cell</code> + <code>.table-cell-action</code> helpers. The outer <code>.table-wrap</code> clips the corners to 8&nbsp;px — required because <code>border-radius</code> can't apply to <code>&lt;table&gt;</code> while <code>border-collapse: collapse</code> is in use.</p>
+
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for structured data with multiple attributes per row (lists of users, cases, documents)</li>
+        <li>Always wrap in <code>.table-wrap</code> — required for border-radius and overflow on narrow screens</li>
+        <li>Use <code>.td-num</code> for numeric columns to right-align and apply monospace font</li>
+        <li>Use <code>.table-cell-action</code> for the trailing kebab (⋮) button on each row</li>
+        <li>Use <code>&lt;thead&gt;</code> with <code>&lt;th scope="col"&gt;</code> so screen readers can associate cells with headers</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use for a list of items with only one attribute — use a simple list instead</li>
+        <li>Use bare <code>.table</code> without <code>.table-wrap</code> — border-radius won't apply</li>
+        <li>Simulate a header row with bold <code>&lt;td&gt;</code> elements — always use <code>&lt;th&gt;</code></li>
+        <li>Show more than 8 columns on a single page without a horizontal scroll wrapper</li>
+      </ul>
+    </div>
+  </div>
+  <h2 id="dl-patterns">DigiLawyer Patterns</h2>
+  <p class="desc">No specific DigiLawyer patterns documented yet — to be added.</p>
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Table is always wrapped in <code>.table-wrap</code> which clips the corners. The table itself uses standard HTML semantics.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo" style="align-items:flex-start;width:100%;">
+      <div class="table-wrap" style="pointer-events:none;min-width:180px;">
+        <table class="table">
+          <thead><tr><th>Name</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><div class="table-cell"><span>Item A</span><div class="table-cell-action"><button class="btn btn-ghost btn-xs btn-square">⋮</button></div></div></td><td>Active</td></tr>
+            <tr><td><div class="table-cell"><span>Item B</span><div class="table-cell-action"><button class="btn btn-ghost btn-xs btn-square">⋮</button></div></div></td><td>Pending</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Scroll wrapper</strong> — <code>.table-wrap</code>. Required. Clips to 8px radius + handles horizontal overflow.</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Table</strong> — <code>.table</code>. Sets collapse, borders, and sizing.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Header row</strong> — <code>&lt;thead&gt;&lt;tr&gt;&lt;th scope="col"&gt;</code>. Coloured bg, Semi Bold text.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Body cell</strong> — <code>.table-cell</code>. Flex row with label + optional action button.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Action slot</strong> — <code>.table-cell-action</code>. Pushes the kebab button to the trailing edge.</span></li>
+    </ol>
+  </div>
 
   <!-- Default -->
   <h2 id="default">Default</h2>
@@ -222,6 +270,20 @@
       </table>
     </div>
   </div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Column headers</td><td><code>&lt;th scope="col"&gt;</code></td><td>Always use <code>&lt;th&gt;</code> with <code>scope="col"</code> so screen readers associate cells with headers</td></tr>
+      <tr><td>Row headers</td><td><code>&lt;th scope="row"&gt;</code></td><td>Use for the first cell of each row when it identifies the row</td></tr>
+      <tr><td>Caption</td><td><code>&lt;caption&gt;</code></td><td>Provide a caption that describes the table's content for screen readers</td></tr>
+      <tr><td>Sortable columns</td><td><code>aria-sort="ascending"</code></td><td>Set on <code>&lt;th&gt;</code> to communicate current sort direction</td></tr>
+      <tr><td>Action buttons</td><td><code>aria-label="More actions for [row name]"</code></td><td>Each kebab (⋮) button must include context about which row it acts on</td></tr>
+      <tr><td>Keyboard — navigate</td><td><kbd>Tab</kbd></td><td>Focusable elements inside cells (buttons, links) are in the natural tab order</td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>
