@@ -136,13 +136,52 @@ When bumping a version:
 - **Per-page card CSS.** `docs/foundation/radius.html` (`.rad-card`), `shadows.html` (`.sh-card`), `grid.html` (`.bp-card`), and `index.html` (`.qlink-card`, `.cl-card`) all define structurally similar card patterns with slightly different proportions. A single `.tok-card` base with size modifiers in `components.css` would drop ~50 lines of duplicated style across foundation pages. Risk: visual regression; do this with screenshot comparison.
 - **CHANGELOG + STATUS dual-update.** Every PATCH currently touches `CHANGELOG.md`, `docs/other/changelog.html`, and `STATUS.md`. A tiny `docs/scripts/sync-changelog.js` could read `CHANGELOG.md` as the source of truth and regenerate the table rows in `changelog.html` + the version line in `STATUS.md`.
 
-## Current State (v2.6.0)
+## Component Rules
 
-All 36 pages use the minimal page pattern. As of v2.6.0 they also inherit a global header (logo + version chip + search + theme toggle) that ds.js injects at runtime — no per-page change required.
+These rules apply every time you touch any component — docs or React.
 
-**Documented components:** Button, Button Group, Checkbox. The other 24 component pages are stubs (still indexed by the header search at page level).
+### Non-negotiable
 
-**Search index lives in `ds.js`** — `SEARCH_DOCS` covers pages + sections, `SEARCH_TOKENS` covers semantic CSS tokens. When you document a new page or add tokens, update those arrays so the new content is searchable. The flattened index runs ~220 entries today.
+- **Never hardcode a hex value or rgba() in component CSS.** Every color must come from a CSS custom property token (`var(--token-name)`). If the right token doesn't exist, add it to `tokens.css` first.
+- **Always update both `:root` and `[data-theme="dark"]` together.** Every new token group needs a declaration in both blocks, even if the dark value is the same as light.
+- **Never touch `layout.css` for component work.** Layout is off-limits. Component styles live in `components.css` only.
+- **Never reference primitive tokens directly** (`--primitive-neutral-950` etc.) in component CSS. Use semantic or component tokens only.
+- **Run `node docs/scripts/build-tokens.js` after every `tokens.css` change** so `tokens.json` stays in sync for React/Figma consumers.
+
+### Component pages
+
+- **Never remove the API section** from a component page — it's the machine-readable contract.
+- **Never re-implement in a page script** anything `ds.js` already handles: theme toggle, TOC, scroll-spy, copy buttons, tab switching, search.
+- **Scope page-local layout helpers under `.demo-panel.my-class`** — not `.my-class` alone. Specificity must reach (0,2,0) to beat `.demo-panel.active`. See DESIGN.md § 9.
+- **Page-specific CSS prefix** — use a short component prefix on all page-local classes (e.g., `.rt-` for Rating, `.al-` for Alert) to prevent cross-page collisions.
+- **Never change `DS_PAGE` config** unless renaming the page's key in the NAV array at the same time.
+
+### Tokens and dark mode
+
+- **Private `--_` variables** (e.g., `--_rt`, `--_bg`, `--_fg`) are internal cascade bridges set by modifier classes and read by child selectors. Never expose them as public tokens or reference them from outside the component block.
+- **Dark mode is data-attribute driven** — `[data-theme="dark"]` on `<html>`. Never use `prefers-color-scheme` media queries in this system.
+
+### Release ceremony
+
+Every version bump requires exactly these 6 steps — no shortcuts:
+1. `--ds-version` in `tokens.css`
+2. `DS_VERSION` in `ds.js`
+3. New entry at top of `CHANGELOG.md`
+4. New `<tr>` at top of `<tbody>` in `docs/other/changelog.html`
+5. MINOR/MAJOR only: refresh 3 Latest Changes cards in `docs/index.html`
+6. Update `STATUS.md`
+
+### Per-component rules
+
+Detailed rules for each individual component live in `.claude/components/<name>.md`. Read the relevant file before editing any component.
+
+## Current State (v2.31.7)
+
+All 36 pages use the minimal page pattern. All 25 components are fully documented with light + dark Figma-verified. The global header (logo + version chip + search + theme toggle) is injected by `ds.js` at runtime — no per-page change required.
+
+**Search index lives in `ds.js`** — `SEARCH_DOCS` covers pages + sections, `SEARCH_TOKENS` covers semantic CSS tokens. When you add a new page or tokens, update both arrays.
+
+**React workstream** lives in `react/`. One component implemented (Button). See `DESIGN.md → React & Figma Code Connect Readiness` for 9 actionable issues before adding more components.
 
 ## Scripts (`docs/scripts/`)
 
