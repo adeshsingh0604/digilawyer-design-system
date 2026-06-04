@@ -1,5 +1,32 @@
 @import './tokens.css';
 
+/* ── COMPONENT META (Atomic Design level badge) ── */
+.comp-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.comp-level { display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: var(--radius-xs); font-size: 10px; font-weight: var(--fw-bold); letter-spacing: .06em; text-transform: uppercase; }
+.comp-level-atom     { background: var(--color-info-bg);    color: var(--color-info-text); }
+.comp-level-molecule { background: var(--color-notice-bg);  color: var(--color-notice-text); }
+.comp-level-organism { background: var(--color-warning-bg); color: var(--color-warning-text); }
+
+/* ── USAGE (When to use / Don't) ── */
+.usage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: var(--spacing-2xl); }
+.usage-do, .usage-dont { padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--color-border); background: var(--color-bg-2); }
+.usage-do   { border-left: 3px solid var(--color-success-text); }
+.usage-dont { border-left: 3px solid var(--color-danger-text); }
+.usage-header { display: flex; align-items: center; gap: 6px; font-size: var(--fs-12); font-weight: var(--fw-semibold); text-transform: uppercase; letter-spacing: .06em; color: var(--color-subheading); margin-bottom: 12px; }
+.usage-list { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 7px; }
+.usage-list li { font-size: var(--fs-14); color: var(--color-subheading); line-height: var(--lh-20); }
+
+/* ── ANATOMY ── */
+.anatomy-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; padding: 28px; border: 1px solid var(--color-border); border-radius: var(--radius-md); margin-bottom: var(--spacing-2xl); }
+.anatomy-demo { display: flex; align-items: center; justify-content: center; min-height: 80px; background: var(--color-bg-2); border-radius: var(--radius-sm); padding: 32px 24px; }
+.anatomy-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.anatomy-list li { display: flex; align-items: flex-start; gap: 10px; font-size: var(--fs-14); color: var(--color-subheading); line-height: var(--lh-20); }
+.anatomy-list li strong { color: var(--color-heading); white-space: nowrap; }
+.anatomy-num { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; min-width: 20px; border-radius: 50%; background: var(--color-heading); color: var(--color-bg); font-size: 10px; font-weight: var(--fw-bold); flex-shrink: 0; margin-top: 1px; }
+
+/* ── ACCESSIBILITY ── */
+kbd { display: inline-flex; align-items: center; height: 20px; padding: 0 6px; border: 1px solid var(--color-border); border-bottom-width: 2px; border-radius: var(--radius-xs); font-family: var(--font-mono); font-size: 11px; background: var(--color-bg-2); color: var(--color-heading); white-space: nowrap; }
+
 /* ── DEMO BOX ── */
 .demo-box { border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 6px; }
 

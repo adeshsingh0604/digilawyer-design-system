@@ -18,7 +18,55 @@
 <main class="main">
 
   <h1 class="page-title">Button</h1>
+  <div class="comp-meta">
+    <span class="comp-level comp-level-atom">Atom</span>
+  </div>
   <p class="page-intro">Five variants, four sizes, five states. All styles reference design tokens from <code>shared/tokens.css</code>. Toggle the theme to see dark mode instantly.</p>
+
+  <!-- When to use -->
+  <h2 id="when-to-use">When to use</h2>
+  <div class="usage-grid">
+    <div class="usage-do">
+      <div class="usage-header">✅ Do</div>
+      <ul class="usage-list">
+        <li>Use for actions that trigger an immediate response — submit, save, delete, confirm</li>
+        <li>Use <strong>Primary</strong> for the single most important action in a view</li>
+        <li>Use <strong>Danger</strong> for destructive or irreversible actions like delete or remove</li>
+        <li>Use <strong>Ghost</strong> or <strong>Tertiary</strong> for lower-emphasis supporting actions</li>
+        <li>Use <strong>Secondary</strong> alongside a Primary to offer an alternative action</li>
+      </ul>
+    </div>
+    <div class="usage-dont">
+      <div class="usage-header">❌ Don't</div>
+      <ul class="usage-list">
+        <li>Use two Primary buttons side by side — one action should always dominate</li>
+        <li>Use a Button for navigation between pages — use a <strong>Link</strong> instead</li>
+        <li>Use Ghost for destructive actions — Ghost implies safe/neutral, use Danger</li>
+        <li>Stack more than 3 buttons in a single action area without grouping them</li>
+        <li>Use a Button when an input field is needed — use Text Input</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Anatomy -->
+  <h2 id="anatomy">Anatomy</h2>
+  <p class="desc">A Button is composed of up to five parts. Only the label is required.</p>
+  <div class="anatomy-wrap">
+    <div class="anatomy-demo">
+      <button class="btn btn-primary btn-md" style="pointer-events:none;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;"><path d="M8 3.5v9M3.5 8h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span class="btn-label">Label</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <ol class="anatomy-list">
+      <li><span class="anatomy-num">1</span><span><strong>Container</strong> — The clickable surface. Height is set by the size modifier (32 / 40 / 48 px).</span></li>
+      <li><span class="anatomy-num">2</span><span><strong>Leading icon</strong> — Optional. Placed left of the label to reinforce the action visually.</span></li>
+      <li><span class="anatomy-num">3</span><span><strong>Label</strong> — Required. Describes the action clearly and concisely in 1–3 words.</span></li>
+      <li><span class="anatomy-num">4</span><span><strong>Trailing icon</strong> — Optional. Use for directional cues such as arrows or chevrons.</span></li>
+      <li><span class="anatomy-num">5</span><span><strong>Loading spinner</strong> — Replaces all content during async operations when <code>.btn--loading</code> is applied.</span></li>
+    </ol>
+  </div>
 
   <!-- Basic -->
   <h2 id="basic-button">Basic button</h2>
@@ -209,6 +257,22 @@
     </tr></thead>
     <tbody id="matrix-body"></tbody>
   </table></div>
+
+  <!-- Accessibility -->
+  <h2 id="accessibility">Accessibility</h2>
+  <p class="desc">Button follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/button/" target="_blank" rel="noopener" class="link link-blue">WAI-ARIA Button pattern</a>. Using a native <code>&lt;button&gt;</code> element provides all required semantics automatically.</p>
+  <table class="api-table">
+    <thead><tr><th>Attribute / Behaviour</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Role</td><td><code>button</code></td><td>Implicit from native <code>&lt;button&gt;</code> — no explicit <code>role</code> needed</td></tr>
+      <tr><td>Keyboard — activate</td><td><kbd>Enter</kbd> <kbd>Space</kbd></td><td>Both keys trigger the click handler on a focused button</td></tr>
+      <tr><td>Keyboard — focus</td><td><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd></td><td>Buttons are in the natural tab order unless <code>disabled</code></td></tr>
+      <tr><td><code>disabled</code></td><td>HTML boolean attribute</td><td>Removes the button from tab order and blocks all pointer events</td></tr>
+      <tr><td><code>aria-busy="true"</code></td><td>Applied when <code>.btn--loading</code></td><td>Announced to screen readers during async operations</td></tr>
+      <tr><td><code>aria-label</code></td><td>Descriptive string</td><td>Required on icon-only buttons where there is no visible label text</td></tr>
+      <tr><td><code>type="button"</code></td><td>Always set explicitly</td><td>Prevents accidental form submission when the button is inside a <code>&lt;form&gt;</code></td></tr>
+    </tbody>
+  </table>
 
   <!-- API -->
   <h2 id="api">API</h2>
