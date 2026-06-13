@@ -46,8 +46,8 @@
     {
       "key": "dropdown",
       "name": "Dropdown",
-      "react_status": "pending",
-      "storybook_path": null
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-dropdown--docs"
     },
     {
       "key": "tag",
