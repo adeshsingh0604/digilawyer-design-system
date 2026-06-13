@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.34.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh
+**What changed:** Tag — React component
+**Description:** Tag React component with 8 colors, 3 variants, 4 sizes, removable chips, and filter chip support.
+
 ## v2.33.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh
