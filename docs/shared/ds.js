@@ -1046,26 +1046,20 @@
   }
 
   /* ── Init ────────────────────────────────────────────────────────────── */
-  /* ── 9. React / Storybook banner ────────────────────────────────────────
-     Appended to <main> on component pages. Maps DS_PAGE.key → Storybook URL.
-     Components without stories yet get a "coming soon" note instead.       */
+  /* ── 9. React / Storybook banner — generated from react/components-manifest.json
+     Run: node docs/scripts/sync-manifest.js after updating the manifest.        */
   var SB_BASE = 'https://adeshsingh0604.github.io/digilawyer-design-system/storybook/';
   var SB_STORIES = {
-    'button':       SB_BASE + '?path=/docs/components-button--docs',
+    'button': SB_BASE + '?path=/docs/components-button--docs',
     'button-group': SB_BASE + '?path=/docs/components-buttongroup--docs',
-    'checkbox':     SB_BASE + '?path=/docs/components-checkbox--docs',
-    'radio':        SB_BASE + '?path=/docs/components-radio--docs',
-    'toggle':       SB_BASE + '?path=/docs/components-toggle--docs',
-    'input':        SB_BASE + '?path=/docs/components-input--docs',
-    'textarea':     SB_BASE + '?path=/docs/components-textarea--docs',
+    'checkbox': SB_BASE + '?path=/docs/components-checkbox--docs',
+    'radio': SB_BASE + '?path=/docs/components-radio--docs',
+    'toggle': SB_BASE + '?path=/docs/components-toggle--docs',
+    'input': SB_BASE + '?path=/docs/components-input--docs',
+    'textarea': SB_BASE + '?path=/docs/components-textarea--docs',
   };
 
-  var COMPONENT_KEYS = [
-    'button','button-group','checkbox','radio','toggle','dropdown',
-    'input','textarea','upload-media','slider','rating','date-picker','options',
-    'avatar','badge','tag','table','alert','snackbar','tooltip','progress-bar',
-    'tabs','link','pagination','breadcrumb'
-  ];
+    var COMPONENT_KEYS = ['button','button-group','checkbox','radio','toggle','input','textarea','dropdown','tag','badge','avatar','alert','tooltip','tabs','pagination','upload-media','slider','rating','date-picker','options','table','snackbar','progress-bar','link','breadcrumb'];
 
   function injectReactBanner() {
     var key = cfg().key;
