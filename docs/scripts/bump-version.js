@@ -2,6 +2,9 @@
 /**
  * bump-version.js — single command to update the version everywhere.
  *
+ * tokens.css is the single source of truth. ds.js and index.html read
+ * version + date from CSS tokens at runtime — no hardcoded values there.
+ *
  * Usage:
  *   node docs/scripts/bump-version.js <version> <type> "<title>" ["<description>"] ["<author>"]
  *
@@ -9,13 +12,11 @@
  *   node docs/scripts/bump-version.js 2.33.0 minor "Dropdown — fully documented"
  *   node docs/scripts/bump-version.js 2.32.2 patch "Fix input icon alignment" "Right icon was 24px instead of 16px on sm size" "Adesh Singh"
  *
- * Updates (all 6 places in one go):
- *   1. docs/shared/tokens.css     → --ds-version
- *   2. docs/shared/ds.js          → DS_VERSION constant
- *   3. STATUS.md                  → Current Version + Last Updated
- *   4. CHANGELOG.md               → prepends new entry
- *   5. docs/other/changelog.html  → prepends new <tr>
- *   6. docs/index.html            → rotates Latest Changes cards (keep 3)
+ * Updates 4 places (display is automatic via CSS tokens):
+ *   1. docs/shared/tokens.css    → --ds-version + --ds-last-updated  (drives ALL version displays)
+ *   2. STATUS.md                 → Current Version + Last Updated
+ *   3. CHANGELOG.md              → prepends new entry
+ *   4. docs/other/changelog.html → prepends new <tr> + rotates Latest Changes cards
  */
 
 const fs   = require('fs');
@@ -35,38 +36,30 @@ if (!validTypes.includes(type.toLowerCase())) {
   process.exit(1);
 }
 
-const TYPE   = type.toLowerCase();
-const DATE   = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-const ROOT   = path.resolve(__dirname, '../..');
+const TYPE = type.toLowerCase();
+const DATE = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const ROOT = path.resolve(__dirname, '../..');
 
 function read(rel)        { return fs.readFileSync(path.join(ROOT, rel), 'utf8'); }
 function write(rel, data) { fs.writeFileSync(path.join(ROOT, rel), data, 'utf8'); }
 
-/* ── 1. tokens.css ── */
+/* ── 1. tokens.css — the single source of truth for version display ── */
 const tokensPath = 'docs/shared/tokens.css';
-write(tokensPath, read(tokensPath).replace(
-  /--ds-version:\s*"[\d.]+"/,
-  `--ds-version: "${version}"`
-));
-console.log(`✓ tokens.css        → v${version}`);
+write(tokensPath, read(tokensPath)
+  .replace(/--ds-version:\s*"[\d.]+"/, `--ds-version:      "${version}"`)
+  .replace(/--ds-last-updated:\s*"[^"]+"/, `--ds-last-updated: "${DATE}"`)
+);
+console.log(`✓ tokens.css        → v${version}, ${DATE}  (header chip + overview badge auto-update from this)`);
 
-/* ── 2. ds.js ── */
-const dsPath = 'docs/shared/ds.js';
-write(dsPath, read(dsPath).replace(
-  /var DS_VERSION\s*=\s*'[\d.]+'/,
-  `var DS_VERSION = '${version}'`
-));
-console.log(`✓ ds.js             → v${version}`);
-
-/* ── 3. STATUS.md ── */
+/* ── 2. STATUS.md ── */
 const statusPath = 'STATUS.md';
 write(statusPath, read(statusPath)
   .replace(/^## Current Version\nv[\d.]+/m, `## Current Version\nv${version}`)
   .replace(/^## Last Updated\n.+/m,         `## Last Updated\n${DATE}`)
 );
-console.log(`✓ STATUS.md         → v${version}, ${DATE}`);
+console.log(`✓ STATUS.md         → v${version}`);
 
-/* ── 4. CHANGELOG.md ── */
+/* ── 3. CHANGELOG.md ── */
 const clPath = 'CHANGELOG.md';
 const clEntry = `## v${version} — ${DATE}
 ### Type: ${TYPE.toUpperCase()}
@@ -81,7 +74,7 @@ write(clPath, read(clPath).replace(
 ));
 console.log(`✓ CHANGELOG.md      → v${version} entry prepended`);
 
-/* ── 5. docs/other/changelog.html ── */
+/* ── 4. docs/other/changelog.html — new row + rotate Latest Changes cards ── */
 const htmlClPath = 'docs/other/changelog.html';
 const badgeClass = TYPE === 'major' ? 'major' : TYPE === 'minor' ? 'minor' : 'patch';
 const trEntry = `      <tr data-type="${TYPE}" data-by="${author}">
@@ -98,43 +91,30 @@ write(htmlClPath, read(htmlClPath).replace(
 ));
 console.log(`✓ changelog.html    → v${version} row prepended`);
 
-/* ── 6. docs/index.html — rotate Latest Changes cards ── */
+/* ── Rotate Latest Changes cards in index.html ── */
 const indexPath = 'docs/index.html';
 let indexHtml = read(indexPath);
 
-/* Update version badge + date in the page header */
-indexHtml = indexHtml
-  .replace(/<span class="version-badge">v[\d.]+<\/span>/, `<span class="version-badge">v${version}</span>`)
-  .replace(/<span class="version-date">Last updated: [^<]+<\/span>/, `<span class="version-date">Last updated: ${DATE}</span>`);
-
-/* Build the new card */
-const badgeCls = TYPE === 'major' ? 'major' : TYPE === 'minor' ? 'minor' : 'patch';
 const newCard = `    <div class="cl-card">
       <div class="cl-version">v${version}</div>
-      <span class="cl-badge ${badgeCls}">${TYPE.toUpperCase()}</span>
+      <span class="cl-badge ${badgeClass}">${TYPE.toUpperCase()}</span>
       <div class="cl-title">${title}</div>
       <div class="cl-date">${DATE}</div>
       <div class="cl-desc">${description || title}</div>
     </div>`;
 
-/* Extract the current 3 cards from the cl-grid */
 const gridMatch = indexHtml.match(/<div class="cl-grid">([\s\S]*?)<a href="other\/changelog\.html"/);
 if (gridMatch) {
-  const gridInner = gridMatch[1];
-  /* Match individual cl-card divs (non-greedy) */
   const cardRegex = /\s*<div class="cl-card">[\s\S]*?<\/div>\s*<\/div>/g;
-  const existingCards = gridInner.match(cardRegex) || [];
-  /* Keep only first 2 existing cards (they become cards 2 and 3) */
+  const existingCards = gridMatch[1].match(cardRegex) || [];
   const kept = existingCards.slice(0, 2).join('\n');
-  const newGrid = `\n\n${newCard}\n${kept}\n\n    `;
   indexHtml = indexHtml.replace(
     /(<div class="cl-grid">)([\s\S]*?)(<a href="other\/changelog\.html")/,
-    `$1${newGrid}$3`
+    `$1\n\n${newCard}\n${kept}\n\n    $3`
   );
+  write(indexPath, indexHtml);
+  console.log(`✓ index.html        → Latest Changes cards rotated`);
 }
 
-write(indexPath, indexHtml);
-console.log(`✓ index.html        → v${version} card added, Latest Changes rotated`);
-
-console.log(`\n🎉  Version bumped to v${version} in all 6 places.`);
+console.log(`\n🎉  Done. v${version} is now live in tokens.css — all pages pick it up automatically.`);
 console.log(`   Next: git add -A && git commit -m "chore: bump version to v${version}"`);
