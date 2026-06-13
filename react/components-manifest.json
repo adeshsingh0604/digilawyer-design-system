@@ -52,8 +52,8 @@
     {
       "key": "tag",
       "name": "Tag",
-      "react_status": "pending",
-      "storybook_path": null
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-tag--docs"
     },
     {
       "key": "badge",
