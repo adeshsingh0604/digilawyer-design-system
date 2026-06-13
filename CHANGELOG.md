@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.32.1 — 13 June 2026
+### Type: PATCH
+### Updated by: Adesh Singh
+**What changed:** React Storybook links on every component page + collaboration workflow
+**Description:** (1) Added "React Storybook" Quick Link card on the Overview page linking to the live Storybook. (2) `ds.js` now auto-injects a "For React" section at the bottom of every component page — components with React stories get a card with a direct Storybook link; remaining components show a "coming soon" note. CSS for the banner added to `components.css`. (3) Added `CONTRIBUTING.md` with developer and designer workflow, branch naming, commit conventions, versioning rules, changelog process, and revert instructions. (4) Added GitHub PR template (auto-fills checklist on every PR) and three issue templates: Bug Report, Design Feedback, Token Change. (5) Deployed React components (Button, Checkbox, Toggle, Radio, ButtonGroup, Input with Tags + OTP, Textarea) to GitHub Pages Storybook at `/storybook/`.
+
 ## v2.31.7 — 3 June 2026
 ### Type: PATCH
 ### Updated by: Adesh Singh

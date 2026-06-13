@@ -2958,3 +2958,63 @@ table.matrix { border-collapse: collapse; width: 100%; background: var(--color-b
   font-size: 10.5px;
   color: var(--color-subheading);
 }
+
+/* ── React / Storybook banner ──────────────────────────────────────────── */
+.react-banner {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--color-border);
+}
+.react-banner h2 {
+  font-size: var(--fs-18);
+  font-weight: var(--fw-semibold);
+  color: var(--color-heading);
+  margin: 0 0 16px;
+}
+.react-banner-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-2);
+}
+.react-banner-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  color: var(--color-heading);
+  min-width: 0;
+}
+.react-banner-left svg { flex-shrink: 0; margin-top: 2px; }
+.react-banner-title {
+  font-size: var(--fs-14);
+  font-weight: var(--fw-semibold);
+  color: var(--color-heading);
+  margin-bottom: 4px;
+}
+.react-banner-desc {
+  font-size: var(--fs-13);
+  color: var(--color-subheading);
+  line-height: var(--lh-20);
+}
+.react-banner-desc a { color: var(--color-link); text-decoration: none; }
+.react-banner-desc a:hover { text-decoration: underline; }
+.react-banner-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--color-heading);
+  color: var(--color-bg);
+  font-size: var(--fs-13);
+  font-weight: var(--fw-medium);
+  text-decoration: none;
+  transition: opacity .15s;
+}
+.react-banner-btn:hover { opacity: .85; }
+.react-banner-soon { opacity: .75; }

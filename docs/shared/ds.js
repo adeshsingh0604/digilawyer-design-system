@@ -1036,6 +1036,69 @@
   }
 
   /* ── Init ────────────────────────────────────────────────────────────── */
+  /* ── 9. React / Storybook banner ────────────────────────────────────────
+     Appended to <main> on component pages. Maps DS_PAGE.key → Storybook URL.
+     Components without stories yet get a "coming soon" note instead.       */
+  var SB_BASE = 'https://adeshsingh0604.github.io/digilawyer-design-system/storybook/';
+  var SB_STORIES = {
+    'button':       SB_BASE + '?path=/docs/components-button--docs',
+    'button-group': SB_BASE + '?path=/docs/components-buttongroup--docs',
+    'checkbox':     SB_BASE + '?path=/docs/components-checkbox--docs',
+    'radio':        SB_BASE + '?path=/docs/components-radio--docs',
+    'toggle':       SB_BASE + '?path=/docs/components-toggle--docs',
+    'input':        SB_BASE + '?path=/docs/components-input--docs',
+    'textarea':     SB_BASE + '?path=/docs/components-textarea--docs',
+  };
+
+  var COMPONENT_KEYS = [
+    'button','button-group','checkbox','radio','toggle','dropdown',
+    'input','textarea','upload-media','slider','rating','date-picker','options',
+    'avatar','badge','tag','table','alert','snackbar','tooltip','progress-bar',
+    'tabs','link','pagination','breadcrumb'
+  ];
+
+  function injectReactBanner() {
+    var key = cfg().key;
+    if (COMPONENT_KEYS.indexOf(key) === -1) return;
+
+    var main = document.querySelector('main.main');
+    if (!main) return;
+
+    var sbUrl = SB_STORIES[key];
+    var innerHtml;
+
+    if (sbUrl) {
+      innerHtml = '<div class="react-banner-body">'
+        + '<div class="react-banner-left">'
+        + '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        + '<div>'
+        + '<div class="react-banner-title">React Component</div>'
+        + '<div class="react-banner-desc">This component is available as a React package with full TypeScript types and Storybook docs.</div>'
+        + '</div></div>'
+        + '<a href="' + sbUrl + '" target="_blank" rel="noopener" class="react-banner-btn">'
+        + 'Open in Storybook'
+        + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        + '</a>'
+        + '</div>';
+    } else {
+      innerHtml = '<div class="react-banner-body react-banner-soon">'
+        + '<div class="react-banner-left">'
+        + '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        + '<div>'
+        + '<div class="react-banner-title">React Component — Coming Soon</div>'
+        + '<div class="react-banner-desc">The React implementation of this component is in progress. <a href="' + SB_BASE + '" target="_blank" rel="noopener">Browse available components →</a></div>'
+        + '</div></div>'
+        + '</div>';
+    }
+
+    var section = document.createElement('section');
+    section.id = 'for-react';
+    section.className = 'react-banner';
+    section.setAttribute('aria-label', 'React component');
+    section.innerHTML = '<h2>For React</h2>' + innerHtml;
+    main.appendChild(section);
+  }
+
   function init() {
     injectSprite();
     injectHeader();
@@ -1076,6 +1139,7 @@
     initSearch();
     initTOCSpy(sections);
     initCopyButtons();
+    injectReactBanner();
     if (DEBUG) dlog('init complete', { version: DS_VERSION, key: cfg().key, sections: sections, searchEntries: SEARCH_INDEX.length });
   }
 
