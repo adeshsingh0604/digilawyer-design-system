@@ -38,7 +38,7 @@
 (function () {
   'use strict';
 
-  var DS_VERSION = '2.31.7';
+  var DS_VERSION = '2.32.1';
   var DEBUG = /[?&]ds-debug=1\b/.test(location.search) || window.DS_DEBUG === true;
   function dlog() {
     if (!DEBUG) return;

@@ -1,10 +1,10 @@
 # DigiLawyer Design System — Status
 
 ## Current Version
-v2.31.7
+v2.32.1
 
 ## Last Updated
-4 June 2026
+14 June 2026
 
 ## What is Built
 - docs/shared/tokens.css — full token architecture
