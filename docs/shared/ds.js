@@ -38,7 +38,8 @@
 (function () {
   'use strict';
 
-  var DS_VERSION = '2.32.1';
+  /* Version is the single source of truth in tokens.css → --ds-version */
+  var DS_VERSION = '';
   var DEBUG = /[?&]ds-debug=1\b/.test(location.search) || window.DS_DEBUG === true;
   function dlog() {
     if (!DEBUG) return;
@@ -738,16 +739,25 @@
     return sections;
   }
 
-  /* ── 6. Version display from CSS token ───────────────────────────────── */
+  /* ── 6. Version + date display — reads from tokens.css, never hardcoded ── */
   function updateVersion() {
-    var raw = getComputedStyle(document.documentElement).getPropertyValue('--ds-version');
-    var v = raw ? raw.trim().replace(/['"]/g, '') : DS_VERSION;
-    if (!v) v = DS_VERSION;
+    var styles = getComputedStyle(document.documentElement);
+
+    var v = styles.getPropertyValue('--ds-version').trim().replace(/['"]/g, '');
+    DS_VERSION = v;
+
+    var d = styles.getPropertyValue('--ds-last-updated').trim().replace(/['"]/g, '');
+
+    /* Header chip */
     document.querySelectorAll('.sb-tag').forEach(function (el) {
       el.textContent = 'v' + v;
     });
+    /* Overview version badge */
     var badge = document.querySelector('.version-badge');
     if (badge) badge.textContent = 'v' + v;
+    /* Overview last-updated date */
+    var dateEl = document.querySelector('.version-date');
+    if (dateEl && d) dateEl.textContent = 'Last updated: ' + d;
   }
 
   /* ── 7. Theme toggle ─────────────────────────────────────────────────── */
