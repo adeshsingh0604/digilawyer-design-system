@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.33.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh
+**What changed:** Dropdown — React component
+**Description:** Dropdown and DropdownItem React components available in Storybook. Matches Figma panel chrome exactly.
+
 ## v2.32.1 — 13 June 2026
 ### Type: PATCH
 ### Updated by: Adesh Singh
