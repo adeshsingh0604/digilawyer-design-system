@@ -9,6 +9,12 @@ const config = {
   docs: {
     autodocs: 'tag',
   },
+  viteFinal: async (config, { configType }) => {
+    if (configType === 'PRODUCTION') {
+      config.base = '/digilawyer-design-system/storybook/';
+    }
+    return config;
+  },
 };
 
 export default config;

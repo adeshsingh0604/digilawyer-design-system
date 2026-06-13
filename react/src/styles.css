@@ -1,0 +1,20 @@
+/*
+ * DigiLawyer DS — Consumer stylesheet
+ *
+ * Import this file once at the root of your app:
+ *   import 'digilawyer-ds/src/styles.css';
+ *
+ * What you get:
+ *   - All design tokens (colours, typography, spacing, radius, shadows)
+ *     as CSS custom properties on :root and [data-theme="dark"]
+ *   - All component styles (Button, Checkbox, Radio, etc.)
+ *
+ * Dark mode: set data-theme="dark" on your <html> element.
+ *
+ * Note: components.css also includes documentation-site scaffolding classes
+ * (.demo-box, .demo-panel, etc.). These are inert unless you use those exact
+ * class names in your app. A split file is planned for a future release.
+ */
+
+@import '../../docs/shared/tokens.css';
+@import '../../docs/shared/components.css';

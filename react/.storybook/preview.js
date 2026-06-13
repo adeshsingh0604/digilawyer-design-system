@@ -1,6 +1,7 @@
 import React from 'react';
-import '../../shared/tokens.css';
-import '../src/components/Button/Button.css';
+import '../../docs/shared/tokens.css';
+import '../../docs/shared/components.css';
+import './storybook-docs.css';
 
 export const globalTypes = {
   theme: {
@@ -22,6 +23,9 @@ export const decorators = [
   (Story, context) => {
     const theme = context.globals.theme || 'light';
     document.documentElement.setAttribute('data-theme', theme);
+    // Sync the preview canvas background to the active theme token
+    document.body.style.background = theme === 'dark' ? '#1C1C1C' : '#FFFFFF';
+    document.body.style.transition = 'background 0.2s';
     return React.createElement(Story);
   },
 ];
@@ -33,4 +37,9 @@ export const parameters = {
     },
   },
   layout: 'centered',
+  docs: {
+    source: {
+      language: 'tsx',
+    },
+  },
 };

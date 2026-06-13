@@ -51,3 +51,6 @@ Desktop.ini
 # ─── Coverage / test output ───────────────────────────────────
 coverage/
 .nyc_output/
+
+# ─── Claude Code tooling ─────────────────────────────────────
+.claude/

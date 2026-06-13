@@ -1,0 +1,22 @@
+/*
+  Storybook 8 docs UI fixes — applied inside the docs preview iframe.
+
+  Root cause: Storybook's dynamic source panel renders each JSX token as a
+  styled span using Emotion CSS-in-JS (background: theme.color.secondary).
+  The class names are hash-based (css-abc123) so we can't target them statically.
+
+  Fix: override ALL span backgrounds inside pre/code blocks with !important.
+  This covers both inline-style badges and Emotion-class badges.
+  PrismJS syntax highlighting only uses text color on individual tokens, not
+  background-color, so this override has no visible side-effect on highlighting.
+*/
+
+pre span,
+code span {
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}

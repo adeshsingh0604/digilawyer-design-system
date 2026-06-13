@@ -1075,6 +1075,7 @@ table.matrix { border-collapse: collapse; width: 100%; background: var(--color-b
   width: 100%;
   min-height: 120px;                              /* Figma: same shell height across all sizes */
   padding: var(--spacing-xs) var(--spacing-sm);   /* md default = 8/12 */
+  overflow: hidden;                               /* clips native resize handle to shell's rounded corners */
   background: var(--input-default-bg);
   border: 1px solid var(--input-default-border);
   border-radius: var(--radius-md);
@@ -1099,11 +1100,12 @@ table.matrix { border-collapse: collapse; width: 100%; background: var(--color-b
    and Large's symmetric 12px padding (vs 8/12 on md/sm). */
 .textarea-lg { padding: var(--spacing-sm); }      /* 12px all sides */
 
-/* ── Native textarea — spans the shell's full inner width so the browser's
-   resize handle (always bottom-right of the <textarea>) ends up at the
-   bottom-right of the shell, matching the Figma decorative handle position. */
+/* ── Native textarea — border-box so width:100% + padding-right don't overflow
+   the shell. The resize handle lands at the shell's bottom-right corner and is
+   clipped within the rounded border by the shell's overflow:hidden. */
 .textarea > textarea {
   display: block;
+  box-sizing: border-box;
   width: 100%;
   min-height: 104px;                              /* 120 - 16 padding-y (md/sm) */
   padding: 0;

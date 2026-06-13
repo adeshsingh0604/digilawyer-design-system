@@ -1,4 +1,6 @@
-import tokens from '../../../shared/tokens.json';
+import tokens from '../../../docs/shared/tokens.json';
 
-export const { color, typography, spacing, radius, shadow, breakpoint, grid, dark } = tokens;
+export const { light, dark } = tokens;
 export default tokens;
+// Usage: tokens.light['btn-primary-bg']  →  "#2D2D2D"
+//        tokens.dark['btn-primary-bg']   →  "#FFFFFF"
