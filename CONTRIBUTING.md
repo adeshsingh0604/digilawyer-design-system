@@ -126,11 +126,12 @@ npm run storybook    # local dev server on :6006
 
 Each component needs:
 - `ComponentName.jsx` — the component
-- `ComponentName.css` — scoped styles (uses same CSS tokens)
 - `ComponentName.stories.jsx` — Storybook stories
 - `index.js` — re-export
 
-See `react/WORKFLOW.md` for the full checklist and component order.
+No `.css` files per component — all styles live in `docs/shared/components.css`, imported once. Class names in JSX must match the HTML docs exactly.
+
+See `react/WORKFLOW.md` for the full checklist, component order, and non-negotiable rules.
 
 ### Testing locally
 
@@ -177,13 +178,13 @@ We use semantic versioning (`MAJOR.MINOR.PATCH`):
 | MINOR | New component fully documented, new token group |
 | MAJOR | Breaking token rename, removed component |
 
-**Every version bump requires exactly these 6 steps** (see `CLAUDE.md` for details):
-1. `--ds-version` in `docs/shared/tokens.css`
-2. `DS_VERSION` in `docs/shared/ds.js`
-3. New entry at top of `CHANGELOG.md`
-4. New `<tr>` at top of `<tbody>` in `docs/other/changelog.html`
-5. MINOR/MAJOR only: refresh 3 Latest Changes cards in `docs/index.html`
-6. Update `STATUS.md`
+**One command handles everything:**
+
+```bash
+node docs/scripts/bump-version.js 2.33.0 minor "Dropdown — fully documented" "Description here"
+```
+
+This updates `tokens.css` (the single source of truth for version display), `STATUS.md`, `CHANGELOG.md`, `changelog.html`, and rotates the Latest Changes cards — all in one shot. See `docs/scripts/bump-version.js` for details.
 
 ---
 

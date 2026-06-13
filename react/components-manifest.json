@@ -1,0 +1,161 @@
+{
+  "storybook_base": "https://adeshsingh0604.github.io/digilawyer-design-system/storybook/",
+  "components": [
+    {
+      "key": "button",
+      "name": "Button",
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-button--docs"
+    },
+    {
+      "key": "button-group",
+      "name": "Button Group",
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-buttongroup--docs"
+    },
+    {
+      "key": "checkbox",
+      "name": "Checkbox",
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-checkbox--docs"
+    },
+    {
+      "key": "radio",
+      "name": "Radio Button",
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-radio--docs"
+    },
+    {
+      "key": "toggle",
+      "name": "Toggle Switch",
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-toggle--docs"
+    },
+    {
+      "key": "input",
+      "name": "Text Input",
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-input--docs"
+    },
+    {
+      "key": "textarea",
+      "name": "Text Area",
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-textarea--docs"
+    },
+    {
+      "key": "dropdown",
+      "name": "Dropdown",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "tag",
+      "name": "Tag",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "badge",
+      "name": "Badge",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "avatar",
+      "name": "Avatar",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "alert",
+      "name": "Alert",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "tooltip",
+      "name": "Tooltip",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "tabs",
+      "name": "Tabs",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "pagination",
+      "name": "Pagination",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "upload-media",
+      "name": "Upload Media",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "slider",
+      "name": "Slider",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "rating",
+      "name": "Rating",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "date-picker",
+      "name": "Date Picker",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "options",
+      "name": "Options",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "avatar",
+      "name": "Avatar",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "table",
+      "name": "Table",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "snackbar",
+      "name": "Snackbar",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "progress-bar",
+      "name": "Progress Bar",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "link",
+      "name": "Link",
+      "react_status": "pending",
+      "storybook_path": null
+    },
+    {
+      "key": "breadcrumb",
+      "name": "Breadcrumb",
+      "react_status": "pending",
+      "storybook_path": null
+    }
+  ]
+}

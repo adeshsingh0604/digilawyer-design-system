@@ -123,13 +123,13 @@ Optional but encouraged: **With icons**, **Composition** (how this combines with
 
 Semantic versioning: MAJOR for breaking token changes, MINOR for a new component fully documented or a new token group, PATCH for bug fixes or content updates.
 
-When bumping a version:
-1. `--ds-version` in `docs/shared/tokens.css`
-2. `DS_VERSION` constant near the top of `docs/shared/ds.js` (this drives the sidebar tag on every page automatically)
-3. Entry at the top of `CHANGELOG.md`
-4. New `<tr>` at the top of the `<tbody>` in `docs/other/changelog.html`
-5. For MINOR/MAJOR: refresh the "Latest Changes" cards in `docs/index.html` — **exactly 3 cards always**. Add the new release at the top, drop the oldest. The full history lives in `CHANGELOG.md` + `docs/other/changelog.html` — the homepage just teases the 3 most recent.
-6. Update `STATUS.md` (version + date)
+**One command handles the version bump — run this, not the manual steps:**
+
+```bash
+node docs/scripts/bump-version.js <version> <patch|minor|major> "<title>" "<description>"
+```
+
+This updates `tokens.css` (single source of truth for all version displays), `STATUS.md`, `CHANGELOG.md`, `changelog.html`, and rotates the Latest Changes cards on the Overview page automatically.
 
 ## Deferred cleanups (good first issues)
 
@@ -163,13 +163,13 @@ These rules apply every time you touch any component — docs or React.
 
 ### Release ceremony
 
-Every version bump requires exactly these 6 steps — no shortcuts:
-1. `--ds-version` in `tokens.css`
-2. `DS_VERSION` in `ds.js`
-3. New entry at top of `CHANGELOG.md`
-4. New `<tr>` at top of `<tbody>` in `docs/other/changelog.html`
-5. MINOR/MAJOR only: refresh 3 Latest Changes cards in `docs/index.html`
-6. Update `STATUS.md`
+Run the bump script — it handles everything in one command:
+
+```bash
+node docs/scripts/bump-version.js <version> <patch|minor|major> "<title>" "<description>"
+```
+
+What it updates automatically: `tokens.css` (version + date tokens) · `STATUS.md` · `CHANGELOG.md` · `docs/other/changelog.html` · Latest Changes cards in `docs/index.html`.
 
 ### Per-component rules
 
