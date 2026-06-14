@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.46.1 — 14 June 2026
+### Type: PATCH
+### Updated by: Adesh Singh
+**What changed:** Table kebab alignment
+**Description:** Center the kebab action button in action-only columns — changed .table-cell-end from justify-content:flex-end to center.
+
 ## v2.46.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh Singh

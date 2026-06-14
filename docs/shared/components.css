@@ -2047,7 +2047,7 @@ table.matrix { border-collapse: collapse; width: 100%; background: var(--color-b
   justify-content: space-between;
   gap: var(--spacing-sm);
 }
-.table-cell-end { justify-content: flex-end; }
+.table-cell-end { justify-content: center; }
 /* Numeric column helper — tabular figures + right-align in one shot. */
 .td-num {
   font-variant-numeric: tabular-nums;
