@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.52.0 — 15 June 2026
+### Type: MINOR
+### Updated by: Adesh Singh
+**What changed:** Responsive Phase 2 — Storybook viewports + Responsive stories
+**Description:** Add DigiLawyer breakpoints (390/744/1440) to Storybook viewport toolbar via preview.js. Add Responsive story to Button, Table, Tabs, Pagination, and Breadcrumb demonstrating mobile CSS utilities.
+
 ## v2.51.0 — 15 June 2026
 ### Type: MINOR
 ### Updated by: Adesh Singh

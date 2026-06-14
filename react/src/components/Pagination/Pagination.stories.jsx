@@ -137,6 +137,41 @@ export const ShortRange = {
   ),
 };
 
+// ── Responsive — compact pagination on mobile ─────────────────────────────────
+export const Responsive = {
+  parameters: {
+    viewport: { defaultViewport: 'mobile' },
+    layout: 'padded',
+    docs: {
+      description: {
+        story: 'Add `.pagination-auto` to the `<Pagination>` wrapper — buttons shrink to 32 px height and 12 px font on screens narrower than 744 px. Switch to Mobile (390) in the viewport toolbar.',
+      },
+      source: {
+        code: `<Pagination className="pagination-auto" aria-label="Results">
+  <PaginationPrev />
+  …
+  <PaginationNext />
+</Pagination>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ width: '100%', maxWidth: 390 }}>
+      <Pagination className="pagination-auto" aria-label="Responsive pagination">
+        <PaginationPrev />
+        <PaginationItem>1</PaginationItem>
+        <PaginationEllipsis />
+        <PaginationItem>4</PaginationItem>
+        <PaginationItem current>5</PaginationItem>
+        <PaginationItem>6</PaginationItem>
+        <PaginationEllipsis />
+        <PaginationItem>10</PaginationItem>
+        <PaginationNext />
+      </Pagination>
+    </div>
+  ),
+};
+
 // ── Full Matrix — 3 scenarios × 3 sizes (vertical layout) ────────────────────
 export const FullMatrix = {
   render: () => {

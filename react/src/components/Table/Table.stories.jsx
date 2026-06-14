@@ -177,6 +177,57 @@ export const States = {
   ),
 };
 
+// ── Responsive — horizontal scroll on mobile ──────────────────────────────────
+export const Responsive = {
+  parameters: {
+    viewport: { defaultViewport: 'mobile' },
+    docs: {
+      description: {
+        story: 'Wrap the table in `.table-wrap` to enable horizontal scroll on mobile. Switch to Mobile (390) in the viewport toolbar.',
+      },
+      source: {
+        code: `<div className="table-wrap">
+  <Table>…</Table>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div className="table-wrap">
+      <Table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Role</th>
+            <th>Email</th>
+            <th>Plan</th>
+            <th>Joined</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            { name: 'Adesh Singh', status: 'Active', role: 'Owner', email: 'adesh@example.com', plan: 'Pro', joined: '1 Jan 2025' },
+            { name: 'Jane Doe',    status: 'Idle',   role: 'Admin', email: 'jane@example.com',  plan: 'Free', joined: '15 Mar 2025' },
+            { name: 'Mark Patel',  status: 'Offline', role: 'Member', email: 'mark@example.com', plan: 'Pro', joined: '3 Jun 2025' },
+          ].map((row) => (
+            <tr key={row.email}>
+              <td>{row.name}</td>
+              <td>{row.status}</td>
+              <td>{row.role}</td>
+              <td>{row.email}</td>
+              <td><span className="tag tag-md">{row.plan}</span></td>
+              <td>{row.joined}</td>
+              <td><TableCell end><TableCellAction aria-label={`More for ${row.name}`} /></TableCell></td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </div>
+  ),
+};
+
 // ── Full Matrix — cell content types × row positions ─────────────────────────
 export const FullMatrix = {
   render: () => (
