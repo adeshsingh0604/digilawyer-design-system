@@ -2793,6 +2793,7 @@ table.matrix { border-collapse: collapse; width: 100%; background: var(--color-b
 .alert-close:hover { opacity: 1; }
 .alert-close svg { width: 16px; height: 16px; display: block; }
 .alert-body {
+  margin: 0;
   font-family: var(--font-primary);
   font-size: var(--fs-14);
   line-height: var(--lh-24);
