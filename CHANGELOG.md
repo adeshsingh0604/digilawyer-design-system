@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.35.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh
+**What changed:** Badge — React component
+**Description:** Badge component with Dot, Label, and Verify variants; 7 semantic colours; 3 sizes; BadgePin composition helper.
+
 ## v2.34.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh
