@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.40.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh
+**What changed:** Pagination — React component
+**Description:** Pagination, PaginationPrev, PaginationNext, PaginationItem, and PaginationEllipsis components. Three sizes (lg/md/sm), interactive Default story with page state, EdgePages and FullMatrix stories.
+
 ## v2.39.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh
