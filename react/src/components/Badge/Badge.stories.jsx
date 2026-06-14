@@ -4,6 +4,7 @@ import { Badge, BadgePin } from './Badge';
 export default {
   title: 'Components/Badge',
   component: Badge,
+  tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
     variant: { control: 'select', options: ['dot', 'label', 'verify'] },
