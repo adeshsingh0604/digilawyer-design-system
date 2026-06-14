@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 // ── Inline SVG icons ──────────────────────────────────────────────────────────
 
 const UploadArrowIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" fill="none">
-    <path d="M16 4v17M9 11l7-7 7 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M4 21v4a3 3 0 0 0 3 3h18a3 3 0 0 0 3-3v-4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+  <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none">
+    <path d="M12 16V8M12 8l-3 3M12 8l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M3 16v1a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4v-1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
   </svg>
 );
 
@@ -95,8 +95,6 @@ export const UploadMedia = React.forwardRef(function UploadMedia(
     accept,
     /** Max file size in bytes — files above this are silently skipped (default 5 MB). */
     maxSize = 5 * 1024 * 1024,
-    /** Disable the entire field. */
-    disabled = false,
     /** Force `.is-hover` class at rest — documentation helper for the full matrix. */
     hover = false,
     className,
@@ -117,7 +115,6 @@ export const UploadMedia = React.forwardRef(function UploadMedia(
 
   function handleChoose(e) {
     e.preventDefault();
-    if (disabled) return;
     fileInputRef.current?.click();
   }
 
@@ -145,13 +142,7 @@ export const UploadMedia = React.forwardRef(function UploadMedia(
 
   const atLimit = files.length >= maxFiles;
 
-  const uploadClass = [
-    'upload',
-    hover && 'is-hover',
-    disabled && 'is-disabled',
-  ]
-    .filter(Boolean)
-    .join(' ');
+  const uploadClass = ['upload', hover && 'is-hover'].filter(Boolean).join(' ');
 
   return (
     <div ref={ref} className={['input-field', className].filter(Boolean).join(' ')} {...rest}>
@@ -181,7 +172,7 @@ export const UploadMedia = React.forwardRef(function UploadMedia(
           </>
         )}
 
-        {!atLimit && !disabled && (
+        {!atLimit && (
           <button type="button" className="btn btn-primary btn-sm" onClick={handleChoose}>
             Choose file
           </button>
@@ -222,7 +213,6 @@ UploadMedia.propTypes = {
   maxFiles:       PropTypes.number,
   accept:         PropTypes.string,
   maxSize:        PropTypes.number,
-  disabled:       PropTypes.bool,
   hover:          PropTypes.bool,
   className:      PropTypes.string,
 };
