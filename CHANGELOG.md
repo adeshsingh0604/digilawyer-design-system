@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.53.0 — 15 June 2026
+### Type: MINOR
+### Updated by: Adesh Singh
+**What changed:** Responsive Phase 3 — HTML docs Responsive sections
+**Description:** Add Responsive section (with 390 px mobile demo frame) to Button, Table, Tabs, Pagination, and Breadcrumb component docs pages. Add .rsp-phone utility to components.css.
+
 ## v2.52.0 — 15 June 2026
 ### Type: MINOR
 ### Updated by: Adesh Singh

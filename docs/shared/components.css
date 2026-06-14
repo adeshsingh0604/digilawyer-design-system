@@ -3079,3 +3079,58 @@ table.matrix { border-collapse: collapse; width: 100%; background: var(--color-b
     white-space: nowrap;
   }
 }
+
+/* ── RESPONSIVE DEMO FRAME ──────────────────────────────────────────────────── */
+/* Simulates a 390 px mobile viewport inside a docs demo-box so the mobile-
+   breakpoint CSS utilities are visible regardless of the page's viewport width. */
+.rsp-phone {
+  width: 390px;
+  max-width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg, 12px);
+  padding: 20px 20px 24px;
+  background: var(--color-bg);
+  overflow: hidden;
+  position: relative;
+}
+.rsp-phone::before {
+  content: 'Mobile · 390 px';
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-subheading);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+}
+/* Unconditional mirrors of @media (max-width: 743px) rules — make the
+   responsive utilities visible inside the 390 px frame at any viewport width. */
+.rsp-phone .btn-full-mobile { width: 100%; justify-content: center; }
+.rsp-phone .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.rsp-phone .tabs {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.rsp-phone .tabs::-webkit-scrollbar { display: none; }
+.rsp-phone .pagination-auto { gap: var(--spacing-xxs); }
+.rsp-phone .pagination-auto .btn {
+  height: 32px;
+  font-size: var(--fs-12);
+  line-height: var(--lh-16);
+  padding: 0 var(--spacing-sm);
+  gap: var(--spacing-xxs);
+}
+.rsp-phone .pagination-auto .btn-square { min-width: 32px; }
+.rsp-phone .pagination-auto .pagination-ellipsis {
+  min-width: 32px;
+  height: 32px;
+  font-size: var(--fs-12);
+}
+.rsp-phone .breadcrumb-item,
+.rsp-phone .breadcrumb-current {
+  max-width: 30%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

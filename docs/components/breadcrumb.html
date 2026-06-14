@@ -250,6 +250,36 @@
     </div>
   </div>
 
+  <!-- Responsive -->
+  <h2 id="responsive">Responsive</h2>
+  <p class="desc">On screens narrower than 744 px, <code>.breadcrumb-item</code> and <code>.breadcrumb-current</code> are capped at <code>max-width: 30vw</code> with <code>text-overflow: ellipsis</code>, so a deep path stays on a single line without wrapping. No extra class is needed — the rule is applied by the existing class names.</p>
+  <div class="demo-box">
+    <div class="demo-panel active bc-row" style="align-items:flex-start;">
+      <div class="rsp-phone">
+        <nav class="breadcrumb" aria-label="File path">
+          <a href="#" class="breadcrumb-item">Dashboard</a>
+          <span class="breadcrumb-separator" aria-hidden="true"><svg><use href="#ico-chev-right-thin"/></svg></span>
+          <a href="#" class="breadcrumb-item">Legal Documents</a>
+          <span class="breadcrumb-separator" aria-hidden="true"><svg><use href="#ico-chev-right-thin"/></svg></span>
+          <a href="#" class="breadcrumb-item">2026 Filings</a>
+          <span class="breadcrumb-separator" aria-hidden="true"><svg><use href="#ico-chev-right-thin"/></svg></span>
+          <span class="breadcrumb-current" aria-current="page">Contract Amendment v3</span>
+        </nav>
+      </div>
+      <p style="font-size:12px;color:var(--color-subheading);margin:0;">Frame above simulates a 390 px mobile viewport — long labels are clipped with an ellipsis.</p>
+    </div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-responsive">Copy</button></div>
+    <pre id="c-responsive"><span class="comment">&lt;!-- No extra class needed — .breadcrumb-item and .breadcrumb-current
+     truncate automatically below 744 px --&gt;</span>
+<span class="kw">&lt;nav</span> <span class="attr">class</span>=<span class="str">"breadcrumb"</span> <span class="attr">aria-label</span>=<span class="str">"Breadcrumb"</span><span class="kw">&gt;
+  &lt;a</span> <span class="attr">href</span>=<span class="str">"#"</span> <span class="attr">class</span>=<span class="str">"breadcrumb-item"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/a&gt;
+</span>  …
+  <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"breadcrumb-current"</span> <span class="attr">aria-current</span>=<span class="str">"page"</span><span class="kw">&gt;</span>Current<span class="kw">&lt;/span&gt;
+&lt;/nav&gt;</span></pre>
+  </div>
+
   <!-- Accessibility -->
   <h2 id="accessibility">Accessibility</h2>
   <table class="api-table">

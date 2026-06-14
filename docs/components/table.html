@@ -271,6 +271,34 @@
     </div>
   </div>
 
+  <!-- Responsive -->
+  <h2 id="responsive">Responsive</h2>
+  <p class="desc">Wrap any <code>.table</code> in <code>.table-wrap</code> to enable horizontal scroll on narrow screens. The wrapper adds <code>overflow-x: auto</code> and smooth momentum scrolling on touch devices. No changes are needed to the table itself.</p>
+  <div class="demo-box">
+    <div class="demo-panel active tbl-row" style="align-items:flex-start;">
+      <div class="rsp-phone">
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr><th>Name</th><th>Status</th><th>Role</th><th>Email</th><th>Plan</th><th>Joined</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Adesh Singh</td><td>Active</td><td>Owner</td><td>adesh@example.com</td><td>Pro</td><td>1 Jan 2025</td></tr>
+              <tr><td>Jane Doe</td><td>Idle</td><td>Admin</td><td>jane@example.com</td><td>Free</td><td>15 Mar 2025</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--color-subheading);margin:0;">Frame above simulates a 390 px mobile viewport — scroll the table horizontally.</p>
+    </div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-responsive">Copy</button></div>
+    <pre id="c-responsive"><span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"table-wrap"</span><span class="kw">&gt;
+  &lt;table</span> <span class="attr">class</span>=<span class="str">"table"</span><span class="kw">&gt;</span>…<span class="kw">&lt;/table&gt;
+&lt;/div&gt;</span></pre>
+  </div>
+
   <!-- Accessibility -->
   <h2 id="accessibility">Accessibility</h2>
   <table class="api-table">
