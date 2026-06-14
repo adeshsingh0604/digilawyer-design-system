@@ -41,7 +41,7 @@ export const Default = {
 // ── All Sizes ─────────────────────────────────────────────────────────────────
 export const AllSizes = {
   render: () => (
-    <div style={{ display: 'grid', gridTemplateColumns: '90px 1fr', gap: '24px 16px', alignItems: 'center' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '90px auto', gap: '24px 16px', alignItems: 'center', justifyItems: 'start' }}>
       {[
         { size: 'lg', label: 'Large · 40' },
         { size: 'md', label: 'Medium · 32' },
