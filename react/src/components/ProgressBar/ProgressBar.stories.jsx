@@ -91,19 +91,22 @@ export const Interactive = {
     const [indeterminate, setIndet]   = React.useState(false);
     const [ramping, setRamping]       = React.useState(false);
     const rampRef                     = React.useRef(null);
+    const isRampingRef                = React.useRef(false);
 
     const stopRamp = () => {
       if (rampRef.current) { clearInterval(rampRef.current); rampRef.current = null; }
+      isRampingRef.current = false;
       setRamping(false);
     };
 
     const jump = (v) => { stopRamp(); setIndet(false); setValue(v); };
 
     const toggleRamp = () => {
-      if (ramping) { stopRamp(); return; }
+      if (isRampingRef.current) { stopRamp(); return; }
       setIndet(false);
       let v = value >= 100 ? 0 : value;
       setValue(v);
+      isRampingRef.current = true;
       setRamping(true);
       rampRef.current = setInterval(() => {
         v += 2;
