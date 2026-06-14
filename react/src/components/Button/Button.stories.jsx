@@ -392,3 +392,27 @@ export const Loading = {
     </div>
   ),
 };
+
+/* ── Responsive ── */
+export const Responsive = {
+  name: 'Responsive',
+  parameters: {
+    viewport: { defaultViewport: 'mobile' },
+    layout: 'padded',
+    docs: {
+      description: {
+        story: 'On mobile, use `.btn-full-mobile` to stretch a button to full width. Switch to Mobile (390) in the viewport toolbar to see the effect.',
+      },
+      source: {
+        code: `<Button variant="primary" className="btn-full-mobile">Full-width on mobile</Button>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 390 }}>
+      <Button variant="primary" className="btn-full-mobile">Full-width on mobile</Button>
+      <Button variant="secondary" className="btn-full-mobile">Secondary full-width</Button>
+      <Button variant="primary">Normal width</Button>
+    </div>
+  ),
+};

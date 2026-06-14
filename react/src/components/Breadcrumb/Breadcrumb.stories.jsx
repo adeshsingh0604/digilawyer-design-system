@@ -136,6 +136,32 @@ export const Composition = {
   ),
 };
 
+// ── Responsive — truncating long breadcrumbs on mobile ───────────────────────
+export const Responsive = {
+  parameters: {
+    viewport: { defaultViewport: 'mobile' },
+    layout: 'padded',
+    docs: {
+      description: {
+        story: 'The `.breadcrumb-item` and `.breadcrumb-current` classes get `max-width: 30vw` + `text-overflow: ellipsis` below 744 px, so deep paths stay on one line. Switch to Mobile (390) in the viewport toolbar.',
+      },
+    },
+  },
+  render: () => (
+    <div style={{ width: '100%', maxWidth: 390 }}>
+      <Breadcrumb aria-label="File path">
+        <BreadcrumbItem href="#" className="breadcrumb-item">Dashboard</BreadcrumbItem>
+        <BreadcrumbSeparator><ChevronThinIcon /></BreadcrumbSeparator>
+        <BreadcrumbItem href="#" className="breadcrumb-item">Legal Documents</BreadcrumbItem>
+        <BreadcrumbSeparator><ChevronThinIcon /></BreadcrumbSeparator>
+        <BreadcrumbItem href="#" className="breadcrumb-item">2026 Filings</BreadcrumbItem>
+        <BreadcrumbSeparator><ChevronThinIcon /></BreadcrumbSeparator>
+        <BreadcrumbCurrent className="breadcrumb-current">Contract Amendment v3</BreadcrumbCurrent>
+      </Breadcrumb>
+    </div>
+  ),
+};
+
 // ── Full Matrix — 2 sizes × 3 separators × 3 states ──────────────────────────
 export const FullMatrix = {
   render: () => {

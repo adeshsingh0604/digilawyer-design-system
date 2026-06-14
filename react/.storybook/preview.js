@@ -42,4 +42,24 @@ export const parameters = {
       language: 'tsx',
     },
   },
+  viewport: {
+    viewports: {
+      mobile: {
+        name: 'Mobile (390)',
+        styles: { width: '390px', height: '844px' },
+        type: 'mobile',
+      },
+      tablet: {
+        name: 'Tablet (744)',
+        styles: { width: '744px', height: '1024px' },
+        type: 'tablet',
+      },
+      desktop: {
+        name: 'Desktop (1440)',
+        styles: { width: '1440px', height: '900px' },
+        type: 'desktop',
+      },
+    },
+    defaultViewport: 'responsive',
+  },
 };

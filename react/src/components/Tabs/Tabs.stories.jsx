@@ -142,6 +142,51 @@ export const Alignment = {
   ),
 };
 
+// ── Responsive — scrollable tab strip on mobile ───────────────────────────────
+export const Responsive = {
+  parameters: {
+    viewport: { defaultViewport: 'mobile' },
+    layout: 'padded',
+    docs: {
+      description: {
+        story: 'Add `.tabs` to the `<Tabs>` wrapper so the tab strip scrolls horizontally on narrow screens with no visible scrollbar. Switch to Mobile (390) in the viewport toolbar.',
+      },
+      source: {
+        code: `<Tabs className="tabs" role="tablist" aria-label="Navigation">
+  <Tab selected>Overview</Tab>
+  <Tab>Timeline</Tab>
+  …
+</Tabs>`,
+      },
+    },
+  },
+  render: () => {
+    const [active, setActive] = useState('overview');
+    const items = ['Overview', 'Timeline', 'Documents', 'Comments', 'Activity', 'Settings', 'Billing'];
+    return (
+      <div style={{ width: '100%', maxWidth: 390 }}>
+        <Tabs className="tabs" role="tablist" aria-label="Responsive tabs">
+          {items.map((label) => {
+            const key = label.toLowerCase();
+            return (
+              <Tab
+                key={key}
+                selected={active === key}
+                onClick={() => setActive(key)}
+              >
+                {label}
+              </Tab>
+            );
+          })}
+        </Tabs>
+        <div style={{ padding: '16px 0', color: 'var(--color-heading)' }}>
+          {active.charAt(0).toUpperCase() + active.slice(1)} panel
+        </div>
+      </div>
+    );
+  },
+};
+
 // ── Full Matrix — 3 sizes × 4 states ─────────────────────────────────────────
 export const FullMatrix = {
   render: () => {
