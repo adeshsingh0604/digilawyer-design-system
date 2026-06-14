@@ -2209,8 +2209,10 @@ table.matrix { border-collapse: collapse; width: 100%; background: var(--color-b
   cursor: pointer;
   transition: color 0.12s;
 }
-.breadcrumb-item:hover:not(.is-disabled):not(:disabled) {
+.breadcrumb-item:hover:not(.is-disabled):not(:disabled),
+.breadcrumb-item.is-hover {
   color: var(--color-heading);
+  text-decoration: underline;
 }
 .breadcrumb-item:focus-visible {
   outline: 2px solid var(--color-heading);

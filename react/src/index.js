@@ -20,4 +20,5 @@ export { Table, TableWrap, TableCell, TableCellAction, KebabIcon } from './compo
 export { Snackbar, SnackbarClose } from './components/Snackbar';
 export { ProgressBar } from './components/ProgressBar';
 export { Link } from './components/Link';
+export { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator, BreadcrumbCurrent, ChevronThinIcon, ChevronThickIcon } from './components/Breadcrumb';
 export { default } from './components/Button';

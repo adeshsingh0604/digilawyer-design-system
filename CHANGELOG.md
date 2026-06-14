@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.50.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh Singh
+**What changed:** Breadcrumb
+**Description:** Hierarchical location molecule: Breadcrumb, BreadcrumbItem, BreadcrumbSeparator, BreadcrumbCurrent + chevron icons. Hover now shows underline (CSS fix for HTML + React). All 25 components complete.
+
 ## v2.49.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh Singh
