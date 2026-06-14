@@ -42,11 +42,12 @@ const ROOT = path.resolve(__dirname, '../..');
 
 function read(rel)        { return fs.readFileSync(path.join(ROOT, rel), 'utf8'); }
 function write(rel, data) { fs.writeFileSync(path.join(ROOT, rel), data, 'utf8'); }
+function escapeHtml(str)  { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 /* ── 1. tokens.css — the single source of truth for version display ── */
 const tokensPath = 'docs/shared/tokens.css';
 write(tokensPath, read(tokensPath)
-  .replace(/--ds-version:\s*"[\d.]+"/, `--ds-version:      "${version}"`)
+  .replace(/--ds-version:\s*["']?[\d.]+["']?/, `--ds-version:      "${version}"`)
   .replace(/--ds-last-updated:\s*"[^"]+"/, `--ds-last-updated: "${DATE}"`)
 );
 console.log(`✓ tokens.css        → v${version}, ${DATE}  (header chip + overview badge auto-update from this)`);
@@ -68,27 +69,27 @@ const clEntry = `## v${version} — ${DATE}
 **Description:** ${description || title}
 
 `;
-write(clPath, read(clPath).replace(
-  /^(<!--[\s\S]*?-->)\s*/m,
-  (_, comment) => comment + '\n\n' + clEntry
-));
+const clOriginal = read(clPath);
+const clUpdated = clOriginal.replace(/^(<!--[\s\S]*?-->)\s*/m, (_, comment) => comment + '\n\n' + clEntry);
+if (clUpdated === clOriginal) { console.error('✗ CHANGELOG.md — comment block not found. Entry NOT written.'); process.exit(1); }
+write(clPath, clUpdated);
 console.log(`✓ CHANGELOG.md      → v${version} entry prepended`);
 
 /* ── 4. docs/other/changelog.html — new row + rotate Latest Changes cards ── */
 const htmlClPath = 'docs/other/changelog.html';
 const badgeClass = TYPE === 'major' ? 'major' : TYPE === 'minor' ? 'minor' : 'patch';
-const trEntry = `      <tr data-type="${TYPE}" data-by="${author}">
+const trEntry = `      <tr data-type="${TYPE}" data-by="${escapeHtml(author)}">
         <td class="ver">v${version}</td>
         <td><span class="type-badge ${badgeClass}">${TYPE.toUpperCase()}</span></td>
-        <td>${title}</td>
-        <td>${description || title}</td>
+        <td>${escapeHtml(title)}</td>
+        <td>${escapeHtml(description || title)}</td>
         <td style="white-space:nowrap;">${DATE}</td>
-        <td>${author}</td>
+        <td>${escapeHtml(author)}</td>
       </tr>`;
-write(htmlClPath, read(htmlClPath).replace(
-  /(<tbody[^>]*>\s*<!-- Most recent entry first -->)/,
-  `$1\n${trEntry}`
-));
+const htmlOriginal = read(htmlClPath);
+const htmlUpdated = htmlOriginal.replace(/(<tbody[^>]*>\s*<!-- Most recent entry first -->)/, `$1\n${trEntry}`);
+if (htmlUpdated === htmlOriginal) { console.error('✗ changelog.html — tbody anchor comment not found. Row NOT written.'); process.exit(1); }
+write(htmlClPath, htmlUpdated);
 console.log(`✓ changelog.html    → v${version} row prepended`);
 
 /* ── Rotate Latest Changes cards in index.html ── */
@@ -98,9 +99,9 @@ let indexHtml = read(indexPath);
 const newCard = `    <div class="cl-card">
       <div class="cl-version">v${version}</div>
       <span class="cl-badge ${badgeClass}">${TYPE.toUpperCase()}</span>
-      <div class="cl-title">${title}</div>
+      <div class="cl-title">${escapeHtml(title)}</div>
       <div class="cl-date">${DATE}</div>
-      <div class="cl-desc">${description || title}</div>
+      <div class="cl-desc">${escapeHtml(description || title)}</div>
     </div>`;
 
 const gridMatch = indexHtml.match(/<div class="cl-grid">([\s\S]*?)<a href="other\/changelog\.html"/);
