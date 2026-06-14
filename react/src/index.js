@@ -11,4 +11,5 @@ export { Alert, AlertBtnPrimary, AlertBtnSecondary } from './components/Alert';
 export { Tooltip, TooltipHost } from './components/Tooltip';
 export { Tabs, Tab, TabPanel } from './components/Tabs';
 export { Pagination, PaginationPrev, PaginationNext, PaginationItem, PaginationEllipsis } from './components/Pagination';
+export { Slider, SliderRange } from './components/Slider';
 export { default } from './components/Button';

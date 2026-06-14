@@ -144,6 +144,7 @@ export const FullMatrix = {
     const rowLabelStyle = { fontSize: 12, color: 'var(--color-subheading)', fontWeight: 600, alignSelf: 'center' };
 
     return (
+      <div style={{ overflowX: 'auto' }}>
       <div style={{
         display: 'grid',
         gridTemplateColumns: '110px repeat(3, auto)',
@@ -153,6 +154,8 @@ export const FullMatrix = {
         border: '1px dashed var(--color-border)',
         borderRadius: 'var(--radius-md, 6px)',
         background: 'var(--color-bg-2)',
+        width: 'max-content',
+        minWidth: '100%',
       }}>
         <div />
         {['Mid range', 'First page', 'Last page'].map((h) => (
@@ -203,6 +206,7 @@ export const FullMatrix = {
             </Pagination>
           </React.Fragment>
         ))}
+      </div>
       </div>
     );
   },
