@@ -94,8 +94,8 @@
     {
       "key": "upload-media",
       "name": "Upload Media",
-      "react_status": "pending",
-      "storybook_path": null
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-uploadmedia--docs"
     },
     {
       "key": "slider",
