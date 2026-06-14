@@ -17,4 +17,5 @@ export { UploadMedia } from './components/UploadMedia';
 export { DatePicker, CalendarIcon } from './components/DatePicker';
 export { Option, OptionsMenu } from './components/Options';
 export { Table, TableWrap, TableCell, TableCellAction, KebabIcon } from './components/Table';
+export { Snackbar, SnackbarClose } from './components/Snackbar';
 export { default } from './components/Button';
