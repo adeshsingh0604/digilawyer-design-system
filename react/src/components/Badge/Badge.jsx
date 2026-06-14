@@ -79,6 +79,11 @@ Badge.propTypes = {
   size:      PropTypes.oneOf(['sm', 'md', 'lg']),
   children:  PropTypes.node,
   className: PropTypes.string,
+  'aria-label': (props) => {
+    if ((props.variant === 'dot' || props.variant === 'verify') && !props['aria-label']) {
+      return new Error(`Badge: \`aria-label\` is required for variant="${props.variant}" — this variant has no visible text.`);
+    }
+  },
 };
 
 /**
