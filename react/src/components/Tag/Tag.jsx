@@ -7,6 +7,13 @@ const CloseIcon = () => (
   </svg>
 );
 
+function getTextContent(node) {
+  if (typeof node === 'string' || typeof node === 'number') return String(node);
+  if (Array.isArray(node)) return node.map(getTextContent).join('');
+  if (node && node.props && node.props.children) return getTextContent(node.props.children);
+  return '';
+}
+
 /**
  * Inline label chip for status, category, or metadata.
  *
@@ -57,23 +64,27 @@ export const Tag = React.forwardRef(function Tag(
     .filter(Boolean)
     .join(' ');
 
+  if (process.env.NODE_ENV !== 'production' && as === 'button' && onRemove) {
+    console.warn('[Tag] as="button" + onRemove nests a <button> inside a <button> — invalid HTML. Use the default as="span" when onRemove is provided.');
+  }
+
   const trailingContent = onRemove ? (
     <button
       type="button"
       className="tag-trailing"
       onClick={onRemove}
-      aria-label={`Remove ${typeof children === 'string' ? children : ''}`}
+      aria-label={`Remove ${getTextContent(children) || 'item'}`}
       style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', color: 'inherit' }}
     >
       <CloseIcon />
     </button>
-  ) : trailing ? (
+  ) : trailing != null ? (
     <span className="tag-trailing">{trailing}</span>
   ) : null;
 
   return (
     <Tag ref={ref} className={classes} {...rest}>
-      {icon && <span className="tag-leading">{icon}</span>}
+      {icon != null && <span className="tag-leading">{icon}</span>}
       {children}
       {trailingContent}
     </Tag>

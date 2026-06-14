@@ -98,13 +98,14 @@ export const DropdownItem = React.forwardRef(function DropdownItem(
       type="button"
       className={classes}
       role={role}
-      aria-selected={role === 'option' ? selected : undefined}
-      disabled={disabled}
       {...rest}
+      aria-selected={role === 'option' ? selected : undefined}
+      aria-disabled={role === 'option' && disabled ? true : undefined}
+      disabled={role === 'option' ? undefined : disabled}
     >
-      {icon && <span className="options-leading">{icon}</span>}
+      {icon != null && <span className="options-leading">{icon}</span>}
       <span className="options-label">{children}</span>
-      {trailing && <span className="options-trailing">{trailing}</span>}
+      {trailing != null && <span className="options-trailing">{trailing}</span>}
     </button>
   );
 });

@@ -36,7 +36,7 @@ const base = manifest.storybook_base;
 /* Build SB_STORIES — only done components with a storybook_path */
 const storiesEntries = components
   .filter(c => c.react_status === 'done' && c.storybook_path)
-  .map(c => `    '${c.key}': SB_BASE + '${c.storybook_path}',`)
+  .map(c => `    '${c.key}': SB_BASE + '${c.storybook_path.replace(/'/g, "\\'")}',`)
   .join('\n');
 
 const sbStoriesBlock =

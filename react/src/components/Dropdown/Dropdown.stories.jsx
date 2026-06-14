@@ -21,8 +21,8 @@ const CheckIcon = () => (
   </svg>
 );
 
-const Tag = ({ color = 'grey', style: tagStyle = 'outline', children }) => (
-  <span className={`tag tag-${color} tag-${tagStyle} tag-sm`}>{children}</span>
+const Tag = ({ color = 'grey', variant = 'outline', children }) => (
+  <span className={`tag tag-${color} tag-${variant} tag-sm`}>{children}</span>
 );
 
 export default {
@@ -229,9 +229,9 @@ export const Composition = {
     docs: {
       description: { story: 'Mix Tag colours in the trailing slot to convey status. Pair with action menus (`role="menu"`) or selection lists (`role="listbox"`).' },
       source: {
-        code: `<DropdownItem trailing={<Tag color="green" style="semi">Live</Tag>}>Active</DropdownItem>
-<DropdownItem trailing={<Tag color="yellow" style="semi">WIP</Tag>}>Draft</DropdownItem>
-<DropdownItem trailing={<Tag color="grey" style="semi">Old</Tag>}>Archived</DropdownItem>`,
+        code: `<DropdownItem trailing={<Tag color="green" variant="semi">Live</Tag>}>Active</DropdownItem>
+<DropdownItem trailing={<Tag color="yellow" variant="semi">WIP</Tag>}>Draft</DropdownItem>
+<DropdownItem trailing={<Tag color="grey" variant="semi">Old</Tag>}>Archived</DropdownItem>`,
       },
     },
   },
@@ -241,9 +241,9 @@ export const Composition = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
         <span style={{ fontSize: '12px', color: 'var(--color-subheading)', fontWeight: 600 }}>Status tags</span>
         <Dropdown aria-label="Status menu" style={{ width: '240px' }}>
-          <DropdownItem icon={<AddSquareIcon />} trailing={<Tag color="green" style="semi">Live</Tag>}>Active</DropdownItem>
-          <DropdownItem icon={<AddSquareIcon />} trailing={<Tag color="yellow" style="semi">WIP</Tag>}>Draft</DropdownItem>
-          <DropdownItem icon={<AddSquareIcon />} trailing={<Tag color="grey" style="semi">Old</Tag>}>Archived</DropdownItem>
+          <DropdownItem icon={<AddSquareIcon />} trailing={<Tag color="green" variant="semi">Live</Tag>}>Active</DropdownItem>
+          <DropdownItem icon={<AddSquareIcon />} trailing={<Tag color="yellow" variant="semi">WIP</Tag>}>Draft</DropdownItem>
+          <DropdownItem icon={<AddSquareIcon />} trailing={<Tag color="grey" variant="semi">Old</Tag>}>Archived</DropdownItem>
         </Dropdown>
       </div>
 
