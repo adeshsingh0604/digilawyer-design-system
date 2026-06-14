@@ -124,8 +124,8 @@
     {
       "key": "table",
       "name": "Table",
-      "react_status": "pending",
-      "storybook_path": null
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-table--docs"
     },
     {
       "key": "snackbar",

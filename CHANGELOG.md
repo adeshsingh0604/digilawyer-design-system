@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.46.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh Singh
+**What changed:** Table
+**Description:** Data grid organism: TableWrap, Table, TableCell, TableCellAction + KebabIcon. Full Storybook coverage — Default (6×4 grid), Composition, States, FullMatrix.
+
 ## v2.45.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh

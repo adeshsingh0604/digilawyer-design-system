@@ -1,7 +1,7 @@
 # DigiLawyer Design System — Status
 
 ## Current Version
-v2.45.0
+v2.46.0
 
 ## Last Updated
 14 June 2026
