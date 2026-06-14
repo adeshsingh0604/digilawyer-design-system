@@ -8,7 +8,6 @@ export default {
   parameters: { layout: 'padded' },
   argTypes: {
     maxFiles: { control: 'number' },
-    disabled: { control: 'boolean' },
     hover:    { control: 'boolean' },
     accept:   { control: 'text' },
   },
@@ -39,7 +38,6 @@ export const Playground = {
     subheading: 'Max: 5MB file',
     maxFiles:   3,
     accept:     'image/*',
-    disabled:   false,
   },
   render: (args) => <UploadMedia {...args} style={{ width: 320 }} />,
 };
@@ -129,15 +127,6 @@ export const States = {
           label="Hover (forced via hover prop)"
           caption="Caption"
           hover
-          style={{ width: 280 }}
-        />
-      </div>
-      <div>
-        {caption('Disabled')}
-        <UploadMedia
-          label="Disabled"
-          caption="Caption"
-          disabled
           style={{ width: 280 }}
         />
       </div>
