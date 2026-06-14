@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.42.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh
+**What changed:** Rating — React component
+**Description:** Star and heart rating component with half-step, read-only, disabled, three sizes, three colours, and Storybook stories.
+
 ## v2.41.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh
