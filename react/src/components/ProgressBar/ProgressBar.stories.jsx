@@ -81,6 +81,93 @@ export const States = {
   ),
 };
 
+// ── Interactive ───────────────────────────────────────────────────────────────
+export const Interactive = {
+  render: () => {
+    const COLORS = ['brand', 'blue', 'green', 'purple', 'orange', 'yellow', 'red'];
+    const [value, setValue]           = React.useState(0);
+    const [color, setColor]           = React.useState('brand');
+    const [size, setSize]             = React.useState('md');
+    const [indeterminate, setIndet]   = React.useState(false);
+    const [ramping, setRamping]       = React.useState(false);
+    const rampRef                     = React.useRef(null);
+
+    const stopRamp = () => {
+      if (rampRef.current) { clearInterval(rampRef.current); rampRef.current = null; }
+      setRamping(false);
+    };
+
+    const jump = (v) => { stopRamp(); setIndet(false); setValue(v); };
+
+    const toggleRamp = () => {
+      if (ramping) { stopRamp(); return; }
+      setIndet(false);
+      let v = value >= 100 ? 0 : value;
+      setValue(v);
+      setRamping(true);
+      rampRef.current = setInterval(() => {
+        v += 2;
+        if (v >= 100) { setValue(100); stopRamp(); return; }
+        setValue(v);
+      }, 80);
+    };
+
+    const toggleIndet = () => {
+      if (indeterminate) { setIndet(false); setValue(0); return; }
+      stopRamp();
+      setIndet(true);
+    };
+
+    React.useEffect(() => () => stopRamp(), []);
+
+    const btnBase = { padding: '4px 12px', borderRadius: 6, border: '1px solid', cursor: 'pointer', fontSize: 12, fontWeight: 600, transition: 'background 0.12s' };
+    const primary = { ...btnBase, background: 'var(--color-heading)', color: 'var(--color-bg)', borderColor: 'var(--color-heading)' };
+    const secondary = { ...btnBase, background: 'var(--color-bg-2)', color: 'var(--color-heading)', borderColor: 'var(--color-border)' };
+    const lbl = { fontSize: 12, color: 'var(--color-subheading)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' };
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 720 }}>
+        {/* Live bar + value readout */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div style={{ flex: 1 }}>
+            <ProgressBar value={value} color={color} size={size} indeterminate={indeterminate} aria-label="Live progress" />
+          </div>
+          <span style={{ minWidth: 40, textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: 'var(--color-heading)' }}>
+            {indeterminate ? '—' : `${value}%`}
+          </span>
+        </div>
+
+        {/* Controls */}
+        <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr', gap: '12px 16px', alignItems: 'center' }}>
+          <span style={lbl}>Value</span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {[0, 25, 50, 75, 100].map((v) => (
+              <button key={v} style={secondary} onClick={() => jump(v)}>{v}</button>
+            ))}
+            <button style={ramping ? primary : secondary} onClick={toggleRamp}>{ramping ? 'Pause' : 'Ramp'}</button>
+            <button style={indeterminate ? primary : secondary} onClick={toggleIndet}>Indeterminate</button>
+          </div>
+
+          <span style={lbl}>Colour</span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {COLORS.map((c) => (
+              <button key={c} style={color === c ? primary : secondary} onClick={() => setColor(c)}>
+                {c.charAt(0).toUpperCase() + c.slice(1)}
+              </button>
+            ))}
+          </div>
+
+          <span style={lbl}>Size</span>
+          <div style={{ display: 'flex', gap: 6 }}>
+            <button style={size === 'sm' ? primary : secondary} onClick={() => setSize('sm')}>Small · 8</button>
+            <button style={size === 'md' ? primary : secondary} onClick={() => setSize('md')}>Medium · 12</button>
+          </div>
+        </div>
+      </div>
+    );
+  },
+};
+
 // ── Full Matrix — 2 sizes × 7 colours × 5 values ─────────────────────────────
 export const FullMatrix = {
   render: () => {
