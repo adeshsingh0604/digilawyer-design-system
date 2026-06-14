@@ -115,20 +115,23 @@ export const AllSizes = {
 // ── Colours ───────────────────────────────────────────────────────────────────
 export const Colours = {
   render: () => (
-    <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr', gap: '16px 24px', alignItems: 'center' }}>
-      {[
-        { color: 'yellow', label: 'Yellow' },
-        { color: 'red',    label: 'Red' },
-        { color: 'brand',  label: 'Brand' },
-      ].map(({ color, label }) => (
-        <React.Fragment key={color}>
-          <div style={{ fontSize: 12, color: 'var(--color-subheading)', fontWeight: 600 }}>{label}</div>
-          <div style={{ display: 'flex', gap: 32 }}>
-            <Rating defaultValue={3.5} half readOnly color={color} shape="star" />
-            <Rating defaultValue={3.5} half readOnly color={color} shape="heart" />
-          </div>
-        </React.Fragment>
-      ))}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      <div>
+        {caption('Yellow — Star only')}
+        <Rating defaultValue={3.5} half readOnly color="yellow" shape="star" />
+      </div>
+      <div>
+        {caption('Red — Heart only')}
+        <Rating defaultValue={3.5} half readOnly color="red" shape="heart" />
+      </div>
+      <div>
+        {caption('Brand — Star')}
+        <Rating defaultValue={3.5} half readOnly color="brand" shape="star" />
+      </div>
+      <div>
+        {caption('Brand — Heart')}
+        <Rating defaultValue={3.5} half readOnly color="brand" shape="heart" />
+      </div>
     </div>
   ),
 };
@@ -178,27 +181,27 @@ export const FullMatrix = {
         background: 'var(--color-bg-2)',
       }}>
         {[
-          { shape: 'star',  label: 'Star' },
-          { shape: 'heart', label: 'Heart' },
-        ].map(({ shape, label }) => (
+          { shape: 'star',  label: 'Star',  colors: ['yellow', 'brand'], colorLabels: ['Yellow', 'Brand'] },
+          { shape: 'heart', label: 'Heart', colors: ['red', 'brand'],    colorLabels: ['Red', 'Brand']    },
+        ].map(({ shape, label, colors, colorLabels }) => (
           <div key={shape}>
             <div style={{ ...headerStyle, marginBottom: 16 }}>{label}</div>
-            <div style={{ display: 'grid', gridTemplateColumns: '70px repeat(3, auto)', gap: '12px 40px', alignItems: 'center' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: `70px repeat(${colors.length}, auto)`, gap: '12px 40px', alignItems: 'center' }}>
               <div />
-              {['Yellow', 'Red', 'Brand'].map((c) => (
+              {colorLabels.map((c) => (
                 <div key={c} style={headerStyle}>{c}</div>
               ))}
 
               {[
-                { size: 'lg', label: 'lg · 24' },
-                { size: 'md', label: 'md · 20' },
-                { size: 'sm', label: 'sm · 16' },
-              ].map(({ size, sizeLabel }) => (
+                { size: 'lg' },
+                { size: 'md' },
+                { size: 'sm' },
+              ].map(({ size }) => (
                 <React.Fragment key={size}>
                   <div style={rowStyle}>{size} · {size === 'lg' ? 24 : size === 'md' ? 20 : 16}px</div>
-                  <Rating defaultValue={3.5} half readOnly shape={shape} color="yellow" size={size} />
-                  <Rating defaultValue={3.5} half readOnly shape={shape} color="red"    size={size} />
-                  <Rating defaultValue={3.5} half readOnly shape={shape} color="brand"  size={size} />
+                  {colors.map((color) => (
+                    <Rating key={color} defaultValue={3.5} half readOnly shape={shape} color={color} size={size} />
+                  ))}
                 </React.Fragment>
               ))}
             </div>
