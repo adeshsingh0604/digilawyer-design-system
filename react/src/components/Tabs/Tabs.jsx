@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 /**
  * Tab list wrapper — flex row with a shared bottom hairline.
  *
- * Set `role="tablist"` and `aria-label` to name the group for screen readers.
+ * Always pass `aria-label` to name the group for screen readers.
  * Each direct child should be a `<Tab>`.
  */
 export const Tabs = React.forwardRef(function Tabs(
@@ -12,7 +12,7 @@ export const Tabs = React.forwardRef(function Tabs(
   ref
 ) {
   return (
-    <div ref={ref} className={['tabs', className].filter(Boolean).join(' ')} {...rest}>
+    <div ref={ref} className={['tabs', className].filter(Boolean).join(' ')} {...rest} role="tablist">
       {children}
     </div>
   );
@@ -32,7 +32,7 @@ Tabs.propTypes = {
  * `badge` prop — auto-scales to the correct height per size.
  *
  * **Usage rules:**
- * - Always set `role="tab"`, `aria-selected`, and `aria-controls` on each Tab.
+ * - Always set `aria-selected` and `aria-controls` on each Tab.
  * - Mark the active tab with `selected` — drives the bottom-border accent.
  * - Use `vertical` only when all tabs in the row are vertical.
  * - Pass `id` so the paired TabPanel can reference it via `aria-labelledby`.
@@ -43,7 +43,7 @@ export const Tab = React.forwardRef(function Tab(
     size = 'md',
     /** Marks this tab as active — sets aria-selected="true" and solid bottom border. */
     selected = false,
-    /** Native button disabled — dims the label and removes from tab order. */
+    /** Visually disables the tab. Uses aria-disabled + .is-disabled (not native disabled) to keep it keyboard-reachable. */
     disabled = false,
     /** Stacks icon above label instead of beside it. Wrap label + badge in tab-label-row automatically. */
     vertical = false,
@@ -55,6 +55,7 @@ export const Tab = React.forwardRef(function Tab(
     children,
     /** Additional class names. */
     className,
+    onClick,
     ...rest
   },
   ref
@@ -64,6 +65,7 @@ export const Tab = React.forwardRef(function Tab(
     size === 'lg' && 'tab-lg',
     size === 'sm' && 'tab-sm',
     vertical && 'tab-vertical',
+    disabled && 'is-disabled',
     className,
   ]
     .filter(Boolean)
@@ -76,7 +78,8 @@ export const Tab = React.forwardRef(function Tab(
       role="tab"
       className={classes}
       aria-selected={selected}
-      disabled={disabled}
+      aria-disabled={disabled || undefined}
+      onClick={disabled ? undefined : onClick}
       {...rest}
     >
       {icon != null && <span className="tab-icon">{icon}</span>}
@@ -105,6 +108,7 @@ Tab.propTypes = {
   badge:     PropTypes.node,
   children:  PropTypes.node,
   className: PropTypes.string,
+  onClick:   PropTypes.func,
 };
 
 /**
@@ -120,9 +124,10 @@ export const TabPanel = React.forwardRef(function TabPanel(
   return (
     <div
       ref={ref}
-      role="tabpanel"
       className={className}
+      tabIndex={0}
       {...rest}
+      role="tabpanel"
     >
       {children}
     </div>

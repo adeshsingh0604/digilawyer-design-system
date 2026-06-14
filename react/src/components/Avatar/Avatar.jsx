@@ -63,7 +63,11 @@ Avatar.propTypes = {
   variant:   PropTypes.oneOf(['icon', 'initials', 'image']),
   size:      PropTypes.oneOf(['xs', 'sm', 'md', 'lg']),
   src:       PropTypes.string,
-  alt:       PropTypes.string,
+  alt: (props, propName) => {
+    if (props.variant === 'image' && !props[propName]) {
+      return new Error('Avatar: `alt` is required when variant="image". Pass the user\'s name so screen readers can identify them.');
+    }
+  },
   children:  PropTypes.node,
   className: PropTypes.string,
 };
@@ -137,6 +141,11 @@ AvatarStatus.propTypes = {
   status:    PropTypes.oneOf(['online', 'busy', 'away', 'offline']),
   pin:       PropTypes.oneOf(['tr', 'br']),
   className: PropTypes.string,
+  'aria-label': (props) => {
+    if (!props['aria-label']) {
+      return new Error('AvatarStatus: `aria-label` is required — colour alone is not accessible. Pass a description like "Online".');
+    }
+  },
 };
 
 export default Avatar;

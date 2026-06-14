@@ -43,9 +43,9 @@ export const Tooltip = React.forwardRef(function Tooltip(
 
   return (
     <span ref={ref} role="tooltip" className={classes} {...rest}>
-      {icon != null && <span className="tooltip-icon">{icon}</span>}
+      {icon != null && <span className="tooltip-icon tooltip-icon-leading">{icon}</span>}
       {children}
-      {trailing != null && <span className="tooltip-icon">{trailing}</span>}
+      {trailing != null && <span className="tooltip-icon tooltip-icon-trailing">{trailing}</span>}
     </span>
   );
 });

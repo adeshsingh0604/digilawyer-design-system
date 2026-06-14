@@ -172,13 +172,13 @@ export const FullMatrix = {
           <React.Fragment key={size}>
             <div style={rowLabelStyle}>{label}</div>
             {/* Default */}
-            <Tabs role="tablist"><Tab size={size} icon={<AddIcon />} badge={<Badge variant="label" color="info">text</Badge>}>Label</Tab></Tabs>
+            <Tabs aria-label={`${label} default`}><Tab size={size} icon={<AddIcon />} badge={<Badge variant="label" color="info">text</Badge>}>Label</Tab></Tabs>
             {/* Hover */}
-            <Tabs role="tablist"><Tab size={size} className="is-hover" icon={<AddIcon />} badge={<Badge variant="label" color="info">text</Badge>}>Label</Tab></Tabs>
+            <Tabs aria-label={`${label} hover`}><Tab size={size} className="is-hover" icon={<AddIcon />} badge={<Badge variant="label" color="info">text</Badge>}>Label</Tab></Tabs>
             {/* Active */}
-            <Tabs role="tablist"><Tab size={size} selected icon={<AddIcon />} badge={<Badge variant="label" color="info">text</Badge>}>Label</Tab></Tabs>
+            <Tabs aria-label={`${label} active`}><Tab size={size} selected icon={<AddIcon />} badge={<Badge variant="label" color="info">text</Badge>}>Label</Tab></Tabs>
             {/* Disabled */}
-            <Tabs role="tablist"><Tab size={size} disabled icon={<AddIcon />} badge={<Badge variant="label" color="info">text</Badge>}>Label</Tab></Tabs>
+            <Tabs aria-label={`${label} disabled`}><Tab size={size} disabled icon={<AddIcon />} badge={<Badge variant="label" color="info">text</Badge>}>Label</Tab></Tabs>
           </React.Fragment>
         ))}
       </div>

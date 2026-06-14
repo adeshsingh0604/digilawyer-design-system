@@ -75,7 +75,7 @@ export const Alert = React.forwardRef(function Alert(
           )}
         </div>
       )}
-      {children != null && <p className="alert-body">{children}</p>}
+      {children != null && children !== '' && <p className="alert-body">{children}</p>}
       {actions != null && <div className="alert-actions">{actions}</div>}
     </div>
   );
