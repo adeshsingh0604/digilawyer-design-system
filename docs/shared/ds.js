@@ -1068,9 +1068,10 @@
     'upload-media': SB_BASE + '?path=/docs/components-uploadmedia--docs',
     'slider': SB_BASE + '?path=/docs/components-slider--docs',
     'rating': SB_BASE + '?path=/docs/components-rating--docs',
+    'date-picker': SB_BASE + '?path=/docs/components-datepicker--docs',
   };
 
-                          var COMPONENT_KEYS = ['button','button-group','checkbox','radio','toggle','input','textarea','dropdown','tag','badge','avatar','alert','tooltip','tabs','pagination','upload-media','slider','rating','date-picker','options','table','snackbar','progress-bar','link','breadcrumb'];
+                            var COMPONENT_KEYS = ['button','button-group','checkbox','radio','toggle','input','textarea','dropdown','tag','badge','avatar','alert','tooltip','tabs','pagination','upload-media','slider','rating','date-picker','options','table','snackbar','progress-bar','link','breadcrumb'];
 
   function injectReactBanner() {
     var key = cfg().key;

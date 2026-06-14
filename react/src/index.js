@@ -14,4 +14,5 @@ export { Pagination, PaginationPrev, PaginationNext, PaginationItem, PaginationE
 export { Slider, SliderRange } from './components/Slider';
 export { Rating } from './components/Rating';
 export { UploadMedia } from './components/UploadMedia';
+export { DatePicker, CalendarIcon } from './components/DatePicker';
 export { default } from './components/Button';
