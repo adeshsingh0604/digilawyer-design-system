@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 
 const UploadArrowIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none">
-    <path d="M12 16V8M12 8l-3 3M12 8l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M3 16v1a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4v-1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+    {/* Arrow pointing up */}
+    <path d="M12 15V3m0 0L8 7m4-4l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    {/* Tray base */}
+    <path d="M20 16v2a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
