@@ -16,4 +16,5 @@ export { Rating } from './components/Rating';
 export { UploadMedia } from './components/UploadMedia';
 export { DatePicker, CalendarIcon } from './components/DatePicker';
 export { Option, OptionsMenu } from './components/Options';
+export { Table, TableWrap, TableCell, TableCellAction, KebabIcon } from './components/Table';
 export { default } from './components/Button';
