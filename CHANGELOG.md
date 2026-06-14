@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.44.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh
+**What changed:** DatePicker — React component
+**Description:** Single and range date picker with day/month/year view navigation, controlled and uncontrolled modes, minDate/maxDate, and interactive Input trigger story.
+
 ## v2.43.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh
