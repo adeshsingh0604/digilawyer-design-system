@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.43.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh
+**What changed:** UploadMedia — React component
+**Description:** Drop-target / file-list upload field with empty, 1-file, 2-file, and 3-file (limit) states. Controlled and uncontrolled modes, image preview, per-file remove, hover state, and Storybook stories.
+
 ## v2.42.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh

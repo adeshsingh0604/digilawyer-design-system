@@ -13,4 +13,5 @@ export { Tabs, Tab, TabPanel } from './components/Tabs';
 export { Pagination, PaginationPrev, PaginationNext, PaginationItem, PaginationEllipsis } from './components/Pagination';
 export { Slider, SliderRange } from './components/Slider';
 export { Rating } from './components/Rating';
+export { UploadMedia } from './components/UploadMedia';
 export { default } from './components/Button';
