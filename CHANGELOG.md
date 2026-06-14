@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.38.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh
+**What changed:** Tooltip — React component
+**Description:** Tooltip pill with 3 sizes, 4 arrow positions, icon slots, and TooltipHost for CSS-only hover/focus show without JavaScript.
+
 ## v2.37.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh
