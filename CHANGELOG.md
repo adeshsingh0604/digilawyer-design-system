@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.48.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh Singh
+**What changed:** Progress Bar
+**Description:** Linear progress atom: ProgressBar with 7 colours × 2 sizes, determinate + indeterminate. Storybook: Playground, Default, Variants, Sizes, States, FullMatrix.
+
 ## v2.47.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh Singh
