@@ -136,8 +136,8 @@
     {
       "key": "progress-bar",
       "name": "Progress Bar",
-      "react_status": "pending",
-      "storybook_path": null
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-progressbar--docs"
     },
     {
       "key": "link",
