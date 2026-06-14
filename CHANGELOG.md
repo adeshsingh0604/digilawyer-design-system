@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.45.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh
+**What changed:** Options — React component
+**Description:** Single selectable row with leading/trailing slots, 3 sizes, 3 states. OptionsMenu wrapper. Storybook: Playground, Default, Variants, Sizes, States, FullMatrix.
+
 ## v2.44.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh

@@ -118,8 +118,8 @@
     {
       "key": "options",
       "name": "Options",
-      "react_status": "pending",
-      "storybook_path": null
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-options--docs"
     },
     {
       "key": "table",

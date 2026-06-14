@@ -15,4 +15,5 @@ export { Slider, SliderRange } from './components/Slider';
 export { Rating } from './components/Rating';
 export { UploadMedia } from './components/UploadMedia';
 export { DatePicker, CalendarIcon } from './components/DatePicker';
+export { Option, OptionsMenu } from './components/Options';
 export { default } from './components/Button';
