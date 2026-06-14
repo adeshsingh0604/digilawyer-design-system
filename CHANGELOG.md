@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.47.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh Singh
+**What changed:** Snackbar
+**Description:** Toast notification molecule: Snackbar + SnackbarClose. 7 variants × 3 states (semi/filled/border). Storybook: Playground, Default, Variants, States, FullMatrix.
+
 ## v2.46.1 — 14 June 2026
 ### Type: PATCH
 ### Updated by: Adesh Singh

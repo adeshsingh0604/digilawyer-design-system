@@ -130,8 +130,8 @@
     {
       "key": "snackbar",
       "name": "Snackbar",
-      "react_status": "pending",
-      "storybook_path": null
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-snackbar--docs"
     },
     {
       "key": "progress-bar",
