@@ -636,7 +636,7 @@
   --shadow-5: 0 4px 16px 4px rgba(0,0,0,0.10);
 
   /* ── System — update ONLY these two lines for a version bump ── */
-  --ds-version:      "2.35.0";
+  --ds-version:      "2.36.0";
   --ds-last-updated: "14 June 2026";
   --sidebar-width: 240px;
   --toc-width: 200px;
