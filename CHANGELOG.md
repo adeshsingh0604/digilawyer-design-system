@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.36.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh
+**What changed:** Avatar — React component
+**Description:** Avatar component with Icon, Initials, and Image variants; 4 sizes; hover state; AvatarStack and AvatarStatus composition helpers.
+
 ## v2.35.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh
