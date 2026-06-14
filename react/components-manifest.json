@@ -88,8 +88,8 @@
     {
       "key": "pagination",
       "name": "Pagination",
-      "react_status": "pending",
-      "storybook_path": null
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-pagination--docs"
     },
     {
       "key": "upload-media",
