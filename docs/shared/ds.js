@@ -1074,9 +1074,10 @@
     'snackbar': SB_BASE + '?path=/docs/components-snackbar--docs',
     'progress-bar': SB_BASE + '?path=/docs/components-progressbar--docs',
     'link': SB_BASE + '?path=/docs/components-link--docs',
+    'breadcrumb': SB_BASE + '?path=/docs/components-breadcrumb--docs',
   };
 
-                                      var COMPONENT_KEYS = ['button','button-group','checkbox','radio','toggle','input','textarea','dropdown','tag','badge','avatar','alert','tooltip','tabs','pagination','upload-media','slider','rating','date-picker','options','table','snackbar','progress-bar','link','breadcrumb'];
+                                        var COMPONENT_KEYS = ['button','button-group','checkbox','radio','toggle','input','textarea','dropdown','tag','badge','avatar','alert','tooltip','tabs','pagination','upload-media','slider','rating','date-picker','options','table','snackbar','progress-bar','link','breadcrumb'];
 
   function injectReactBanner() {
     var key = cfg().key;
