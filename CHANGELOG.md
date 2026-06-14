@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.49.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh Singh
+**What changed:** Link
+**Description:** Inline text hyperlink atom: 3 colour variants × 4 sizes × 3 states, leading/trailing icon slots, underline + disabled props.
+
 ## v2.48.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh Singh
