@@ -271,6 +271,33 @@
     <div><div class="tabs"><button class="tab tab-sm" disabled><span class="tab-icon"><svg><use href="#ico-add-square"/></svg></span>Label<span class="badge badge-label badge-info">text</span></button></div></div>
   </div>
 
+  <!-- Responsive -->
+  <h2 id="responsive">Responsive</h2>
+  <p class="desc">The <code>.tabs</code> wrapper already handles horizontal scroll on narrow screens — no extra class needed. On viewports narrower than 744 px, <code>overflow-x: auto</code> activates and the scrollbar is hidden via <code>scrollbar-width: none</code>. Use as many tabs as the content requires; the strip scrolls silently.</p>
+  <div class="demo-box">
+    <div class="demo-panel active" style="flex-direction:column;align-items:flex-start;gap:20px;padding:28px 32px;">
+      <div class="rsp-phone">
+        <div class="tabs" role="tablist" aria-label="Mobile tabs">
+          <button class="tab tab-md active" role="tab" aria-selected="true">Overview</button>
+          <button class="tab tab-md" role="tab" aria-selected="false">Timeline</button>
+          <button class="tab tab-md" role="tab" aria-selected="false">Documents</button>
+          <button class="tab tab-md" role="tab" aria-selected="false">Comments</button>
+          <button class="tab tab-md" role="tab" aria-selected="false">Activity</button>
+          <button class="tab tab-md" role="tab" aria-selected="false">Settings</button>
+          <button class="tab tab-md" role="tab" aria-selected="false">Billing</button>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--color-subheading);margin:0;">Frame above simulates a 390 px mobile viewport — the tab strip scrolls horizontally with no visible scrollbar.</p>
+    </div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-responsive">Copy</button></div>
+    <pre id="c-responsive"><span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"tabs"</span> <span class="attr">role</span>=<span class="str">"tablist"</span><span class="kw">&gt;
+  &lt;button</span> <span class="attr">class</span>=<span class="str">"tab tab-md active"</span> <span class="attr">role</span>=<span class="str">"tab"</span><span class="kw">&gt;</span>Label<span class="kw">&lt;/button&gt;
+</span>  …
+<span class="kw">&lt;/div&gt;</span></pre>
+  </div>
+
   <!-- Accessibility -->
   <h2 id="accessibility">Accessibility</h2>
   <p class="desc">Follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/tabs/" target="_blank" rel="noopener" class="link link-blue">WAI-ARIA Tabs pattern</a>.</p>

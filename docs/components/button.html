@@ -320,6 +320,23 @@
     <tbody id="matrix-body"></tbody>
   </table></div>
 
+  <!-- Responsive -->
+  <h2 id="responsive">Responsive</h2>
+  <p class="desc">Add <code>.btn-full-mobile</code> to stretch a button to full width on screens narrower than 744 px. At wider breakpoints the button stays auto-width. Use <code>.btn-full</code> to force full width at every breakpoint.</p>
+  <div class="demo-box">
+    <div class="demo-panel active" style="flex-direction:column;align-items:flex-start;gap:20px;padding:28px 32px;">
+      <div class="rsp-phone">
+        <button type="button" class="btn btn-primary btn-md btn-full-mobile"><span class="btn-label">Get started</span></button>
+        <button type="button" class="btn btn-secondary btn-md btn-full-mobile" style="margin-top:8px;"><span class="btn-label">Learn more</span></button>
+      </div>
+      <p style="font-size:12px;color:var(--color-subheading);margin:0;">Frame above simulates a 390 px mobile viewport. On desktop the buttons remain auto-width.</p>
+    </div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar"><span class="code-lang">HTML</span><button class="copy-btn" data-target="c-responsive">Copy</button></div>
+    <pre id="c-responsive"><span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-primary btn-md btn-full-mobile"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/button&gt;</span></pre>
+  </div>
+
   <!-- Accessibility -->
   <h2 id="accessibility">Accessibility</h2>
   <p class="desc">Button follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/button/" target="_blank" rel="noopener" class="link link-blue">WAI-ARIA Button pattern</a>. Using a native <code>&lt;button&gt;</code> element provides all required semantics automatically.</p>
