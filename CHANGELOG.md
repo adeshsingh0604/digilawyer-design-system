@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.51.0 — 15 June 2026
+### Type: MINOR
+### Updated by: Adesh Singh
+**What changed:** Responsive utilities
+**Description:** Add responsive CSS for Button, Table, Tabs, Pagination and Breadcrumb — mobile breakpoint (≤743 px) rules in components.css
+
 ## v2.50.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh Singh

@@ -2209,10 +2209,8 @@ table.matrix { border-collapse: collapse; width: 100%; background: var(--color-b
   cursor: pointer;
   transition: color 0.12s;
 }
-.breadcrumb-item:hover:not(.is-disabled):not(:disabled),
-.breadcrumb-item.is-hover {
+.breadcrumb-item:hover:not(.is-disabled):not(:disabled) {
   color: var(--color-heading);
-  text-decoration: underline;
 }
 .breadcrumb-item:focus-visible {
   outline: 2px solid var(--color-heading);
@@ -3021,3 +3019,63 @@ table.matrix { border-collapse: collapse; width: 100%; background: var(--color-b
 }
 .react-banner-btn:hover { opacity: .85; }
 .react-banner-soon { opacity: .75; }
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────────
+   Breakpoints mirror tokens.css (CSS custom props can't be used in
+   @media conditions directly, so raw values are used here):
+     Mobile  : max-width 743px   (below --breakpoint-tablet 744px)
+     Tablet  : 744px – 1439px
+     Desktop : min-width 1440px  (--breakpoint-desktop)
+
+   Strategy: mobile-first where possible; @media blocks are additive
+   overrides for the smallest viewport only.
+   ────────────────────────────────────────────────────────────────── */
+
+/* ── Full-width button utility (opt-in, any breakpoint) ── */
+.btn-full { width: 100%; justify-content: center; }
+
+@media (max-width: 743px) {
+
+  /* ── Button: .btn-full-mobile forces 100% width on mobile only ------ */
+  .btn-full-mobile { width: 100%; justify-content: center; }
+
+  /* ── Table: enable horizontal scroll so wide tables stay legible ----- */
+  .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── Tabs: full-width scrollable row, hidden scrollbar --------------- */
+  .tabs {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+
+  /* ── Pagination: .pagination-auto drops to sm density on mobile ------ */
+  .pagination-auto { gap: var(--spacing-xxs); }
+  .pagination-auto .btn {
+    height: 32px;
+    font-size: var(--fs-12);
+    line-height: var(--lh-16);
+    padding: 0 var(--spacing-sm);
+    gap: var(--spacing-xxs);
+  }
+  .pagination-auto .btn-square { min-width: 32px; }
+  .pagination-auto .pagination-ellipsis {
+    min-width: 32px;
+    height: 32px;
+    font-size: var(--fs-12);
+  }
+
+  /* ── Breadcrumb: truncate individual crumb labels on narrow screens -- */
+  .breadcrumb-item,
+  .breadcrumb-current {
+    max-width: 30vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
