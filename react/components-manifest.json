@@ -82,8 +82,8 @@
     {
       "key": "tabs",
       "name": "Tabs",
-      "react_status": "pending",
-      "storybook_path": null
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-tabs--docs"
     },
     {
       "key": "pagination",
