@@ -38,9 +38,11 @@ export const Breadcrumb = React.forwardRef(function Breadcrumb(
 Breadcrumb.displayName = 'Breadcrumb';
 Breadcrumb.propTypes = {
   /** `"sm"` drops to Body 2 (14/20). Default is Body 1 (16/24). */
-  size:      PropTypes.oneOf(['sm']),
-  children:  PropTypes.node,
-  className: PropTypes.string,
+  size:         PropTypes.oneOf(['sm']),
+  /** Required — describe the nav landmark, e.g. `"Breadcrumb"` or `"Folder path"`. */
+  'aria-label': PropTypes.string.isRequired,
+  children:     PropTypes.node,
+  className:    PropTypes.string,
 };
 
 /**
@@ -86,8 +88,8 @@ export const BreadcrumbSeparator = React.forwardRef(function BreadcrumbSeparator
     <span
       ref={ref}
       className={['breadcrumb-separator', className].filter(Boolean).join(' ')}
-      aria-hidden="true"
       {...rest}
+      aria-hidden="true"
     >
       {children ?? <ChevronThinIcon />}
     </span>
@@ -113,8 +115,8 @@ export const BreadcrumbCurrent = React.forwardRef(function BreadcrumbCurrent(
     <span
       ref={ref}
       className={['breadcrumb-current', className].filter(Boolean).join(' ')}
-      aria-current="page"
       {...rest}
+      aria-current="page"
     >
       {children}
     </span>

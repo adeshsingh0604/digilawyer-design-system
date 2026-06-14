@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
  * Inline text hyperlink. Three colour variants × four sizes.
  *
  * Use `as="a"` (default) for navigation. Use `as="button"` for in-page
- * actions styled as links — the `disabled` attribute works natively on button.
+ * actions styled as links.
  *
- * For disabled `<a>` elements, set `disabled` — the component automatically
- * applies `aria-disabled="true"` and `tabIndex={-1}`.
+ * The `disabled` prop always adds `aria-disabled="true"`. On `<a>` and custom
+ * elements it also sets `tabIndex={-1}`; on `<button>` it sets native `disabled`.
  */
 export const Link = React.forwardRef(function Link(
   {
@@ -39,19 +39,29 @@ export const Link = React.forwardRef(function Link(
     className,
   ].filter(Boolean).join(' ');
 
-  const anchorProps = Tag === 'a' && disabled
-    ? { 'aria-disabled': true, tabIndex: -1 }
-    : {};
+  // type="button" can be overridden by the caller via rest
+  const defaultProps = Tag === 'button' ? { type: 'button' } : {};
 
-  const buttonProps = Tag === 'button'
-    ? { type: 'button', disabled: disabled || undefined }
+  // Applied after rest so the caller cannot accidentally cancel the disabled state
+  const stateProps = disabled
+    ? {
+        'aria-disabled': 'true',
+        ...(Tag !== 'button' && { tabIndex: -1 }),
+      }
     : {};
 
   return (
-    <Tag ref={ref} className={cls} {...anchorProps} {...buttonProps} {...rest}>
-      {leading  != null && <span className="link-icon">{leading}</span>}
+    <Tag
+      ref={ref}
+      className={cls}
+      {...defaultProps}
+      {...rest}
+      {...stateProps}
+      disabled={Tag === 'button' ? (disabled || undefined) : undefined}
+    >
+      {leading  != null && leading  !== false && <span className="link-icon">{leading}</span>}
       {children}
-      {trailing != null && <span className="link-icon">{trailing}</span>}
+      {trailing != null && trailing !== false && <span className="link-icon">{trailing}</span>}
     </Tag>
   );
 });
