@@ -78,12 +78,12 @@ export const Variants = {
   ),
 };
 
-// ── Interactive — Input trigger + floating panel ───────────────────────────────
+// ── Interactive — Input trigger + inline panel (matches HTML docs pattern) ─────
 export const Interactive = {
   render: () => {
-    const [value, setValue]   = useState(null);
-    const [open, setOpen]     = useState(false);
-    const fieldRef            = useRef(null);
+    const [value, setValue] = useState(null);
+    const [open, setOpen]   = useState(false);
+    const fieldRef          = useRef(null);
 
     useEffect(() => {
       function handleClick(e) {
@@ -97,17 +97,15 @@ export const Interactive = {
 
     function fmt(d) {
       if (!d) return '';
-      return `${d.getDate()} ${['January','February','March','April','May','June','July','August','September','October','November','December'][d.getMonth()]} ${d.getFullYear()}`;
+      const M = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      return `${d.getDate()} ${M[d.getMonth()]} ${d.getFullYear()}`;
     }
 
     return (
-      <div ref={fieldRef} className="input-field" style={{ width: 320, position: 'relative' }}>
+      // Inline panel sits inside the field div — same as HTML docs (no absolute positioning)
+      <div ref={fieldRef} className="input-field" style={{ width: 320 }}>
         <label className="input-field-label" htmlFor="dp-story-input">Date</label>
-        <div
-          className="input"
-          style={{ cursor: 'pointer' }}
-          onClick={() => setOpen((o) => !o)}
-        >
+        <div className="input" style={{ cursor: 'pointer' }} onClick={() => setOpen((o) => !o)}>
           <span className="input-leading"><CalendarIcon /></span>
           <input
             id="dp-story-input"
@@ -122,13 +120,12 @@ export const Interactive = {
         </div>
         <p className="input-field-caption">Click the field to open the calendar.</p>
         {open && (
-          <div style={{ position: 'absolute', top: '100%', left: 0, zIndex: 100, marginTop: 4 }}>
-            <DatePicker
-              value={value}
-              onSelect={(d) => { setValue(d); setOpen(false); }}
-              mode="single"
-            />
-          </div>
+          <DatePicker
+            value={value}
+            onSelect={(d) => { setValue(d); setOpen(false); }}
+            mode="single"
+            style={{ marginTop: 4 }}
+          />
         )}
       </div>
     );
