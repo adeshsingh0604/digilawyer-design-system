@@ -168,14 +168,17 @@ export const Range = {
 export const FullMatrix = {
   render: () => {
     const headerStyle = { fontSize: 11, color: 'var(--color-subheading)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' };
-    const rowLabelStyle = { fontSize: 12, color: 'var(--color-subheading)', fontWeight: 600, alignSelf: 'center' };
+    const rowLabelStyle = { fontSize: 12, color: 'var(--color-subheading)', fontWeight: 600, whiteSpace: 'nowrap' };
+    // Fixed-height cell so has-tip (padding-top:36) and has-val (padding-bottom:24)
+    // don't make their grid rows taller than bare/disabled rows.
+    const cell = { paddingTop: 36, paddingBottom: 24 };
 
     return (
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '80px repeat(4, minmax(180px, 1fr))',
-        gap: '24px 32px',
-        alignItems: 'center',
+        gridTemplateColumns: '80px repeat(4, minmax(160px, 1fr))',
+        gap: '8px 32px',
+        alignItems: 'end',
         padding: 24,
         border: '1px dashed var(--color-border)',
         borderRadius: 'var(--radius-md, 6px)',
@@ -193,10 +196,10 @@ export const FullMatrix = {
         ].map(({ size, label: lbl }) => (
           <React.Fragment key={size}>
             <div style={rowLabelStyle}>{lbl}</div>
-            <Slider size={size} defaultValue={60} aria-label={`${lbl} bare`} />
-            <Slider size={size} defaultValue={60} showTip aria-label={`${lbl} tip`} />
-            <Slider size={size} defaultValue={60} showVal aria-label={`${lbl} val`} />
-            <Slider size={size} defaultValue={60} disabled aria-label={`${lbl} disabled`} />
+            <div style={cell}><Slider size={size} defaultValue={60} aria-label={`${lbl} bare`} /></div>
+            <div style={cell}><Slider size={size} defaultValue={60} showTip aria-label={`${lbl} tip`} /></div>
+            <div style={cell}><Slider size={size} defaultValue={60} showVal aria-label={`${lbl} val`} /></div>
+            <div style={cell}><Slider size={size} defaultValue={60} disabled aria-label={`${lbl} disabled`} /></div>
           </React.Fragment>
         ))}
       </div>

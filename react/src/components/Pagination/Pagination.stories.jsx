@@ -137,76 +137,97 @@ export const ShortRange = {
   ),
 };
 
-// ── Full Matrix — 3 sizes × 3 states ─────────────────────────────────────────
+// ── Full Matrix — 3 scenarios × 3 sizes (vertical layout) ────────────────────
 export const FullMatrix = {
   render: () => {
-    const headerStyle = { fontSize: 11, color: 'var(--color-subheading)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' };
-    const rowLabelStyle = { fontSize: 12, color: 'var(--color-subheading)', fontWeight: 600, alignSelf: 'center' };
+    const sectionLabel = (text) => (
+      <div style={{ fontSize: 11, color: 'var(--color-subheading)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>
+        {text}
+      </div>
+    );
+    const rowLabel = { fontSize: 12, color: 'var(--color-subheading)', fontWeight: 600, minWidth: 90, flexShrink: 0 };
+    const sizes = [
+      { size: 'lg', label: 'Large · 40' },
+      { size: 'md', label: 'Medium · 36' },
+      { size: 'sm', label: 'Small · 32' },
+    ];
+
+    const boxStyle = {
+      padding: 24,
+      border: '1px dashed var(--color-border)',
+      borderRadius: 'var(--radius-md, 6px)',
+      background: 'var(--color-bg-2)',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 32,
+    };
 
     return (
-      <div style={{ overflowX: 'auto' }}>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '110px repeat(3, auto)',
-        gap: '20px 32px',
-        alignItems: 'center',
-        padding: 24,
-        border: '1px dashed var(--color-border)',
-        borderRadius: 'var(--radius-md, 6px)',
-        background: 'var(--color-bg-2)',
-        width: 'max-content',
-        minWidth: '100%',
-      }}>
-        <div />
-        {['Mid range', 'First page', 'Last page'].map((h) => (
-          <div key={h} style={headerStyle}>{h}</div>
-        ))}
+      <div style={boxStyle}>
+        {/* Mid range */}
+        <div>
+          {sectionLabel('Mid range')}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {sizes.map(({ size, label }) => (
+              <div key={size} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <span style={rowLabel}>{label}</span>
+                <Pagination size={size} aria-label={`${label} mid`}>
+                  <PaginationPrev />
+                  <PaginationItem>1</PaginationItem>
+                  <PaginationEllipsis />
+                  <PaginationItem>4</PaginationItem>
+                  <PaginationItem current>5</PaginationItem>
+                  <PaginationItem>6</PaginationItem>
+                  <PaginationEllipsis />
+                  <PaginationItem>10</PaginationItem>
+                  <PaginationNext />
+                </Pagination>
+              </div>
+            ))}
+          </div>
+        </div>
 
-        {[
-          { size: 'lg', label: 'Large · 40' },
-          { size: 'md', label: 'Medium · 36' },
-          { size: 'sm', label: 'Small · 32' },
-        ].map(({ size, label }) => (
-          <React.Fragment key={size}>
-            <div style={rowLabelStyle}>{label}</div>
+        {/* First page */}
+        <div>
+          {sectionLabel('First page — Previous disabled')}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {sizes.map(({ size, label }) => (
+              <div key={size} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <span style={rowLabel}>{label}</span>
+                <Pagination size={size} aria-label={`${label} first`}>
+                  <PaginationPrev disabled />
+                  <PaginationItem current>1</PaginationItem>
+                  <PaginationItem>2</PaginationItem>
+                  <PaginationItem>3</PaginationItem>
+                  <PaginationEllipsis />
+                  <PaginationItem>10</PaginationItem>
+                  <PaginationNext />
+                </Pagination>
+              </div>
+            ))}
+          </div>
+        </div>
 
-            {/* Mid range */}
-            <Pagination size={size} aria-label={`${label} mid`}>
-              <PaginationPrev />
-              <PaginationItem>1</PaginationItem>
-              <PaginationEllipsis />
-              <PaginationItem>4</PaginationItem>
-              <PaginationItem current>5</PaginationItem>
-              <PaginationItem>6</PaginationItem>
-              <PaginationEllipsis />
-              <PaginationItem>10</PaginationItem>
-              <PaginationNext />
-            </Pagination>
-
-            {/* First page */}
-            <Pagination size={size} aria-label={`${label} first`}>
-              <PaginationPrev disabled />
-              <PaginationItem current>1</PaginationItem>
-              <PaginationItem>2</PaginationItem>
-              <PaginationItem>3</PaginationItem>
-              <PaginationEllipsis />
-              <PaginationItem>10</PaginationItem>
-              <PaginationNext />
-            </Pagination>
-
-            {/* Last page */}
-            <Pagination size={size} aria-label={`${label} last`}>
-              <PaginationPrev />
-              <PaginationItem>1</PaginationItem>
-              <PaginationEllipsis />
-              <PaginationItem>8</PaginationItem>
-              <PaginationItem>9</PaginationItem>
-              <PaginationItem current>10</PaginationItem>
-              <PaginationNext disabled />
-            </Pagination>
-          </React.Fragment>
-        ))}
-      </div>
+        {/* Last page */}
+        <div>
+          {sectionLabel('Last page — Next disabled')}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {sizes.map(({ size, label }) => (
+              <div key={size} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <span style={rowLabel}>{label}</span>
+                <Pagination size={size} aria-label={`${label} last`}>
+                  <PaginationPrev />
+                  <PaginationItem>1</PaginationItem>
+                  <PaginationEllipsis />
+                  <PaginationItem>8</PaginationItem>
+                  <PaginationItem>9</PaginationItem>
+                  <PaginationItem current>10</PaginationItem>
+                  <PaginationNext disabled />
+                </Pagination>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   },
