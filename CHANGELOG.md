@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.41.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh
+**What changed:** Slider — React component
+**Description:** Slider and SliderRange components. Three track sizes (4/8/12px). Tooltip-on-hover and permanent-value-label display modes. Range variant with two thumbs and cross-constraint guard. Thumb position computed with the exact thumbPx formula from the HTML docs.
+
 ## v2.40.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh
