@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.39.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh
+**What changed:** Tabs — React component
+**Description:** Tabs, Tab, TabPanel components with lg/md/sm sizes, horizontal/vertical alignment, four states (default, hover, active, disabled), WAI-ARIA role=tablist/tab/tabpanel, and interactive Default story with panel switching.
+
 ## v2.38.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh
