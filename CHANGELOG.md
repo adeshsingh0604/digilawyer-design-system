@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.37.0 — 14 June 2026
+### Type: MINOR
+### Updated by: Adesh
+**What changed:** Alert — React component
+**Description:** Alert component with 7 semantic colours, 3 variants (Semi-filled, Filled, Border), dismiss button, and AlertBtnPrimary/Secondary action helpers.
+
 ## v2.36.0 — 14 June 2026
 ### Type: MINOR
 ### Updated by: Adesh
