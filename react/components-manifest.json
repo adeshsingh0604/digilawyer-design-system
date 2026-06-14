@@ -76,8 +76,8 @@
     {
       "key": "tooltip",
       "name": "Tooltip",
-      "react_status": "pending",
-      "storybook_path": null
+      "react_status": "done",
+      "storybook_path": "?path=/docs/components-tooltip--docs"
     },
     {
       "key": "tabs",
