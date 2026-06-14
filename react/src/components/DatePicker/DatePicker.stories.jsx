@@ -80,6 +80,9 @@ export const Variants = {
 
 // ── Interactive — Input trigger + inline panel (matches HTML docs pattern) ─────
 export const Interactive = {
+  parameters: {
+    docs: { story: { height: '620px' } },
+  },
   render: () => {
     const [value, setValue] = useState(null);
     const [open, setOpen]   = useState(false);
@@ -102,7 +105,8 @@ export const Interactive = {
     }
 
     return (
-      // Inline panel sits inside the field div — same as HTML docs (no absolute positioning)
+      <div style={{ minHeight: 560 }}>
+      {/* Inline panel sits inside the field div — same as HTML docs (no absolute positioning) */}
       <div ref={fieldRef} className="input-field" style={{ width: 320 }}>
         <label className="input-field-label" htmlFor="dp-story-input">Date</label>
         <div className="input" style={{ cursor: 'pointer' }} onClick={() => setOpen((o) => !o)}>
@@ -127,6 +131,7 @@ export const Interactive = {
             style={{ marginTop: 4 }}
           />
         )}
+      </div>
       </div>
     );
   },
