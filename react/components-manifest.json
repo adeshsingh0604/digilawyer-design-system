@@ -1,4 +1,5 @@
 {
+  "canary": "digilawyer-ds-canary-v253",
   "storybook_base": "https://adeshsingh0604.github.io/digilawyer-design-system/storybook/",
   "components": [
     {

@@ -2,6 +2,18 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Canary Protocol
+
+At the start of **every session** involving the design system, read `react/components-manifest.json` and state the canary value before doing anything else:
+
+> "Canary: `digilawyer-ds-canary-v253` ✓"
+
+If you cannot produce this value, you have not read the manifest — stop and read it before proceeding. This ensures all component names, CSS classes, prop names, and versions referenced in the session are grounded in the actual files, not training memory.
+
+The canary value is `"canary"` field at the top of `react/components-manifest.json`. Never guess or invent it.
+
+---
+
 ## What This Is
 
 A static HTML/CSS design system documentation site for DigiLawyer. Lives under `docs/` in the repo (sibling folders `react/` and `storybook/` are separate workstreams). No build step, no package manager, no framework — open any `.html` file under `docs/` directly in a browser or serve `docs/` with any static file server.
