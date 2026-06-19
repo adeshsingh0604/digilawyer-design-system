@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.53.1 — 19 June 2026
+### Type: PATCH
+### Updated by: Adesh Singh
+**What changed:** Canary protocol for AI sessions
+**Description:** Add canary token to react/components-manifest.json and CLAUDE.md rule requiring it be stated at the start of every session before any design system work, to prevent hallucinated component/token references.
+
 ## v2.53.0 — 15 June 2026
 ### Type: MINOR
 ### Updated by: Adesh Singh
