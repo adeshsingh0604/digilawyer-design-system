@@ -1,22 +1,44 @@
 {
-  "name": "digilawyer-ds",
-  "version": "2.1.0",
+  "name": "@adeshsingh0604/digilawyer-ds",
+  "version": "2.53.2",
   "description": "DigiLawyer Design System — React component library",
   "type": "module",
-  "main": "src/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adeshsingh0604/digilawyer-design-system.git",
+    "directory": "react"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "scripts": {
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "build": "vite build && node scripts/build-css.js",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
+  "dependencies": {
+    "prop-types": "^15.8.1"
+  },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.0.0",
     "@storybook/react": "^8.0.0",
     "@storybook/react-vite": "^8.0.0",
-    "prop-types": "^15.8.1",
+    "postcss": "^8.4.38",
+    "postcss-import": "^16.1.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "vite": "^5.0.0"
