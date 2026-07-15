@@ -32,7 +32,7 @@ npx serve docs
 python3 -m http.server 8080 -d docs
 ```
 
-The sibling folders `react/` and `storybook/` are separate workstreams. This document covers only the `docs/` site.
+The sibling folder `react/` is a separate workstream (Storybook lives inside it, at `react/.storybook/`). This document covers only the `docs/` site.
 
 ---
 
@@ -597,11 +597,9 @@ If anything in `<head>` is out of order, one of three things breaks:
 
 ## React & Figma Code Connect Readiness
 
-> Audit performed against the codebase at v2.31.7. All findings reference actual files and line numbers.
+> **Historical record — not an open checklist.** Audit performed against the codebase at v2.31.7, when only Button existed. All 9 findings below have since been resolved (verified against code 16 July 2026): `react/src/index.js` and `tokens/index.js` exist with correct paths, `preview.js` imports resolve, and components now pull styles from `docs/shared/{tokens,components}.css` via `react/src/styles.css` instead of duplicating hex values per component. Kept here for context on how the library got to its current state, not as a to-do list. The root-level `storybook/` placeholder folder mentioned below was removed 16 July 2026 — Storybook lives at `react/.storybook/` only.
 
-### Folder structure (confirmed)
-
-All three workstream folders exist at the repo root:
+### Folder structure (as of the original audit)
 
 ```
 digilawyer-design-system/
