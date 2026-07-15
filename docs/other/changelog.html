@@ -91,6 +91,14 @@ entry to CHANGELOG.md in the root folder using this format:
     <tbody id="changelog-body">
       <!-- Most recent entry first -->
       <tr data-type="patch" data-by="Adesh Singh">
+        <td class="ver">v2.53.2</td>
+        <td><span class="type-badge patch">PATCH</span></td>
+        <td>Fix Link as=button native button chrome</td>
+        <td>Link rendered as=&quot;button&quot; showed native browser button styling (grey background, outset border, padding) because .link in components.css never reset those properties — only &lt;a&gt; usage was covered. Added background/border/margin/padding/appearance resets, scoped harmlessly for &lt;a&gt; since anchors have no such defaults to begin with.</td>
+        <td style="white-space:nowrap;">16 July 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
+      <tr data-type="patch" data-by="Adesh Singh">
         <td class="ver">v2.53.1</td>
         <td><span class="type-badge patch">PATCH</span></td>
         <td>Canary protocol for AI sessions</td>

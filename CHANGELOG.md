@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.53.2 — 16 July 2026
+### Type: PATCH
+### Updated by: Adesh Singh
+**What changed:** Fix Link as=button native button chrome
+**Description:** Link rendered as="button" showed native browser button styling (grey background, outset border, padding) because .link in components.css never reset those properties — only <a> usage was covered. Added background/border/margin/padding/appearance resets, scoped harmlessly for <a> since anchors have no such defaults to begin with.
+
 ## v2.53.1 — 19 June 2026
 ### Type: PATCH
 ### Updated by: Adesh Singh
