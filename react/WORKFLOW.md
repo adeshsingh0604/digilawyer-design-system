@@ -49,14 +49,24 @@ or states that aren't in the HTML doc.
 | Toggle      | ✅        | ✅         | ✅      | ✅ Jun 2026  |
 | Input       | ✅        | ✅         | ✅      | ✅ Jun 2026  |
 | Textarea    | ✅        | ✅         | ✅      | ✅ Jun 2026  |
-| Dropdown    | ✅        | ⬜         | ⬜      | ⬜           |
-| Tag         | ✅        | ⬜         | ⬜      | ⬜           |
-| Badge       | ✅        | ⬜         | ⬜      | ⬜           |
-| Avatar      | ✅        | ⬜         | ⬜      | ⬜           |
-| Alert       | ✅        | ⬜         | ⬜      | ⬜           |
-| Tooltip     | ✅        | ⬜         | ⬜      | ⬜           |
-| Tabs        | ✅        | ⬜         | ⬜      | ⬜           |
-| Pagination  | ✅        | ⬜         | ⬜      | ⬜           |
+| Dropdown    | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Tag         | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Badge       | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Avatar      | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Alert       | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Tooltip     | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Tabs        | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Pagination  | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Upload Media | ✅       | ✅         | ✅      | ✅ Jun 2026  |
+| Slider      | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Rating      | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Date Picker | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Options     | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Table       | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Snackbar    | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Progress Bar | ✅       | ✅         | ✅      | ✅ Jun 2026  |
+| Link        | ✅        | ✅         | ✅      | ✅ Jun 2026  |
+| Breadcrumb  | ✅        | ✅         | ✅      | ✅ Jun 2026  |
 
 ---
 

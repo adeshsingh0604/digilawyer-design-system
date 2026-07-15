@@ -54,9 +54,17 @@ v2.53.1
 - DESIGN.md — full architecture guide for new developers
 - react/README.md — React/Figma Code Connect readiness audit (9 actionable findings)
 
+## What is Built (as of v2.53.1 — updated 16 July 2026)
+
+Everything above (through Rating, v2.31) plus:
+- **React component library — all 25 components implemented** (`react/src/components/`), `react_status: "done"` for every entry in `components-manifest.json`. Consumes tokens via `react/src/tokens/index.js` and styles via `react/src/styles.css`, which imports `docs/shared/{tokens,components}.css` directly.
+- **Storybook** — configured at `react/.storybook/`, deployed to GitHub Pages at the URL in `components-manifest.json`'s `storybook_base` field. The old `react/README.md` audit (9 readiness findings) is fully resolved; see `DESIGN.md → React & Figma Code Connect Readiness` for the historical record.
+- **Responsive design** — 3 phases (v2.51–v2.53): CSS utilities (`components.css`), Storybook viewport presets (390/744/1440) + Responsive stories for 5 components, and `.rsp-phone` demo frames in 5 HTML docs pages.
+- **Canary protocol** (v2.53.1) — `CLAUDE.md` requires stating the canary value from `components-manifest.json` at the start of any AI session touching this repo.
+
 ## What is Pending
-- **0 component stubs** — all planned components are now fully documented. 🎉
-- React/Figma Code Connect implementation (9 findings from react/README.md audit)
+- Actual Figma Code Connect mapping files (`.figma.tsx`) between Figma components and the React library — the *readiness* blockers are fixed, the mapping itself isn't built yet.
+- See `TODO.md` for the full reconciled open-items list (search, print styles, keyboard/a11y, per-page card CSS consolidation).
 
 ## Removed Components
 - Notification → renamed to **Alert** (see docs/components/alert.html, v2.29.0)
@@ -66,12 +74,13 @@ v2.53.1
 - None.
 
 ## Next Priority
-- **System is complete** — all planned components are documented and DESIGN.md is written.
-- Optional future work: React/Figma Code Connect implementation (see react/README.md for 9 findings), Storybook integration, per-page card CSS consolidation (see CLAUDE.md "Deferred cleanups").
+- Portfolio case study — the design system is complete and is the flagship piece.
+- Optional: Figma Code Connect mapping implementation, per-page card CSS consolidation (see CLAUDE.md "Deferred cleanups"), TODO.md's low-priority a11y/search/print items.
 
 ## Versioning Reference
 MAJOR: breaking token changes, full restructure
 MINOR: new component fully documented, new token group, infrastructure
 PATCH: bug fix, content update, token correction
-Next PATCH → v2.31.8
-Next MINOR → v2.32.0
+
+## Maintenance note
+`node docs/scripts/bump-version.js` only updates the version number and date at the top of this file — it does **not** rewrite the "What is Built" / "What is Pending" sections. Those are hand-maintained and drifted for ~40 versions (frozen at v2.31 language while the header ticked up to v2.53.1) before this was caught and corrected 16 July 2026. Update this section by hand at real milestones — don't trust it just because the version number above looks current.

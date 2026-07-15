@@ -16,7 +16,7 @@ The canary value is `"canary"` field at the top of `react/components-manifest.js
 
 ## What This Is
 
-A static HTML/CSS design system documentation site for DigiLawyer. Lives under `docs/` in the repo (sibling folders `react/` and `storybook/` are separate workstreams). No build step, no package manager, no framework — open any `.html` file under `docs/` directly in a browser or serve `docs/` with any static file server.
+A static HTML/CSS design system documentation site for DigiLawyer, plus a React component library. Two workstreams: `docs/` (the HTML/CSS site — no build step, no package manager, no framework, open any `.html` directly in a browser or serve with any static file server) and `react/` (the component library, Vite build, Storybook at `react/.storybook/`). There is no separate `storybook/` workstream — it was a placeholder folder that got superseded by `react/.storybook/` and removed 16 July 2026.
 
 ## Viewing the Site
 
@@ -187,13 +187,15 @@ What it updates automatically: `tokens.css` (version + date tokens) · `STATUS.m
 
 Detailed rules for each individual component live in `.claude/components/<name>.md`. Read the relevant file before editing any component.
 
-## Current State (v2.31.7)
+## Current State (v2.53.1)
 
 All 36 pages use the minimal page pattern. All 25 components are fully documented with light + dark Figma-verified. The global header (logo + version chip + search + theme toggle) is injected by `ds.js` at runtime — no per-page change required.
 
 **Search index lives in `ds.js`** — `SEARCH_DOCS` covers pages + sections, `SEARCH_TOKENS` covers semantic CSS tokens. When you add a new page or tokens, update both arrays.
 
-**React workstream** lives in `react/`. One component implemented (Button). See `DESIGN.md → React & Figma Code Connect Readiness` for 9 actionable issues before adding more components.
+**React workstream** lives in `react/`. All 25 components implemented (`react_status: "done"` for every entry in `components-manifest.json`). The 9 issues in `DESIGN.md → React & Figma Code Connect Readiness` (audited at v2.31.7) have since been resolved — that section is now a historical record, not an open checklist. Storybook is deployed at the URL in `components-manifest.json`'s `storybook_base` field.
+
+**Note on this section:** it is hand-maintained and does not get touched by `bump-version.js` (that script only updates the version number/date). It drifted for ~40 versions (v2.31.7 → v2.53.1) before being caught and corrected on 16 July 2026 — update it manually at real milestones, don't assume the version number elsewhere in this file means this section is current.
 
 ## Scripts (`docs/scripts/`)
 

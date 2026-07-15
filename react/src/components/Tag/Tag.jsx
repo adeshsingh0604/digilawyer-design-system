@@ -36,7 +36,7 @@ export const Tag = React.forwardRef(function Tag(
     /** lg = 6px padding · md = 4px (default) · sm = compact · xs = caption-sized. */
     size = 'md',
     /** Root element. Use "button" for interactive/clickable filter chips. */
-    as: Tag = 'span',
+    as: Component = 'span',
     /** React node in the leading icon slot — inherits currentColor. */
     icon,
     /** React node in the trailing slot. Use for custom content; see also `onRemove`. */
@@ -64,7 +64,7 @@ export const Tag = React.forwardRef(function Tag(
     .filter(Boolean)
     .join(' ');
 
-  if (process.env.NODE_ENV !== 'production' && as === 'button' && onRemove) {
+  if (process.env.NODE_ENV !== 'production' && Component === 'button' && onRemove) {
     console.warn('[Tag] as="button" + onRemove nests a <button> inside a <button> — invalid HTML. Use the default as="span" when onRemove is provided.');
   }
 
@@ -83,11 +83,11 @@ export const Tag = React.forwardRef(function Tag(
   ) : null;
 
   return (
-    <Tag ref={ref} className={classes} {...rest}>
+    <Component ref={ref} className={classes} {...rest}>
       {icon != null && <span className="tag-leading">{icon}</span>}
       {children}
       {trailingContent}
-    </Tag>
+    </Component>
   );
 });
 
