@@ -12,11 +12,12 @@
  *   node docs/scripts/bump-version.js 2.33.0 minor "Dropdown — fully documented"
  *   node docs/scripts/bump-version.js 2.32.2 patch "Fix input icon alignment" "Right icon was 24px instead of 16px on sm size" "Adesh Singh"
  *
- * Updates 4 places (display is automatic via CSS tokens):
+ * Updates 5 places (display is automatic via CSS tokens):
  *   1. docs/shared/tokens.css    → --ds-version + --ds-last-updated  (drives ALL version displays)
  *   2. STATUS.md                 → Current Version + Last Updated
  *   3. CHANGELOG.md              → prepends new entry
  *   4. docs/other/changelog.html → prepends new <tr> + rotates Latest Changes cards
+ *   5. react/package.json        → version (keeps the published npm package in lockstep)
  */
 
 const fs   = require('fs');
@@ -91,6 +92,14 @@ const htmlUpdated = htmlOriginal.replace(/(<tbody[^>]*>\s*<!-- Most recent entry
 if (htmlUpdated === htmlOriginal) { console.error('✗ changelog.html — tbody anchor comment not found. Row NOT written.'); process.exit(1); }
 write(htmlClPath, htmlUpdated);
 console.log(`✓ changelog.html    → v${version} row prepended`);
+
+/* ── 5. react/package.json — keep the published npm package version in lockstep ── */
+const pkgPath = 'react/package.json';
+if (fs.existsSync(path.join(ROOT, pkgPath))) {
+  const pkgUpdated = read(pkgPath).replace(/"version":\s*"[\d.]+"/, `"version": "${version}"`);
+  write(pkgPath, pkgUpdated);
+  console.log(`✓ react/package.json → v${version}`);
+}
 
 /* ── Rotate Latest Changes cards in index.html ── */
 const indexPath = 'docs/index.html';
