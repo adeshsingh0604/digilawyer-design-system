@@ -58,6 +58,15 @@ import { Dropdown, DropdownItem } from 'digilawyer-ds';
       table: { defaultValue: { summary: 'listbox' }, type: { summary: 'listbox | menu' } },
     },
     'aria-label': { control: 'text' },
+
+    // `children` here is DropdownItem rows, not text — a text control cannot
+    // express it, so hide the control rather than offer a broken one.
+    children: { control: false },
+
+    // Real React elements: no useful control representation. Hidden rather
+    // than left as empty-object controls that silently do nothing.
+    icon: { control: false },
+    trailing: { control: false },
   },
 };
 

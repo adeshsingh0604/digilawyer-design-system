@@ -12,6 +12,17 @@ export default {
     selected: { control: 'boolean' },
     disabled: { control: 'boolean' },
     vertical: { control: 'boolean' },
+    // Without an action argType the Actions tab stays empty. The component
+    // fires this callback correctly — it was simply never logged.
+    onClick: { action: 'clicked' },
+
+    // PropTypes.node reports as "node", which Storybook renders as an
+    // uneditable JSON control. The tab label is plain text — force text.
+    children: { control: 'text' },
+
+    // Real React elements: no useful control representation.
+    icon:  { control: false },
+    badge: { control: false },
   },
 };
 

@@ -17,10 +17,46 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 
 ## vX.X.X — DD MMM YYYY
 ### Type: MAJOR / MINOR / PATCH
-### Updated by: Name
+### Updated by: Full Name (first + last, e.g. Adesh Singh — used for changelog filtering)
 **What changed:** Short title
 **Description:** Brief description
 -->
+
+## v2.54.2 — 21 August 2026
+### Type: PATCH
+### Updated by: Adesh Singh
+**What changed:** Fix Storybook controls across the remaining eighteen components
+**Description:** Completed the 25-component Storybook audit. Declared controls for every PropTypes.node prop that lacked one, following the convention Button and Input already used: text-carrying props (children, label, caption) get control:'text'; element-valued props (icon, leading, trailing, badge, action) get control:false so they stop rendering as uneditable empty-object controls. Composite components — Breadcrumb, Dropdown, Pagination and Table — take structural children rather than text, so their children control is hidden instead of forced to text. Avatar's alt uses a custom validator function which react-docgen cannot type, so it also fell back to a JSON control and could not be edited; now text. Avatar and Snackbar hardcoded JSX children which always override a spread children prop, leaving their controls inert; both moved into args. Tabs and UploadMedia had their node props declared as well. Result: 25/25 components clean, 194 stories indexing. No shipped component changed and the bundle is unchanged at 78.06 kB. No component was ever functionally broken — every one worked correctly; Storybook simply could not show it.
+
+## v2.54.1 — 21 August 2026
+### Type: PATCH
+### Updated by: Adesh Singh
+**What changed:** Wire Storybook actions for six interactive components
+**Description:** Added action argTypes to DatePicker (onSelect), Rating (onChange), Slider (onChange), Snackbar (onClose), Tabs (onClick) and UploadMedia (onFilesChange). All six fired their callbacks correctly but none were logged, so interactions looked dead in Storybook — Snackbar worst of all, where clicking the close button produced no visible and no logged result despite Snackbar.jsx wiring it properly. Snackbar's Playground also hardcoded onClose after the args spread, which would have silently overridden the action spy; removed so args flows through, verified the close button still renders with no visual change. Audited all six functionally first: DatePicker opens and selects and closes, Rating updates stars and ARIA, Slider tracks value, Tabs moves selection, UploadMedia registers files — none were actually broken, only unobservable. Stories files only, no shipped component changed, bundle unchanged at 78.06 kB. Known gap: SliderRange has no args-driven story, so its onChange still cannot be logged in the Actions tab.
+
+## v2.54.0 — 17 August 2026
+### Type: MINOR
+### Updated by: Adesh Singh
+**What changed:** Alert — enforce one-line title and three-line body
+**Description:** Alert title is now capped at one line and the body at three, both truncating with an ellipsis. Previously either could grow unbounded, so pasted or AI-generated copy silently stretched the Alert and broke the layout around it. Root cause was .alert-title carrying flex:1 without min-width:0 — a flex child defaults to min-width:auto and refuses to shrink below its content, so a long title widened the whole component instead of truncating; .alert-body had no constraint at all. The title fix follows the existing .snackbar-label pattern; the body uses -webkit-line-clamp:3 plus the standard line-clamp, the first line-clamp in components.css. Alert.jsx now warns in development when copy is genuinely being cut, measured via scrollWidth/scrollHeight rather than a character budget — a character count false-positives in wide containers and false-negatives in narrow ones. The check bails when clientWidth is 0 so Alerts inside collapsed accordions or inactive tabs do not warn spuriously; the warning follows the existing Tag.jsx pattern and is eliminated from consumer production builds. Documented in the docs Do/Don't list and in .claude/components/alert.md, and demonstrated by a new Copy Limits story in Storybook. Note the clamp is width-dependent: copy that fits a 480px Alert can still clamp in a narrow column, which is exactly what the dev warning exists to catch.
+
+## v2.53.5 — 17 August 2026
+### Type: PATCH
+### Updated by: Adesh Singh
+**What changed:** Storybook control fixes and defaultProps cleanup
+**Description:** Three housekeeping fixes with no change to rendered output. (1) Removed five redundant defaultProps blocks from Button, Tag, Checkbox and Dropdown/DropdownItem — every value already existed as a destructured default parameter, so the blocks were dead duplicates and a second place for defaults to drift out of sync. React 19 ignores defaultProps on function components entirely, so this also clears the React 18.3 deprecation warning and makes the package React 19-ready. Verified by rendering: all defaults still apply and all overrides still flow. (2) Normalised 13 changelog author entries from 'Adesh' to 'Adesh Singh' in CHANGELOG.md, plus 26 data-by attributes and table cells in changelog.html — the docs changelog filters by data-by, so the split name listed one person as two contributors. The four prose mentions of 'Adesh' inside descriptions were deliberately left untouched, and the CHANGELOG.md template placeholder now asks for a full name. (3) Fixed Alert's Storybook controls: title and children are PropTypes.node, which react-docgen reports as 'node' and Storybook renders as an uneditable JSON control — both are now text controls; onDismiss is wired to an action so the Actions tab logs dismissals; and the inert icon/actions placeholder args were removed.
+
+## v2.53.4 — 18 July 2026
+### Type: PATCH
+### Updated by: Adesh Singh
+**What changed:** Fix DatePicker minDate/view-sync/range-title bugs, SliderRange labeling and NaN, UploadMedia drag-and-drop
+**Description:** minDate={new Date()} no longer disables today after midnight (day cells vs comparison date normalized to same time-of-day). DatePicker now re-syncs its visible month when a controlled value changes externally. The range-mode calendar title no longer renders as a dead clickable button. SliderRange gained the documented inputAProps/inputBProps API so each thumb can get its own aria-label. Slider/SliderRange no longer produce a NaN fill when min equals max. UploadMedia now implements real drag-and-drop (previously click-only despite its own docs claiming otherwise), enforces accept filtering on drops the same as the file picker, and actually wires up the disabled prop it always documented but never implemented.
+
+## v2.53.3 — 18 July 2026
+### Type: PATCH
+### Updated by: Adesh Singh
+**What changed:** Fix Dropdown/Tag missing exports and non-functional disabled state
+**Description:** Dropdown, DropdownItem, and Tag were never exported from the package entry point (import returned undefined). disabled on Link/Option (as="a") and DropdownItem only changed cursor styling — the row/link stayed fully clickable and, for Link, still navigated. Both are now fixed and verified live: exports resolve correctly, and disabled elements no longer fire onClick or navigate.
 
 ## v2.53.2 — 16 July 2026
 ### Type: PATCH
@@ -90,79 +126,79 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 
 ## v2.45.0 — 14 June 2026
 ### Type: MINOR
-### Updated by: Adesh
+### Updated by: Adesh Singh
 **What changed:** Options — React component
 **Description:** Single selectable row with leading/trailing slots, 3 sizes, 3 states. OptionsMenu wrapper. Storybook: Playground, Default, Variants, Sizes, States, FullMatrix.
 
 ## v2.44.0 — 14 June 2026
 ### Type: MINOR
-### Updated by: Adesh
+### Updated by: Adesh Singh
 **What changed:** DatePicker — React component
 **Description:** Single and range date picker with day/month/year view navigation, controlled and uncontrolled modes, minDate/maxDate, and interactive Input trigger story.
 
 ## v2.43.0 — 14 June 2026
 ### Type: MINOR
-### Updated by: Adesh
+### Updated by: Adesh Singh
 **What changed:** UploadMedia — React component
 **Description:** Drop-target / file-list upload field with empty, 1-file, 2-file, and 3-file (limit) states. Controlled and uncontrolled modes, image preview, per-file remove, hover state, and Storybook stories.
 
 ## v2.42.0 — 14 June 2026
 ### Type: MINOR
-### Updated by: Adesh
+### Updated by: Adesh Singh
 **What changed:** Rating — React component
 **Description:** Star and heart rating component with half-step, read-only, disabled, three sizes, three colours, and Storybook stories.
 
 ## v2.41.0 — 14 June 2026
 ### Type: MINOR
-### Updated by: Adesh
+### Updated by: Adesh Singh
 **What changed:** Slider — React component
 **Description:** Slider and SliderRange components. Three track sizes (4/8/12px). Tooltip-on-hover and permanent-value-label display modes. Range variant with two thumbs and cross-constraint guard. Thumb position computed with the exact thumbPx formula from the HTML docs.
 
 ## v2.40.0 — 14 June 2026
 ### Type: MINOR
-### Updated by: Adesh
+### Updated by: Adesh Singh
 **What changed:** Pagination — React component
 **Description:** Pagination, PaginationPrev, PaginationNext, PaginationItem, and PaginationEllipsis components. Three sizes (lg/md/sm), interactive Default story with page state, EdgePages and FullMatrix stories.
 
 ## v2.39.0 — 14 June 2026
 ### Type: MINOR
-### Updated by: Adesh
+### Updated by: Adesh Singh
 **What changed:** Tabs — React component
 **Description:** Tabs, Tab, TabPanel components with lg/md/sm sizes, horizontal/vertical alignment, four states (default, hover, active, disabled), WAI-ARIA role=tablist/tab/tabpanel, and interactive Default story with panel switching.
 
 ## v2.38.0 — 14 June 2026
 ### Type: MINOR
-### Updated by: Adesh
+### Updated by: Adesh Singh
 **What changed:** Tooltip — React component
 **Description:** Tooltip pill with 3 sizes, 4 arrow positions, icon slots, and TooltipHost for CSS-only hover/focus show without JavaScript.
 
 ## v2.37.0 — 14 June 2026
 ### Type: MINOR
-### Updated by: Adesh
+### Updated by: Adesh Singh
 **What changed:** Alert — React component
 **Description:** Alert component with 7 semantic colours, 3 variants (Semi-filled, Filled, Border), dismiss button, and AlertBtnPrimary/Secondary action helpers.
 
 ## v2.36.0 — 14 June 2026
 ### Type: MINOR
-### Updated by: Adesh
+### Updated by: Adesh Singh
 **What changed:** Avatar — React component
 **Description:** Avatar component with Icon, Initials, and Image variants; 4 sizes; hover state; AvatarStack and AvatarStatus composition helpers.
 
 ## v2.35.0 — 14 June 2026
 ### Type: MINOR
-### Updated by: Adesh
+### Updated by: Adesh Singh
 **What changed:** Badge — React component
 **Description:** Badge component with Dot, Label, and Verify variants; 7 semantic colours; 3 sizes; BadgePin composition helper.
 
 ## v2.34.0 — 14 June 2026
 ### Type: MINOR
-### Updated by: Adesh
+### Updated by: Adesh Singh
 **What changed:** Tag — React component
 **Description:** Tag React component with 8 colors, 3 variants, 4 sizes, removable chips, and filter chip support.
 
 ## v2.33.0 — 14 June 2026
 ### Type: MINOR
-### Updated by: Adesh
+### Updated by: Adesh Singh
 **What changed:** Dropdown — React component
 **Description:** Dropdown and DropdownItem React components available in Storybook. Matches Figma panel chrome exactly.
 

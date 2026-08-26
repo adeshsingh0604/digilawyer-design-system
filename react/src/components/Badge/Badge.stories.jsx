@@ -10,6 +10,10 @@ export default {
     variant: { control: 'select', options: ['dot', 'label', 'verify'] },
     color:   { control: 'select', options: ['brand', 'info', 'danger', 'success', 'warning', 'notice', 'alert'] },
     size:    { control: 'select', options: ['sm', 'md', 'lg'] },
+
+    // PropTypes.node reports as "node", which Storybook renders as an
+    // uneditable JSON control. These carry plain strings — force text.
+    children: { control: 'text' },
   },
 };
 

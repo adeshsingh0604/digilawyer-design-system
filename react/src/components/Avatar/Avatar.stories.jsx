@@ -10,6 +10,11 @@ export default {
   argTypes: {
     variant: { control: 'select', options: ['icon', 'initials', 'image'] },
     size:    { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
+
+    // PropTypes.node reports as "node", which Storybook renders as an
+    // uneditable JSON control. These carry plain strings — force text.
+    children: { control: 'text' },
+    alt: { control: 'text' },
   },
 };
 
@@ -17,8 +22,10 @@ const SAMPLE_SRC = 'https://i.pravatar.cc/150?img=3';
 
 // ── Playground ───────────────────────────────────────────────────────────────
 export const Playground = {
-  args: { variant: 'initials', size: 'md' },
-  render: (args) => <Avatar {...args}>AD</Avatar>,
+  // `children` lives in args, not as JSX between the tags: JSX children always
+  // win over a spread `children` prop, which would leave the control inert.
+  args: { variant: 'initials', size: 'md', children: 'AD' },
+  render: (args) => <Avatar {...args} />,
 };
 
 // ── Default ───────────────────────────────────────────────────────────────────

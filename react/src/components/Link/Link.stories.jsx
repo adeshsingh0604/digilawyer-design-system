@@ -12,6 +12,15 @@ export default {
     underline: { control: 'boolean' },
     disabled:  { control: 'boolean' },
     hover:     { control: 'boolean' },
+
+    // PropTypes.node reports as "node", which Storybook renders as an
+    // uneditable JSON control. These carry plain strings — force text.
+    children: { control: 'text' },
+
+    // Real React elements: no useful control representation. Hidden rather
+    // than left as empty-object controls that silently do nothing.
+    leading: { control: false },
+    trailing: { control: false },
   },
 };
 

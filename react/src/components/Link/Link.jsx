@@ -50,6 +50,15 @@ export const Link = React.forwardRef(function Link(
       }
     : {};
 
+  // Blocks activation regardless of pointer-events CSS or keyboard dispatch
+  const handleClick = (event) => {
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
+    rest.onClick?.(event);
+  };
+
   return (
     <Tag
       ref={ref}
@@ -57,6 +66,7 @@ export const Link = React.forwardRef(function Link(
       {...defaultProps}
       {...rest}
       {...stateProps}
+      onClick={handleClick}
       disabled={Tag === 'button' ? (disabled || undefined) : undefined}
     >
       {leading  != null && leading  !== false && <span className="link-icon">{leading}</span>}

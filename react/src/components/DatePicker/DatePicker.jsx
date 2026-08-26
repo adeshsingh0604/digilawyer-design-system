@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -41,9 +41,16 @@ function buildDays(year, month) {
   return days;
 }
 
+function startOfDay(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+// Day cells are always built at midnight (see buildDays), so minDate/maxDate
+// must be normalized the same way — otherwise `minDate={new Date()}` disables
+// "today" as soon as the current time-of-day passes midnight.
 function isDisabled(date, minDate, maxDate) {
-  if (minDate && date < minDate) return true;
-  if (maxDate && date > maxDate) return true;
+  if (minDate && date < startOfDay(minDate)) return true;
+  if (maxDate && date > startOfDay(maxDate)) return true;
   return false;
 }
 
@@ -63,15 +70,19 @@ export const CalendarIcon = () => (
 
 // ── Internal: Header ──────────────────────────────────────────────────────────
 
-function Header({ title, onPrev, onNext, onTitleClick, showChevron, prevLabel, nextLabel }) {
+function Header({ title, onPrev, onNext, onTitleClick, showChevron, prevLabel, nextLabel, titleInteractive = true }) {
   return (
     <div className="datepicker-header">
       <button type="button" className="datepicker-nav" onClick={onPrev} aria-label={prevLabel}>
         <ChevLeft />
       </button>
-      <button type="button" className="datepicker-title" onClick={onTitleClick}>
-        {title}{showChevron && <ChevDown />}
-      </button>
+      {titleInteractive ? (
+        <button type="button" className="datepicker-title" onClick={onTitleClick}>
+          {title}{showChevron && <ChevDown />}
+        </button>
+      ) : (
+        <span className="datepicker-title">{title}</span>
+      )}
       <button type="button" className="datepicker-nav" onClick={onNext} aria-label={nextLabel}>
         <ChevRight />
       </button>
@@ -180,6 +191,23 @@ export const DatePicker = React.forwardRef(function DatePicker(
     return new Date(new Date().getFullYear(), new Date().getMonth(), 1);
   });
   const [yearStart, setYearStart] = useState(() => Math.floor(viewDate.getFullYear() / 12) * 12);
+
+  // If a controlled `value` changes from outside the calendar's own click
+  // handlers (e.g. a "load saved value" or reset flow), jump the visible
+  // month to match instead of leaving the calendar on whatever month it
+  // happened to be showing before.
+  const syncSource = mode === 'single' ? committed : (committed?.start ?? null);
+  const syncTime = syncSource instanceof Date ? syncSource.getTime() : null;
+  useEffect(() => {
+    if (!isControlled || syncTime == null) return;
+    const d = new Date(syncTime);
+    setViewDate((prev) =>
+      prev.getFullYear() === d.getFullYear() && prev.getMonth() === d.getMonth()
+        ? prev
+        : new Date(d.getFullYear(), d.getMonth(), 1)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isControlled, syncTime]);
 
   const vy = viewDate.getFullYear();
   const vm = viewDate.getMonth();
@@ -358,7 +386,7 @@ export const DatePicker = React.forwardRef(function DatePicker(
             title={`${MONTHS[vm]} ${vy}`}
             onPrev={prevNav}
             onNext={nextNav}
-            onTitleClick={titleClick}
+            titleInteractive={false}
             showChevron={false}
             prevLabel="Previous month"
             nextLabel="Next month"
@@ -379,7 +407,7 @@ export const DatePicker = React.forwardRef(function DatePicker(
             title={`${MONTHS[nextMonth]} ${nextYear}`}
             onPrev={prevNav}
             onNext={nextNav}
-            onTitleClick={titleClick}
+            titleInteractive={false}
             showChevron={false}
             prevLabel="Previous month"
             nextLabel="Next month"

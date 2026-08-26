@@ -1,6 +1,6 @@
 {
   "name": "@adeshsingh0604/digilawyer-ds",
-  "version": "2.53.2",
+  "version": "2.54.2",
   "description": "DigiLawyer Design System — React component library",
   "type": "module",
   "main": "./dist/index.js",

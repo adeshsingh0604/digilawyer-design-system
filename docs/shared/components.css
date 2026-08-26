@@ -736,6 +736,7 @@ table.matrix { border-collapse: collapse; width: 100%; background: var(--color-b
   background: var(--options-bg-disabled);
   color: var(--options-text-disabled);
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* ── Sizes — heights mirror Figma symbol names 1:1 (node 98-17811).
@@ -2117,6 +2118,7 @@ table.matrix { border-collapse: collapse; width: 100%; background: var(--color-b
   color: var(--link-disabled-text);
   cursor: not-allowed;
   text-decoration: none;
+  pointer-events: none;
 }
 
 /* ── Colour variants */
@@ -2779,11 +2781,18 @@ table.matrix { border-collapse: collapse; width: 100%; background: var(--color-b
 .alert-icon svg { width: 24px; height: 24px; display: block; }
 .alert-title {
   flex: 1;
+  /* A flex child defaults to min-width:auto and refuses to shrink below its
+     content, which is what let a long title push the whole Alert wider instead
+     of truncating. Same single-line pattern as .snackbar-label. */
+  min-width: 0;
   font-family: var(--font-primary);
   font-size: var(--fs-16);
   line-height: var(--lh-24);
   font-weight: var(--fw-medium);
   color: var(--_fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .alert-close {
   flex: 0 0 24px;                   /* same 24px slot as the leading icon */
@@ -2806,6 +2815,15 @@ table.matrix { border-collapse: collapse; width: 100%; background: var(--color-b
   line-height: var(--lh-24);
   font-weight: var(--fw-regular, 400);
   color: var(--_body);
+  /* Body is capped at 3 lines. Alert is for short contextual feedback — an
+     unbounded body turns it into a paragraph block and breaks the layout it
+     sits in. Truncation is deliberate: a visibly cut sentence is a loud signal
+     to shorten the copy, where a silently growing box just ships. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
 }
 .alert-actions {
   display: flex;

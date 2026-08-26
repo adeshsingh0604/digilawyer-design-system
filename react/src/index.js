@@ -16,6 +16,8 @@ export { Rating } from './components/Rating';
 export { UploadMedia } from './components/UploadMedia';
 export { DatePicker, CalendarIcon } from './components/DatePicker';
 export { Option, OptionsMenu } from './components/Options';
+export { Dropdown, DropdownItem } from './components/Dropdown';
+export { Tag } from './components/Tag';
 export { Table, TableWrap, TableCell, TableCellAction, KebabIcon } from './components/Table';
 export { Snackbar, SnackbarClose } from './components/Snackbar';
 export { ProgressBar } from './components/ProgressBar';

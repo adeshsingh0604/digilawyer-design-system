@@ -9,6 +9,17 @@ export default {
   argTypes: {
     variant: { control: 'select', options: ['brand', 'info', 'danger', 'success', 'warning', 'notice', 'alert'] },
     state:   { control: 'select', options: ['semi', 'filled', 'border'] },
+    // Without an action argType the Actions tab stays empty. The component
+    // fires this callback correctly — it was simply never logged.
+    onClose: { action: 'closed' },
+
+    // PropTypes.node reports as "node", which Storybook renders as an
+    // uneditable JSON control. The label carries plain text — force text.
+    children: { control: 'text' },
+
+    // Real React elements: no useful control representation.
+    icon:   { control: false },
+    action: { control: false },
   },
 };
 
@@ -22,11 +33,12 @@ const ActionBtn = () => <button type="button" className="btn btn-primary btn-sm"
 
 // ── Playground ────────────────────────────────────────────────────────────────
 export const Playground = {
-  args: { variant: 'brand', state: 'semi' },
+  args: { variant: 'brand', state: 'semi', children: 'Label' },
   render: (args) => (
-    <Snackbar {...args} action={<ActionBtn />} onClose={() => {}}>
-      Label
-    </Snackbar>
+    // `onClose` deliberately comes from args, not hardcoded here. A literal
+    // `onClose={() => {}}` after the spread would override Storybook's action
+    // spy, so the close button would render but never log a dismissal.
+    <Snackbar {...args} action={<ActionBtn />} />
   ),
 };
 

@@ -6,6 +6,12 @@ export default {
   component: Table,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
+  argTypes: {
+
+    // `children` here is native <thead> / <tbody> markup, not text — a text control cannot
+    // express it, so hide the control rather than offer a broken one.
+    children: { control: false },
+  },
 };
 
 // ── Playground ────────────────────────────────────────────────────────────────

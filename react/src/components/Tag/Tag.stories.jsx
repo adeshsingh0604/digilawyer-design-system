@@ -62,6 +62,11 @@ import { Tag } from 'digilawyer-ds';
     },
     children: { control: 'text' },
     onRemove: { action: 'removed' },
+
+    // Real React elements: no useful control representation. Hidden rather
+    // than left as empty-object controls that silently do nothing.
+    icon: { control: false },
+    trailing: { control: false },
   },
 };
 

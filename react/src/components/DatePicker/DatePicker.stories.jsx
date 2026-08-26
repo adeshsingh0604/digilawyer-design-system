@@ -8,6 +8,9 @@ export default {
   parameters: { layout: 'padded' },
   argTypes: {
     mode: { control: 'select', options: ['single', 'range'] },
+    // Without an action argType the Actions tab stays empty. The component
+    // fires this callback correctly — it was simply never logged.
+    onSelect: { action: 'selected' },
   },
 };
 

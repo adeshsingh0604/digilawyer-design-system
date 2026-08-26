@@ -104,9 +104,4 @@ Checkbox.propTypes = {
   className:      PropTypes.string,
 };
 
-Checkbox.defaultProps = {
-  indeterminate: false,
-  disabled:      false,
-};
-
 export default Checkbox;

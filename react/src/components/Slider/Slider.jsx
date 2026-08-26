@@ -9,7 +9,8 @@ import PropTypes from 'prop-types';
 function thumbPx(input, value) {
   const min = parseFloat(input.min) || 0;
   const max = parseFloat(input.max) || 100;
-  return ((value - min) / (max - min)) * (input.offsetWidth - 16) + 8;
+  const pct = max === min ? 0 : (value - min) / (max - min);
+  return pct * (input.offsetWidth - 16) + 8;
 }
 
 /**
@@ -88,7 +89,7 @@ export const Slider = React.forwardRef(function Slider(
     [ref]
   );
 
-  const pct = ((value - min) / (max - min)) * 100;
+  const pct = max === min ? 0 : ((value - min) / (max - min)) * 100;
   const tipLeft = useThumbLeft(inputRef, value);
 
   function handleChange(e) {
@@ -179,6 +180,10 @@ export const SliderRange = React.forwardRef(function SliderRange(
     showTip = false,
     showVal = false,
     disabled = false,
+    /** Extra props merged onto the low-bound thumb's <input> — pass aria-label / aria-labelledby here. */
+    inputAProps = {},
+    /** Extra props merged onto the high-bound thumb's <input> — pass aria-label / aria-labelledby here. */
+    inputBProps = {},
     className,
     ...rest
   },
@@ -193,8 +198,8 @@ export const SliderRange = React.forwardRef(function SliderRange(
   const inputARef = useRef(null);
   const inputBRef = useRef(null);
 
-  const pctA = ((lo - min) / (max - min)) * 100;
-  const pctB = ((hi - min) / (max - min)) * 100;
+  const pctA = max === min ? 0 : ((lo - min) / (max - min)) * 100;
+  const pctB = max === min ? 0 : ((hi - min) / (max - min)) * 100;
   const tipALeft = useThumbLeft(inputARef, lo);
   const tipBLeft = useThumbLeft(inputBRef, hi);
 
@@ -252,6 +257,7 @@ export const SliderRange = React.forwardRef(function SliderRange(
           aria-valuenow={lo}
           style={{ '--pct-a': `${pctA}%`, '--pct-b': `${pctB}%` }}
           {...rest}
+          {...inputAProps}
         />
         <input
           ref={inputBRef}
@@ -266,6 +272,7 @@ export const SliderRange = React.forwardRef(function SliderRange(
           aria-valuemin={lo}
           aria-valuemax={max}
           aria-valuenow={hi}
+          {...inputBProps}
         />
       </div>
       {showVal && (
@@ -294,6 +301,8 @@ SliderRange.propTypes = {
   showTip:      PropTypes.bool,
   showVal:      PropTypes.bool,
   disabled:     PropTypes.bool,
+  inputAProps:  PropTypes.object,
+  inputBProps:  PropTypes.object,
   className:    PropTypes.string,
 };
 
