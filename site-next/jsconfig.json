@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@ds": [
+        "../react/src"
+      ],
+      "@ds/*": [
+        "../react/src/*"
+      ],
+      "@": [
+        "./src"
+      ],
+      "@/*": [
+        "./src/*"
+      ],
+      "@blocks": [
+        "../blocks"
+      ],
+      "@blocks/*": [
+        "../blocks/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    ".next"
+  ]
+}
