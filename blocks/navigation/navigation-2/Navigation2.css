@@ -1,0 +1,32 @@
+/* Navigation-2. Tokens only. */
+
+.nav2 {
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.nav2-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+}
+
+.nav2-brand {
+  color: var(--color-heading);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nav2-spacer { flex: 1; }
+
+.nav2-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 16px 14px;
+  border-top: 1px solid var(--color-border-2, var(--color-border));
+}
+
+.nav2-menu > * { padding: 7px 0; }
