@@ -18,8 +18,20 @@ const blocksSource = path.resolve(here, '../blocks');
 const appSource = path.resolve(here, 'src');
 const repoRoot = path.resolve(here, '..');
 
+// GitHub Pages serves this repo from adeshsingh0604.github.io/digilawyer-design-system/,
+// so a static export needs every asset and route prefixed with that path.
+// Empty in local dev (npm run dev / plain `next build`), set by the deploy workflow.
+const basePath = process.env.NEXT_BASE_PATH || '';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
+  basePath,
+  assetPrefix: basePath,
+  // Static export writes each route as its own directory + index.html — required
+  // for GitHub Pages to resolve /components/button/ without a rewrite rule.
+  trailingSlash: true,
+
   // Widen the compilation root to the repo so ../react/src and the
   // ../docs/shared token CSS it @imports are both in scope.
   // Both the bare and wildcard forms are listed deliberately. Webpack treats

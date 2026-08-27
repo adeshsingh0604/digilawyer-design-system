@@ -1,0 +1,61 @@
+/* Navigation-1. Tokens only — no raw colour values, same rule as the DS. */
+
+.nav1 {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.nav1-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--color-heading);
+  font-weight: 600;
+  text-decoration: none;
+  flex: 0 0 auto;
+}
+
+.nav1-mark {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--color-brand-bg, var(--color-info-bg));
+  color: var(--color-brand-text, var(--color-info-text));
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.nav1-word { font-size: 15px; }
+
+.nav1-links {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex: 1;
+  min-width: 0;
+}
+
+.nav1-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+}
+
+.nav1-search { width: 200px; }
+
+/* Below 640px the links and search are hidden rather than stacked — a tall
+   stacked menu would push dense case content off-screen. 640px, not 900px:
+   the block has to read as "desktop" inside a docs card, which is narrower
+   than a real desktop window. */
+@media (max-width: 640px) {
+  .nav1 { gap: 12px; justify-content: space-between; }
+  .nav1-links,
+  .nav1-search { display: none; }
+}
