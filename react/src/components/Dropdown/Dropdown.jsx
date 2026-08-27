@@ -48,10 +48,6 @@ Dropdown.propTypes = {
   className:   PropTypes.string,
 };
 
-Dropdown.defaultProps = {
-  role: 'listbox',
-};
-
 /**
  * A single row inside a Dropdown.
  *
@@ -87,10 +83,24 @@ export const DropdownItem = React.forwardRef(function DropdownItem(
     'options',
     size === 'sm' && 'options-sm',
     active && 'options-active',
+    // role="option" never gets native `disabled` (see below) so it needs the
+    // visual class applied explicitly instead of relying on the :disabled selector.
+    disabled && role === 'option' && 'is-disabled',
     className,
   ]
     .filter(Boolean)
     .join(' ');
+
+  // role="option" is intentionally kept focusable when disabled (native
+  // `disabled` would drop it from a listbox's roving-focus keyboard nav) —
+  // so the click itself has to be blocked here rather than via the DOM attribute.
+  const handleClick = (event) => {
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
+    rest.onClick?.(event);
+  };
 
   return (
     <button
@@ -99,6 +109,7 @@ export const DropdownItem = React.forwardRef(function DropdownItem(
       className={classes}
       role={role}
       {...rest}
+      onClick={handleClick}
       aria-selected={role === 'option' ? selected : undefined}
       aria-disabled={role === 'option' && disabled ? true : undefined}
       disabled={role === 'option' ? undefined : disabled}
@@ -122,14 +133,6 @@ DropdownItem.propTypes = {
   trailing:  PropTypes.node,
   children:  PropTypes.node,
   className: PropTypes.string,
-};
-
-DropdownItem.defaultProps = {
-  role:     'option',
-  size:     'md',
-  active:   false,
-  selected: false,
-  disabled: false,
 };
 
 export default Dropdown;

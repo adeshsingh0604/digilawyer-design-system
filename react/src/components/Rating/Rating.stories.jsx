@@ -14,6 +14,9 @@ export default {
     half:     { control: 'boolean' },
     readOnly: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    // Without an action argType the Actions tab stays empty. The component
+    // fires this callback correctly — it was simply never logged.
+    onChange: { action: 'changed' },
   },
 };
 

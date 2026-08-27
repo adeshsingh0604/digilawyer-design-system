@@ -9,6 +9,15 @@ export default {
   argTypes: {
     size:     { control: 'select', options: ['lg', 'md', 'sm'] },
     position: { control: 'select', options: ['top', 'bottom', 'left', 'right'] },
+
+    // PropTypes.node reports as "node", which Storybook renders as an
+    // uneditable JSON control. These carry plain strings — force text.
+    children: { control: 'text' },
+
+    // Real React elements: no useful control representation. Hidden rather
+    // than left as empty-object controls that silently do nothing.
+    icon: { control: false },
+    trailing: { control: false },
   },
 };
 

@@ -57,7 +57,8 @@
         <li>Use for persistent, inline feedback that stays visible until the user dismisses it</li>
         <li>Use for form validation summaries at the top of a form</li>
         <li>Use Danger for errors, Success for confirmations, Warning for cautions, Info for neutral notices</li>
-        <li>Keep the description concise — one or two sentences maximum</li>
+        <li>Keep the title to <strong>one line</strong> — it is enforced, and longer titles truncate with an ellipsis</li>
+        <li>Keep the description to one or two sentences — <strong>three lines maximum</strong>, enforced by clamping</li>
       </ul>
     </div>
     <div class="usage-dont">
@@ -67,6 +68,7 @@
         <li>Show more than 2 alerts on the same page simultaneously</li>
         <li>Use Alert as a modal replacement — it is inline, not blocking</li>
         <li>Call it "Notification" — the system-wide name is Alert</li>
+        <li>Paste long or AI-generated copy without checking it fits — the title cuts at one line and the body at three, and the hidden text is lost to the user</li>
       </ul>
     </div>
   </div>

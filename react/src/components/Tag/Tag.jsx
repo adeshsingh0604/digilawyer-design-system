@@ -105,11 +105,4 @@ Tag.propTypes = {
   className: PropTypes.string,
 };
 
-Tag.defaultProps = {
-  color:   'blue',
-  variant: 'filled',
-  size:    'md',
-  as:      'span',
-};
-
 export default Tag;

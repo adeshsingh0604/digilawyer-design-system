@@ -48,14 +48,30 @@ export const Option = React.forwardRef(function Option(
     .filter(Boolean)
     .join(' ');
 
+  // Non-button tags (e.g. as="a") have no native disabled — remove from tab
+  // order and block activation explicitly instead of relying on CSS alone.
+  const stateProps = disabled && Tag !== 'button'
+    ? { 'aria-disabled': true, tabIndex: -1 }
+    : {};
+
+  const handleClick = (event) => {
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
+    rest.onClick?.(event);
+  };
+
   return (
     <Tag
       ref={ref}
       type={Tag === 'button' ? 'button' : undefined}
       className={cls}
-      disabled={Tag === 'button' ? disabled || undefined : undefined}
       aria-selected={selected !== undefined ? selected : undefined}
       {...rest}
+      {...stateProps}
+      onClick={handleClick}
+      disabled={Tag === 'button' ? disabled || undefined : undefined}
     >
       {leading != null && <span className="options-leading">{leading}</span>}
       <span className="options-label">{children}</span>

@@ -9,6 +9,22 @@ export default {
   argTypes: {
     color:   { control: 'select', options: ['brand', 'info', 'danger', 'success', 'warning', 'notice', 'alert'] },
     variant: { control: 'select', options: ['semi', 'filled', 'border'] },
+
+    // `title` and `children` are PropTypes.node, which react-docgen reports as
+    // "node" — Storybook then picks a JSON control, so plain text cannot be
+    // typed in and a string passed via URL args is rejected on type mismatch.
+    // Both carry plain strings in practice, so force a text control.
+    title:    { control: 'text' },
+    children: { control: 'text' },
+
+    // Real React elements. There is no useful control representation, so hide
+    // them rather than leave empty-object controls that silently do nothing.
+    icon:    { control: false },
+    actions: { control: false },
+
+    // Without this the Actions tab stays empty. The component fires onDismiss
+    // correctly — it was simply never logged.
+    onDismiss: { action: 'dismissed' },
   },
 };
 
@@ -55,7 +71,15 @@ const BODY = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 
 // ── Playground ────────────────────────────────────────────────────────────────
 export const Playground = {
-  args: { color: 'info', variant: 'semi', title: 'Alert title' },
+  args: {
+    color: 'brand',
+    variant: 'semi',
+    title: 'Alert title',
+    // Body text moved out of the render and into args so the `children` control
+    // actually drives the output. Previously it was hardcoded below, which left
+    // the control visible but inert.
+    children: BODY,
+  },
   render: (args) => (
     <div style={{ maxWidth: 480 }}>
       <Alert
@@ -67,9 +91,7 @@ export const Playground = {
             <AlertBtnSecondary>Button</AlertBtnSecondary>
           </>
         }
-      >
-        {BODY}
-      </Alert>
+      />
     </div>
   ),
 };
@@ -237,6 +259,69 @@ export const FullMatrix = {
           </div>
         </div>
       ))}
+    </div>
+  ),
+};
+
+// ── Copy limits ───────────────────────────────────────────────────────────────
+/**
+ * What happens when copy is too long — the case that actually shows up in
+ * practice, because Alert text is usually pasted in rather than written to fit.
+ *
+ * Title truncates at one line, body clamps at three. Both cut with an ellipsis.
+ * Open the browser console on this story: Alert warns in development whenever
+ * it is genuinely hiding text, so the person who pasted it finds out.
+ */
+export const CopyLimits = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Titles are capped at one line and bodies at three. Overflow is hidden from the user — ' +
+          'a truncated error message loses the actual reason — so treat a visible ellipsis as a ' +
+          'prompt to shorten the copy, not as a working layout.',
+      },
+    },
+  },
+  render: () => (
+    // `minmax(0, 1fr)` is required, not decorative: a grid item defaults to
+    // min-width:auto and refuses to shrink below its content, so long copy would
+    // blow straight through this 480px container and never truncate. Same root
+    // cause as the .alert-title fix this story demonstrates.
+    <div style={{ maxWidth: 480, display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 20 }}>
+      <div>
+        <p style={{ font: '600 12px/1.4 monospace', opacity: 0.6, marginBottom: 8 }}>
+          WITHIN LIMITS — nothing hidden
+        </p>
+        <Alert color="success" title="Changes saved" icon={<CheckIcon />}>
+          Your profile has been updated.
+        </Alert>
+      </div>
+
+      <div>
+        <p style={{ font: '600 12px/1.4 monospace', opacity: 0.6, marginBottom: 8 }}>
+          TITLE TOO LONG — truncates to one line
+        </p>
+        <Alert
+          color="warning"
+          title="Your subscription renewal could not be completed because the card on file has expired"
+          icon={<WarnIcon />}
+        >
+          {BODY}
+        </Alert>
+      </div>
+
+      <div>
+        <p style={{ font: '600 12px/1.4 monospace', opacity: 0.6, marginBottom: 8 }}>
+          BODY TOO LONG — clamps at three lines
+        </p>
+        <Alert color="danger" title="Payment failed" icon={<DangerIcon />}>
+          We attempted to charge the card ending 4242 on three separate occasions over the past
+          week and each attempt was declined by your issuing bank. Please update your payment
+          details to avoid any interruption to your service. If you believe this is an error,
+          contact your bank or reach out to our support team for assistance.
+        </Alert>
+      </div>
     </div>
   ),
 };

@@ -8,6 +8,10 @@ export default {
   parameters: { layout: 'padded' },
   argTypes: {
     size: { control: 'select', options: [undefined, 'sm'] },
+
+    // `children` here is BreadcrumbItem / BreadcrumbSeparator / BreadcrumbCurrent, not text — a text control cannot
+    // express it, so hide the control rather than offer a broken one.
+    children: { control: false },
   },
 };
 

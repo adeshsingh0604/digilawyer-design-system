@@ -88,14 +88,4 @@ Button.propTypes = {
   className:    PropTypes.string,
 };
 
-Button.defaultProps = {
-  variant:      'primary',
-  size:         'md',
-  disabled:     false,
-  loading:      false,
-  square:       false,
-  activeBorder: false,
-  type:         'button',
-};
-
 export default Button;

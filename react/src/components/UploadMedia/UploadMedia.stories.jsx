@@ -10,6 +10,15 @@ export default {
     maxFiles: { control: 'number' },
     hover:    { control: 'boolean' },
     accept:   { control: 'text' },
+    // Without an action argType the Actions tab stays empty. The component
+    // fires this callback correctly — it was simply never logged.
+    onFilesChange: { action: 'filesChanged' },
+
+    // PropTypes.node reports as "node", which Storybook renders as an
+    // uneditable JSON control. Both carry plain strings — force text,
+    // matching how Input and Textarea already declare these.
+    label:   { control: 'text' },
+    caption: { control: 'text' },
   },
 };
 

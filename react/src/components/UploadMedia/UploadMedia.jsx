@@ -28,9 +28,22 @@ const XIcon = () => (
   </svg>
 );
 
+// Matches a File against an <input accept> style pattern list — supports
+// extensions (".pdf"), MIME wildcards ("image/*"), and exact MIME types.
+function matchesAccept(file, accept) {
+  if (!accept) return true;
+  const patterns = accept.split(',').map((p) => p.trim()).filter(Boolean);
+  if (patterns.length === 0) return true;
+  return patterns.some((pattern) => {
+    if (pattern.startsWith('.')) return file.name.toLowerCase().endsWith(pattern.toLowerCase());
+    if (pattern.endsWith('/*'))  return file.type.startsWith(pattern.slice(0, -1));
+    return file.type === pattern;
+  });
+}
+
 // ── FileItem — single file pill ───────────────────────────────────────────────
 
-function FileItem({ entry, onRemove }) {
+function FileItem({ entry, onRemove, disabled }) {
   const [preview, setPreview] = useState(entry.preview || null);
 
   useEffect(() => {
@@ -55,6 +68,7 @@ function FileItem({ entry, onRemove }) {
         className="upload-file-remove"
         aria-label={`Remove ${entry.name}`}
         onClick={onRemove}
+        disabled={disabled}
       >
         <XIcon />
       </button>
@@ -68,11 +82,14 @@ function FileItem({ entry, onRemove }) {
  * Drop-target / file-list surface for picking media files.
  *
  * Reuses `.input-field` wrapper and `--input-*` tokens from Text Input.
+ * Accepts files via the "Choose file" button or by dragging them onto the
+ * drop zone — both paths run through the same `maxSize`/`maxFiles` validation.
  * Four content variants: **empty** · **1 file** · **2 files** · **3 files (limit)**.
  *
  * **Usage rules:**
  * - Always set `label` and `subheading` to communicate accepted types and size limits.
- * - Use `accept` to filter the native file picker (e.g. `"image/*"`).
+ * - Use `accept` to filter accepted files (e.g. `"image/*"`, `".pdf"`, or a
+ *   comma-separated list) — enforced for both the native file picker and drops.
  * - Use `maxFiles` to cap how many files a user can attach (default 3).
  * - Pass `onFilesChange` to lift the current file list to the parent form.
  * - Set `disabled` to lock the entire field (label stays visible).
@@ -101,6 +118,8 @@ export const UploadMedia = React.forwardRef(function UploadMedia(
     maxSize = 5 * 1024 * 1024,
     /** Force `.is-hover` class at rest — documentation helper for the full matrix. */
     hover = false,
+    /** Locks the entire field — Choose-file button, drag-and-drop, and remove buttons. */
+    disabled = false,
     className,
     ...rest
   },
@@ -108,6 +127,7 @@ export const UploadMedia = React.forwardRef(function UploadMedia(
 ) {
   const isControlled = filesProp !== undefined;
   const [internal, setInternal] = useState(defaultFiles);
+  const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef(null);
 
   const files = isControlled ? filesProp : internal;
@@ -117,15 +137,14 @@ export const UploadMedia = React.forwardRef(function UploadMedia(
     onFilesChange?.(next);
   }
 
-  function handleChoose(e) {
-    e.preventDefault();
-    fileInputRef.current?.click();
-  }
-
-  function handleInputChange(e) {
-    const incoming = Array.from(e.target.files || []).filter((f) => f.size <= maxSize);
+  function ingestFiles(fileList) {
+    if (disabled) return;
+    const incoming = Array.from(fileList || [])
+      .filter((f) => f.size <= maxSize)
+      .filter((f) => matchesAccept(f, accept));
     const remaining = maxFiles - files.length;
     const valid = incoming.slice(0, remaining);
+    if (valid.length === 0) return;
     const next = [
       ...files,
       ...valid.map((f) => ({
@@ -137,22 +156,60 @@ export const UploadMedia = React.forwardRef(function UploadMedia(
       })),
     ];
     updateFiles(next);
+  }
+
+  function handleChoose(e) {
+    e.preventDefault();
+    if (disabled) return;
+    fileInputRef.current?.click();
+  }
+
+  function handleInputChange(e) {
+    ingestFiles(e.target.files);
     e.target.value = '';
   }
 
   function handleRemove(id) {
+    if (disabled) return;
     updateFiles(files.filter((f) => f.id !== id));
+  }
+
+  function handleDragOver(e) {
+    e.preventDefault();
+    if (disabled || files.length >= maxFiles) return;
+    setIsDragOver(true);
+  }
+
+  function handleDragLeave(e) {
+    e.preventDefault();
+    setIsDragOver(false);
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    setIsDragOver(false);
+    if (disabled) return;
+    ingestFiles(e.dataTransfer?.files);
   }
 
   const atLimit = files.length >= maxFiles;
 
-  const uploadClass = ['upload', hover && 'is-hover'].filter(Boolean).join(' ');
+  const uploadClass = [
+    'upload',
+    (hover || isDragOver) && 'is-hover',
+    disabled && 'input-disabled',
+  ].filter(Boolean).join(' ');
 
   return (
     <div ref={ref} className={['input-field', className].filter(Boolean).join(' ')} {...rest}>
       {label != null && <label className="input-field-label">{label}</label>}
 
-      <div className={uploadClass}>
+      <div
+        className={uploadClass}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
         {files.length === 0 ? (
           <div className="upload-empty">
             <UploadArrowIcon />
@@ -167,6 +224,7 @@ export const UploadMedia = React.forwardRef(function UploadMedia(
                   key={entry.id}
                   entry={entry}
                   onRemove={() => handleRemove(entry.id)}
+                  disabled={disabled}
                 />
               ))}
             </ul>
@@ -175,7 +233,7 @@ export const UploadMedia = React.forwardRef(function UploadMedia(
         )}
 
         {!atLimit && (
-          <button type="button" className="btn btn-primary btn-sm" onClick={handleChoose}>
+          <button type="button" className="btn btn-primary btn-sm" onClick={handleChoose} disabled={disabled}>
             Choose file
           </button>
         )}
@@ -188,6 +246,7 @@ export const UploadMedia = React.forwardRef(function UploadMedia(
         type="file"
         multiple
         accept={accept}
+        disabled={disabled}
         style={{ display: 'none' }}
         onChange={handleInputChange}
         tabIndex={-1}
@@ -216,6 +275,7 @@ UploadMedia.propTypes = {
   accept:         PropTypes.string,
   maxSize:        PropTypes.number,
   hover:          PropTypes.bool,
+  disabled:       PropTypes.bool,
   className:      PropTypes.string,
 };
 

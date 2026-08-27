@@ -14,6 +14,9 @@ export default {
     min:     { control: 'number' },
     max:     { control: 'number' },
     step:    { control: 'number' },
+    // Without an action argType the Actions tab stays empty. The component
+    // fires this callback correctly — it was simply never logged.
+    onChange: { action: 'changed' },
   },
 };
 

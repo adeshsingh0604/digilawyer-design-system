@@ -1,5 +1,63 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+
+/*
+ * Bundlers (Vite, webpack, Next, Rollup) statically replace the whole
+ * `process.env.NODE_ENV` expression with a string literal, then dead-code
+ * eliminate the dev branch from production builds. This is the form React
+ * itself uses. Do NOT guard it with `typeof process !== 'undefined'` — no
+ * `process` object exists in the browser, so that check is always false and
+ * silently disables every warning below.
+ */
+const IS_DEV = process.env.NODE_ENV !== 'production';
+
+/** One warning per distinct message — a re-rendering Alert must not spam the console. */
+const warnedMessages = new Set();
+function warnOnce(message) {
+  if (warnedMessages.has(message)) return;
+  warnedMessages.add(message);
+  // eslint-disable-next-line no-console
+  console.warn(message);
+}
+
+/**
+ * Development-only check that the copy actually fits.
+ *
+ * Measures the rendered box rather than counting characters: a character budget
+ * false-positives in a wide container and false-negatives in a narrow one,
+ * whereas scrollWidth/scrollHeight report whether *this* Alert, at *this* width,
+ * is genuinely hiding text from the user.
+ *
+ * Exists because copy is usually pasted in — often AI-generated — and CSS
+ * truncation alone fails silently for whoever wrote it.
+ */
+function useCopyFitsWarning(titleRef, bodyRef, title, children) {
+  useEffect(() => {
+    if (!IS_DEV) return;
+
+    // An element that is hidden or not yet laid out reports clientWidth 0, where
+    // every string "overflows". Bail rather than warn about a box nobody can see —
+    // this is the Alert-in-a-collapsed-accordion / inactive-tab case.
+    const titleEl = titleRef.current;
+    const bodyEl = bodyRef.current;
+    const laidOut = (titleEl || bodyEl)?.clientWidth > 0;
+    if (!laidOut) return;
+
+    if (titleEl && titleEl.scrollWidth > titleEl.clientWidth) {
+      warnOnce(
+        `[DigiLawyer DS] Alert title is truncated: "${String(title).slice(0, 60)}…"\n` +
+          'Titles must fit one line. Shorten it — the remainder is hidden from users.'
+      );
+    }
+
+    if (bodyEl && bodyEl.scrollHeight > bodyEl.clientHeight) {
+      warnOnce(
+        `[DigiLawyer DS] Alert body is clamped at 3 lines: "${String(children).slice(0, 60)}…"\n` +
+          'Keep the body to 1–2 sentences. The overflow is hidden from users.'
+      );
+    }
+  }, [titleRef, bodyRef, title, children]);
+}
 
 const CloseIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -47,6 +105,10 @@ export const Alert = React.forwardRef(function Alert(
 ) {
   const autoRole = color === 'danger' ? 'alert' : 'status';
 
+  const titleRef = useRef(null);
+  const bodyRef = useRef(null);
+  useCopyFitsWarning(titleRef, bodyRef, title, children);
+
   const classes = [
     'alert',
     `alert-${color}`,
@@ -62,7 +124,11 @@ export const Alert = React.forwardRef(function Alert(
       {(icon != null || title != null || onDismiss) && (
         <div className="alert-header">
           {icon != null && <span className="alert-icon">{icon}</span>}
-          {title != null && <span className="alert-title">{title}</span>}
+          {title != null && (
+            <span className="alert-title" ref={titleRef}>
+              {title}
+            </span>
+          )}
           {onDismiss && (
             <button
               type="button"
@@ -75,7 +141,11 @@ export const Alert = React.forwardRef(function Alert(
           )}
         </div>
       )}
-      {children != null && children !== '' && <p className="alert-body">{children}</p>}
+      {children != null && children !== '' && (
+        <p className="alert-body" ref={bodyRef}>
+          {children}
+        </p>
+      )}
       {actions != null && <div className="alert-actions">{actions}</div>}
     </div>
   );
