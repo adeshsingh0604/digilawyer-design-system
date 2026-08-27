@@ -1,0 +1,21 @@
+{
+  "name": "digilawyer-ds-site-next",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Next.js port of the DigiLawyer Design System documentation site.",
+  "type": "module",
+  "scripts": {
+    "predev": "node scripts/build-changelog.mjs",
+    "dev": "next dev -p 5186",
+    "prebuild": "node scripts/build-changelog.mjs",
+    "build": "next build",
+    "start": "next start -p 5186",
+    "changelog": "node scripts/build-changelog.mjs"
+  },
+  "dependencies": {
+    "next": "^16.3.1",
+    "prop-types": "^15.8.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
