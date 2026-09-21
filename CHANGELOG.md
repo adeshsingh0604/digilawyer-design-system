@@ -22,6 +22,12 @@ Whenever you add a new row to pages/changelog.html, add the same entry here usin
 **Description:** Brief description
 -->
 
+## v2.55.0 — 21 September 2026
+### Type: MINOR
+### Updated by: Adesh Singh
+**What changed:** Next.js docs site, blocks showroom and GitHub Packages publishing
+**Description:** Records three additions that shipped between v2.54.2 and now without a version entry. site-next: a Next.js static-export docs site (Quickstart, component variant gallery, blocks showroom, changelog generated from CHANGELOG.md at build time), deployed to GitHub Pages at /site-next/ alongside the HTML docs and Storybook; its build runs a CSS-collision check that fails if any site-chrome class shares a name with docs/shared/components.css, so the docs chrome can never restyle a live component preview. blocks/: a copy-paste page-sections registry (navigation-1, navigation-2) rendered live at Mobile/Tablet/Desktop in site-next. GitHub Packages: the React library publishes as @adeshsingh0604/digilawyer-ds via publish.yml whenever react/ changes on main. Also retired the uncommitted Vite site/ prototype (superseded by site-next) and reconciled README, STATUS, TODO and CLAUDE.md with the real repo state. The React package is unchanged and stays at 2.54.2; this is a docs-and-infrastructure release.
+
 ## v2.54.2 — 21 August 2026
 ### Type: PATCH
 ### Updated by: Adesh Singh
