@@ -187,7 +187,7 @@ What it updates automatically: `tokens.css` (version + date tokens) · `STATUS.m
 
 Detailed rules for each individual component live in `.claude/components/<name>.md`. Read the relevant file before editing any component.
 
-## Current State (v2.54.2 — reconciled 21 September 2026)
+## Current State (v2.55.0 — reconciled 21 September 2026)
 
 All 36 pages use the minimal page pattern. All 25 components are fully documented with light + dark Figma-verified. The global header (logo + version chip + search + theme toggle) is injected by `ds.js` at runtime — no per-page change required.
 

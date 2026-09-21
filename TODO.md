@@ -1,6 +1,6 @@
 # DigiLawyer Design System — TODO
 
-*Last reconciled against actual repo state: 21 September 2026 (v2.54.2).*
+*Last reconciled against actual repo state: 21 September 2026 (v2.55.0).*
 
 ## 🔁 Recurring Process
 

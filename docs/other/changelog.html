@@ -90,6 +90,14 @@ entry to CHANGELOG.md in the root folder using this format:
     </thead>
     <tbody id="changelog-body">
       <!-- Most recent entry first -->
+      <tr data-type="minor" data-by="Adesh Singh">
+        <td class="ver">v2.55.0</td>
+        <td><span class="type-badge minor">MINOR</span></td>
+        <td>Next.js docs site, blocks showroom and GitHub Packages publishing</td>
+        <td>Records three additions that shipped between v2.54.2 and now without a version entry. site-next: a Next.js static-export docs site (Quickstart, component variant gallery, blocks showroom, changelog generated from CHANGELOG.md at build time), deployed to GitHub Pages at /site-next/ alongside the HTML docs and Storybook; its build runs a CSS-collision check that fails if any site-chrome class shares a name with docs/shared/components.css, so the docs chrome can never restyle a live component preview. blocks/: a copy-paste page-sections registry (navigation-1, navigation-2) rendered live at Mobile/Tablet/Desktop in site-next. GitHub Packages: the React library publishes as @adeshsingh0604/digilawyer-ds via publish.yml whenever react/ changes on main. Also retired the uncommitted Vite site/ prototype (superseded by site-next) and reconciled README, STATUS, TODO and CLAUDE.md with the real repo state. The React package is unchanged and stays at 2.54.2; this is a docs-and-infrastructure release.</td>
+        <td style="white-space:nowrap;">21 September 2026</td>
+        <td>Adesh Singh</td>
+      </tr>
       <tr data-type="patch" data-by="Adesh Singh">
         <td class="ver">v2.54.2</td>
         <td><span class="type-badge patch">PATCH</span></td>
