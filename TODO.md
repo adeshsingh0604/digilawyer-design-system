@@ -1,6 +1,6 @@
 # DigiLawyer Design System — TODO
 
-*Last reconciled against actual repo state: 16 July 2026 (v2.53.1).*
+*Last reconciled against actual repo state: 21 September 2026 (v2.54.2).*
 
 ## 🔁 Recurring Process
 
@@ -16,6 +16,20 @@
 - Storybook: live and deployed to GitHub Pages, not a placeholder.
 - React/Figma Code Connect readiness blockers (the 9 findings in `DESIGN.md → React & Figma Code Connect Readiness`, audited at v2.31.7): all resolved. Entry point, token imports, and CSS token usage were fixed; the architecture now has React consume `docs/shared/{tokens,components}.css` directly via `react/src/styles.css` rather than duplicating hex values per component.
 - Token gaps once listed here (tag, alert/snackbar, progress bar) are populated in `tokens.css`.
+- Storybook audit: all 25 components have working controls + action logging (v2.54.1–v2.54.2).
+- React library published to GitHub Packages (`@adeshsingh0604/digilawyer-ds`) via `publish.yml`.
+- `site-next/` Next.js docs site deployed to GitHub Pages; CSS-collision check wired into its build.
+- Old Vite `site/` prototype retired (superseded by `site-next/`).
+
+## 🟡 Genuinely open — added 21 September 2026
+
+### Storybook
+- [ ] `SliderRange` has no args-driven story, so its `onChange` can't be logged in the Actions tab.
+
+### site-next / blocks
+- [ ] Component variant gallery covers only 6 of 25 components (alert, avatar, badge, button, button-group, tag).
+- [ ] Blocks registry has only the `navigation` category (2 variants).
+- [ ] Dashboards and Templates pages are placeholders.
 
 ## 🟡 Genuinely open
 

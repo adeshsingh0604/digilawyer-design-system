@@ -4,7 +4,7 @@
 v2.54.2
 
 ## Last Updated
-21 August 2026
+21 September 2026
 
 ## What is Built
 - docs/shared/tokens.css — full token architecture
@@ -61,6 +61,15 @@ Everything above (through Rating, v2.31) plus:
 - **Storybook** — configured at `react/.storybook/`, deployed to GitHub Pages at the URL in `components-manifest.json`'s `storybook_base` field. The old `react/README.md` audit (9 readiness findings) is fully resolved; see `DESIGN.md → React & Figma Code Connect Readiness` for the historical record.
 - **Responsive design** — 3 phases (v2.51–v2.53): CSS utilities (`components.css`), Storybook viewport presets (390/744/1440) + Responsive stories for 5 components, and `.rsp-phone` demo frames in 5 HTML docs pages.
 - **Canary protocol** (v2.53.1) — `CLAUDE.md` requires stating the canary value from `components-manifest.json` at the start of any AI session touching this repo.
+
+## What is Built (as of v2.54.2 — updated 21 September 2026)
+
+Everything above plus:
+- **Storybook audit complete** (v2.54.1–v2.54.2) — all 25 components have working controls and action logging; 194 stories index cleanly. Known gap: `SliderRange` has no args-driven story, so its `onChange` isn't logged in the Actions tab.
+- **GitHub Packages publishing** — `react/` ships as `@adeshsingh0604/digilawyer-ds` via `.github/workflows/publish.yml` on every push to `main` that touches `react/`.
+- **`site-next/`** — Next.js static-export docs site (Quickstart, component variant gallery, blocks showroom, generated changelog), deployed to GitHub Pages at `/site-next/` alongside the HTML docs and Storybook. Build includes a CSS-collision check against `docs/shared/components.css`.
+- **`blocks/`** — copy-paste page sections registry (`navigation-1`, `navigation-2` so far), rendered live in `site-next`.
+- **Retired:** the earlier Vite docs prototype (`site/`) — never committed, superseded by `site-next/`; its CSS-collision check was ported over before removal.
 
 ## What is Pending
 - Actual Figma Code Connect mapping files (`.figma.tsx`) between Figma components and the React library — the *readiness* blockers are fixed, the mapping itself isn't built yet.
