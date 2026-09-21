@@ -1,13 +1,25 @@
 # DigiLawyer Design System
 
-Monorepo for the DigiLawyer design system. Two workstreams live side by side:
+Monorepo for the DigiLawyer design system:
 
 ```
 digilawyer-design-system/
 ├── docs/        Static HTML/CSS/JS documentation site (canonical source of truth)
-└── react/       React component library — consumes the same tokens
-                 (Storybook is configured here too, at react/.storybook/)
+├── react/       React component library — consumes the same tokens
+│                (Storybook is configured here too, at react/.storybook/)
+├── site-next/   Next.js docs site — component variant gallery + blocks showroom
+└── blocks/      Copy-paste page sections built from the design system
 ```
+
+**Live URLs** (all deployed by `.github/workflows/deploy.yml` on every push to `main`):
+
+| Surface | URL |
+|---|---|
+| HTML docs | https://adeshsingh0604.github.io/digilawyer-design-system/ |
+| Storybook | https://adeshsingh0604.github.io/digilawyer-design-system/storybook/ |
+| Next.js docs site | https://adeshsingh0604.github.io/digilawyer-design-system/site-next/ |
+
+The React library is published to GitHub Packages as `@adeshsingh0604/digilawyer-ds` by `.github/workflows/publish.yml` whenever `react/` changes on `main`.
 
 ## Quick start
 
@@ -40,6 +52,14 @@ See [`docs/README.md`](docs/README.md) and [`CLAUDE.md`](CLAUDE.md) for the per-
 ### `react/`
 
 React component library. All 25 components implemented, consuming the same design tokens via a generated `tokens.json` (and `docs/shared/{tokens,components}.css` directly for styling). Has its own `package.json` and tooling. Storybook is configured at `react/.storybook/` and deployed to GitHub Pages.
+
+### `site-next/`
+
+Next.js (static export) documentation site: Quickstart, a component variant gallery, the blocks showroom, and a changelog generated from `CHANGELOG.md` at build time. Run `npm run dev` inside it (port 5186). `npm run build` also runs `check:css`, which fails the build if any site-chrome class name collides with a design-system class — so the chrome can never silently restyle a live component preview. It replaced an earlier Vite prototype (`site/`), which was retired on 21 September 2026.
+
+### `blocks/`
+
+Copy-paste page sections (currently `navigation-1`, `navigation-2`) composed from the design system. Registry in `blocks/index.js`; see [`blocks/README.md`](blocks/README.md) for anatomy. Rendered live in `site-next`'s Blocks page.
 
 ## Project-wide docs at this level
 

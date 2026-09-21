@@ -187,13 +187,15 @@ What it updates automatically: `tokens.css` (version + date tokens) · `STATUS.m
 
 Detailed rules for each individual component live in `.claude/components/<name>.md`. Read the relevant file before editing any component.
 
-## Current State (v2.53.1)
+## Current State (v2.54.2 — reconciled 21 September 2026)
 
 All 36 pages use the minimal page pattern. All 25 components are fully documented with light + dark Figma-verified. The global header (logo + version chip + search + theme toggle) is injected by `ds.js` at runtime — no per-page change required.
 
 **Search index lives in `ds.js`** — `SEARCH_DOCS` covers pages + sections, `SEARCH_TOKENS` covers semantic CSS tokens. When you add a new page or tokens, update both arrays.
 
-**React workstream** lives in `react/`. All 25 components implemented (`react_status: "done"` for every entry in `components-manifest.json`). The 9 issues in `DESIGN.md → React & Figma Code Connect Readiness` (audited at v2.31.7) have since been resolved — that section is now a historical record, not an open checklist. Storybook is deployed at the URL in `components-manifest.json`'s `storybook_base` field.
+**React workstream** lives in `react/`. All 25 components implemented (`react_status: "done"` for every entry in `components-manifest.json`). The 9 issues in `DESIGN.md → React & Figma Code Connect Readiness` (audited at v2.31.7) have since been resolved — that section is now a historical record, not an open checklist. Storybook is deployed at the URL in `components-manifest.json`'s `storybook_base` field. The library is published to GitHub Packages as `@adeshsingh0604/digilawyer-ds` (`.github/workflows/publish.yml`).
+
+**`site-next/`** is the Next.js docs site (component gallery + blocks showroom), deployed to `/site-next/` on GitHub Pages by `deploy.yml`. Its build runs `check:css`, which fails on any class-name collision with `docs/shared/components.css` — prefix site-chrome classes with `dlui-`. **`blocks/`** holds copy-paste page sections rendered by site-next. There is no `site/` folder any more — the Vite prototype was retired in favour of site-next.
 
 **Note on this section:** it is hand-maintained and does not get touched by `bump-version.js` (that script only updates the version number/date). It drifted for ~40 versions (v2.31.7 → v2.53.1) before being caught and corrected on 16 July 2026 — update it manually at real milestones, don't assume the version number elsewhere in this file means this section is current.
 
